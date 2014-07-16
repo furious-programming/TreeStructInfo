@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                    last modified: 16 June 2014
+    TSInfoFiles.pp                    last modified: 16 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -4088,6 +4088,12 @@ end;
 
 
 procedure TTSInfoTextOutputWriter.AddCommentLines(AComment, AIndent: AnsiString);
+
+  procedure AddEmptyCommentLine();
+  begin
+    FOutput.Add(GlueStrings('%%', [AIndent, COMMENT_PREFIX]));
+  end;
+
 var
   vcValue: TValueComponents;
   intCompCnt: UInt32;
@@ -4096,12 +4102,24 @@ begin
   SetLength(vcValue, 0);
   ExtractValueComponents(AComment, vcValue, intCompCnt);
 
-  for I := 0 to intCompCnt - 1 do
-    FOutput.Add(GlueStrings('%% %', [AIndent, COMMENT_PREFIX, vcValue[I]]));
+  if (intCompCnt = 1) and (vcValue[0] = ONE_BLANK_VALUE_LINE_CHAR) then
+    AddEmptyCommentLine()
+  else
+    for I := 0 to intCompCnt - 1 do
+      if vcValue[I] = '' then
+        AddEmptyCommentLine()
+      else
+        FOutput.Add(GlueStrings('%% %', [AIndent, COMMENT_PREFIX, vcValue[I]]));
 end;
 
 
 procedure TTSInfoTextOutputWriter.AddCommentLines(AComment, AIndent: AnsiString; ARefTag: Integer; AStyle: TTaggingStyle);
+
+  procedure AddEmptyCommentLine();
+  begin
+    FOutput.AddObject(GlueStrings('%%', [AIndent, COMMENT_PREFIX]), TObject(ARefTag));
+  end;
+
 var
   vcValue: TValueComponents;
   intCompCnt: UInt32;
@@ -4110,13 +4128,24 @@ begin
   SetLength(vcValue, 0);
   ExtractValueComponents(AComment, vcValue, intCompCnt);
 
-  FOutput.AddObject(GlueStrings('%% %', [AIndent, COMMENT_PREFIX, vcValue[0]]), TObject(ARefTag));
+  if vcValue[0] = ONE_BLANK_VALUE_LINE_CHAR then
+    AddEmptyCommentLine()
+  else
+  begin
+    if vcValue[0] = '' then
+      AddEmptyCommentLine()
+    else
+      FOutput.AddObject(GlueStrings('%% %', [AIndent, COMMENT_PREFIX, vcValue[0]]), TObject(ARefTag));
 
-  if AStyle = tsFirst then
-    ARefTag := 0;
+    if AStyle = tsFirst then
+      ARefTag := 0;
 
-  for I := 1 to intCompCnt - 1 do
-    FOutput.AddObject(GlueStrings('%% %', [AIndent, COMMENT_PREFIX, vcValue[I]]), TObject(ARefTag));
+    for I := 1 to intCompCnt - 1 do
+      if vcValue[I] = '' then
+        AddEmptyCommentLine()
+      else
+        FOutput.AddObject(GlueStrings('%% %', [AIndent, COMMENT_PREFIX, vcValue[I]]), TObject(ARefTag));
+  end;
 end;
 
 
@@ -4539,4 +4568,3 @@ end;
 
 
 end.
-
