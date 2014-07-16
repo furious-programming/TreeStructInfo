@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                    last modified: 21 May 2014
+    TSInfoConsts.pp                   last modified: 16 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -61,7 +61,7 @@ const
   REFERENCE_CHAR            = AnsiChar('&');
   CHAR_PREFIX               = AnsiChar('#');
   COORDS_DELIMITER          = AnsiChar(',');
-  ONE_BLANK_VALUE_LINE_CHAR = AnsiChar(#255);
+  ONE_BLANK_VALUE_LINE_CHAR = AnsiChar(#9);
 
 const
   BINARY_FILE_SIGNATURE       = AnsiString('tsinfo');
@@ -111,7 +111,7 @@ const
 const
   INVALID_IDENT_CHARS: set of AnsiChar = [#0 .. #31, #127, IDENTS_DELIMITER, QUOTE_CHAR];
   CONTROL_CHARS:       set of AnsiChar = [#0 .. #32];
-  UNSAFE_CHARS:        set of AnsiChar = [#0 .. #8, #10 .. #31, #127, #255];
+  UNSAFE_CHARS:        set of AnsiChar = [#0 .. #31, #127, #255];
 
 
 { ----- constants for data converting ----------------------------------------------------------------------------- }
