@@ -1,6 +1,6 @@
 {
 
-    TSInfoUtils.pp                    last modified: 20 June 2014
+    TSInfoUtils.pp                    last modified: 16 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -343,7 +343,7 @@ var
 begin
   if AValue <> '' then
     if AValue = ONE_BLANK_VALUE_LINE_CHAR then
-      AddComponent(nil, 0)
+      AddComponent(PAnsiChar(ONE_BLANK_VALUE_LINE_CHAR), 1)
     else
     begin
       AValue += VALUES_DELIMITER;
