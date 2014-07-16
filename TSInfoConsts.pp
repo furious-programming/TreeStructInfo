@@ -109,9 +109,9 @@ const
   MIN_POINT_LINE_LEN             = Integer(3);
 
 const
-  INVALID_IDENT_CHARS: set of AnsiChar = [#0 .. #31, #127, IDENTS_DELIMITER, QUOTE_CHAR];
+  INVALID_IDENT_CHARS: set of AnsiChar = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
   CONTROL_CHARS:       set of AnsiChar = [#0 .. #32];
-  UNSAFE_CHARS:        set of AnsiChar = [#0 .. #31, #127, #255];
+  UNSAFE_CHARS:        set of AnsiChar = [#0 .. #31, #127, #192, #193, #245 .. #255];
 
 
 { ----- constants for data converting ----------------------------------------------------------------------------- }
