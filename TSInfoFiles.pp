@@ -2910,10 +2910,24 @@ end;
 
 
 procedure TTSInfoTextInputReader.PrepareSourceLines();
+const
+  UTF8_BOM_SIGNATURE     = AnsiString(#239#187#191);
+  UTF8_BOM_SIGNATURE_LEN = UInt8(3);
 var
   strLine: AnsiString;
   I: Integer;
 begin
+  if FInput.Count > 0 then
+  begin
+    strLine := FInput[0];
+
+    if CompareByte(strLine[1], UTF8_BOM_SIGNATURE[1], UTF8_BOM_SIGNATURE_LEN) = 0 then
+    begin
+      Delete(strLine, 1, UTF8_BOM_SIGNATURE_LEN);
+      FInput[0] := strLine;
+    end;
+  end;
+
   I := FInput.Count - 1;
 
   while I >= 0 do
