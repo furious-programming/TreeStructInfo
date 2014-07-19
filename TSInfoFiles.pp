@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                    last modified: 16 July 2014
+    TSInfoFiles.pp                    last modified: 18 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -48,7 +48,7 @@ unit TSInfoFiles;
 interface
 
 uses
-  TSInfoUtils, TSInfoTypes, TSInfoConsts, SysUtils, Classes, Types, Math;
+  TSInfoUtils, TSInfoTypes, TSInfoConsts, SysUtils, Classes, Types, Math, FileUtil;
 
 
 type
@@ -278,7 +278,6 @@ type
     procedure WriteFloat(AAttrName: AnsiString; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
     procedure WriteCurrency(AAttrName: AnsiString; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
     procedure WriteCurrency(AAttrName: AnsiString; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteChar(AAttrName: AnsiString; AChar: AnsiChar; AFormat: TFormatChar = fcChar);
     procedure WriteString(AAttrName: AnsiString; AString: AnsiString; AFormat: TFormatString = fsOriginal);
     procedure WriteDateTime(AAttrName: AnsiString; ADateTime: TDateTime; AMask: AnsiString); overload;
     procedure WriteDateTime(AAttrName: AnsiString; ADateTime: TDateTime; AMask: AnsiString; ASettings: TFormatSettings); overload;
@@ -293,8 +292,7 @@ type
     function ReadFloat(AAttrName: AnsiString; ADefault: Double; ASettings: TFormatSettings): Double; overload;
     function ReadCurrency(AAttrName: AnsiString; ADefault: Currency): Currency; overload;
     function ReadCurrency(AAttrName: AnsiString; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
-    function ReadChar(AAttrName: AnsiString; ADefault: AnsiChar): AnsiChar;
-    function ReadString(AAttrName: AnsiString; ADefault: AnsiString): AnsiString;
+    function ReadString(AAttrName: AnsiString; ADefault: AnsiString; AFormat: TFormatString = fsOriginal): AnsiString;
     function ReadDateTime(AAttrName, AMask: AnsiString; ADefault: TDateTime): TDateTime; overload;
     function ReadDateTime(AAttrName, AMask: AnsiString; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
     function ReadPoint(AAttrName: AnsiString; ADefault: TPoint): TPoint;
@@ -1575,26 +1573,6 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteChar(AAttrName: AnsiString; AChar: AnsiChar; AFormat: TFormatChar = fcChar);
-var
-  attrWrite: TTSInfoAttribute;
-begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
-  else
-  begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
-
-    if attrWrite <> nil then
-    begin
-      attrWrite.Value := CharacterToValue(AChar, AFormat);
-      FModified := True;
-    end;
-  end;
-end;
-
-
 procedure TSimpleTSInfoFile.WriteString(AAttrName: AnsiString; AString: AnsiString; AFormat: TFormatString = fsOriginal);
 var
   attrWrite: TTSInfoAttribute;
@@ -1835,7 +1813,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadChar(AAttrName: AnsiString; ADefault: AnsiChar): AnsiChar;
+function TSimpleTSInfoFile.ReadString(AAttrName: AnsiString; ADefault: AnsiString; AFormat: TFormatString = fsOriginal): AnsiString;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1845,21 +1823,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToCharacter(attrRead.Value, ADefault);
-end;
-
-
-function TSimpleTSInfoFile.ReadString(AAttrName: AnsiString; ADefault: AnsiString): AnsiString;
-var
-  attrRead: TTSInfoAttribute;
-begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
-
-  if attrRead = nil then
-    Result := ADefault
-  else
-    Result := attrRead.Value;
+    Result := ValueToString(attrRead.Value, AFormat);
 end;
 
 
@@ -2034,7 +1998,7 @@ begin
         FModified := True;
         Result := True;
 
-        if (ffLoadFile in AFlags) and FileExists(AFileName) then
+        if (ffLoadFile in AFlags) and FileExistsUTF8(AFileName) then
           if ffBinaryFile in AFlags then
           begin
             fsInput := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
@@ -3700,7 +3664,7 @@ var
   slInput: TStrings;
 begin
   with ALink.FLinkedFile do
-    if FileExists(FFileName) then
+    if FileExistsUTF8(FFileName) then
     begin
       if ffBinaryFile in FFileFlags then
       begin
@@ -4358,7 +4322,7 @@ var
   slInput: TStrings;
 begin
   with ALink.FLinkedFile do
-    if FileExists(FFileName) then
+    if FileExistsUTF8(FFileName) then
     begin
       if ffBinaryFile in FFileFlags then
       begin
@@ -4568,3 +4532,4 @@ end;
 
 
 end.
+
