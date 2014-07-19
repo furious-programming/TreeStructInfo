@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                   last modified: 16 July 2014
+    TSInfoConsts.pp                   last modified: 18 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -59,7 +59,6 @@ const
   QUOTE_CHAR                = AnsiChar('"');
   INDENT_CHAR               = AnsiChar(#32);
   REFERENCE_CHAR            = AnsiChar('&');
-  CHAR_PREFIX               = AnsiChar('#');
   COORDS_DELIMITER          = AnsiChar(',');
   ONE_BLANK_VALUE_LINE_CHAR = AnsiChar(#9);
 
@@ -136,10 +135,6 @@ const
   SIGNED_INFINITY_VALUE   = AnsiString('+Inf');
   NEGATIVE_INFINITY_VALUE = AnsiString('-Inf');
   NOT_A_NUMBER_VALUE      = AnsiString('Nan');
-
-const
-  CHARACTER_SYSTEMS: array [TFormatChar] of TFormatInteger =
-    (fiUnsignedDecimal, fiUnsignedDecimal, fiHexadecimal, fiOctal, fiBinary);
 
 const
   DATE_TIME_FORMAT_CHARS:     set of AnsiChar = ['Y', 'M', 'D', 'H', 'N', 'S', 'Z', 'A'];
