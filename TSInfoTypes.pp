@@ -1,6 +1,6 @@
 {
 
-    TSInfoTypes.pp                     last modified: 22 May 2014
+    TSInfoTypes.pp                    last modified: 18 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -82,7 +82,6 @@ type
   TFormatFloat    = (ffUnsignedGeneral, ffSignedGeneral, ffUnsignedExponent, ffSignedExponent,
                      ffUnsignedNumber, ffSignedNumber);
   TFormatCurrency = (fcUnsignedPrice, fcSignedPrice, fcUnsignedExchangeRate, fcSignedExchangeRate);
-  TFormatChar     = (fcChar, fcDecimalCode, fcHexadecimalCode, fcOctalCode, fcBinaryCode);
   TFormatString   = (fsOriginal, fsLowerCase, fsUpperCase);
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
   TFormatBuffer   = (fb8BytesPerLine, fb16BytesPerLine, fb32BytesPerLine, fb64BytesPerLine);
