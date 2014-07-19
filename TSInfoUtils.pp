@@ -1,6 +1,6 @@
 {
 
-    TSInfoUtils.pp                    last modified: 16 July 2014
+    TSInfoUtils.pp                    last modified: 18 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -39,7 +39,7 @@ unit TSInfoUtils;
 interface
 
 uses
-  TSInfoTypes, TSInfoConsts, SysUtils, DateUtils, Classes, Math, Types;
+  TSInfoTypes, TSInfoConsts, SysUtils, DateUtils, LCLProc, Classes, Math, Types;
 
 
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
@@ -79,10 +79,8 @@ uses
   function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): AnsiString;
   function ValueToCurrency(AValue: AnsiString; ASettings: TFormatSettings; ADefault: Currency): Currency;
 
-  function CharacterToValue(AChar: AnsiChar; AFormat: TFormatChar): AnsiString;
-  function ValueToCharacter(AValue: AnsiString; ADefault: AnsiChar): AnsiChar;
-
   function StringToValue(AString: AnsiString; AFormat: TFormatString): AnsiString;
+  function ValueToString(AValue: AnsiString; AFormat: TFormatString): AnsiString;
 
   function DateTimeToValue(ADateTime: TDateTime; AMask: AnsiString; ASettings: TFormatSettings): AnsiString;
   function ValueToDateTime(AValue: AnsiString; AMask: AnsiString; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
@@ -670,68 +668,6 @@ begin
 end;
 
 
-{ ----- character conversions ------------------------------------------------------------------------------------- }
-
-
-function CharacterToValue(AChar: AnsiChar; AFormat: TFormatChar): AnsiString;
-var
-  strCharCode: AnsiString;
-begin
-  if AFormat = fcChar then
-  begin
-    if AChar in UNSAFE_CHARS then
-    begin
-      Str(Ord(AChar), strCharCode);
-      Result := CHAR_PREFIX + strCharCode;
-    end
-    else
-      Result := AChar;
-  end
-  else
-  begin
-    Result := CHAR_PREFIX;
-    strCharCode := IntegerToValue(Ord(AChar), CHARACTER_SYSTEMS[AFormat]);
-    Result += strCharCode;
-  end;
-end;
-
-
-function ValueToCharacter(AValue: AnsiString; ADefault: AnsiChar): AnsiChar;
-var
-  intValueLen, intValue: UInt32;
-  pchrToken, pchrLast: PAnsiChar;
-  strCharCode: AnsiString;
-begin
-  intValueLen := Length(AValue);
-
-  case intValueLen of
-    0: Result := ADefault;
-    1: Result := AValue[1];
-  else
-    pchrToken := @AValue[1];
-
-    if pchrToken^ = CHAR_PREFIX then
-    begin
-      Inc(pchrToken);
-      pchrLast := @AValue[intValueLen];
-
-      while (pchrToken < pchrLast) and (pchrToken^ in CONTROL_CHARS) do
-        Inc(pchrToken);
-
-      MoveString(pchrToken^, strCharCode, pchrLast - pchrToken + 1);
-      intValue := ValueToInteger(strCharCode, Ord(ADefault));
-
-      if intValue in [0 .. 255] then
-        Result := Chr(intValue)
-      else
-        Result := ADefault;
-    end
-    else
-      Result := ADefault;
-  end;
-end;
-
-
 { ----- string conversion ----------------------------------------------------------------------------------------- }
 
 
@@ -739,8 +675,18 @@ function StringToValue(AString: AnsiString; AFormat: TFormatString): AnsiString;
 begin
   case AFormat of
     fsOriginal:  Result := AString;
-    fsLowerCase: Result := AnsiLowerCase(AString);
-    fsUpperCase: Result := AnsiUpperCase(AString);
+    fsLowerCase: Result := UTF8LowerCase(AString);
+    fsUpperCase: Result := UTF8UpperCase(AString);
+  end;
+end;
+
+
+function ValueToString(AValue: AnsiString; AFormat: TFormatString): AnsiString;
+begin
+  case AFormat of
+    fsOriginal:  Result := AValue;
+    fsLowerCase: Result := UTF8LowerCase(AValue);
+    fsUpperCase: Result := UTF8UpperCase(AValue);
   end;
 end;
 
