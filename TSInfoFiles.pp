@@ -238,6 +238,39 @@ type
 
 
 type
+  TTSInfoAttributeToken = object
+  private
+    FAttribute: TTSInfoAttribute;
+    FParentNode: TTSInfoNode;
+    FIndex: Integer;
+  private
+    function GetComment(AType: TCommentType): AnsiString;
+    procedure SetComment(AType: TCommentType; AValue: AnsiString);
+  public
+    property Name: AnsiString read FAttribute.FName;
+    property Reference: Boolean read FAttribute.FReference write FAttribute.FReference;
+    property Value: AnsiString read FAttribute.FValue write FAttribute.FValue;
+    property Comment[AType: TCommentType]: AnsiString read GetComment write SetComment;
+  end;
+
+
+type
+  TTSInfoChildNodeToken = object
+  private
+    FChildNode: TTSInfoNode;
+    FParentNode: TTSInfoNode;
+    FIndex: Integer;
+  private
+    function GetComment(AType: TCommentType): AnsiString;
+    procedure SetComment(AType: TCommentType; AValue: AnsiString);
+  public
+    property Name: AnsiString read FChildNode.FName;
+    property Reference: Boolean read FChildNode.FReference write FChildNode.FReference;
+    property Comment[AType: TCommentType]: AnsiString read GetComment write SetComment;
+  end;
+
+
+type
   TSimpleTSInfoFile = class(TObject)
   private
     FRootNode: TTSInfoNode;
@@ -303,6 +336,11 @@ type
     function CreateAttribute(ANodePath: AnsiString; AReference: Boolean; AAttrName: AnsiString): Boolean;
     function CreateChildNode(ANodePath: AnsiString; AReference: Boolean; ANodeName: AnsiString; AOpen: Boolean = False): Boolean;
     function CreateLink(ANodePath: AnsiString; AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AOpen: Boolean = False): Boolean;
+  public
+    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: AnsiString = ''): Boolean;
+    function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
+    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
+    function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
     procedure UpdateFile();
   public
@@ -1141,6 +1179,36 @@ end;
 procedure TTSInfoLinksList.ClearList();
 begin
   ClearElementsList();
+end;
+
+
+{ ----- TTSInfoAttributeToken object ------------------------------------------------------------------------------ }
+
+
+function TTSInfoAttributeToken.GetComment(AType: TCommentType): AnsiString;
+begin
+  Result := FAttribute.FComment[AType];
+end;
+
+
+procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; AValue: AnsiString);
+begin
+  FAttribute.FComment[AType] := AValue;
+end;
+
+
+{ ----- TTSInfoChildNodeToken object ------------------------------------------------------------------------------ }
+
+
+function TTSInfoChildNodeToken.GetComment(AType: TCommentType): AnsiString;
+begin
+  Result := FChildNode.FComment[AType];
+end;
+
+
+procedure TTSInfoChildNodeToken.SetComment(AType: TCommentType; AValue: AnsiString);
+begin
+  FChildNode.FComment[AType] := AValue;
 end;
 
 
@@ -2019,6 +2087,76 @@ begin
             end;
           end;
       end;
+end;
+
+
+function TSimpleTSInfoFile.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: AnsiString = ''): Boolean;
+var
+  nodeParent: TTSInfoNode;
+begin
+  if AParentNodePath = '' then
+    nodeParent := FCurrentNode
+  else
+  begin
+    IncludeTrailingIdentsDelimiter(AParentNodePath);
+    nodeParent := FindNode(AParentNodePath, False);
+  end;
+
+  Result := (nodeParent <> nil) and (nodeParent.AttributesCount > 0);
+
+  if Result then
+  begin
+    AAttrToken.FAttribute := nodeParent.GetAttributeByIndex(0);
+    AAttrToken.FParentNode := nodeParent;
+    AAttrToken.FIndex := 0;
+  end;
+end;
+
+
+function TSimpleTSInfoFile.FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
+begin
+  Result := AAttrToken.FIndex < AAttrToken.FParentNode.AttributesCount - 1;
+
+  if Result then
+  begin
+    Inc(AAttrToken.FIndex);
+    AAttrToken.FAttribute := AAttrToken.FParentNode.GetAttributeByIndex(AAttrToken.FIndex);
+  end;
+end;
+
+
+function TSimpleTSInfoFile.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
+var
+  nodeParent: TTSInfoNode;
+begin
+  if AParentNodePath = '' then
+    nodeParent := FCurrentNode
+  else
+  begin
+    IncludeTrailingIdentsDelimiter(AParentNodePath);
+    nodeParent := FindNode(AParentNodePath, False);
+  end;
+
+  Result := (nodeParent <> nil) and (nodeParent.ChildNodesCount > 0);
+
+  if Result then
+  begin
+    ANodeToken.FChildNode := nodeParent.GetChildNodeByIndex(0);
+    ANodeToken.FParentNode := nodeParent;
+    ANodeToken.FIndex := 0;
+  end;
+end;
+
+
+function TSimpleTSInfoFile.FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
+begin
+  Result := ANodeToken.FIndex < ANodeToken.FParentNode.ChildNodesCount - 1;
+
+  if Result then
+  begin
+    Inc(ANodeToken.FIndex);
+    ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNodeByIndex(ANodeToken.FIndex);
+  end;
 end;
 
 
