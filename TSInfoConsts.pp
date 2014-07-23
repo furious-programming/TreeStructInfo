@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                   last modified: 18 July 2014
+    TSInfoConsts.pp                   last modified: 24 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -61,6 +61,7 @@ const
   REFERENCE_CHAR            = AnsiChar('&');
   COORDS_DELIMITER          = AnsiChar(',');
   ONE_BLANK_VALUE_LINE_CHAR = AnsiChar(#9);
+  CURRENT_NODE_SYMBOL       = AnsiChar('~');
 
 const
   BINARY_FILE_SIGNATURE       = AnsiString('tsinfo');
