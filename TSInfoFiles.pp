@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                    last modified: 23 July 2014
+    TSInfoFiles.pp                    last modified: 24 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -1441,7 +1441,7 @@ begin
       begin
         MoveString(pchrNameBgn^, strName, pchrNameEnd - pchrNameBgn);
 
-        if ValidIdentifier(strName) then
+        if not IsCurrentNodeSymbol(strName) and ValidIdentifier(strName) then
         begin
           nodeTemp := nodeRead.GetChildNodeByName(strName);
 
@@ -1452,9 +1452,10 @@ begin
             nodeTemp := nodeRead.CreateChildNode(False, strName);
 
           nodeRead := nodeTemp;
-          Inc(pchrNameEnd);
-          pchrNameBgn := pchrNameEnd;
         end;
+
+        Inc(pchrNameEnd);
+        pchrNameBgn := pchrNameEnd;
       end
       else
         Break;
@@ -1989,7 +1990,7 @@ var
 begin
   Result := False;
 
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2013,7 +2014,7 @@ var
 begin
   Result := False;
 
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2044,7 +2045,7 @@ var
 begin
   Result := False;
 
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2094,7 +2095,7 @@ function TSimpleTSInfoFile.FindFirstAttribute(out AAttrToken: TTSInfoAttributeTo
 var
   nodeParent: TTSInfoNode;
 begin
-  if AParentNodePath = '' then
+  if IsCurrentNodeSymbol(AParentNodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2129,7 +2130,7 @@ function TSimpleTSInfoFile.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeTo
 var
   nodeParent: TTSInfoNode;
 begin
-  if AParentNodePath = '' then
+  if IsCurrentNodeSymbol(AParentNodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2216,7 +2217,7 @@ begin
     ExcludeTrailingIdentsDelimiter(AAttrName);
     strNodePath := ExtractPathComponent(AAttrName, pcAttributePath);
 
-    if strNodePath = '' then
+    if IsCurrentNodeSymbol(strNodePath) then
       nodeParent := FCurrentNode
     else
       nodeParent := FindNode(strNodePath, False);
@@ -2249,7 +2250,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
     begin
       if FCurrentNode = FRootNode then
         ThrowException(EM_ROOT_NODE_RENAME, [])
@@ -2286,7 +2287,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2358,7 +2359,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
     begin
       if FCurrentNode = FRootNode then
         ThrowException(EM_ROOT_NODE_SET_COMMENT, [])
@@ -2398,7 +2399,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2452,7 +2453,7 @@ function TTSInfoFile.ReadChildNodeComment(ANodePath, ADelimiter: AnsiString; ATy
 var
   nodeRead: TTSInfoNode;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
   begin
     if FCurrentNode = FRootNode then
       ThrowException(EM_ROOT_NODE_GET_COMMENT, [])
@@ -2480,7 +2481,7 @@ var
   nodeParent: TTSInfoNode;
   linkRead: TTSInfoLink;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2532,7 +2533,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
     begin
       if FCurrentNode = FRootNode then
         ThrowException(EM_ROOT_NODE_SET_REFERENCE, [])
@@ -2577,7 +2578,7 @@ function TTSInfoFile.ReadChildNodeReference(ANodePath: AnsiString = ''): Boolean
 var
   nodeRead: TTSInfoNode;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
   begin
     if FCurrentNode = FRootNode then
       ThrowException(EM_ROOT_NODE_GET_REFERENCE, [])
@@ -2612,7 +2613,7 @@ begin
     ExcludeTrailingIdentsDelimiter(AAttrName);
     strPath := ExtractPathComponent(AAttrName, pcAttributePath);
 
-    if strPath = '' then
+    if IsCurrentNodeSymbol(strPath) then
       nodeParent := FCurrentNode
     else
       nodeParent := FindNode(strPath, False);
@@ -2661,7 +2662,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2686,7 +2687,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2711,7 +2712,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2736,7 +2737,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2761,7 +2762,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
   else
   begin
-    if ANodePath = '' then
+    if IsCurrentNodeSymbol(ANodePath) then
       nodeParent := FCurrentNode
     else
     begin
@@ -2815,7 +2816,7 @@ function TTSInfoFile.LinkExists(ANodePath, AVirtualNodeName: AnsiString): Boolea
 var
   nodeParent: TTSInfoNode;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2831,7 +2832,7 @@ function TTSInfoFile.GetAttributesCount(ANodePath: AnsiString = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeRead := FCurrentNode
   else
   begin
@@ -2850,7 +2851,7 @@ function TTSInfoFile.GetChildNodesCount(ANodePath: AnsiString = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeRead := FCurrentNode
   else
   begin
@@ -2869,7 +2870,7 @@ function TTSInfoFile.GetLinksCount(ANodePath: AnsiString = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeRead := FCurrentNode
   else
   begin
@@ -2889,7 +2890,7 @@ var
   nodeParent: TTSInfoNode;
   I: Integer;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2910,7 +2911,7 @@ var
   nodeParent: TTSInfoNode;
   I: Integer;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2931,7 +2932,7 @@ var
   nodeParent: TTSInfoNode;
   I: Integer;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
@@ -2952,7 +2953,7 @@ var
   nodeParent: TTSInfoNode;
   I: Integer;
 begin
-  if ANodePath = '' then
+  if IsCurrentNodeSymbol(ANodePath) then
     nodeParent := FCurrentNode
   else
   begin
