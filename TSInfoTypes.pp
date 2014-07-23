@@ -1,6 +1,6 @@
 {
 
-    TSInfoTypes.pp                    last modified: 18 July 2014
+    TSInfoTypes.pp                    last modified: 23 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -56,7 +56,7 @@ type
   TComment     = array [TCommentType] of AnsiString;
 
 type
-  TFileFlag  = (ffLoadFile, ffBinaryFile, ffUpdatable);
+  TFileFlag  = (ffLoadFile, ffBinaryFile, ffUpdatable, ffNoLinking);
   TFileFlags = set of TFileFlag;
 
 type

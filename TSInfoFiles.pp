@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                    last modified: 18 July 2014
+    TSInfoFiles.pp                    last modified: 23 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -3648,7 +3648,8 @@ begin
           lnkFile := FTSInfoFile.FCurrentNode.FLinksList.AddItem(vcLinkedFile[ID_LINKED_FILE_NAME],
                      vcLinkedFile[ID_VIRTUAL_NODE_NAME], flFlags, FComment[ctDeclaration]);
 
-          ProcessLink(lnkFile);
+          if not (ffNoLinking in FTSInfoFile.FFileFlags) then
+            ProcessLink(lnkFile);
         end;
       end
       else
@@ -3930,7 +3931,9 @@ begin
   begin
     linkItem := AParentNode.GetLinkByIndex(I);
     AddLinkLines(linkItem, AIndent);
-    ProcessLink(linkItem);
+
+    if not (ffNoLinking in FTSInfoFile.FFileFlags) then
+      ProcessLink(linkItem);
   end;
 end;
 
@@ -4326,7 +4329,8 @@ begin
   if boolIncludeFlag then
     Include(ALink.FLinkedFile.FFileFlags, ffUpdatable);
 
-  ProcessLink(ALink);
+  if not (ffNoLinking in FTSInfoFile.FFileFlags) then
+    ProcessLink(ALink);
 end;
 
 
@@ -4468,7 +4472,9 @@ begin
   begin
     linkItem := ANode.GetLinkByIndex(I);
     WriteLink(linkItem);
-    ProcessLink(linkItem);
+
+    if not (ffNoLinking in FTSInfoFile.FFileFlags) then
+      ProcessLink(linkItem);
   end;
 end;
 
