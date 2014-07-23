@@ -1,6 +1,6 @@
 {
 
-    TSInfoUtils.pp                    last modified: 18 July 2014
+    TSInfoUtils.pp                    last modified: 24 July 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -62,6 +62,8 @@ uses
 
   function ExtractPathComponent(AAttrName: AnsiString; AComponent: TPathComponent): AnsiString;
   procedure ExtractValueComponents(AValue: AnsiString; var AComponents: TValueComponents; out ACount: UInt32);
+
+  function IsCurrentNodeSymbol(APath: AnsiString): Boolean;
 
 
 { ----- data conversions ------------------------------------------------------------------------------------------ }
@@ -1341,6 +1343,12 @@ begin
 
     Move(arrBuffer[0], ABuffer, ASize);
   end;
+end;
+
+
+function IsCurrentNodeSymbol(APath: AnsiString): Boolean;
+begin
+  Result := (APath = '') or (APath = CURRENT_NODE_SYMBOL);
 end;
 
 
