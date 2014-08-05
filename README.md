@@ -136,7 +136,7 @@ Attributes can store data in multiple types, written in many different ways. In 
 Boolean values are determined using conventional strings:
 
 ```
-"Tru"e     "Yes"    "On"     "T"    "Y"    "1"    - true values
+"True"     "Yes"    "On"     "T"    "Y"    "1"    - true values
 "False"    "No"     "Off"    "F"    "N"    "0"    - false values
 ```
 
