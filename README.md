@@ -182,6 +182,8 @@ Floating-point numbers can be written in universal or scientific form. May have 
 "0,00000000000000E+0000"
 ```
 
+Decimal and thousand separators may be other, suitable according to your location.
+
 There is also possibility to store special numbers as strings - positive or negative infinity and NaN:
 
 ```
@@ -191,3 +193,25 @@ There is also possibility to store special numbers as strings - positive or nega
 ```
 
 Camel style for these strings is not mandatory.
+
+### Currencies
+
+Currency values have separate format - first, there is a number, followed by the currency string (is optional). Precision is arbitrary, but not more than four digits.
+
+Format of sample numbers below:
+
+```
+5$
+5,25$
+5,2578$
+
+-5$
+-5,25$
+-5,2578$
+
+0$
+0,00$
+0,0000$
+```
+
+Of course, the currency string may be different.
