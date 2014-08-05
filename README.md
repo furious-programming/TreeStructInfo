@@ -73,7 +73,7 @@ Identifiers are the names of the tree elements (the name of the tree is the iden
 "            - quote character opens and closes the values
 ```
 
-other characters are allowed (`0x20` too).
+other characters are allowed (`0x20` too). Identifiers are case-sensitive.
 
 # Frame of tree
 
@@ -98,3 +98,69 @@ end tree
 # Basic tree elements
 
 The basic elements are standard and referencing **attributes**, for storing specific data, standard and referencing **child nodes**, to group elements and create a tree structure, and **links to the linked files**, that allow for addition of trees from other (text or binary) configuration files.
+
+# Attributes
+
+Attributes are used to store data. Divided into **standard attributes**, that have the declaration and definition in the same place in the tree, and **referencing attributes**, that are defined outside of the main body of the tree.
+
+Standard attribute declaration must contain the keyword `attr`, then the identifier and the attribute value:
+
+```
+attr Name "Value"
+```
+
+The attribute value can be multiline. Each next value line or next value must be contained in quotation marks, without any terminator characters:
+
+```
+attr Name "first line"
+          "second line"
+          "third line"
+```
+
+Attribute value con also contain blank lines at the beginning, in the middle or at the end:
+
+```
+attr Name ""
+          "second line"
+          ""
+          "fourth line"
+          ""
+```
+
+## Data types
+
+Attributes can store data in multiple types, written in many different ways. In addition to simple types, attributes can also contain binary data, written as a strings of hexadecimal characters.
+
+### Booleans
+
+Boolean values are determined using conventional strings:
+
+```
+"Tru"e     "Yes"    "On"     "T"    "Y"    "1"    - true values
+"False"    "No"     "Off"    "F"    "N"    "0"    - false values
+```
+
+Camel style for string values is not mandatory (uppercase for character values too). Digits `1` and `0` are the only permitted.
+
+### Integers
+
+Integers can be written in the four most popular numerical systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numerical systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary.
+
+A positive, negative and zero numbers written in all systems:
+
+```
+"64206" (or "+64206")
+"0xFACE"
+"0o175316"
+"0b1111101011001110"
+
+"-2989"
+"0xFFFFF453"
+"0o37777772123"
+"0b11111111111111111111010001010011"
+
+"0"
+"0x00"
+"0o00"
+"0b0000"
+```
