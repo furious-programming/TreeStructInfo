@@ -61,4 +61,40 @@ and a single string, acting as a keyword, but consisting only of special charact
 ::    - prefix of comments
 ```
 
-The default size of a single indentation is two space characters (`0x20`).
+The default size of a single indentation is two space characters (`0x20`), but indentation are not mandatory. 
+
+# Identifiers
+
+Identifiers are the names of the tree elements (the name of the tree is the identifier too). The minimum length of the identifier is one character, maximum length is not specified. Element names can not contain the following characters:
+
+```
+#0 .. #31    - set of control characters
+\            - reserved for the paths to the elements
+"            - quote character opens and closes the values
+```
+
+other characters are allowed (`0x20` too).
+
+# Frame of tree
+
+The body of the tree opens the line containing the specified header. The basic form of the header looks like this:
+
+```
+tsinfo version "1.0"
+```
+
+line must contain the keyword `tsinfo`, then the keyword `version`, and the value of the format version. Extended version of the header further includes a keyword `name` and value of the tree name:
+
+```
+tsinfo version "1.0" name "Tree Name"
+```
+
+Main body of the tree closes the line containing the following key phrase:
+
+```
+end tree
+```
+
+# Basic tree elements
+
+The basic elements are standard and referencing **attributes**, for storing specific data, standard and referencing **child nodes**, to group elements and create a tree structure, and **links to the linked files**, that allow for addition of trees from other (text or binary) configuration files.
