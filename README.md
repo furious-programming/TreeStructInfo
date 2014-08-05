@@ -164,3 +164,30 @@ A positive, negative and zero numbers written in all systems:
 "0o00"
 "0b0000"
 ```
+
+### Floating-point numbers
+
+Floating-point numbers can be written in universal or scientific form. May have a leading characters `+` or `-`. A positive, negative and zero numbers written in both forms:
+
+```
+"1009,1989" (or "+1009,1989")
+"1 009,1989000000"
+"1,00919890000000E+0003"
+
+"-1009,1989"
+"-1 009,1989000000"
+"-1,00919890000000E+0003"
+
+"0" (or "0,0000000000")
+"0,00000000000000E+0000"
+```
+
+There is also possibility to store special numbers as strings - positive or negative infinity and NaN:
+
+```
+"Inf" (or "+Inf")    - positive infinity
+"-Inf"               - negative infinity
+"Nan"                - not a number
+```
+
+Camel style for these strings is not mandatory.
