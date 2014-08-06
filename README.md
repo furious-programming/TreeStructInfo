@@ -15,6 +15,8 @@ This document is highly abbreviated version of the format specification. Full fo
 
 Format is human-friendly - text files syntax is based on a small set of keywords and linear structure. Text form gives the possibility to create an open configurations. Binary form provides faster files processing, maintaining compatibility of native data in memory with a text form.
 
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm)
+
 # Sample file
 
 I can not use my own syntax highlighting, so if you want to see the sample text file, go to the [**sample file** point in specification](http://treestruct.info/pl/format/1.0.htm#idSampleFile).
@@ -61,7 +63,9 @@ and a single string, acting as a keyword, but consisting only of special charact
 ::    - prefix of comments
 ```
 
-The default size of a single indentation is two space characters (`0x20`), but indentation are not mandatory. 
+The default size of a single indentation is two space characters (`0x20`), but indentation are not mandatory.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idTextFileSyntax)
 
 # Identifiers
 
@@ -74,6 +78,8 @@ Identifiers are the names of the tree elements (the name of the tree is the iden
 ```
 
 other characters are allowed (`0x20` too). Identifiers are case-sensitive.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idIdentifiers)
 
 # Frame of tree
 
@@ -95,9 +101,13 @@ Main body of the tree closes the line containing the following key phrase:
 end tree
 ```
 
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idFrameOfTree)
+
 # Basic tree elements
 
 The basic elements are standard and referencing **attributes**, for storing specific data, standard and referencing **child nodes**, to group elements and create a tree structure, and **links to the linked files**, that allow for addition of trees from other (text or binary) configuration files.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idBasicElements)
 
 # Attributes
 
@@ -127,11 +137,11 @@ attr Name ""
           ""
 ```
 
-## Data types
-
 Attributes can store data in multiple types, written in many different ways. In addition to simple types, attributes can also contain binary data, written as a strings of hexadecimal characters.
 
-### Booleans
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttributes)
+
+## Booleans
 
 Boolean values are determined using conventional strings:
 
@@ -142,9 +152,9 @@ Boolean values are determined using conventional strings:
 
 Camel style for string values is not mandatory (uppercase for character values too). Digits `1` and `0` are the only permitted.
 
-### Integers
+## Integers
 
-Integers can be written in the four most popular numerical systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numerical systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary.
+Integers can be written in the four most popular numeral systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numeral systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary.
 
 A positive, negative and zero numbers written in all systems:
 
@@ -165,7 +175,7 @@ A positive, negative and zero numbers written in all systems:
 "0b0000"
 ```
 
-### Floating-point numbers
+## Floating-point numbers
 
 Floating-point numbers can be written in universal or scientific form. May have a leading characters `+` or `-`. A positive, negative and zero numbers written in both forms:
 
@@ -194,7 +204,7 @@ There is also possibility to store special numbers as strings - positive or nega
 
 Camel style for these strings is not mandatory.
 
-### Currencies
+## Currencies
 
 Currency values have separate format - first, there is a number, followed by the currency string (is optional). Precision is arbitrary, but not more than four digits.
 
@@ -214,4 +224,92 @@ Format of sample numbers below:
 0,0000$
 ```
 
-Of course, the currency string may be different.
+Of course, the currency string and the currency separator may be different.
+
+## Strings
+
+Strings can be single-line or multiline and can contain almost all the characters. Example of single-line string:
+
+```
+"single line value"
+```
+
+Because of this, the attributes values extend from the first quotation mark until the end of the line, the strings may also contain the quotes:
+
+```
+" "first" "second" "third" "
+```
+
+Strings can be multiline - each line of the string must be on a separate line:
+
+```
+attr Name "first line"
+          "second line"
+          "third line"
+```
+
+and may also contain any number of blank lines.
+
+## Date and time
+
+The date and time values can be written in any form - the order of date and/or time constituents is arbitrary. Twelve-hour clock format is permitted. Such values may also contain plaint text substrings.
+
+Date examples:
+
+```
+"24-10-11"
+"24-10-2011"
+"24 Oct 2011"
+"24 October 2011"
+```
+
+time examples:
+
+```
+"19:20"
+"19:20:04"
+"19:20:04:127"
+"07:20 PM"
+```
+
+date and time together in one value:
+
+```
+"24-10-2011 19:20"
+"24 October 2011, 19:20"
+"October, 24-10-2011 (19:20)"
+"October, 24 Oct 2011 (07:20 PM)"
+```
+
+and example with plain text substrings:
+
+```
+"today is Monday, 24-10-2011, time 19:20"
+```
+
+Text values of date and time components, such as the names of days and months, symbols and names of the seasons of the day (`am`, `pm`), as well as the date and time components separators are dependent on the location, so can take other characters or strings than those listed.
+
+## Point coordinates
+
+Rules for the transcription the coordinates of the points are the same as in the case of integers - coordinates can be written in one of the four numeral systems. Point coordinates separator is a comma.
+
+Examples of writing positive, negative and zero coordinates below:
+
+```
+"72,114" (or "+72,+114")
+"0x48,0x72"
+"0o110,0o162"
+"0b1001000,0b1110010"
+
+"-72,-114"
+"0xFFFFFFB8,0xFFFFFF8E"
+"0o37777777670,0o37777777616"
+"0b11111111111111111111111110111000,0b11111111111111111111111110001110"
+
+"0,0"
+"0x00,0x00"
+"0o00,0o00"
+"0b0000,0b0000"
+```
+
+Both the coordinates should be written in the same numeral system (but is not a hard rule).
