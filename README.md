@@ -159,7 +159,7 @@ Integers can be written in the four most popular numeral systems - decimal, hexa
 A positive, negative and zero numbers written in all systems:
 
 ```
-"64206" (or "+64206")
+"64206" or "+64206"
 "0xFACE"
 "0o175316"
 "0b1111101011001110"
@@ -180,7 +180,7 @@ A positive, negative and zero numbers written in all systems:
 Floating-point numbers can be written in universal or scientific form. May have a leading characters `+` or `-`. A positive, negative and zero numbers written in both forms:
 
 ```
-"1009,1989" (or "+1009,1989")
+"1009,1989" or "+1009,1989"
 "1 009,1989000000"
 "1,00919890000000E+0003"
 
@@ -188,7 +188,7 @@ Floating-point numbers can be written in universal or scientific form. May have 
 "-1 009,1989000000"
 "-1,00919890000000E+0003"
 
-"0" (or "0,0000000000")
+"0" or "0,0000000000"
 "0,00000000000000E+0000"
 ```
 
@@ -197,16 +197,16 @@ Decimal and thousand separators may be other, suitable according to your locatio
 There is also possibility to store special numbers as strings - positive or negative infinity and NaN:
 
 ```
-"Inf" (or "+Inf")    - positive infinity
-"-Inf"               - negative infinity
-"Nan"                - not a number
+"Inf" or "+Inf"    - positive infinity
+"-Inf"             - negative infinity
+"Nan"              - not a number
 ```
 
 Camel style for these strings is not mandatory.
 
 ## Currencies
 
-Currency values have separate format - first, there is a number, followed by the currency string (is optional). Precision is arbitrary, but not more than four digits.
+Currency values have separate format - first, there is a number, followed by the currency string (is optional). Precision is arbitrary, but not more than four digits. Currency values also can contain leading character `+` or `-`.
 
 Format of sample numbers below:
 
@@ -243,9 +243,9 @@ Because of this, the attributes values extend from the first quotation mark unti
 Strings can be multiline - each line of the string must be on a separate line:
 
 ```
-attr Name "first line"
-          "second line"
-          "third line"
+"first line"
+"second line"
+"third line"
 ```
 
 and may also contain any number of blank lines.
@@ -296,7 +296,7 @@ Rules for the transcription the coordinates of the points are the same as in the
 Examples of writing positive, negative and zero coordinates below:
 
 ```
-"72,114" (or "+72,+114")
+"72,114" or "+72,+114"
 "0x48,0x72"
 "0o110,0o162"
 "0b1001000,0b1110010"
