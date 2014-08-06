@@ -355,3 +355,8 @@ Number of **characters** per value line is not specified (may also be odd), but 
 - `32` bytes - `64` characters
 - `64` bytes - `128` characters
 
+## Multiline values
+
+Each multiline values have a one, universal form of writing. The issue of data types that can be written in the form of multiline values is open, depends mainly on programming languages. Thus, this type of values can be of any data, but written in a specific form, from which there are no exceptions.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttrValuesDataTypes)
