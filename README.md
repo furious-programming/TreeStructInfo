@@ -313,3 +313,45 @@ Examples of writing positive, negative and zero coordinates below:
 ```
 
 Both the coordinates should be written in the same numeral system (but is not a hard rule).
+
+## Binary data
+
+Any binary data can be written in the form of strings, consisting of hexadecimal characters. The maximum size of the binary data is `2KiB`. Each byte is described by a pair of hexadecimal characters. Examples below.
+
+Empty buffer:
+
+```
+""
+```
+
+`16` bytes, single-line value:
+
+```
+"54726565537472756374496E666F202D"
+```
+
+`47` bytes, multiline value:
+
+```
+"5472656553747275"
+"6374496E666F202D"
+"20666F726D617420"
+"706C696BF377206B"
+"6F6E666967757261"
+"63796A6E796368"
+```
+
+`7` bytes, multiline value:
+
+```
+"5472656"
+"5537472"
+```
+
+Number of **characters** per value line is not specified (may also be odd), but the total number of characters must be even. The basic and recommended lengths of single line binary values are:
+
+- `8` bytes - `16` characters
+- `16` bytes - `32` characters
+- `32` bytes - `64` characters
+- `64` bytes - `128` characters
+
