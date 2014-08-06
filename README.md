@@ -211,17 +211,17 @@ Currency values have separate format - first, there is a number, followed by the
 Format of sample numbers below:
 
 ```
-5$
-5,25$
-5,2578$
+"5$"      or "+5$"
+"5,25$"   or "+5,25$"
+"5,2578$" or "+5,2578$"
 
--5$
--5,25$
--5,2578$
+"-5$"
+"-5,25$"
+"-5,2578$"
 
-0$
-0,00$
-0,0000$
+"0$"
+"0,00$"
+"0,0000$"
 ```
 
 Of course, the currency string and the currency separator may be different.
