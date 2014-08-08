@@ -101,6 +101,20 @@ Main body of the tree closes the line containing the following key phrase:
 end tree
 ```
 
+So text file content with empty tree should look like this:
+
+```
+tsinfo version "1.0"
+end tree
+```
+
+or
+
+```
+tsinfo version "1.0" name "Tree Name"
+end tree
+```
+
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idFrameOfTree)
 
 # Basic tree elements
