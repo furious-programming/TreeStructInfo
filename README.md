@@ -108,12 +108,14 @@ tsinfo version "1.0"
 end tree
 ```
 
-or
+or this:
 
 ```
 tsinfo version "1.0" name "Tree Name"
 end tree
 ```
+
+All standard elements must be declared between these lines.
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idFrameOfTree)
 
@@ -374,3 +376,29 @@ Number of **characters** per value line is not specified (may also be odd), but 
 Each multiline values have a one, universal form of writing. The issue of data types that can be written in the form of multiline values is open, depends mainly on programming languages. Thus, this type of values can be of any data, but written in a specific form, from which there are no exceptions.
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttrValuesDataTypes)
+
+
+# Child nodes
+
+The nodes are used to group elements and creating tree structure. Also divided into **standard nodes**, that have the declaration and definition in the same place, and **referencing nodes**, that are defined outside of the tree body.
+
+The body of the standard child node opens the line containing the keyword `node` and the name of the node:
+
+```
+node Name
+```
+
+and closes the line with only the keyword `end`:
+
+```
+end
+```
+
+The body of the empty child node looks like the following:
+
+```
+node Name
+end
+```
+
+For a given node are those elements, that are defined between the header line and the end line.
