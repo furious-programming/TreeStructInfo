@@ -444,3 +444,111 @@ Flags are the values too. If you want to type a path of linked file - you can us
 **Important:** the paths are used to locate the file based on the location of the executable file.
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idLinks)
+
+# Referencing elements
+
+Referencing elements serve exactly the same purpose as standard elements. What makes them different is the method of writing - every such element has its own **declaration**, specifying its place in the tree, as well as its **definition**, including its proper body.
+
+Referencing form may have attributes and child nodes.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefElements)
+
+# Referencing attributes
+
+The main advantage of using referencing attributes is to increase the readability of the configuration files in text form, by separating their definition beyond the main body of the tree.
+
+The line with the declaration of referencing attribute must contain only the keyword `&attr` and the name of the attribute:
+
+```
+&attr Name
+```
+
+The attribute declaration may be located inside the main body of the tree, as well as inside the body of the referencing child node.
+
+The definition must contain the same keyword `&attr`, the same name as in the declaration and the value:
+
+```
+&attr Name "Value"
+```
+
+The definition of the referencing attribute must be located outside the main body of the tree and outside the body of the referencing child node.
+
+Example:
+
+```
+tsinfo version "1.0"
+  &attr Foo
+end tree
+
+&attr Foo "Value"
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefAttributes)
+
+# Referencing child nodes
+
+Like the referencing attributes, referencing child nodes also have their **declarations** and **definitions**.
+
+The line with referencing child node declaration must contain only the keyword `&node` and the name of the node:
+
+```
+&node Name
+```
+
+The definition must contain a complete body of the node, terminated with the line with keyword `&end`:
+
+```
+&node Name
+&end
+```
+
+Declaration of the referencing child node may be located inside the main body of the tree or inside the body of the referencing node, but the definition must be outside them.
+
+Example:
+
+```
+tsinfo version "1.0"
+  &node Bald
+end tree
+
+&node Bald
+&end
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefNodes)
+
+## The order of referencing elements definitions
+
+The order of writing the definition of referencing elements its recursive, regardless of whether the element is standard or referencing, the content is immediately considered.
+
+Short example:
+
+```
+tsinfo version "1.0"
+  &attr Integer
+  &node First
+  &node Third
+end tree
+
+&attr Integer "0xFACE"
+
+&node First
+  &attr Float
+  &attr Currency
+  &node Second
+&end
+
+&attr Float "3,14"
+&attr Currency "12,80 zł"
+
+&node Second
+  &attr Point
+&end
+
+&attr Point "0o00,0o00"
+
+&node Third
+&end
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idOrderOfDefRefElements)
