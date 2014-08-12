@@ -539,7 +539,7 @@ end tree
 &end
 
 &attr Float "3,14"
-&attr Currency "12,80 zł"
+&attr Currency "5,25$"
 
 &node Second
   &attr Point
@@ -552,3 +552,112 @@ end tree
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idOrderOfDefRefElements)
+
+# Comments
+
+Comments are not elements of trees - are additional informations, always belonging to the elements. Each element of the tree (**attribute**, **child node** or **link**) may have a comment, single-line or multiline. The tree may also have a comment - in this case, it is always written at the beginning of the file, before the main body of the tree.
+
+Comment is simple the line, which has a prefix `::`:
+
+```
+:: comment line
+```
+
+If a comment is multiline, each line must contain the specified prefix:
+
+```
+:: first comment line
+:: second comment line
+:: last comment line
+```
+
+Multiline comments may also contain empty lines:
+
+```
+::
+:: multiline comment
+::
+:: its fourth line
+:: its fifth line
+::
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idComments)
+
+# Tree comment
+
+If the tree has a main comment, it must be written before his body:
+
+```
+:: main tree comment
+
+tsinfo version "1.0"
+end tree
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idTreeComment)
+
+# Attributes comments
+
+Each attribute can have a comment. It must be written directly above his declaration:
+
+```
+tsinfo version "1.0"
+  :: attribute comment
+  attr Name "Value"
+end tree
+```
+
+Referencing attributes can have two comments - declaration comment and definition comment:
+
+```
+tsinfo version "1.0"
+  :: attribute declaration comment
+  &attr Name
+end tree
+
+:: attribute definition comment
+&attr Name "Value" 
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttrsComments)
+
+# Child nodes comments
+
+Standard child nodes can have one comment:
+
+```
+tsinfo version "1.0"
+  :: child node comment
+  node Name
+  end
+end tree
+```
+
+and the referencing nodes can have two:
+
+```
+tsinfo version "1.0"
+  :: child node declaration comment
+  &node Name
+end tree
+
+:: child node definition comment
+&node Name
+&end
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idNodesComments)
+
+# Links comments
+
+Links can have only one comment:
+
+```
+tsinfo version "1.0"
+  :: link comment
+  link "File.ext" as "Virtual Node Name"
+end tree
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idLinksComments)
