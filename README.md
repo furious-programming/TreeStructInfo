@@ -402,3 +402,45 @@ end
 ```
 
 For a given node are those elements, that are defined between the header line and the end line.
+
+# Links
+
+Links are elements used for including trees from another files. Linked files can be text or binary. Line with link declaration can exist in two forms - basic and full. The basic link declaration line must contain the keyword `link`, then the name or path to linked file, keyword `as` and then the name of virtual node:
+
+```
+link "File.ext" as "Virtual Node Name"
+```
+
+File name/path and the virtual node name are the values, so they must be covered by quotation marks.
+
+The full version of link declaration can also contain the keyword `flags`, and then the flag values. If the file must be included only for reading - no flags is required.
+
+Example for linking the text file in read only mode:
+
+```
+link "C:\Linked.tsinfo" as "Linked" flags ""
+```
+
+linking the text file in read and write mode:
+ 
+```
+link "C:\Linked.tsinfo" as "Linked" flags "updatable"
+```
+
+linking the binary file in read only mode:
+
+```
+link "C:\Linked.tsibin" as "Linked" flags "binary"
+```
+
+and linking the binary file in read and write mode:
+
+```
+link "C:\Linked.tsibin" as "Linked" flags "binary" "updatable"
+```
+
+Flags are the values too. If you want to type a path of linked file - you can use the relative or absolute path.
+
+**Important:** the paths are used to locate the file based on the location of the executable file.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idLinks)
