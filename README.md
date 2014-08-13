@@ -1,4 +1,4 @@
-![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
+date![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
 *Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014*
 
 Latest API release: [TreeStructInfo 1.0 stable](https://github.com/furious-programming/TreeStructInfo/releases/tag/v1.0.0-stable)<br/><br/>
@@ -36,9 +36,9 @@ end         - ends the standard node body
 link        - opens the link declaration
 as          - stands before the virtual node name
 flags       - stands before the set of linking flags
-&attr       - opens the referencing attribute declaration
-&node       - opens the referencing node declaration
-&end        - ends the referencing node body
+ref attr    - opens the referencing attribute declaration
+ref node    - opens the referencing node declaration
+end ref     - ends the referencing node body
 ```
 
 Keywords can be made up only of lowercase letters. To describe the syntax of text configuration files used are also several strings:
@@ -266,7 +266,7 @@ Strings can be multiline - each line of the string must be on a separate line:
 
 and may also contain any number of blank lines.
 
-## Date and time
+## Dates and times
 
 The date and time values can be written in any form - the order of date and/or time constituents is arbitrary. Twelve-hour clock format is permitted. Such values may also contain plaint text substrings.
 
@@ -457,18 +457,18 @@ Referencing form may have attributes and child nodes.
 
 The main advantage of using referencing attributes is to increase the readability of the configuration files in text form, by separating their definition beyond the main body of the tree.
 
-The line with the declaration of referencing attribute must contain only the keyword `&attr` and the name of the attribute:
+The line with the declaration of referencing attribute must contain only the keyword `ref attr` and the name of the attribute:
 
 ```
-&attr Name
+ref attr Name
 ```
 
 The attribute declaration may be located inside the main body of the tree, as well as inside the body of the referencing child node.
 
-The definition must contain the same keyword `&attr`, the same name as in the declaration and the value:
+The definition must contain the same keyword `ref attr`, the same name as in the declaration and the value:
 
 ```
-&attr Name "Value"
+ref attr Name "Value"
 ```
 
 The definition of the referencing attribute must be located outside the main body of the tree and outside the body of the referencing child node.
@@ -477,10 +477,10 @@ Example:
 
 ```
 tsinfo version "1.0"
-  &attr Foo
+  ref attr Foo
 end tree
 
-&attr Foo "Value"
+ref attr Foo "Value"
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefAttributes)
@@ -489,17 +489,17 @@ end tree
 
 Like the referencing attributes, referencing child nodes also have their **declarations** and **definitions**.
 
-The line with referencing child node declaration must contain only the keyword `&node` and the name of the node:
+The line with referencing child node declaration must contain only the keyword `ref node` and the name of the node:
 
 ```
-&node Name
+ref node Name
 ```
 
-The definition must contain a complete body of the node, terminated with the line with keyword `&end`:
+The definition must contain a complete body of the node, terminated with the line with keyword `end ref`:
 
 ```
-&node Name
-&end
+ref node Name
+end ref
 ```
 
 Declaration of the referencing child node may be located inside the main body of the tree or inside the body of the referencing node, but the definition must be outside them.
@@ -508,11 +508,11 @@ Example:
 
 ```
 tsinfo version "1.0"
-  &node Bald
+  ref node Bald
 end tree
 
-&node Bald
-&end
+ref node Bald
+end ref
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefNodes)
@@ -525,30 +525,30 @@ Short example:
 
 ```
 tsinfo version "1.0"
-  &attr Integer
-  &node First
-  &node Third
+  ref attr Integer
+  ref node First
+  ref node Third
 end tree
 
-&attr Integer "0xFACE"
+ref attr Integer "0xFACE"
 
-&node First
-  &attr Float
-  &attr Currency
-  &node Second
-&end
+ref node First
+  ref attr Float
+  ref attr Currency
+  ref node Second
+end ref
 
-&attr Float "3,14"
-&attr Currency "5,25$"
+ref attr Float "3,14"
+ref attr Currency "5,25$"
 
-&node Second
-  &attr Point
-&end
+ref node Second
+  ref attr Point
+end ref
 
-&attr Point "0o00,0o00"
+ref attr Point "0o00,0o00"
 
-&node Third
-&end
+ref node Third
+end ref
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idOrderOfDefRefElements)
@@ -613,11 +613,11 @@ Referencing attributes can have two comments - declaration comment and definitio
 ```
 tsinfo version "1.0"
   :: attribute declaration comment
-  &attr Name
+  ref attr Name
 end tree
 
 :: attribute definition comment
-&attr Name "Value" 
+ref attr Name "Value" 
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttrsComments)
@@ -639,12 +639,12 @@ and the referencing nodes can have two:
 ```
 tsinfo version "1.0"
   :: child node declaration comment
-  &node Name
+  ref node Name
 end tree
 
 :: child node definition comment
-&node Name
-&end
+ref node Name
+end ref
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idNodesComments)
