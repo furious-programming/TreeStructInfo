@@ -1,4 +1,4 @@
-date![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
+![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
 *Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014*
 
 Latest API release: [TreeStructInfo 1.0 stable](https://github.com/furious-programming/TreeStructInfo/releases/tag/v1.0.0-stable)<br/><br/>
