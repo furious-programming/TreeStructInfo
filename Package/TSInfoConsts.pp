@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                   last modified: 24 July 2014
+    TSInfoConsts.pp                 last modified: 13 August 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -58,7 +58,6 @@ const
   VALUES_DELIMITER          = AnsiChar(#10);
   QUOTE_CHAR                = AnsiChar('"');
   INDENT_CHAR               = AnsiChar(#32);
-  REFERENCE_CHAR            = AnsiChar('&');
   COORDS_DELIMITER          = AnsiChar(',');
   ONE_BLANK_VALUE_LINE_CHAR = AnsiChar(#9);
   CURRENT_NODE_SYMBOL       = AnsiChar('~');
@@ -73,9 +72,10 @@ const
   ATTRIBUTE_KEYWORD           = AnsiString('attr ');
   NODE_KEYWORD                = AnsiString('node ');
   END_NODE_KEYWORD            = AnsiString('end');
-  REF_ATTRIBUTE_KEYWORD       = AnsiString(REFERENCE_CHAR + ATTRIBUTE_KEYWORD);
-  REF_NODE_KEYWORD            = AnsiString(REFERENCE_CHAR + NODE_KEYWORD);
-  END_REF_NODE_KEYWORD        = AnsiString(REFERENCE_CHAR + END_NODE_KEYWORD);
+  REF_KEYWORD                 = AnsiString('ref');
+  REF_ATTRIBUTE_KEYWORD       = AnsiString(REF_KEYWORD + #32 + ATTRIBUTE_KEYWORD);
+  REF_NODE_KEYWORD            = AnsiString(REF_KEYWORD + #32 + NODE_KEYWORD);
+  END_REF_NODE_KEYWORD        = AnsiString(END_NODE_KEYWORD + #32 + REF_KEYWORD);
   LINK_KEYWORD                = AnsiString('link ');
   LINK_AS_KEYWORD             = AnsiString('as');
   LINK_FLAGS_KEYWORD          = AnsiString('flags');

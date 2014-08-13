@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                    last modified: 24 July 2014
+    TSInfoFiles.pp                  last modified: 13 August 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -3434,11 +3434,14 @@ procedure TTSInfoTextInputReader.ExtractAttributeComponents(ALine: AnsiString; o
 var
   pchrName, pchrValue, pchrLast: PAnsiChar;
 begin
-  AReference := ALine[1] = REFERENCE_CHAR;
-  pchrName := @ALine[ATTRIBUTE_KEYWORD_LEN + 1];
-  pchrLast := @ALine[Length(ALine)];
+  AReference := ALine[1] = REF_KEYWORD[1];
 
-  if AReference then Inc(pchrName);
+  if AReference then
+    pchrName := @ALine[REF_ATTRIBUTE_KEYWORD_LEN + 1]
+  else
+    pchrName := @ALine[ATTRIBUTE_KEYWORD_LEN + 1];
+
+  pchrLast := @ALine[Length(ALine)];
 
   while pchrName^ in CONTROL_CHARS do
     Inc(pchrName);
@@ -3465,11 +3468,14 @@ procedure TTSInfoTextInputReader.ExtractNodeComponents(ALine: AnsiString; out AR
 var
   pchrName, pchrLast: PAnsiChar;
 begin
-  AReference := ALine[1] = REFERENCE_CHAR;
-  pchrName := @ALine[NODE_KEYWORD_LEN + 1];
-  pchrLast := @ALine[Length(ALine)];
+  AReference := ALine[1] = REF_KEYWORD[1];
 
-  if AReference then Inc(pchrName);
+  if AReference then
+    pchrName := @ALine[REF_NODE_KEYWORD_LEN + 1]
+  else
+    pchrName := @ALine[NODE_KEYWORD_LEN + 1];
+
+  pchrLast := @ALine[Length(ALine)];
 
   while pchrName^ in CONTROL_CHARS do
     Inc(pchrName);

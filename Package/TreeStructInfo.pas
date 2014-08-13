@@ -7,7 +7,7 @@ unit TreeStructInfo;
 interface
 
 uses
-  TSInfoConsts, TSInfoFiles, TSInfoTypes, TSInfoUtils;
+  TSInfoConsts, TSInfoTypes, TSInfoUtils, TSInfoFiles;
 
 implementation
 

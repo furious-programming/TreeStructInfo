@@ -47,16 +47,16 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>."/>
         <UnitName Value="TSInfoConsts"/>
       </Item1>
       <Item2>
-        <Filename Value="TSInfoFiles.pp"/>
-        <UnitName Value="TSInfoFiles"/>
-      </Item2>
-      <Item3>
         <Filename Value="TSInfoTypes.pp"/>
         <UnitName Value="TSInfoTypes"/>
-      </Item3>
-      <Item4>
+      </Item2>
+      <Item3>
         <Filename Value="TSInfoUtils.pp"/>
         <UnitName Value="TSInfoUtils"/>
+      </Item3>
+      <Item4>
+        <Filename Value="TSInfoFiles.pp"/>
+        <UnitName Value="TSInfoFiles"/>
       </Item4>
     </Files>
     <Type Value="RunTimeOnly"/>
