@@ -1,8 +1,6 @@
 ![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
 *Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014*
 
-Latest API release: [TreeStructInfo 1.0 stable](https://github.com/furious-programming/TreeStructInfo/releases/tag/v1.0.0-stable)<br/><br/>
-
 This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 1.0** format specification](http://treestruct.info/pl/format/1.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish).
 
 [Detailed documentation of this API](http://treestruct.info/pl/api/official-1.0-objpas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-1.0-objpas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).<br/><br/>
@@ -666,3 +664,9 @@ end tree
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idLinksComments)
+
+# Binary form
+
+The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indents, blank lines and separated definitions of referencing elements. But just like text files, keep comments of elements.
+
+Binary configuration files are intended for closed configurations, not giving the user to easy modification, putting to the foreground the speed of loading files and saving the trees to the files.
