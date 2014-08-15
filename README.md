@@ -44,9 +44,12 @@ end ref     - ends the referencing node body
 Keywords can be made up only of lowercase letters. To describe the syntax of text configuration files used are also several strings:
 
 ```
-"1.0"          - the value of the format version
-"updatable"    - flag indicating inclusion of the file for read and write
-"binary"       - flag indicating the inclusion of a binary file
+"1.0"      - the value of the format version
+
+"text"     - flag indicating the inclusion of a text file
+"binary"   - flag indicating the inclusion of a binary file
+"read"     - flag indication inclusion of the file for read only
+"write"    - flag indicating inclusion of the file for read and write
 ```
 
 a small number of special characters:
@@ -418,25 +421,27 @@ The full version of link declaration can also contain the keyword `flags`, and t
 Example for linking the text file in read only mode:
 
 ```
+link "C:\Linked.tsinfo" as "Linked"
 link "C:\Linked.tsinfo" as "Linked" flags ""
+link "C:\Linked.tsinfo" as "Linked" flags "text" "read"
 ```
 
 linking the text file in read and write mode:
  
 ```
-link "C:\Linked.tsinfo" as "Linked" flags "updatable"
+link "C:\Linked.tsinfo" as "Linked" flags "text" "write"
 ```
 
 linking the binary file in read only mode:
 
 ```
-link "C:\Linked.tsibin" as "Linked" flags "binary"
+link "C:\Linked.tsibin" as "Linked" flags "binary" "read"
 ```
 
 and linking the binary file in read and write mode:
 
 ```
-link "C:\Linked.tsibin" as "Linked" flags "binary" "updatable"
+link "C:\Linked.tsibin" as "Linked" flags "binary" "write"
 ```
 
 Flags are the values too. If you want to type a path of linked file - you can use the relative or absolute path.
@@ -457,7 +462,7 @@ Referencing form may have attributes and child nodes.
 
 The main advantage of using referencing attributes is to increase the readability of the configuration files in text form, by separating their definition beyond the main body of the tree.
 
-The line with the declaration of referencing attribute must contain only the keyword `ref attr` and the name of the attribute:
+The line with the declaration of referencing attribute must contain only the key phrase `ref attr` and the name of the attribute:
 
 ```
 ref attr Name
@@ -465,7 +470,7 @@ ref attr Name
 
 The attribute declaration may be located inside the main body of the tree, as well as inside the body of the referencing child node.
 
-The definition must contain the same keyword `ref attr`, the same name as in the declaration and the value:
+The definition must contain the same key phrase `ref attr`, the same name as in the declaration and the value:
 
 ```
 ref attr Name "Value"
@@ -489,13 +494,13 @@ ref attr Foo "Value"
 
 Like the referencing attributes, referencing child nodes also have their **declarations** and **definitions**.
 
-The line with referencing child node declaration must contain only the keyword `ref node` and the name of the node:
+The line with referencing child node declaration must contain only the key phrase `ref node` and the name of the node:
 
 ```
 ref node Name
 ```
 
-The definition must contain a complete body of the node, terminated with the line with keyword `end ref`:
+The definition must contain a complete body of the node, terminated with the line with key phrase `end ref`:
 
 ```
 ref node Name
