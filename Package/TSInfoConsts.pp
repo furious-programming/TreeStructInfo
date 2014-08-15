@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                 last modified: 13 August 2014
+    TSInfoConsts.pp                 last modified: 14 August 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -82,8 +82,10 @@ const
   COMMENT_PREFIX              = AnsiString('::');
 
 const
+  FLAG_TEXT_FILE   = AnsiString('text');
   FLAG_BINARY_FILE = AnsiString('binary');
-  FLAG_UPDATABLE   = AnsiString('updatable');
+  FLAG_READ        = AnsiString('read');
+  FLAG_WRITE       = AnsiString('write');
 
 const
   BINARY_FILE_SIGNATURE_LEN       = Length(BINARY_FILE_SIGNATURE);

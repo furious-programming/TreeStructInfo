@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                  last modified: 13 August 2014
+    TSInfoFiles.pp                  last modified: 14 August 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -295,7 +295,7 @@ type
     function FindAttribute(AAttrName: AnsiString; AForcePath: Boolean): TTSInfoAttribute;
     function FindNode(ANodePath: AnsiString; AForcePath: Boolean): TTSInfoNode;
   public
-    constructor Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffUpdatable]); overload;
+    constructor Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]); overload;
     constructor Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
     constructor Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
     constructor Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PAnsiChar; AFlags: TFileFlags = []); overload;
@@ -1215,7 +1215,7 @@ end;
 { ----- TSimpleTSInfoFile class ----------------------------------------------------------------------------------- }
 
 
-constructor TSimpleTSInfoFile.Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffUpdatable]);
+constructor TSimpleTSInfoFile.Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]);
 var
   fsInput: TStream;
   slInput: TStrings;
@@ -1335,7 +1335,7 @@ end;
 
 destructor TSimpleTSInfoFile.Destroy();
 begin
-  if ffUpdatable in FFileFlags then
+  if ffWrite in FFileFlags then
     UpdateFile();
 
   FRootNode.Free();
@@ -3494,14 +3494,20 @@ begin
 
   while I >= FIRST_FLAG_IDX do
   begin
-    if SameIdentifiers(AComponents[I], FLAG_BINARY_FILE) then
-      Include(AFlags, ffBinaryFile)
+    if SameIdentifiers(AComponents[I], FLAG_TEXT_FILE) then
+      Include(AFlags, ffTextFile)
     else
-      if SameIdentifiers(AComponents[I], FLAG_UPDATABLE) then
-        Include(AFlags, ffUpdatable)
+      if SameIdentifiers(AComponents[I], FLAG_BINARY_FILE) then
+        Include(AFlags, ffBinaryFile)
       else
-        if AComponents[I] <> '' then
-          ThrowException(EM_UNKNOWN_LINK_FLAG, [AComponents[I]]);
+        if SameIdentifiers(AComponents[I], FLAG_READ) then
+          Include(AFlags, ffRead)
+        else
+          if SameIdentifiers(AComponents[I], FLAG_WRITE) then
+            Include(AFlags, ffWrite)
+          else
+            if AComponents[I] <> '' then
+              ThrowException(EM_UNKNOWN_LINK_FLAG, [AComponents[I]]);
 
     Dec(I);
   end;
@@ -4188,20 +4194,20 @@ begin
   if ALink.FComment <> '' then
     AddCommentLines(ALink.FComment, AIndent);
 
-  strLinkedFile := GlueStrings('%%%%% % %%%', [AIndent, LINK_KEYWORD, QUOTE_CHAR,
-                                               ALink.FileName, QUOTE_CHAR, LINK_AS_KEYWORD,
-                                               QUOTE_CHAR, ALink.FVirtualNodeName, QUOTE_CHAR]);
+  strLinkedFile := GlueStrings('%%%%% % %%% %', [AIndent, LINK_KEYWORD, QUOTE_CHAR,
+                                                 ALink.FileName, QUOTE_CHAR, LINK_AS_KEYWORD,
+                                                 QUOTE_CHAR, ALink.FVirtualNodeName, QUOTE_CHAR,
+                                                 LINK_FLAGS_KEYWORD]);
 
-  if ALink.FileFlags <> [] then
-  begin
-    strLinkedFile += GlueStrings(' %', [LINK_FLAGS_KEYWORD]);
+  if ffBinaryFile in ALink.FileFlags then
+    strLinkedFile += GlueStrings(' %%%', [QUOTE_CHAR, FLAG_BINARY_FILE, QUOTE_CHAR])
+  else
+    strLinkedFile += GlueStrings(' %%%', [QUOTE_CHAR, FLAG_TEXT_FILE, QUOTE_CHAR]);
 
-    if ffBinaryFile in ALink.FileFlags then
-      strLinkedFile += GlueStrings(' %%%', [QUOTE_CHAR, FLAG_BINARY_FILE, QUOTE_CHAR]);
-
-    if ffUpdatable in ALink.FileFlags then
-      strLinkedFile += GlueStrings(' %%%', [QUOTE_CHAR, FLAG_UPDATABLE, QUOTE_CHAR]);
-  end;
+  if ffWrite in ALink.FileFlags then
+    strLinkedFile += GlueStrings(' %%%', [QUOTE_CHAR, FLAG_WRITE, QUOTE_CHAR])
+  else
+    strLinkedFile += GlueStrings(' %%%', [QUOTE_CHAR, FLAG_READ, QUOTE_CHAR]);
 
   FOutput.Add(strLinkedFile);
 end;
@@ -4281,7 +4287,7 @@ var
   slOutput: TStrings;
 begin
   with ALink.FLinkedFile do
-    if ffUpdatable in FFileFlags then
+    if ffWrite in FFileFlags then
     begin
       if ffBinaryFile in FFileFlags then
       begin
@@ -4467,12 +4473,16 @@ begin
   ReadBooleanBuffer(boolIncludeFlag);
 
   if boolIncludeFlag then
-    Include(ALink.FLinkedFile.FFileFlags, ffBinaryFile);
+    Include(ALink.FLinkedFile.FFileFlags, ffBinaryFile)
+  else
+    Include(ALink.FLinkedFile.FFileFlags, ffTextFile);
 
   ReadBooleanBuffer(boolIncludeFlag);
 
   if boolIncludeFlag then
-    Include(ALink.FLinkedFile.FFileFlags, ffUpdatable);
+    Include(ALink.FLinkedFile.FFileFlags, ffWrite)
+  else
+    Include(ALink.FLinkedFile.FFileFlags, ffRead);
 
   if not (ffNoLinking in FTSInfoFile.FFileFlags) then
     ProcessLink(ALink);
@@ -4631,7 +4641,7 @@ begin
   WriteStringBuffer(ALink.FVirtualNodeName);
 
   WriteBooleanBuffer(ffBinaryFile in ALink.FLinkedFile.FFileFlags);
-  WriteBooleanBuffer(ffUpdatable in ALink.FLinkedFile.FFileFlags);
+  WriteBooleanBuffer(ffWrite in ALink.FLinkedFile.FFileFlags);
 end;
 
 
@@ -4641,7 +4651,7 @@ var
   slOutput: TStrings;
 begin
   with ALink.FLinkedFile do
-    if ffUpdatable in FFileFlags then
+    if ffWrite in FFileFlags then
     begin
       if ffBinaryFile in FFileFlags then
       begin
