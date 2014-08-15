@@ -670,3 +670,21 @@ end tree
 The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indents, blank lines and separated definitions of referencing elements. But just like text files, keep comments of elements.
 
 Binary configuration files are intended for closed configurations, not giving the user to easy modification, putting to the foreground the speed of loading files and saving the trees to the files.
+
+# Data types
+
+To binary files are stored are written data of four types - floating-point numbers and integers, logical values and strings:
+
+```
+data type     size     for writting
+
+single        4        format version in file signature
+uint32        4        elements count; values, comments and identifiers length
+boolean       1        referencing states, flags existing state
+
+string:
+  uint32      4        length of string
+  string      n        content of string
+```
+
+If the string is multiline, its individual substrings are separated by characters `0x0A`.
