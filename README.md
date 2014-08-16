@@ -671,6 +671,8 @@ The binary form of configuration files has been designed so that the loading and
 
 Binary configuration files are intended for closed configurations, not giving the user to easy modification, putting to the foreground the speed of loading files and saving the trees to the files.
 
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idBinaryForm)
+
 # Data types
 
 To binary files are stored are written data of four types - floating-point numbers and integers, logical values and strings:
@@ -688,3 +690,111 @@ string:
 ```
 
 If the string is multiline, its individual substrings are separated by characters `0x0A`.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDataTypesAndFormat)
+
+# Static data
+
+The static informations includes the file signature, comment and the name of the tree, as well as informations relating to the root node of the tree.
+
+The structure schema of the binary file, containing the **empty tree**:
+
+```
+size     value     data type     component        description
+
+6        tsinfo    string        file signature   format name
+4        1.0       single        file signature   format version
+
+4        0         uint32        tree             main comment length
+4        0         uint32        tree             tree name length
+
+4        0         uint32        root node        declaration comment length
+4        0         uint32        root node        definition comment length
+1        False     boolean       root node        referencing state
+4        0         uint32        root node        identifier length
+4        0         uint32        root node        attributes count
+4        0         uint32        root node        child nodes count
+4        0         uint32        root node        links count
+```
+
+Binary file containing empty configuration tree, should always take exactly `43 bytes`.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idStaticData)
+
+# Dynamic data
+
+For a set of dynamic informations includes descriptions of the tree elements, such as standard and referencing **attributes**, standard and referencing **child nodes** and **links**.
+
+Each element is represented by another sequence of bytes, by virtue of having different and varying amounts of information.
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicData)
+
+**The structure schema of writing a single attribute**:
+
+```
+size     value        data type     component             description
+
+4        n            uint32        declaration comment   comment length
+n        n chars      string        declaration comment   comment value
+
+4        n            uint32        definition comment    comment length
+n        n chars      string        definition comment    comment value
+
+1        True/False   boolean       referencing state     state
+
+4        n            uint32        identifier            identifier length
+n        n chars      string        identifier            identifier value
+
+4        n            uint32        value                 value length
+n        n chars      string        value                 value content
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicAttributes)
+
+**The structure schema of writing a single child node**:
+
+```
+size     value        data type     component             description
+
+4        n            uint32        declaration comment   comment length
+n        n chars      string        declaration comment   comment value
+
+4        n            uint32        definition comment    comment length
+n        n chars      string        definition comment    comment value
+
+1        True/False   boolean       referencing state     state
+
+4        n            uint32        identifier            identifier length
+n        n chars      string        identifier            identifier value
+
+4        n            uint32        attributes            attributes count
+         ...          ...           attributes            attributes bodies
+
+4        n            uint32        child nodes           child nodes count
+         ...          ...           child nodes           child nodes bodies
+
+4        n            uint32        links                 links bodies
+         ...          ...           links                 links bodies
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicNodes)
+
+**The structure schema of writing a single link**:
+
+```
+size     value        data type     component             description
+
+4        n            uint32        declaration comment   comment length
+n        n chars      string        declaration comment   comment value
+
+4        n            uint32        linked file name      file name length
+n        n chars      string        linked file name      file name value
+
+4        n            uint32        virtual node name     name length
+n        n chars      string        virtual node name     name value
+
+1        True/False   boolean       "binary" flag         flag existing state
+1        True/False   boolean       "write" flag          flag existing state
+```
+
+`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicLinks)
