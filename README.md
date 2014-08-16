@@ -1,11 +1,9 @@
 ![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
 *Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014*
 
-This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 1.0** format specification](http://treestruct.info/pl/format/1.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish).
+Latest API release: [TreeStructInfo 1.0 stable](https://github.com/furious-programming/TreeStructInfo/releases/tag/v1.0.0-stable)<br/><br/>
 
-[Detailed documentation of this API](http://treestruct.info/pl/api/official-1.0-objpas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-1.0-objpas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).<br/><br/>
-
-**Be warned** - contents of this file will be longer.
+This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 1.0** format specification](http://treestruct.info/pl/format/1.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-1.0-objpas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-1.0-objpas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
 
 # Introduction
 
@@ -798,3 +796,17 @@ n        n chars      string        virtual node name     name value
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicLinks)
+
+# Bindings
+
+Below is a list of all available libraries to handle the **TreeStructInfo** configuration files:
+
+- **Object Pascal** - in this repo are [source](https://github.com/furious-programming/TreeStructInfo/tree/master/Source) and [package](https://github.com/furious-programming/TreeStructInfo/tree/master/Package) for Lazarus
+
+No API available in your favorite language? Create and publish your own, then contact me or send a pull request adding to above list.
+
+## TreeStructInfo project support
+
+- Bartosz Wójcik - [PELock Software Protection](http://www.pelock.com)
+
+Thanks to the other, not mentioned persons in the above list.
