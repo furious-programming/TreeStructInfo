@@ -165,7 +165,7 @@ Boolean values are determined using conventional strings:
 "False"    "No"     "Off"    "F"    "N"    "0"    - false values
 ```
 
-Camel style for string values is not mandatory (uppercase for character values too). Digits `1` and `0` are the only permitted.
+PascalCase for string values is not mandatory (uppercase for character values too). Digits `1` and `0` are the only permitted.
 
 ## Integers
 
@@ -217,7 +217,7 @@ There is also possibility to store special numbers as strings - positive or nega
 "Nan"              - not a number
 ```
 
-Camel style for these strings is not mandatory.
+PascalCase for these strings is not mandatory.
 
 ## Currencies
 
@@ -431,6 +431,7 @@ link "C:\Linked.tsinfo" as "Linked" flags "text" "write"
 linking the binary file in read only mode:
 
 ```
+link "C:\Linked.tsibin" as "Linked" flags "binary"
 link "C:\Linked.tsibin" as "Linked" flags "binary" "read"
 ```
 
