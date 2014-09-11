@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                 last modified: 14 August 2014
+    TSInfoConsts.pp              last modified: 11 September 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -184,6 +184,7 @@ const
   EM_UNKNOWN_LINK_COMPONENT            = AnsiString('unknown link component - expected "%s" but "%s" found');
   EM_UNKNOWN_LINK_FLAG                 = AnsiString('unknown link flag "%s"');
   EM_LINKED_FILE_NOT_EXISTS            = AnsiString('link under path "%s" with virtual node name "%s" not exists');
+  EM_ELEMENTS_LIST_MEMORY_ALLOCATION   = AnsiString('cannot allocate memory for new elements list');
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
