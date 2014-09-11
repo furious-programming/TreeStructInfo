@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <CONFIG>
   <Compiler Value="D:\Programy\Lazarus\fpc\2.6.2\bin\i386-win32\fpc.exe" Date="1131443936"/>
-  <Params Value=" -MObjFPC -Scghi -O1 -vewnhi -FuD:\Programy\Lazarus\lcl\units\i386-win32\win32 -FuD:\Programy\Lazarus\lcl\units\i386-win32 -FuD:\Programy\Lazarus\components\lazutils\lib\i386-win32 -FuD:\Programy\Lazarus\packager\units\i386-win32 &quot;-FuE:\Projekty\TreeStructInfo\Library Package\&quot; &quot;-FUE:\Projekty\TreeStructInfo\Library Package\lib\i386-win32\&quot; -dLCL -dLCLwin32 TreeStructInfo.pas"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -vewnhi -FuD:\Programy\Lazarus\lcl\units\i386-win32\win32 -FuD:\Programy\Lazarus\lcl\units\i386-win32 -FuD:\Programy\Lazarus\components\lazutils\lib\i386-win32 -FuD:\Programy\Lazarus\packager\units\i386-win32 -FuE:\Projekty\TreeStructInfo\Repo\Package\ -FUE:\Projekty\TreeStructInfo\Repo\Package\lib\i386-win32\ -dLCL -dLCLwin32 TreeStructInfo.pas"/>
 </CONFIG>

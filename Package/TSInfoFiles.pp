@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                  last modified: 14 August 2014
+    TSInfoFiles.pp               last modified: 11 September 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -608,10 +608,16 @@ begin
   begin
     GetMem(ptrNewList, ANewSize * SizeOf(TObject));
 
-    intMoveSize := FSize * SizeOf(TObject);
-    Move(FElementsList^, ptrNewList^, intMoveSize);
-    FillChar(ptrNewList^[intMoveSize], (ANewSize - FSize) * SizeOf(TObject), 0);
-    FreeMem(FElementsList, intMoveSize);
+    if ptrNewList = nil then
+      ThrowException(EM_ELEMENTS_LIST_MEMORY_ALLOCATION, []);
+
+    if FElementsList <> nil then
+    begin
+      intMoveSize := FSize * SizeOf(TObject);
+      Move(FElementsList^, ptrNewList^, intMoveSize);
+      FillWord(PAnsiChar(ptrNewList)[intMoveSize], (ANewSize - FSize) * (SizeOf(Pointer) div SizeOf(Word)), 0);
+      FreeMem(FElementsList, intMoveSize);
+    end;
 
     FElementsList := ptrNewList;
     FSize := ANewSize;
@@ -626,9 +632,21 @@ end;
 
 
 procedure TBaseTSInfoElementsList.AddElement(AInstance: TObject);
+var
+  intNewSize: UInt32;
 begin
   if FCount = FSize then
-    SetNewListSize(FSize + 16);
+  begin
+    if FSize = 0 then
+      intNewSize := 4
+    else
+      if FSize <= 256 then
+        intNewSize := FSize * 2
+      else
+        intNewSize := FSize + (FSize shl 2);
+
+    SetNewListSize(intNewSize);
+  end;
 
   FElementsList^[FCount] := AInstance;
   Inc(FCount);
