@@ -344,6 +344,7 @@ type
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
     procedure RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameChildNodesForTokenizing(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
   public
@@ -2209,6 +2210,40 @@ begin
         begin
           attrRename := nodeParent.GetAttributeByIndex(intToken);
           attrRename.Name := Format(AAttrName, [AStartIndex]);
+
+          Inc(AStartIndex, intStep);
+        end;
+      end;
+  end;
+end;
+
+
+procedure TSimpleTSInfoFile.RenameChildNodesForTokenizing(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+var
+  nodeParent, nodeRename: TTSInfoNode;
+  intToken, intStep: Integer;
+begin
+  if FReadOnlyMode then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  else
+  begin
+    if IsCurrentNodeSymbol(ANodePath) then
+      nodeParent := FCurrentNode
+    else
+    begin
+      IncludeTrailingIdentsDelimiter(ANodePath);
+      nodeParent := FindNode(ANodePath, False);
+    end;
+
+    if nodeParent <> nil then
+      if ValidIdentifier(ANodeName) then
+      begin
+        intStep := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+
+        for intToken := 0 to nodeParent.ChildNodesCount - 1 do
+        begin
+          nodeRename := nodeParent.GetChildNodeByIndex(intToken);
+          nodeRename.Name := Format(ANodeName, [AStartIndex]);
 
           Inc(AStartIndex, intStep);
         end;

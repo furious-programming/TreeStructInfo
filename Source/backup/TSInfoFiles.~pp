@@ -343,7 +343,7 @@ type
     function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
-    { TODO 1 -ofurious programming : add methods for mass rename elements }
+    procedure RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
   public
@@ -2178,6 +2178,41 @@ begin
   begin
     Inc(ANodeToken.FIndex);
     ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNodeByIndex(ANodeToken.FIndex);
+  end;
+end;
+
+
+procedure TSimpleTSInfoFile.RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+var
+  nodeParent: TTSInfoNode;
+  attrRename: TTSInfoAttribute;
+  intToken, intStep: Integer;
+begin
+  if FReadOnlyMode then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  else
+  begin
+    if IsCurrentNodeSymbol(ANodePath) then
+      nodeParent := FCurrentNode
+    else
+    begin
+      IncludeTrailingIdentsDelimiter(ANodePath);
+      nodeParent := FindNode(ANodePath, False);
+    end;
+
+    if nodeParent <> nil then
+      if ValidIdentifier(AAttrName) then
+      begin
+        intStep := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+
+        for intToken := 0 to nodeParent.AttributesCount - 1 do
+        begin
+          attrRename := nodeParent.GetAttributeByIndex(intToken);
+          attrRename.Name := Format(AAttrName, [AStartIndex]);
+
+          Inc(AStartIndex, intStep);
+        end;
+      end;
   end;
 end;
 
