@@ -298,6 +298,7 @@ type
     constructor Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]); overload;
     constructor Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
     constructor Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
+    { TODO 1 -ofurious programming : add constructor for loading file from Lazarus resource }
     constructor Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PAnsiChar; AFlags: TFileFlags = []); overload;
     constructor Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PAnsiChar; AFlags: TFileFlags = []); overload;
     destructor Destroy(); override;
@@ -341,6 +342,8 @@ type
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
     function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
+  public
+    { TODO 1 -ofurious programming : add methods for mass rename elements }
   public
     procedure UpdateFile();
   public
