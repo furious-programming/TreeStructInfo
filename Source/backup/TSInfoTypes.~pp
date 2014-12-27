@@ -87,9 +87,6 @@ type
   TFormatBuffer   = (fb8BytesPerLine, fb16BytesPerLine, fb32BytesPerLine, fb64BytesPerLine);
 
 type
-  TRenamingDirection = (rdAscending, rdDescending);
-
-type
   ETSInfoFileException = class(Exception);
 
 
