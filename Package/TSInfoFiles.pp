@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp               last modified: 11 September 2014
+    TSInfoFiles.pp                last modified: 27 December 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -298,6 +298,7 @@ type
     constructor Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]); overload;
     constructor Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
     constructor Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
+    { TODO 1 -ofurious programming : add constructor for loading file from Lazarus resource }
     constructor Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PAnsiChar; AFlags: TFileFlags = []); overload;
     constructor Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PAnsiChar; AFlags: TFileFlags = []); overload;
     destructor Destroy(); override;
@@ -341,6 +342,9 @@ type
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
     function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
+  public
+    procedure RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameChildNodesForTokenizing(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
   public
@@ -2175,6 +2179,75 @@ begin
   begin
     Inc(ANodeToken.FIndex);
     ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNodeByIndex(ANodeToken.FIndex);
+  end;
+end;
+
+
+procedure TSimpleTSInfoFile.RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+var
+  nodeParent: TTSInfoNode;
+  attrRename: TTSInfoAttribute;
+  intToken, intStep: Integer;
+begin
+  if FReadOnlyMode then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  else
+  begin
+    if IsCurrentNodeSymbol(ANodePath) then
+      nodeParent := FCurrentNode
+    else
+    begin
+      IncludeTrailingIdentsDelimiter(ANodePath);
+      nodeParent := FindNode(ANodePath, False);
+    end;
+
+    if nodeParent <> nil then
+      if ValidIdentifier(AAttrName) then
+      begin
+        intStep := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+
+        for intToken := 0 to nodeParent.AttributesCount - 1 do
+        begin
+          attrRename := nodeParent.GetAttributeByIndex(intToken);
+          attrRename.Name := Format(AAttrName, [AStartIndex]);
+
+          Inc(AStartIndex, intStep);
+        end;
+      end;
+  end;
+end;
+
+
+procedure TSimpleTSInfoFile.RenameChildNodesForTokenizing(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+var
+  nodeParent, nodeRename: TTSInfoNode;
+  intToken, intStep: Integer;
+begin
+  if FReadOnlyMode then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  else
+  begin
+    if IsCurrentNodeSymbol(ANodePath) then
+      nodeParent := FCurrentNode
+    else
+    begin
+      IncludeTrailingIdentsDelimiter(ANodePath);
+      nodeParent := FindNode(ANodePath, False);
+    end;
+
+    if nodeParent <> nil then
+      if ValidIdentifier(ANodeName) then
+      begin
+        intStep := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+
+        for intToken := 0 to nodeParent.ChildNodesCount - 1 do
+        begin
+          nodeRename := nodeParent.GetChildNodeByIndex(intToken);
+          nodeRename.Name := Format(ANodeName, [AStartIndex]);
+
+          Inc(AStartIndex, intStep);
+        end;
+      end;
   end;
 end;
 

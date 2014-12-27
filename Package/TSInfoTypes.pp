@@ -1,6 +1,6 @@
 {
 
-    TSInfoTypes.pp                  last modified: 14 August 2014
+    TSInfoTypes.pp                last modified: 27 December 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -85,6 +85,9 @@ type
   TFormatString   = (fsOriginal, fsLowerCase, fsUpperCase);
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
   TFormatBuffer   = (fb8BytesPerLine, fb16BytesPerLine, fb32BytesPerLine, fb64BytesPerLine);
+
+type
+  TRenamingDirection = (rdAscending, rdDescending);
 
 type
   ETSInfoFileException = class(Exception);

@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp              last modified: 11 September 2014
+    TSInfoConsts.pp               last modified: 27 December 2014
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -109,6 +109,9 @@ const
   MIN_REF_NODE_LINE_LEN          = Integer(REF_NODE_KEYWORD_LEN + 1);
   MIN_LINK_LINE_LEN              = Integer(LINK_KEYWORD_LEN + LINK_AS_KEYWORD_LEN + 6);
   MIN_POINT_LINE_LEN             = Integer(3);
+
+const
+  RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 const
   INVALID_IDENT_CHARS: set of AnsiChar = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
