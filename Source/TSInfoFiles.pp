@@ -342,8 +342,8 @@ type
     function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
-    procedure RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
-    procedure RenameChildNodesForTokenizing(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameAttributeTokens(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameChildNodeTokens(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
   public
@@ -2182,7 +2182,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.RenameAttributesForTokenizing(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+procedure TSimpleTSInfoFile.RenameAttributeTokens(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
@@ -2217,7 +2217,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.RenameChildNodesForTokenizing(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+procedure TSimpleTSInfoFile.RenameChildNodeTokens(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
 var
   nodeParent, nodeRename: TTSInfoNode;
   intToken, intStep: Integer;
