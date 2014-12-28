@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -8,7 +8,6 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\Source"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Linking>
@@ -44,19 +43,19 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>."/>
     <Version Major="1"/>
     <Files Count="4">
       <Item1>
-        <Filename Value="..\Source\TSInfoConsts.pp"/>
+        <Filename Value="TSInfoConsts.pp"/>
         <UnitName Value="TSInfoConsts"/>
       </Item1>
       <Item2>
-        <Filename Value="..\Source\TSInfoTypes.pp"/>
+        <Filename Value="TSInfoTypes.pp"/>
         <UnitName Value="TSInfoTypes"/>
       </Item2>
       <Item3>
-        <Filename Value="..\Source\TSInfoUtils.pp"/>
+        <Filename Value="TSInfoUtils.pp"/>
         <UnitName Value="TSInfoUtils"/>
       </Item3>
       <Item4>
-        <Filename Value="..\Source\TSInfoFiles.pp"/>
+        <Filename Value="TSInfoFiles.pp"/>
         <UnitName Value="TSInfoFiles"/>
       </Item4>
     </Files>
