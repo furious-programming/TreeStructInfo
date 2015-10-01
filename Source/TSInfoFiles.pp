@@ -53,26 +53,6 @@ uses
 
 
 type
-  TBaseTSInfoElementsList = class(TObject)
-  private
-    FElementsList: PTSInfoElementsList;
-    FSize: Integer;
-    FCount: Integer;
-  private
-    procedure SetNewListSize(ANewSize: Integer);
-  public
-    constructor Create();
-    destructor Destroy(); override;
-  public
-    procedure AddElement(AInstance: TObject);
-    procedure RemoveElement(AIndex: Integer);
-    procedure ClearElementsList();
-  public
-    property Count: Integer read FCount;
-  end;
-
-
-type
   TTSInfoAttribute = class(TObject)
   private
     FReference: Boolean;
@@ -581,108 +561,6 @@ type
 
 
 implementation
-
-
-{ ----- TBaseTSInfoElementsList class ----------------------------------------------------------------------------- }
-
-
-constructor TBaseTSInfoElementsList.Create();
-begin
-  inherited Create();
-
-  FElementsList := nil;
-  FSize := 0;
-  FCount := 0;
-end;
-
-
-destructor TBaseTSInfoElementsList.Destroy();
-begin
-  ClearElementsList();
-  inherited Destroy();
-end;
-
-
-procedure TBaseTSInfoElementsList.SetNewListSize(ANewSize: Integer);
-var
-  ptrNewList: PTSInfoElementsList;
-  intMoveSize: SizeInt;
-begin
-  if ANewSize > 0 then
-  begin
-    GetMem(ptrNewList, ANewSize * SizeOf(TObject));
-
-    if ptrNewList = nil then
-      ThrowException(EM_ELEMENTS_LIST_MEMORY_ALLOCATION, []);
-
-    if FElementsList <> nil then
-    begin
-      intMoveSize := FSize * SizeOf(TObject);
-      Move(FElementsList^, ptrNewList^, intMoveSize);
-      FillWord(PAnsiChar(ptrNewList)[intMoveSize], (ANewSize - FSize) * (SizeOf(Pointer) div SizeOf(Word)), 0);
-      FreeMem(FElementsList, intMoveSize);
-    end;
-
-    FElementsList := ptrNewList;
-    FSize := ANewSize;
-  end
-  else
-  begin
-    FreeMem(FElementsList, FSize * SizeOf(TObject));
-    FElementsList := nil;
-    FSize := 0;
-  end;
-end;
-
-
-procedure TBaseTSInfoElementsList.AddElement(AInstance: TObject);
-var
-  intNewSize: UInt32;
-begin
-  if FCount = FSize then
-  begin
-    if FSize = 0 then
-      intNewSize := 4
-    else
-      if FSize <= 256 then
-        intNewSize := FSize * 2
-      else
-        intNewSize := FSize + (FSize shl 2);
-
-    SetNewListSize(intNewSize);
-  end;
-
-  FElementsList^[FCount] := AInstance;
-  Inc(FCount);
-end;
-
-
-procedure TBaseTSInfoElementsList.RemoveElement(AIndex: Integer);
-begin
-  FreeAndNil(FElementsList^[AIndex]);
-  Dec(FCount);
-
-  if AIndex < FCount then
-    Move(FElementsList^[AIndex + 1], FElementsList^[AIndex], (FCount - AIndex) * SizeOf(TObject));
-end;
-
-
-procedure TBaseTSInfoElementsList.ClearElementsList();
-var
-  I: Integer = 0;
-begin
-  if FElementsList <> nil then
-  begin
-    while I < FCount do
-    begin
-      FreeAndNil(FElementsList^[I]);
-      Inc(I);
-    end;
-
-    FCount := 0;
-    SetNewListSize(0);
-  end;
-end;
 
 
 { ----- TTSInfoAttribute class ------------------------------------------------------------------------------------ }
