@@ -161,6 +161,11 @@ type
 
 
 type
+  TTSInfoElementsList = class(TObject)
+  end;
+
+
+type
   TTSInfoAttributeToken = object
   private
     FAttribute: TTSInfoAttribute;
