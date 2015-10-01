@@ -329,7 +329,7 @@ type
 
 
 type
-  TTSInfoFile = class(TSimpleTSInfoTree)
+  TTSInfoTree = class(TSimpleTSInfoTree)
   public
     procedure RenameTree(ANewTreeName: AnsiString);
     procedure RenameAttribute(AAttrName, ANewAttrName: AnsiString);
@@ -1761,10 +1761,10 @@ begin
 end;
 
 
-{ ----- TTSInfoFile class ----------------------------------------------------------------------------------------- }
+{ ----- TTSInfoTree class ----------------------------------------------------------------------------------------- }
 
 
-procedure TTSInfoFile.RenameTree(ANewTreeName: AnsiString);
+procedure TTSInfoTree.RenameTree(ANewTreeName: AnsiString);
 begin
   if ANewTreeName <> '' then
     if not ValidIdentifier(ANewTreeName) then
@@ -1775,7 +1775,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RenameAttribute(AAttrName, ANewAttrName: AnsiString);
+procedure TTSInfoTree.RenameAttribute(AAttrName, ANewAttrName: AnsiString);
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
@@ -1813,7 +1813,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RenameChildNode(ANodePath, ANewNodeName: AnsiString);
+procedure TTSInfoTree.RenameChildNode(ANodePath, ANewNodeName: AnsiString);
 var
   nodeRename: TTSInfoNode;
 begin
@@ -1849,7 +1849,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RenameVirtualNode(ANodePath, AVirtualNodeName, ANewVirtualNodeName: AnsiString);
+procedure TTSInfoTree.RenameVirtualNode(ANodePath, AVirtualNodeName, ANewVirtualNodeName: AnsiString);
 var
   nodeParent: TTSInfoNode;
   linkRename: TTSInfoLink;
@@ -1885,7 +1885,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.WriteTreeComment(AComment, ADelimiter: AnsiString);
+procedure TTSInfoTree.WriteTreeComment(AComment, ADelimiter: AnsiString);
 begin
   if ADelimiter = '' then
     FTreeComment := AComment
@@ -1896,7 +1896,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.WriteAttributeComment(AAttrName, AComment, ADelimiter: AnsiString; AType: TCommentType);
+procedure TTSInfoTree.WriteAttributeComment(AAttrName, AComment, ADelimiter: AnsiString; AType: TCommentType);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1922,7 +1922,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.WriteChildNodeComment(ANodePath, AComment, ADelimiter: AnsiString; AType: TCommentType);
+procedure TTSInfoTree.WriteChildNodeComment(ANodePath, AComment, ADelimiter: AnsiString; AType: TCommentType);
 var
   nodeWrite: TTSInfoNode;
 begin
@@ -1961,7 +1961,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.WriteLinkComment(ANodePath, AVirtualNodeName, AComment, ADelimiter: AnsiString);
+procedure TTSInfoTree.WriteLinkComment(ANodePath, AVirtualNodeName, AComment, ADelimiter: AnsiString);
 var
   nodeParent: TTSInfoNode;
   linkWrite: TTSInfoLink;
@@ -2000,13 +2000,13 @@ begin
 end;
 
 
-function TTSInfoFile.ReadTreeComment(ADelimiter: AnsiString): AnsiString;
+function TTSInfoTree.ReadTreeComment(ADelimiter: AnsiString): AnsiString;
 begin
   Result := ReplaceSubStrings(FTreeComment, VALUES_DELIMITER, ADelimiter);
 end;
 
 
-function TTSInfoFile.ReadAttributeComment(AAttrName, ADelimiter: AnsiString; AType: TCommentType): AnsiString;
+function TTSInfoTree.ReadAttributeComment(AAttrName, ADelimiter: AnsiString; AType: TCommentType): AnsiString;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2020,7 +2020,7 @@ begin
 end;
 
 
-function TTSInfoFile.ReadChildNodeComment(ANodePath, ADelimiter: AnsiString; AType: TCommentType): AnsiString;
+function TTSInfoTree.ReadChildNodeComment(ANodePath, ADelimiter: AnsiString; AType: TCommentType): AnsiString;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -2047,7 +2047,7 @@ begin
 end;
 
 
-function TTSInfoFile.ReadLinkComment(ANodePath, AVirtualNodeName, ADelimiter: AnsiString): AnsiString;
+function TTSInfoTree.ReadLinkComment(ANodePath, AVirtualNodeName, ADelimiter: AnsiString): AnsiString;
 var
   nodeParent: TTSInfoNode;
   linkRead: TTSInfoLink;
@@ -2074,7 +2074,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.WriteAttributeReference(AAttrName: AnsiString; AReference: Boolean);
+procedure TTSInfoTree.WriteAttributeReference(AAttrName: AnsiString; AReference: Boolean);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2096,7 +2096,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.WriteChildNodeReference(ANodePath: AnsiString; AReference: Boolean);
+procedure TTSInfoTree.WriteChildNodeReference(ANodePath: AnsiString; AReference: Boolean);
 var
   nodeWrite: TTSInfoNode;
 begin
@@ -2131,7 +2131,7 @@ begin
 end;
 
 
-function TTSInfoFile.ReadAttributeReference(AAttrName: AnsiString): Boolean;
+function TTSInfoTree.ReadAttributeReference(AAttrName: AnsiString): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2145,7 +2145,7 @@ begin
 end;
 
 
-function TTSInfoFile.ReadChildNodeReference(ANodePath: AnsiString = ''): Boolean;
+function TTSInfoTree.ReadChildNodeReference(ANodePath: AnsiString = ''): Boolean;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -2172,7 +2172,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RemoveAttribute(AAttrName: AnsiString);
+procedure TTSInfoTree.RemoveAttribute(AAttrName: AnsiString);
 var
   nodeParent: TTSInfoNode;
   strPath, strName: AnsiString;
@@ -2199,7 +2199,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RemoveChildNode(ANodePath: AnsiString);
+procedure TTSInfoTree.RemoveChildNode(ANodePath: AnsiString);
 var
   nodeRemove: TTSInfoNode;
   strName: AnsiString;
@@ -2225,7 +2225,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RemoveLink(ANodePath, AVirtualNodeName: AnsiString);
+procedure TTSInfoTree.RemoveLink(ANodePath, AVirtualNodeName: AnsiString);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2250,7 +2250,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RemoveAllAttributes(ANodePath: AnsiString = '');
+procedure TTSInfoTree.RemoveAllAttributes(ANodePath: AnsiString = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2275,7 +2275,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RemoveAllChildNodes(ANodePath: AnsiString = '');
+procedure TTSInfoTree.RemoveAllChildNodes(ANodePath: AnsiString = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2300,7 +2300,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.RemoveAllLinks(ANodePath: AnsiString = '');
+procedure TTSInfoTree.RemoveAllLinks(ANodePath: AnsiString = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2325,7 +2325,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ClearChildNode(ANodePath: AnsiString = '');
+procedure TTSInfoTree.ClearChildNode(ANodePath: AnsiString = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2353,7 +2353,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ClearTree();
+procedure TTSInfoTree.ClearTree();
 begin
   if FReadOnlyMode then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
@@ -2369,21 +2369,21 @@ begin
 end;
 
 
-function TTSInfoFile.AttributeExists(AAttrName: AnsiString): Boolean;
+function TTSInfoTree.AttributeExists(AAttrName: AnsiString): Boolean;
 begin
   ExcludeTrailingIdentsDelimiter(AAttrName);
   Result := FindAttribute(AAttrName, False) <> nil;
 end;
 
 
-function TTSInfoFile.ChildNodeExists(ANodePath: AnsiString): Boolean;
+function TTSInfoTree.ChildNodeExists(ANodePath: AnsiString): Boolean;
 begin
   IncludeTrailingIdentsDelimiter(ANodePath);
   Result := FindNode(ANodePath, False) <> nil;
 end;
 
 
-function TTSInfoFile.LinkExists(ANodePath, AVirtualNodeName: AnsiString): Boolean;
+function TTSInfoTree.LinkExists(ANodePath, AVirtualNodeName: AnsiString): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2399,7 +2399,7 @@ begin
 end;
 
 
-function TTSInfoFile.GetAttributesCount(ANodePath: AnsiString = ''): UInt32;
+function TTSInfoTree.GetAttributesCount(ANodePath: AnsiString = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -2418,7 +2418,7 @@ begin
 end;
 
 
-function TTSInfoFile.GetChildNodesCount(ANodePath: AnsiString = ''): UInt32;
+function TTSInfoTree.GetChildNodesCount(ANodePath: AnsiString = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -2437,7 +2437,7 @@ begin
 end;
 
 
-function TTSInfoFile.GetLinksCount(ANodePath: AnsiString = ''): UInt32;
+function TTSInfoTree.GetLinksCount(ANodePath: AnsiString = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -2456,7 +2456,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ReadAttributesNames(ANodePath: AnsiString; ANames: TStrings);
+procedure TTSInfoTree.ReadAttributesNames(ANodePath: AnsiString; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -2477,7 +2477,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ReadAttributesValues(ANodePath: AnsiString; AValues: TStrings);
+procedure TTSInfoTree.ReadAttributesValues(ANodePath: AnsiString; AValues: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -2498,7 +2498,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ReadChildNodesNames(ANodePath: AnsiString; ANames: TStrings);
+procedure TTSInfoTree.ReadChildNodesNames(ANodePath: AnsiString; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -2519,7 +2519,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ReadVirtualNodesNames(ANodePath: AnsiString; ANames: TStrings);
+procedure TTSInfoTree.ReadVirtualNodesNames(ANodePath: AnsiString; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -2540,7 +2540,7 @@ begin
 end;
 
 
-procedure TTSInfoFile.ExportTreeToFile(AFileName: TFileName; AFormat: TExportFormat = efTextFile);
+procedure TTSInfoTree.ExportTreeToFile(AFileName: TFileName; AFormat: TExportFormat = efTextFile);
 var
   fsOutput: TStream;
   slOutput: TStrings;
@@ -2567,13 +2567,13 @@ begin
 end;
 
 
-procedure TTSInfoFile.ExportTreeToList(AList: TStrings);
+procedure TTSInfoTree.ExportTreeToList(AList: TStrings);
 begin
   SaveTreeToList(AList);
 end;
 
 
-procedure TTSInfoFile.ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryFile);
+procedure TTSInfoTree.ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryFile);
 var
   slOutput: TStrings;
 begin
