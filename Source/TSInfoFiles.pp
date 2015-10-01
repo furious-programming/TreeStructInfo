@@ -74,25 +74,6 @@ type
 
 
 type
-  TTSInfoAttributesList = class(TBaseTSInfoElementsList)
-  private
-    function InternalAddItem(AReference: Boolean; AName, AValue: AnsiString; AComment: TComment): TTSInfoAttribute;
-  public
-    constructor Create();
-    destructor Destroy(); override;
-  public
-    function GetItemByName(AName: AnsiString): TTSInfoAttribute;
-    function GetItemByIndex(AIndex: UInt32): TTSInfoAttribute;
-  public
-    function AddItem(AReference: Boolean; AName: AnsiString): TTSInfoAttribute; overload;
-    function AddItem(AReference: Boolean; AName, AValue: AnsiString; AComment: TComment): TTSInfoAttribute; overload;
-  public
-    procedure RemoveItem(AName: AnsiString);
-    procedure ClearList();
-  end;
-
-
-type
   TTSInfoNodesList = class;
   TTSInfoLink      = class;
   TTSInfoLinksList = class;
@@ -598,91 +579,6 @@ end;
 procedure TTSInfoAttribute.SetComment(AType: TCommentType; AValue: AnsiString);
 begin
   FComment[AType] := AValue;
-end;
-
-
-{ ----- TTSInfoAttributeList class -------------------------------------------------------------------------------- }
-
-
-constructor TTSInfoAttributesList.Create();
-begin
-  inherited Create();
-end;
-
-
-destructor TTSInfoAttributesList.Destroy();
-begin
-  inherited Destroy();
-end;
-
-
-function TTSInfoAttributesList.InternalAddItem(AReference: Boolean; AName, AValue: AnsiString; AComment: TComment): TTSInfoAttribute;
-begin
-  Result := TTSInfoAttribute.Create(AReference, AName, AValue, AComment);
-  AddElement(Result);
-end;
-
-
-function TTSInfoAttributesList.GetItemByName(AName: AnsiString): TTSInfoAttribute;
-var
-  attrItem: TTSInfoAttribute;
-  I: Integer = 0;
-begin
-  Result := nil;
-
-  while I < FCount do
-  begin
-    attrItem := TTSInfoAttribute(FElementsList^[I]);
-
-    if SameIdentifiers(attrItem.FName, AName) then
-      Exit(attrItem);
-
-    Inc(I);
-  end;
-end;
-
-
-function TTSInfoAttributesList.GetItemByIndex(AIndex: UInt32): TTSInfoAttribute;
-begin
-  Result := TTSInfoAttribute(FElementsList^[AIndex]);
-end;
-
-
-function TTSInfoAttributesList.AddItem(AReference: Boolean; AName: AnsiString): TTSInfoAttribute;
-begin
-  Result := InternalAddItem(AReference, AName, '', Comment('', ''));
-end;
-
-
-function TTSInfoAttributesList.AddItem(AReference: Boolean; AName, AValue: AnsiString; AComment: TComment): TTSInfoAttribute;
-begin
-  Result := InternalAddItem(AReference, AName, AValue, AComment);
-end;
-
-
-procedure TTSInfoAttributesList.RemoveItem(AName: AnsiString);
-var
-  attrItem: TTSInfoAttribute;
-  I: Integer = 0;
-begin
-  while I < FCount do
-  begin
-    attrItem := TTSInfoAttribute(FElementsList^[I]);
-
-    if SameIdentifiers(attrItem.FName, AName) then
-    begin
-      RemoveElement(I);
-      Exit;
-    end;
-
-    Inc(I);
-  end;
-end;
-
-
-procedure TTSInfoAttributesList.ClearList();
-begin
-  ClearElementsList();
 end;
 
 
