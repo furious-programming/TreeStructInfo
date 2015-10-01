@@ -133,25 +133,6 @@ type
 
 
 type
-  TTSInfoNodesList = class(TBaseTSInfoElementsList)
-  private
-    function InternalAddItem(AParent: TTSInfoNode; AReference: Boolean; AName: AnsiString; AComment: TComment): TTSInfoNode;
-  public
-    constructor Create();
-    destructor Destroy(); override;
-  public
-    function GetItemByName(AName: AnsiString): TTSInfoNode;
-    function GetItemByIndex(AIndex: UInt32): TTSInfoNode;
-  public
-    function AddItem(AParent: TTSInfoNode; AReference: Boolean; AName: AnsiString): TTSInfoNode; overload;
-    function AddItem(AParent: TTSInfoNode; AReference: Boolean; AName: AnsiString; AComment: TComment): TTSInfoNode; overload;
-  public
-    procedure RemoveItem(AName: AnsiString);
-    procedure ClearList();
-  end;
-
-
-type
   TSimpleTSInfoFile = class;
 
 type
@@ -750,91 +731,6 @@ end;
 procedure TTSInfoNode.ClearLinks();
 begin
   FLinksList.ClearList();
-end;
-
-
-{ ----- TTSInfoNodesList class ------------------------------------------------------------------------------------ }
-
-
-constructor TTSInfoNodesList.Create();
-begin
-  inherited Create();
-end;
-
-
-destructor TTSInfoNodesList.Destroy();
-begin
-  inherited Destroy();
-end;
-
-
-function TTSInfoNodesList.InternalAddItem(AParent: TTSInfoNode; AReference: Boolean; AName: AnsiString; AComment: TComment): TTSInfoNode;
-begin
-  Result := TTSInfoNode.Create(AParent, AReference, AName, AComment);
-  AddElement(Result);
-end;
-
-
-function TTSInfoNodesList.GetItemByName(AName: AnsiString): TTSInfoNode;
-var
-  nodeItem: TTSInfoNode;
-  I: Integer = 0;
-begin
-  Result := nil;
-
-  while I < FCount do
-  begin
-    nodeItem := TTSInfoNode(FElementsList^[I]);
-
-    if SameIdentifiers(nodeItem.FName, AName) then
-      Exit(nodeItem);
-
-    Inc(I);
-  end;
-end;
-
-
-function TTSInfoNodesList.GetItemByIndex(AIndex: UInt32): TTSInfoNode;
-begin
-  Result := TTSInfoNode(FElementsList^[AIndex]);
-end;
-
-
-function TTSInfoNodesList.AddItem(AParent: TTSInfoNode; AReference: Boolean; AName: AnsiString): TTSInfoNode;
-begin
-  Result := InternalAddItem(AParent, AReference, AName, Comment('', ''));
-end;
-
-
-function TTSInfoNodesList.AddItem(AParent: TTSInfoNode; AReference: Boolean; AName: AnsiString; AComment: TComment): TTSInfoNode;
-begin
-  Result := InternalAddItem(AParent, AReference, AName, AComment);
-end;
-
-
-procedure TTSInfoNodesList.RemoveItem(AName: AnsiString);
-var
-  nodeItem: TTSInfoNode;
-  I: Integer = 0;
-begin
-  while I < FCount do
-  begin
-    nodeItem := TTSInfoNode(FElementsList^[I]);
-
-    if SameIdentifiers(nodeItem.FName, AName) then
-    begin
-      RemoveElement(I);
-      Exit;
-    end;
-
-    Inc(I);
-  end;
-end;
-
-
-procedure TTSInfoNodesList.ClearList();
-begin
-  ClearElementsList();
 end;
 
 
