@@ -365,25 +365,7 @@ type
 
 
 type
-  TCustomTSInfoInputReader = class(TObject)
-  private
-    FTSInfoFile: TSimpleTSInfoFile;
-  public
-    procedure ProcessInput(); virtual; abstract;
-  end;
-
-
-type
-  TCustomTSInfoOutputWriter = class(TObject)
-  private
-    FTSInfoFile: TSimpleTSInfoFile;
-  public
-    procedure ProcessOutput(); virtual; abstract;
-  end;
-
-
-type
-  TTSInfoTextInputReader = class(TCustomTSInfoInputReader)
+  TTSInfoTextInputReader = class(TObject)
   private
     FInput: TStrings;
     FLineIndex: Integer;
