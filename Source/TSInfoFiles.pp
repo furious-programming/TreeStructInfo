@@ -161,26 +161,6 @@ type
 
 
 type
-  TTSInfoLinksList = class(TBaseTSInfoElementsList)
-  private
-    function InternalAddItem(AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AComment: AnsiString): TTSInfoLink;
-  public
-    constructor Create();
-    destructor Destroy(); override;
-  public
-    function GetItemByIndex(AIndex: UInt32): TTSInfoLink;
-    function GetItemByVirtualNodeName(AVirtualNodeName: AnsiString): TTSInfoLink;
-    function GetVirtualNodeByName(AName: AnsiString): TTSInfoNode;
-  public
-    function AddItem(AFileName: TFileName; AVirtualNodeName: AnsiString): TTSInfoLink; overload;
-    function AddItem(AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AComment: AnsiString): TTSInfoLink; overload;
-  public
-    procedure RemoveItemByVirtualNodeName(AVirtualNodeName: AnsiString);
-    procedure ClearList();
-  end;
-
-
-type
   TTSInfoAttributeToken = object
   private
     FAttribute: TTSInfoAttribute;
@@ -774,103 +754,6 @@ end;
 function TTSInfoLink.GetLinkedFileFlags(): TFileFlags;
 begin
   Result := FLinkedFile.FFileFlags;
-end;
-
-
-{ ----- TTSInfoLinksList class ------------------------------------------------------------------------------------ }
-
-
-constructor TTSInfoLinksList.Create();
-begin
-  inherited Create();
-end;
-
-
-destructor TTSInfoLinksList.Destroy();
-begin
-  inherited Destroy();
-end;
-
-
-function TTSInfoLinksList.InternalAddItem(AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AComment: AnsiString): TTSInfoLink;
-begin
-  Result := TTSInfoLink.Create(AFileName, AVirtualNodeName, AFlags, AComment);
-  AddElement(Result);
-end;
-
-
-function TTSInfoLinksList.GetItemByIndex(AIndex: UInt32): TTSInfoLink;
-begin
-  Result := TTSInfoLink(FElementsList^[AIndex]);
-end;
-
-
-function TTSInfoLinksList.GetItemByVirtualNodeName(AVirtualNodeName: AnsiString): TTSInfoLink;
-var
-  linkItem: TTSInfoLink;
-  I: Integer = 0;
-begin
-  Result := nil;
-
-  while I < FCount do
-  begin
-    linkItem := TTSInfoLink(FElementsList^[I]);
-
-    if SameIdentifiers(linkItem.FVirtualNodeName, AVirtualNodeName) then
-      Exit(linkItem);
-
-    Inc(I);
-  end;
-end;
-
-
-function TTSInfoLinksList.GetVirtualNodeByName(AName: AnsiString): TTSInfoNode;
-var
-  linkItem: TTSInfoLink;
-begin
-  Result := nil;
-  linkItem := GetItemByVirtualNodeName(AName);
-
-  if linkItem <> nil then
-    Result := linkItem.VirtualNode;
-end;
-
-
-function TTSInfoLinksList.AddItem(AFileName: TFileName; AVirtualNodeName: AnsiString): TTSInfoLink;
-begin
-  Result := InternalAddItem(AFileName, AVirtualNodeName, [], '');
-end;
-
-
-function TTSInfoLinksList.AddItem(AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AComment: AnsiString): TTSInfoLink;
-begin
-  Result := InternalAddItem(AFileName, AVirtualNodeName, AFlags, AComment);
-end;
-
-
-procedure TTSInfoLinksList.RemoveItemByVirtualNodeName(AVirtualNodeName: AnsiString);
-var
-  linkItem: TTSInfoLink;
-  I: Integer = 0;
-begin
-  while I < FCount do
-  begin
-    linkItem := TTSInfoLink(FElementsList^[I]);
-
-    if SameIdentifiers(linkItem.FVirtualNodeName, AVirtualNodeName) then
-    begin
-      RemoveElement(I);
-      Exit;
-    end;
-
-    Inc(I);
-  end;
-end;
-
-
-procedure TTSInfoLinksList.ClearList();
-begin
-  ClearElementsList();
 end;
 
 
