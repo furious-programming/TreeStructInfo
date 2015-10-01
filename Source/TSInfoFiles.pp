@@ -139,7 +139,7 @@ type
 
 
 type
-  TSimpleTSInfoFile = class;
+  TSimpleTSInfoTree = class;
 
 type
   TTSInfoLink = class(TObject)
@@ -242,7 +242,7 @@ type
 
 
 type
-  TSimpleTSInfoFile = class(TObject)
+  TSimpleTSInfoTree = class(TObject)
   private
     FRootNode: TTSInfoNode;
     FCurrentNode: TTSInfoNode;
@@ -329,7 +329,7 @@ type
 
 
 type
-  TTSInfoFile = class(TSimpleTSInfoFile)
+  TTSInfoFile = class(TSimpleTSInfoTree)
   public
     procedure RenameTree(ANewTreeName: AnsiString);
     procedure RenameAttribute(AAttrName, ANewAttrName: AnsiString);
@@ -714,10 +714,10 @@ begin
 end;
 
 
-{ ----- TSimpleTSInfoFile class ----------------------------------------------------------------------------------- }
+{ ----- TSimpleTSInfoTree class ----------------------------------------------------------------------------------- }
 
 
-constructor TSimpleTSInfoFile.Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]);
+constructor TSimpleTSInfoTree.Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]);
 var
   fsInput: TStream;
   slInput: TStrings;
@@ -748,7 +748,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoFile.Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []);
 begin
   inherited Create();
 
@@ -757,7 +757,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoFile.Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []);
 var
   slInput: TStrings;
 begin
@@ -779,7 +779,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoFile.Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PAnsiChar; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PAnsiChar; AFlags: TFileFlags = []);
 var
   rsInput: TStream;
   slInput: TStrings;
@@ -807,7 +807,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoFile.Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PAnsiChar; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PAnsiChar; AFlags: TFileFlags = []);
 var
   rsInput: TStream;
   slInput: TStrings;
@@ -835,7 +835,7 @@ begin
 end;
 
 
-destructor TSimpleTSInfoFile.Destroy();
+destructor TSimpleTSInfoTree.Destroy();
 begin
   if ffWrite in FFileFlags then
     UpdateFile();
@@ -845,7 +845,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.InitFields(AFileName: TFileName; AFlags: TFileFlags);
+procedure TSimpleTSInfoTree.InitFields(AFileName: TFileName; AFlags: TFileFlags);
 begin
   FFileName := AFileName;
   FTreeName := '';
@@ -860,7 +860,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.DamageClear();
+procedure TSimpleTSInfoTree.DamageClear();
 begin
   FRootNode.ClearAttributes();
   FRootNode.ClearChildNodes();
@@ -871,7 +871,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.LoadTreeFromList(AList: TStrings);
+procedure TSimpleTSInfoTree.LoadTreeFromList(AList: TStrings);
 begin
   with TTSInfoTextInputReader.Create(Self, AList) do
   try
@@ -882,7 +882,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.LoadTreeFromStream(AStream: TStream);
+procedure TSimpleTSInfoTree.LoadTreeFromStream(AStream: TStream);
 begin
   with TTSInfoBinaryInputReader.Create(Self, AStream) do
   try
@@ -893,7 +893,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.SaveTreeToList(AList: TStrings);
+procedure TSimpleTSInfoTree.SaveTreeToList(AList: TStrings);
 begin
   with TTSInfoTextOutputWriter.Create(Self, AList) do
   try
@@ -904,7 +904,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.SaveTreeToStream(AStream: TStream);
+procedure TSimpleTSInfoTree.SaveTreeToStream(AStream: TStream);
 begin
   with TTSInfoBinaryOutputWriter.Create(Self, AStream) do
   try
@@ -915,7 +915,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.FindElement(AElementName: AnsiString; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
+function TSimpleTSInfoTree.FindElement(AElementName: AnsiString; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
 var
   nodeRead, nodeTemp: TTSInfoNode;
   intPathLen: UInt32;
@@ -984,19 +984,19 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.FindAttribute(AAttrName: AnsiString; AForcePath: Boolean): TTSInfoAttribute;
+function TSimpleTSInfoTree.FindAttribute(AAttrName: AnsiString; AForcePath: Boolean): TTSInfoAttribute;
 begin
   Result := FindElement(AAttrName, AForcePath, True) as TTSInfoAttribute;
 end;
 
 
-function TSimpleTSInfoFile.FindNode(ANodePath: AnsiString; AForcePath: Boolean): TTSInfoNode;
+function TSimpleTSInfoTree.FindNode(ANodePath: AnsiString; AForcePath: Boolean): TTSInfoNode;
 begin
   Result := FindElement(ANodePath, AForcePath, False) as TTSInfoNode;
 end;
 
 
-function TSimpleTSInfoFile.OpenChildNode(ANodePath: AnsiString; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
+function TSimpleTSInfoTree.OpenChildNode(ANodePath: AnsiString; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
 var
   nodeOpen: TTSInfoNode;
 begin
@@ -1016,7 +1016,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.CloseChildNode();
+procedure TSimpleTSInfoTree.CloseChildNode();
 begin
   FCurrentNode := FRootNode;
   FCurrentlyOpenNodePath := '';
@@ -1024,7 +1024,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteBoolean(AAttrName: AnsiString; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+procedure TSimpleTSInfoTree.WriteBoolean(AAttrName: AnsiString; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1044,7 +1044,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteInteger(AAttrName: AnsiString; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+procedure TSimpleTSInfoTree.WriteInteger(AAttrName: AnsiString; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1064,7 +1064,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteFloat(AAttrName: AnsiString; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(AAttrName: AnsiString; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1084,7 +1084,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteFloat(AAttrName: AnsiString; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(AAttrName: AnsiString; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1104,7 +1104,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteCurrency(AAttrName: AnsiString; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(AAttrName: AnsiString; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1124,7 +1124,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteCurrency(AAttrName: AnsiString; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(AAttrName: AnsiString; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1144,7 +1144,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteString(AAttrName: AnsiString; AString: AnsiString; AFormat: TFormatString = fsOriginal);
+procedure TSimpleTSInfoTree.WriteString(AAttrName: AnsiString; AString: AnsiString; AFormat: TFormatString = fsOriginal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1164,7 +1164,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteDateTime(AAttrName: AnsiString; ADateTime: TDateTime; AMask: AnsiString);
+procedure TSimpleTSInfoTree.WriteDateTime(AAttrName: AnsiString; ADateTime: TDateTime; AMask: AnsiString);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1184,7 +1184,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteDateTime(AAttrName: AnsiString; ADateTime: TDateTime; AMask: AnsiString; ASettings: TFormatSettings);
+procedure TSimpleTSInfoTree.WriteDateTime(AAttrName: AnsiString; ADateTime: TDateTime; AMask: AnsiString; ASettings: TFormatSettings);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1204,7 +1204,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WritePoint(AAttrName: AnsiString; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+procedure TSimpleTSInfoTree.WritePoint(AAttrName: AnsiString; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1224,7 +1224,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteList(AAttrName: AnsiString; AList: TStrings);
+procedure TSimpleTSInfoTree.WriteList(AAttrName: AnsiString; AList: TStrings);
 var
   attrWrite: TTSInfoAttribute;
   strValue: AnsiString;
@@ -1246,7 +1246,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteBuffer(AAttrName: AnsiString; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteBuffer(AAttrName: AnsiString; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   strValue: AnsiString = '';
@@ -1271,7 +1271,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.WriteStream(AAttrName: AnsiString; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteStream(AAttrName: AnsiString; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
@@ -1300,7 +1300,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadBoolean(AAttrName: AnsiString; ADefault: Boolean): Boolean;
+function TSimpleTSInfoTree.ReadBoolean(AAttrName: AnsiString; ADefault: Boolean): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1314,7 +1314,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadInteger(AAttrName: AnsiString; ADefault: Integer): Integer;
+function TSimpleTSInfoTree.ReadInteger(AAttrName: AnsiString; ADefault: Integer): Integer;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1328,7 +1328,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadFloat(AAttrName: AnsiString; ADefault: Double): Double;
+function TSimpleTSInfoTree.ReadFloat(AAttrName: AnsiString; ADefault: Double): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1342,7 +1342,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadFloat(AAttrName: AnsiString; ADefault: Double; ASettings: TFormatSettings): Double;
+function TSimpleTSInfoTree.ReadFloat(AAttrName: AnsiString; ADefault: Double; ASettings: TFormatSettings): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1356,7 +1356,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadCurrency(AAttrName: AnsiString; ADefault: Currency): Currency;
+function TSimpleTSInfoTree.ReadCurrency(AAttrName: AnsiString; ADefault: Currency): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1370,7 +1370,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadCurrency(AAttrName: AnsiString; ADefault: Currency; ASettings: TFormatSettings): Currency;
+function TSimpleTSInfoTree.ReadCurrency(AAttrName: AnsiString; ADefault: Currency; ASettings: TFormatSettings): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1384,7 +1384,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadString(AAttrName: AnsiString; ADefault: AnsiString; AFormat: TFormatString = fsOriginal): AnsiString;
+function TSimpleTSInfoTree.ReadString(AAttrName: AnsiString; ADefault: AnsiString; AFormat: TFormatString = fsOriginal): AnsiString;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1398,7 +1398,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadDateTime(AAttrName, AMask: AnsiString; ADefault: TDateTime): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(AAttrName, AMask: AnsiString; ADefault: TDateTime): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1412,7 +1412,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadDateTime(AAttrName, AMask: AnsiString; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(AAttrName, AMask: AnsiString; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1426,7 +1426,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.ReadPoint(AAttrName: AnsiString; ADefault: TPoint): TPoint;
+function TSimpleTSInfoTree.ReadPoint(AAttrName: AnsiString; ADefault: TPoint): TPoint;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1440,7 +1440,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.ReadList(AAttrName: AnsiString; AList: TStrings);
+procedure TSimpleTSInfoTree.ReadList(AAttrName: AnsiString; AList: TStrings);
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1452,7 +1452,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.ReadBuffer(AAttrName: AnsiString; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadBuffer(AAttrName: AnsiString; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1467,7 +1467,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.ReadStream(AAttrName: AnsiString; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadStream(AAttrName: AnsiString; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
@@ -1486,7 +1486,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.CreateAttribute(ANodePath: AnsiString; AReference: Boolean; AAttrName: AnsiString): Boolean;
+function TSimpleTSInfoTree.CreateAttribute(ANodePath: AnsiString; AReference: Boolean; AAttrName: AnsiString): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -1510,7 +1510,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.CreateChildNode(ANodePath: AnsiString; AReference: Boolean; ANodeName: AnsiString; AOpen: Boolean = False): Boolean;
+function TSimpleTSInfoTree.CreateChildNode(ANodePath: AnsiString; AReference: Boolean; ANodeName: AnsiString; AOpen: Boolean = False): Boolean;
 var
   nodeParent, nodeCreate: TTSInfoNode;
 begin
@@ -1538,7 +1538,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.CreateLink(ANodePath: AnsiString; AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AOpen: Boolean = False): Boolean;
+function TSimpleTSInfoTree.CreateLink(ANodePath: AnsiString; AFileName: TFileName; AVirtualNodeName: AnsiString; AFlags: TFileFlags; AOpen: Boolean = False): Boolean;
 var
   nodeParent: TTSInfoNode;
   linkCreate: TTSInfoLink;
@@ -1593,7 +1593,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: AnsiString = ''): Boolean;
+function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: AnsiString = ''): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -1616,7 +1616,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
+function TSimpleTSInfoTree.FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
 begin
   Result := AAttrToken.FIndex < AAttrToken.FParentNode.AttributesCount - 1;
 
@@ -1628,7 +1628,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
+function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: AnsiString = ''): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -1651,7 +1651,7 @@ begin
 end;
 
 
-function TSimpleTSInfoFile.FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
+function TSimpleTSInfoTree.FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
 begin
   Result := ANodeToken.FIndex < ANodeToken.FParentNode.ChildNodesCount - 1;
 
@@ -1663,7 +1663,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.RenameAttributeTokens(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+procedure TSimpleTSInfoTree.RenameAttributeTokens(ANodePath, AAttrName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
@@ -1698,7 +1698,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.RenameChildNodeTokens(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+procedure TSimpleTSInfoTree.RenameChildNodeTokens(ANodePath, ANodeName: AnsiString; AStartIndex: Integer; ADirection: TRenamingDirection); {}
 var
   nodeParent, nodeRename: TTSInfoNode;
   intToken, intStep: Integer;
@@ -1732,7 +1732,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoFile.UpdateFile();
+procedure TSimpleTSInfoTree.UpdateFile();
 var
   fsOutput: TStream;
   slOutput: TStrings;
