@@ -49,7 +49,7 @@ interface
 
 uses
   TSInfoConsts, TSInfoTypes, TSInfoUtils,
-  SysUtils, Classes, Types, Math, FileUtil;
+  LResources, LazUTF8, Classes, SysUtils, FileUtil, Types;
 
 
 type
@@ -74,8 +74,11 @@ type
 
 
 type
+  TTSInfoLink = class;
+
+type
+  TTSInfoAttributesList = class;
   TTSInfoNodesList = class;
-  TTSInfoLink      = class;
   TTSInfoLinksList = class;
 
 type
