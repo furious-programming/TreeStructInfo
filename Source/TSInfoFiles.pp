@@ -166,6 +166,31 @@ type
 
 
 type
+  TTSInfoAttributesList = class(TTSInfoElementsList)
+  end;
+
+
+type
+  TTSInfoNodesList = class(TTSInfoElementsList)
+  end;
+
+
+type
+  TTSInfoLinksList = class(TTSInfoElementsList)
+  end;
+
+
+type
+  TTSInfoRefElementsList = class(TTSInfoElementsList)
+  end;
+
+
+type
+  TTSInfoLoadedTreesList = class(TTSInfoElementsList)
+  end;
+
+
+type
   TTSInfoAttributeToken = object
   private
     FAttribute: TTSInfoAttribute;
