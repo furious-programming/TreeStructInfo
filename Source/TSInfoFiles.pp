@@ -42,13 +42,14 @@
 
 unit TSInfoFiles;
 
-{$MODE OBJFPC} {$LONGSTRINGS ON} {$PACKENUM 1} {$HINTS ON}
+{$MODE OBJFPC}{$LONGSTRINGS ON}{$HINTS ON}{$PACKENUM 1}
 
 
 interface
 
 uses
-  TSInfoUtils, TSInfoTypes, TSInfoConsts, SysUtils, Classes, Types, Math, FileUtil;
+  TSInfoConsts, TSInfoTypes, TSInfoUtils,
+  SysUtils, Classes, Types, Math, FileUtil;
 
 
 type
