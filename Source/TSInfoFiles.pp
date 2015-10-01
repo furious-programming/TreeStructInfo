@@ -52,6 +52,9 @@ uses
   LResources, LazUTF8, Classes, SysUtils, FileUtil, Types;
 
 
+{ ----- basic elements classes ------------------------------------------------------------------------------------ }
+
+
 type
   TTSInfoAttribute = class(TObject)
   private
@@ -163,6 +166,9 @@ type
   end;
 
 
+{ ----- elements container classes -------------------------------------------------------------------------------- }
+
+
 type
   TTSInfoElementsList = class(TObject)
   end;
@@ -183,6 +189,9 @@ type
   end;
 
 
+{ ----- additional container classes ------------------------------------------------------------------------------ }
+
+
 type
   TTSInfoRefElementsList = class(TTSInfoElementsList)
   end;
@@ -191,6 +200,9 @@ type
 type
   TTSInfoLoadedTreesList = class(TTSInfoElementsList)
   end;
+
+
+{ ----- token objects --------------------------------------------------------------------------------------------- }
 
 
 type
@@ -224,6 +236,9 @@ type
     property Reference: Boolean read FChildNode.FReference write FChildNode.FReference;
     property Comment[AType: TCommentType]: AnsiString read GetComment write SetComment;
   end;
+
+
+{ ----- tree classes ---------------------------------------------------------------------------------------------- }
 
 
 type
@@ -367,6 +382,9 @@ type
   end;
 
 
+{ ----- text input reader and output writer classes --------------------------------------------------------------- }
+
+
 type
   TTSInfoTextInputReader = class(TObject)
   end;
@@ -375,6 +393,9 @@ type
 type
   TTSInfoTextOutputWriter = class(TObject)
   end;
+
+
+{ ----- binary input reader and output writer classes ------------------------------------------------------------- }
 
 
 type
@@ -643,6 +664,24 @@ function TTSInfoLink.GetLinkedFileFlags(): TFileFlags;
 begin
   Result := FLinkedFile.FFileFlags;
 end;
+
+
+{ ----- TTSInfoElementsList class --------------------------------------------------------------------------------- }
+
+
+{ ----- TTSInfoAttributeList class -------------------------------------------------------------------------------- }
+
+
+{ ----- TTSInfoNodesList class ------------------------------------------------------------------------------------ }
+
+
+{ ----- TTSInfoLinksList class ------------------------------------------------------------------------------------ }
+
+
+{ ----- TTSInfoRefElementsList class ------------------------------------------------------------------------------ }
+
+
+{ ----- TTSInfoLoadedTreesList class ------------------------------------------------------------------------------ }
 
 
 { ----- TTSInfoAttributeToken object ------------------------------------------------------------------------------ }
@@ -1722,7 +1761,7 @@ begin
 end;
 
 
-{ ----- TTSInfoFiles class ---------------------------------------------------------------------------------------- }
+{ ----- TTSInfoFile class ----------------------------------------------------------------------------------------- }
 
 
 procedure TTSInfoFile.RenameTree(ANewTreeName: AnsiString);
@@ -2551,6 +2590,18 @@ begin
     end;
   end;
 end;
+
+
+{ ----- TTSInfoTextInputReader class ------------------------------------------------------------------------------ }
+
+
+{ ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
+
+
+{ ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
+
+
+{ ----- TTSInfoBinaryOutputWriter class --------------------------------------------------------------------------- }
 
 
 { ----- end implementation ---------------------------------------------------------------------------------------- }
