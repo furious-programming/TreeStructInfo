@@ -221,6 +221,9 @@ type
   public
     constructor Create();
     destructor Destroy(); override;
+  public
+    function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
+    function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
   end;
 
 
@@ -946,6 +949,29 @@ function TTSInfoAttributesList.InternalAddAttribute(AReference: Boolean; const A
 begin
   Result := TTSInfoAttribute.Create(AReference, AName, AValue, AComment);
   inherited AddElement(Result);
+end;
+
+
+function TTSInfoAttributesList.GetAttribute(const AName: UTF8String): TTSInfoAttribute;
+var
+  attrGet: TTSInfoAttribute;
+  intAttributeIdx: Integer;
+begin
+  for intAttributeIdx := 0 to FCount - 1 do
+  begin
+    attrGet := inherited Element[intAttributeIdx] as TTSInfoAttribute;
+
+    if SameIdentifiers(attrGet.Name, AName) then
+      Exit(attrGet);
+  end;
+
+  Result := nil;
+end;
+
+
+function TTSInfoAttributesList.GetAttribute(AIndex: Integer): TTSInfoAttribute;
+begin
+  Result := inherited Element[AIndex] as TTSInfoAttribute;
 end;
 
 
