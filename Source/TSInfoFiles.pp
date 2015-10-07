@@ -254,6 +254,8 @@ type
 
 type
   TTSInfoLinksList = class(TTSInfoElementsList)
+  private
+    function InternalAddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
   public
     constructor Create();
     destructor Destroy(); override;
@@ -1127,6 +1129,13 @@ end;
 destructor TTSInfoLinksList.Destroy();
 begin
   inherited Destroy();
+end;
+
+
+function TTSInfoLinksList.InternalAddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
+begin
+  Result := TTSInfoLink.Create(AFileName, AVirtualNodeName, AModes, AComment);
+  inherited AddElement(Result);
 end;
 
 
