@@ -202,6 +202,8 @@ type
   public
     constructor Create(AOwnsElements: Boolean);
     destructor Destroy(); override;
+  public
+    procedure AddElement(AElement: TObject);
   end;
 
 
@@ -839,6 +841,29 @@ end;
 function TTSInfoElementsList.GetElementAtIndex(AIndex: Integer): TObject;
 begin
   Result := GetNodeAtIndex(AIndex)^.Element;
+end;
+
+
+procedure TTSInfoElementsList.AddElement(AElement: TObject);
+var
+  plnNew: PListNode;
+begin
+  plnNew := CreateNode(AElement);
+
+  if FCount = 0 then
+  begin
+    FFirstNode := plnNew;
+    FLastUsedNode := plnNew;
+    FLastUsedNodeIndex := 0;
+  end
+  else
+  begin
+    plnNew^.PreviousNode := FLastNode;
+    FLastNode^.NextNode := plnNew;
+  end;
+
+  FLastNode := plnNew;
+  Inc(FCount);
 end;
 
 
