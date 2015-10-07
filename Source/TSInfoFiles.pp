@@ -227,6 +227,9 @@ type
   public
     function AddAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute; overload;
     function AddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute; overload;
+  public
+    procedure RemoveAttribute(const AName: UTF8String);
+    procedure RemoveAll();
   end;
 
 
@@ -987,6 +990,30 @@ end;
 function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
 begin
   Result := InternalAddAttribute(AReference, AName, AValue, AComment);
+end;
+
+
+procedure TTSInfoAttributesList.RemoveAttribute(const AName: UTF8String);
+var
+  attrRemove: TTSInfoAttribute;
+  intAttributeIdx: Integer;
+begin
+  for intAttributeIdx := 0 to FCount - 1 do
+  begin
+    attrRemove := inherited Element[intAttributeIdx] as TTSInfoAttribute;
+
+    if SameIdentifiers(attrRemove.Name, AName) then
+    begin
+      inherited RemoveElement(intAttributeIdx);
+      Exit();
+    end;
+  end;
+end;
+
+
+procedure TTSInfoAttributesList.RemoveAll();
+begin
+  inherited RemoveAllElements();
 end;
 
 
