@@ -243,6 +243,9 @@ type
   public
     function GetChildNode(const AName: UTF8String): TTSInfoNode; overload;
     function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
+  public
+    function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String): TTSInfoNode; overload;
+    function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode; overload;
   end;
 
 
@@ -1067,6 +1070,18 @@ end;
 function TTSInfoNodesList.GetChildNode(AIndex: Integer): TTSInfoNode;
 begin
   Result := inherited Element[AIndex] as TTSInfoNode;
+end;
+
+
+function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String): TTSInfoNode;
+begin
+  Result := InternalAddChildNode(AParentNode, AReference, AName, Comment('', ''));
+end;
+
+
+function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
+begin
+  Result := InternalAddChildNode(AParentNode, AReference, AName, AComment);
 end;
 
 
