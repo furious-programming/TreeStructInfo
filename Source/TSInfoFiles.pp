@@ -263,6 +263,9 @@ type
     function GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink; overload;
     function GetLink(AIndex: Integer): TTSInfoLink; overload;
     function GetVirtualNode(const AName: UTF8String): TTSInfoNode;
+  public
+    function AddLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink; overload;
+    function AddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink; overload;
   end;
 
 
@@ -1176,6 +1179,18 @@ begin
     Result := nil
   else
     Result := linkGet.VirtualNode;
+end;
+
+
+function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink;
+begin
+  Result := InternalAddLink(AFileName, AVirtualNodeName, [], '');
+end;
+
+
+function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
+begin
+  Result := InternalAddLink(AFileName, AVirtualNodeName, AModes, AComment);
 end;
 
 
