@@ -56,8 +56,8 @@ type
   TComment     = array [TCommentType] of AnsiString;
 
 type
-  TFileFlag  = (ffLoadFile, ffTextFile, ffBinaryFile, ffRead, ffWrite, ffNoLinking);
-  TFileFlags = set of TFileFlag;
+  TTreeMode  = (tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite, tmAllowLinking, tmLoadFile);
+  TTreeModes = set of TTreeMode;
 
 type
   TExportFormat = (efTextFile, efBinaryFile);

@@ -148,25 +148,27 @@ type
 type
   TTSInfoLink = class(TObject)
   private
-    FLinkedFile: TSimpleTSInfoFile;
+    FLinkedTree: TSimpleTSInfoTree;
     FVirtualNode: TTSInfoNode;
     FVirtualNodeName: UTF8String;
     FComment: UTF8String;
   private
-    procedure SetLinkedFileFlags(AFlags: TFileFlags);
+    procedure SetVirtualNodeName(const AVirtualNodeName: UTF8String);
+    procedure SetLinkedTreeModes(AModes: TTreeModes);
+    procedure SetComment(const AComment: UTF8String);
   private
-    function GetLinkedFileName(): TFileName;
-    function GetLinkedFileFlags(): TFileFlags;
+    function GetLinkedFileName(): UTF8String;
+    function GetLinkedTreeModes(): TTreeModes;
   public
-    constructor Create(AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TFileFlags; AComment: UTF8String);
+    constructor Create(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String);
     destructor Destroy(); override;
   public
-    property LinkedFile: TSimpleTSInfoFile read FLinkedFile;
+    property LinkedTree: TSimpleTSInfoTree read FLinkedTree;
     property VirtualNode: TTSInfoNode read FVirtualNode;
-    property VirtualNodeName: UTF8String read FVirtualNodeName write FVirtualNodeName;
-    property Comment: UTF8String read FComment write FComment;
-    property FileName: TFileName read GetLinkedFileName;
-    property FileFlags: TFileFlags read GetLinkedFileFlags write SetLinkedFileFlags;
+    property VirtualNodeName: UTF8String read FVirtualNodeName write SetVirtualNodeName;
+    property Comment: UTF8String read FComment write SetComment;
+    property FileName: UTF8String read GetLinkedFileName;
+    property TreeModes: TTreeModes read GetLinkedTreeModes write SetLinkedTreeModes;
   end;
 
 
@@ -254,11 +256,11 @@ type
     FTreeName: UTF8String;
     FTreeComment: UTF8String;
     FCurrentlyOpenNodePath: UTF8String;
-    FFileFlags: TFileFlags;
+    FFileFlags: TTreeModes;
     FModified: Boolean;
     FReadOnlyMode: Boolean;
   protected
-    procedure InitFields(AFileName: TFileName; AFlags: TFileFlags);
+    procedure InitFields(AFileName: TFileName; AFlags: TTreeModes);
     procedure DamageClear();
   protected
     procedure LoadTreeFromList(AList: TStrings);
@@ -270,11 +272,11 @@ type
     function FindAttribute(AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
     function FindNode(ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
   public
-    constructor Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]); overload;
-    constructor Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
-    constructor Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []); overload;
-    constructor Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PUTF8Char; AFlags: TFileFlags = []); overload;
-    constructor Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PUTF8Char; AFlags: TFileFlags = []); overload;
+    constructor Create(AFileName: TFileName; AFlags: TTreeModes = [ffLoadFile, ffWrite]); overload;
+    constructor Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TTreeModes = []); overload;
+    constructor Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TTreeModes = []); overload;
+    constructor Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PUTF8Char; AFlags: TTreeModes = []); overload;
+    constructor Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PUTF8Char; AFlags: TTreeModes = []); overload;
     destructor Destroy(); override;
   public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
@@ -310,7 +312,7 @@ type
   public
     function CreateAttribute(ANodePath: UTF8String; AReference: Boolean; AAttrName: UTF8String): Boolean;
     function CreateChildNode(ANodePath: UTF8String; AReference: Boolean; ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
-    function CreateLink(ANodePath: UTF8String; AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TFileFlags; AOpen: Boolean = False): Boolean;
+    function CreateLink(ANodePath: UTF8String; AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TTreeModes; AOpen: Boolean = False): Boolean;
   public
     function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: UTF8String = ''): Boolean;
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
@@ -326,7 +328,7 @@ type
     property TreeName: UTF8String read FTreeName;
     property CurrentlyOpenNodeName: UTF8String read FCurrentNode.FName;
     property CurrentlyOpenNodePath: UTF8String read FCurrentlyOpenNodePath;
-    property FileFlags: TFileFlags read FFileFlags write FFileFlags;
+    property FileFlags: TTreeModes read FFileFlags write FFileFlags;
     property Modified: Boolean read FModified;
     property ReadOnlyMode: Boolean read FReadOnlyMode;
   end;
@@ -648,43 +650,55 @@ end;
 { ----- TTSInfoLink class ----------------------------------------------------------------------------------------- }
 
 
-constructor TTSInfoLink.Create(AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TFileFlags; AComment: UTF8String);
+constructor TTSInfoLink.Create(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String);
 begin
   inherited Create();
 
-  FLinkedFile := TSimpleTSInfoFile.Create(AFileName, []);
-  FLinkedFile.FFileFlags := AFlags;
-  FVirtualNode := FLinkedFile.FRootNode;
+  FLinkedTree := TSimpleTSInfoTree.Create(AFileName, AModes);
+  FVirtualNode := FLinkedTree.FRootNode;
   FVirtualNodeName := AVirtualNodeName;
+
   FComment := AComment;
 end;
 
 
 destructor TTSInfoLink.Destroy();
 begin
-  FLinkedFile.FileFlags := [];
-  FLinkedFile.Free();
+  FLinkedTree.TreeModes := [];
+  FLinkedTree.Free();
   FVirtualNode := nil;
 
   inherited Destroy();
 end;
 
 
-procedure TTSInfoLink.SetLinkedFileFlags(AFlags: TFileFlags);
+procedure TTSInfoLink.SetVirtualNodeName(const AVirtualNodeName: UTF8String);
 begin
-  FLinkedFile.FFileFlags := AFlags;
+  FVirtualNodeName := AVirtualNodeName;
 end;
 
 
-function TTSInfoLink.GetLinkedFileName(): TFileName;
+procedure TTSInfoLink.SetLinkedTreeModes(AModes: TTreeModes);
 begin
-  Result := FLinkedFile.FFileName;
+  FLinkedTree.FTreeModes := AModes;
 end;
 
 
-function TTSInfoLink.GetLinkedFileFlags(): TFileFlags;
+procedure TTSInfoLink.SetComment(const AComment: UTF8String);
 begin
-  Result := FLinkedFile.FFileFlags;
+  FComment := AComment;
+end;
+
+
+function TTSInfoLink.GetLinkedFileName(): UTF8String;
+begin
+  Result := FLinkedTree.FileName;
+end;
+
+
+function TTSInfoLink.GetLinkedTreeModes(): TTreeModes;
+begin
+  Result := FLinkedTree.TreeModes;
 end;
 
 
@@ -739,7 +753,7 @@ end;
 { ----- TSimpleTSInfoTree class ----------------------------------------------------------------------------------- }
 
 
-constructor TSimpleTSInfoTree.Create(AFileName: TFileName; AFlags: TFileFlags = [ffLoadFile, ffWrite]);
+constructor TSimpleTSInfoTree.Create(AFileName: TFileName; AFlags: TTreeModes = [ffLoadFile, ffWrite]);
 var
   fsInput: TStream;
   slInput: TStrings;
@@ -770,7 +784,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoTree.Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TTreeModes = []);
 begin
   inherited Create();
 
@@ -779,7 +793,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoTree.Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TTreeModes = []);
 var
   slInput: TStrings;
 begin
@@ -801,7 +815,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PUTF8Char; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PUTF8Char; AFlags: TTreeModes = []);
 var
   rsInput: TStream;
   slInput: TStrings;
@@ -829,7 +843,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PUTF8Char; AFlags: TFileFlags = []);
+constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PUTF8Char; AFlags: TTreeModes = []);
 var
   rsInput: TStream;
   slInput: TStrings;
@@ -867,7 +881,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InitFields(AFileName: TFileName; AFlags: TFileFlags);
+procedure TSimpleTSInfoTree.InitFields(AFileName: TFileName; AFlags: TTreeModes);
 begin
   FFileName := AFileName;
   FTreeName := '';
@@ -1560,7 +1574,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateLink(ANodePath: UTF8String; AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TFileFlags; AOpen: Boolean = False): Boolean;
+function TSimpleTSInfoTree.CreateLink(ANodePath: UTF8String; AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TTreeModes; AOpen: Boolean = False): Boolean;
 var
   nodeParent: TTSInfoNode;
   linkCreate: TTSInfoLink;
@@ -1586,7 +1600,7 @@ begin
         linkCreate := nodeParent.CreateLink(AFileName, AVirtualNodeName, AFlags, '');
 
         if AOpen then
-          FCurrentNode := linkCreate.FLinkedFile.FCurrentNode;
+          FCurrentNode := linkCreate.FLinkedTree.FCurrentNode;
 
         FModified := True;
         Result := True;
@@ -1596,7 +1610,7 @@ begin
           begin
             fsInput := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
             try
-              linkCreate.FLinkedFile.LoadTreeFromStream(fsInput);
+              linkCreate.FLinkedTree.LoadTreeFromStream(fsInput);
             finally
               fsInput.Free();
             end;
@@ -1606,7 +1620,7 @@ begin
             slInput := TStringList.Create();
             try
               slInput.LoadFromFile(AFileName);
-              linkCreate.FLinkedFile.LoadTreeFromList(slInput);
+              linkCreate.FLinkedTree.LoadTreeFromList(slInput);
             finally
               slInput.Free();
             end;
