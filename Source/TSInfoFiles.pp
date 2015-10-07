@@ -177,6 +177,26 @@ type
 
 type
   TTSInfoElementsList = class(TObject)
+  private type
+    PListNode = ^TListNode;
+    TListNode = record
+      PreviousNode: PListNode;
+      NextNode: PListNode;
+      Element: TObject;
+    end;
+  private
+    FFirstNode: PListNode;
+    FLastNode: PListNode;
+    FLastUsedNode: PListNode;
+    FLastUsedNodeIndex: Integer;
+    FCount: Integer;
+    FOwnsElements: Boolean;
+  private
+    procedure DisposeRemainingNodes();
+    procedure DisposeRemainingElements();
+  public
+    constructor Create(AOwnsElements: Boolean);
+    destructor Destroy(); override;
   end;
 
 
@@ -703,6 +723,71 @@ end;
 
 
 { ----- TTSInfoElementsList class --------------------------------------------------------------------------------- }
+
+
+constructor TTSInfoElementsList.Create(AOwnsElements: Boolean);
+begin
+  inherited Create();
+
+  FFirstNode := nil;
+  FLastNode := nil;
+
+  FLastUsedNode := nil;
+  FLastUsedNodeIndex := -1;
+
+  FCount := 0;
+  FOwnsElements := AOwnsElements;
+end;
+
+
+destructor TTSInfoElementsList.Destroy();
+begin
+  if FCount > 0 then
+    DisposeRemainingNodes();
+
+  inherited Destroy();
+end;
+
+
+procedure TTSInfoElementsList.DisposeRemainingNodes();
+var
+  plnNext, plnDispose: PListNode;
+begin
+  if FOwnsElements then
+    DisposeRemainingElements();
+
+  plnDispose := FFirstNode;
+
+  while plnDispose <> nil do
+  begin
+    plnNext := plnDispose^.NextNode;
+    Dispose(plnDispose);
+
+    plnDispose := plnNext;
+  end;
+
+  FFirstNode := nil;
+  FLastNode := nil;
+
+  FLastUsedNode := nil;
+  FLastUsedNodeIndex := -1;
+
+  FCount := 0;
+end;
+
+
+procedure TTSInfoElementsList.DisposeRemainingElements();
+var
+  plnElement: PListNode;
+begin
+  plnElement := FFirstNode;
+
+  while plnElement <> nil do
+  begin
+    plnElement^.Element.Free();
+    plnElement := plnElement^.NextNode;
+  end;
+end;
 
 
 { ----- TTSInfoAttributeList class -------------------------------------------------------------------------------- }
