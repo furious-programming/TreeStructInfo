@@ -576,37 +576,37 @@ end;
 
 function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute;
 begin
-  Result := FAttributesList.AddItem(AReference, AName);
+  Result := FAttributesList.AddAttribute(AReference, AName);
 end;
 
 
 function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
 begin
-  Result := FAttributesList.AddItem(AReference, AName, AValue, AComment);
+  Result := FAttributesList.AddAttribute(AReference, AName, AValue, AComment);
 end;
 
 
 function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: UTF8String): TTSInfoNode;
 begin
-  Result := FChildNodesList.AddItem(Self, AReference, AName);
+  Result := FChildNodesList.AddChildNode(Self, AReference, AName);
 end;
 
 
 function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
 begin
-  Result := FChildNodesList.AddItem(Self, AReference, AName, AComment);
+  Result := FChildNodesList.AddChildNode(Self, AReference, AName, AComment);
 end;
 
 
 function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink;
 begin
-  Result := FLinksList.AddItem(AFileName, AVirtualNodeName, [], '');
+  Result := FLinksList.AddLink(AFileName, AVirtualNodeName);
 end;
 
 
-function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: UTF8String; AFlags: TFileFlags; const AComment: UTF8String): TTSInfoLink;
+function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
 begin
-  Result := FLinksList.AddItem(AFileName, AVirtualNodeName, AFlags, AComment);
+  Result := FLinksList.AddLink(AFileName, AVirtualNodeName, AModes, AComment);
 end;
 
 
