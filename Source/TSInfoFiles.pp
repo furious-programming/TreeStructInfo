@@ -216,6 +216,9 @@ type
 
 type
   TTSInfoAttributesList = class(TTSInfoElementsList)
+  public
+    constructor Create();
+    destructor Destroy(); override;
   end;
 
 
@@ -923,6 +926,18 @@ end;
 
 
 { ----- TTSInfoAttributeList class -------------------------------------------------------------------------------- }
+
+
+constructor TTSInfoAttributesList.Create();
+begin
+  inherited Create(True);
+end;
+
+
+destructor TTSInfoAttributesList.Destroy();
+begin
+  inherited Destroy();
+end;
 
 
 { ----- TTSInfoNodesList class ------------------------------------------------------------------------------------ }
