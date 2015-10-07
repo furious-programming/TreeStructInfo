@@ -612,19 +612,19 @@ end;
 
 procedure TTSInfoNode.RemoveAttribute(const AName: UTF8String);
 begin
-  FAttributesList.RemoveItem(AName);
+  FAttributesList.RemoveAttribute(AName);
 end;
 
 
 procedure TTSInfoNode.RemoveChildNode(const AName: UTF8String);
 begin
-  FChildNodesList.RemoveItem(AName);
+  FChildNodesList.RemoveChildNode(AName);
 end;
 
 
 procedure TTSInfoNode.RemoveLink(const AVirtualNodeName: UTF8String);
 begin
-  FLinksList.RemoveItemByVirtualNodeName(AVirtualNodeName);
+  FLinksList.RemoveLink(AVirtualNodeName);
 end;
 
 
