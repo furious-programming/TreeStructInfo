@@ -240,6 +240,9 @@ type
   public
     constructor Create();
     destructor Destroy(); override;
+  public
+    function GetChildNode(const AName: UTF8String): TTSInfoNode; overload;
+    function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
   end;
 
 
@@ -1041,6 +1044,29 @@ function TTSInfoNodesList.InternalAddChildNode(AParentNode: TTSInfoNode; ARefere
 begin
   Result := TTSInfoNode.Create(AParentNode, AReference, AName, AComment);
   inherited AddElement(Result);
+end;
+
+
+function TTSInfoNodesList.GetChildNode(const AName: UTF8String): TTSInfoNode;
+var
+  nodeGet: TTSInfoNode;
+  intChildNodeIdx: Integer;
+begin
+  for intChildNodeIdx := 0 to FCount - 1 do
+  begin
+    nodeGet := inherited Element[intChildNodeIdx] as TTSInfoNode;
+
+    if SameIdentifiers(nodeGet.Name, AName) then
+      Exit(nodeGet);
+  end;
+
+  Result := nil;
+end;
+
+
+function TTSInfoNodesList.GetChildNode(AIndex: Integer): TTSInfoNode;
+begin
+  Result := inherited Element[AIndex] as TTSInfoNode;
 end;
 
 
