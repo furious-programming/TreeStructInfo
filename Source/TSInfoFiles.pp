@@ -206,6 +206,11 @@ type
     procedure AddElement(AElement: TObject);
     procedure RemoveElement(AIndex: Integer);
     procedure RemoveAllElements();
+  public
+    property Count: Integer read FCount;
+    property OwnsElements: Boolean read FOwnsElements;
+  public
+    property Element[AIndex: Integer]: TObject read GetElementAtIndex;
   end;
 
 
