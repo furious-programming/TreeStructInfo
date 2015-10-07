@@ -266,6 +266,9 @@ type
   public
     function AddLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink; overload;
     function AddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink; overload;
+  public
+    procedure RemoveLink(const AVirtualNodeName: UTF8String);
+    procedure RemoveAll();
   end;
 
 
@@ -1191,6 +1194,30 @@ end;
 function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
 begin
   Result := InternalAddLink(AFileName, AVirtualNodeName, AModes, AComment);
+end;
+
+
+procedure TTSInfoLinksList.RemoveLink(const AVirtualNodeName: UTF8String);
+var
+  linkRemove: TTSInfoLink;
+  intLinkIdx: Integer;
+begin
+  for intLinkIdx := 0 to FCount - 1 do
+  begin
+    linkRemove := inherited Element[intLinkIdx] as TTSInfoLink;
+
+    if SameIdentifiers(linkRemove.VirtualNodeName, AVirtualNodeName) then
+    begin
+      inherited RemoveElement(intLinkIdx);
+      Exit();
+    end;
+  end;
+end;
+
+
+procedure TTSInfoLinksList.RemoveAll();
+begin
+  inherited RemoveAllElements();
 end;
 
 
