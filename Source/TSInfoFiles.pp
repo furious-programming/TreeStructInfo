@@ -216,6 +216,8 @@ type
 
 type
   TTSInfoAttributesList = class(TTSInfoElementsList)
+  private
+    function InternalAddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
   public
     constructor Create();
     destructor Destroy(); override;
@@ -937,6 +939,13 @@ end;
 destructor TTSInfoAttributesList.Destroy();
 begin
   inherited Destroy();
+end;
+
+
+function TTSInfoAttributesList.InternalAddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
+begin
+  Result := TTSInfoAttribute.Create(AReference, AName, AValue, AComment);
+  inherited AddElement(Result);
 end;
 
 
