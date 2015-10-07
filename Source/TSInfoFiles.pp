@@ -102,13 +102,13 @@ type
     procedure SetComment(AType: TCommentType; const AValue: UTF8String);
     procedure SetName(const AName: UTF8String);
   public
-    function GetAttributeByName(const AName: UTF8String): TTSInfoAttribute;
-    function GetAttributeByIndex(AIndex: UInt32): TTSInfoAttribute;
-    function GetChildNodeByName(const AName: UTF8String): TTSInfoNode;
-    function GetChildNodeByIndex(AIndex: UInt32): TTSInfoNode;
-    function GetLinkByIndex(const AIndex: UInt32): TTSInfoLink;
-    function GetLinkByVirtualNodeName(const AVirtualNodeName: UTF8String): TTSInfoLink;
-    function GetVirtualNodeByName(const AName: UTF8String): TTSInfoNode;
+    function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
+    function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
+    function GetChildNode(const AName: UTF8String): TTSInfoNode; overload;
+    function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
+    function GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink; overload;
+    function GetLink(AIndex: Integer): TTSInfoLink; overload;
+    function GetVirtualNode(const AName: UTF8String): TTSInfoNode;
   public
     function GetAttributesCount(): UInt32;
     function GetChildNodesCount(): UInt32;
@@ -514,45 +514,45 @@ begin
 end;
 
 
-function TTSInfoNode.GetAttributeByName(const AName: UTF8String): TTSInfoAttribute;
+function TTSInfoNode.GetAttribute(const AName: UTF8String): TTSInfoAttribute;
 begin
-  Result := FAttributesList.GetItemByName(AName);
+  Result := FAttributesList.GetAttribute(AName);
 end;
 
 
-function TTSInfoNode.GetAttributeByIndex(AIndex: UInt32): TTSInfoAttribute;
+function TTSInfoNode.GetAttribute(AIndex: Integer): TTSInfoAttribute;
 begin
-  Result := FAttributesList.GetItemByIndex(AIndex);
+  Result := FAttributesList.GetAttribute(AIndex);
 end;
 
 
-function TTSInfoNode.GetChildNodeByName(const AName: UTF8String): TTSInfoNode;
+function TTSInfoNode.GetChildNode(const AName: UTF8String): TTSInfoNode;
 begin
-  Result := FChildNodesList.GetItemByName(AName);
+  Result := FChildNodesList.GetChildNode(AName);
 end;
 
 
-function TTSInfoNode.GetChildNodeByIndex(AIndex: UInt32): TTSInfoNode;
+function TTSInfoNode.GetChildNode(AIndex: Integer): TTSInfoNode;
 begin
-  Result := FChildNodesList.GetItemByIndex(AIndex);
+  Result := FChildNodesList.GetChildNode(AIndex);
 end;
 
 
-function TTSInfoNode.GetLinkByIndex(const AIndex: UInt32): TTSInfoLink;
+function TTSInfoNode.GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink;
 begin
-  Result := FLinksList.GetItemByIndex(AIndex);
+  Result := FLinksList.GetLink(AVirtualNodeName);
 end;
 
 
-function TTSInfoNode.GetLinkByVirtualNodeName(const AVirtualNodeName: UTF8String): TTSInfoLink;
+function TTSInfoNode.GetLink(AIndex: Integer): TTSInfoLink;
 begin
-  Result := FLinksList.GetItemByVirtualNodeName(AVirtualNodeName);
+  Result := FLinksList.GetLink(AIndex);
 end;
 
 
-function TTSInfoNode.GetVirtualNodeByName(const AName: UTF8String): TTSInfoNode;
+function TTSInfoNode.GetVirtualNode(const AName: UTF8String): TTSInfoNode;
 begin
-  Result := FLinksList.GetVirtualNodeByName(AName);
+  Result := FLinksList.GetVirtualNode(AName);
 end;
 
 
@@ -967,10 +967,10 @@ begin
 
         if not IsCurrentNodeSymbol(strName) and ValidIdentifier(strName) then
         begin
-          nodeTemp := nodeRead.GetChildNodeByName(strName);
+          nodeTemp := nodeRead.GetChildNode(strName);
 
           if nodeTemp = nil then
-            nodeTemp := nodeRead.GetVirtualNodeByName(strName);
+            nodeTemp := nodeRead.GetVirtualNode(strName);
 
           if (nodeTemp = nil) and AForcePath then
             nodeTemp := nodeRead.CreateChildNode(False, strName);
@@ -993,7 +993,7 @@ begin
 
         if ValidIdentifier(strName) then
         begin
-          Result := nodeRead.GetAttributeByName(strName);
+          Result := nodeRead.GetAttribute(strName);
 
           if (Result = nil) and AForcePath then
             Result := nodeRead.CreateAttribute(False, strName);
@@ -1631,7 +1631,7 @@ begin
 
   if Result then
   begin
-    AAttrToken.FAttribute := nodeParent.GetAttributeByIndex(0);
+    AAttrToken.FAttribute := nodeParent.GetAttribute(0);
     AAttrToken.FParentNode := nodeParent;
     AAttrToken.FIndex := 0;
   end;
@@ -1645,7 +1645,7 @@ begin
   if Result then
   begin
     Inc(AAttrToken.FIndex);
-    AAttrToken.FAttribute := AAttrToken.FParentNode.GetAttributeByIndex(AAttrToken.FIndex);
+    AAttrToken.FAttribute := AAttrToken.FParentNode.GetAttribute(AAttrToken.FIndex);
   end;
 end;
 
@@ -1666,7 +1666,7 @@ begin
 
   if Result then
   begin
-    ANodeToken.FChildNode := nodeParent.GetChildNodeByIndex(0);
+    ANodeToken.FChildNode := nodeParent.GetChildNode(0);
     ANodeToken.FParentNode := nodeParent;
     ANodeToken.FIndex := 0;
   end;
@@ -1680,7 +1680,7 @@ begin
   if Result then
   begin
     Inc(ANodeToken.FIndex);
-    ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNodeByIndex(ANodeToken.FIndex);
+    ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNode(ANodeToken.FIndex);
   end;
 end;
 
@@ -1710,7 +1710,7 @@ begin
 
         for intToken := 0 to nodeParent.AttributesCount - 1 do
         begin
-          attrRename := nodeParent.GetAttributeByIndex(intToken);
+          attrRename := nodeParent.GetAttribute(intToken);
           attrRename.Name := Format(AAttrName, [AStartIndex]);
 
           Inc(AStartIndex, intStep);
@@ -1744,7 +1744,7 @@ begin
 
         for intToken := 0 to nodeParent.ChildNodesCount - 1 do
         begin
-          nodeRename := nodeParent.GetChildNodeByIndex(intToken);
+          nodeRename := nodeParent.GetChildNode(intToken);
           nodeRename.Name := Format(ANodeName, [AStartIndex]);
 
           Inc(AStartIndex, intStep);
@@ -1820,7 +1820,7 @@ begin
     else
     begin
       strAttrName := ExtractPathComponent(AAttrName, pcAttributeName);
-      attrRename := nodeParent.GetAttributeByName(strAttrName);
+      attrRename := nodeParent.GetAttribute(strAttrName);
 
       if attrRename = nil then
         ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
@@ -1892,7 +1892,7 @@ begin
       ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
     else
     begin
-      linkRename := nodeParent.GetLinkByVirtualNodeName(AVirtualNodeName);
+      linkRename := nodeParent.GetLink(AVirtualNodeName);
 
       if linkRename = nil then
         ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
@@ -2004,7 +2004,7 @@ begin
       ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
     else
     begin
-      linkWrite := nodeParent.GetLinkByVirtualNodeName(AVirtualNodeName);
+      linkWrite := nodeParent.GetLink(AVirtualNodeName);
 
       if linkWrite = nil then
         ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
@@ -2086,7 +2086,7 @@ begin
     ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
   else
   begin
-    linkRead := nodeParent.GetLinkByVirtualNodeName(AVirtualNodeName);
+    linkRead := nodeParent.GetLink(AVirtualNodeName);
 
     if linkRead = nil then
       ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
@@ -2417,7 +2417,7 @@ begin
     nodeParent := FindNode(ANodePath, False);
   end;
 
-  Result := (nodeParent <> nil) and (nodeParent.GetLinkByVirtualNodeName(AVirtualNodeName) <> nil);
+  Result := (nodeParent <> nil) and (nodeParent.GetLink(AVirtualNodeName) <> nil);
 end;
 
 
@@ -2495,7 +2495,7 @@ begin
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
     for I := 0 to nodeParent.AttributesCount - 1 do
-      ANames.Add(nodeParent.GetAttributeByIndex(I).Name);
+      ANames.Add(nodeParent.GetAttribute(I).Name);
 end;
 
 
@@ -2516,7 +2516,7 @@ begin
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
     for I := 0 to nodeParent.AttributesCount - 1 do
-      AValues.Add(nodeParent.GetAttributeByIndex(I).Value);
+      AValues.Add(nodeParent.GetAttribute(I).Value);
 end;
 
 
@@ -2537,7 +2537,7 @@ begin
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
     for I := 0 to nodeParent.ChildNodesCount - 1 do
-      ANames.Add(nodeParent.GetChildNodeByIndex(I).Name);
+      ANames.Add(nodeParent.GetChildNode(I).Name);
 end;
 
 
@@ -2558,7 +2558,7 @@ begin
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
     for I := 0 to nodeParent.LinksCount - 1 do
-      ANames.Add(nodeParent.GetLinkByIndex(I).VirtualNodeName);
+      ANames.Add(nodeParent.GetLink(I).VirtualNodeName);
 end;
 
 
