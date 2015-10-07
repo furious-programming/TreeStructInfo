@@ -246,6 +246,9 @@ type
   public
     function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String): TTSInfoNode; overload;
     function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode; overload;
+  public
+    procedure RemoveChildNode(const AName: UTF8String);
+    procedure RemoveAll();
   end;
 
 
@@ -1082,6 +1085,30 @@ end;
 function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
 begin
   Result := InternalAddChildNode(AParentNode, AReference, AName, AComment);
+end;
+
+
+procedure TTSInfoNodesList.RemoveChildNode(const AName: UTF8String);
+var
+  nodeRemove: TTSInfoNode;
+  intChildNodeIdx: Integer;
+begin
+  for intChildNodeIdx := 0 to FCount - 1 do
+  begin
+    nodeRemove := inherited Element[intChildNodeIdx] as TTSInfoNode;
+
+    if SameIdentifiers(nodeRemove.Name, AName) then
+    begin
+      inherited RemoveElement(intChildNodeIdx);
+      Exit();
+    end;
+  end;
+end;
+
+
+procedure TTSInfoNodesList.RemoveAll();
+begin
+  inherited RemoveAllElements();
 end;
 
 
