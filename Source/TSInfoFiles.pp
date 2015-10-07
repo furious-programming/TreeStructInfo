@@ -254,6 +254,9 @@ type
 
 type
   TTSInfoLinksList = class(TTSInfoElementsList)
+  public
+    constructor Create();
+    destructor Destroy(); override;
   end;
 
 
@@ -1113,6 +1116,18 @@ end;
 
 
 { ----- TTSInfoLinksList class ------------------------------------------------------------------------------------ }
+
+
+constructor TTSInfoLinksList.Create();
+begin
+  inherited Create(True);
+end;
+
+
+destructor TTSInfoLinksList.Destroy();
+begin
+  inherited Destroy();
+end;
 
 
 { ----- TTSInfoRefElementsList class ------------------------------------------------------------------------------ }
