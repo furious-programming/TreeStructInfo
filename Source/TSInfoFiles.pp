@@ -235,6 +235,8 @@ type
 
 type
   TTSInfoNodesList = class(TTSInfoElementsList)
+  private
+    function InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
   public
     constructor Create();
     destructor Destroy(); override;
@@ -1032,6 +1034,13 @@ end;
 destructor TTSInfoNodesList.Destroy();
 begin
   inherited Destroy();
+end;
+
+
+function TTSInfoNodesList.InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
+begin
+  Result := TTSInfoNode.Create(AParentNode, AReference, AName, AComment);
+  inherited AddElement(Result);
 end;
 
 
