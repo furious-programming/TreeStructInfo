@@ -630,18 +630,18 @@ end;
 
 procedure TTSInfoNode.ClearAttributes();
 begin
-  FAttributesList.ClearList();
+  FAttributesList.RemoveAll();
 end;
 
 procedure TTSInfoNode.ClearChildNodes();
 begin
-  FChildNodesList.ClearList();
+  FChildNodesList.RemoveAll();
 end;
 
 
 procedure TTSInfoNode.ClearLinks();
 begin
-  FLinksList.ClearList();
+  FLinksList.RemoveAll();
 end;
 
 
