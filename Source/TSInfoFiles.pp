@@ -224,6 +224,9 @@ type
   public
     function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
     function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
+  public
+    function AddAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute; overload;
+    function AddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute; overload;
   end;
 
 
@@ -972,6 +975,18 @@ end;
 function TTSInfoAttributesList.GetAttribute(AIndex: Integer): TTSInfoAttribute;
 begin
   Result := inherited Element[AIndex] as TTSInfoAttribute;
+end;
+
+
+function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute;
+begin
+  Result := InternalAddAttribute(AReference, AName, '', Comment('', ''));
+end;
+
+
+function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
+begin
+  Result := InternalAddAttribute(AReference, AName, AValue, AComment);
 end;
 
 
