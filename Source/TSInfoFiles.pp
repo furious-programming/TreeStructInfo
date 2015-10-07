@@ -194,6 +194,8 @@ type
   private
     procedure DisposeRemainingNodes();
     procedure DisposeRemainingElements();
+  private
+    function CreateNode(AElement: TObject): PListNode;
   public
     constructor Create(AOwnsElements: Boolean);
     destructor Destroy(); override;
@@ -787,6 +789,16 @@ begin
     plnElement^.Element.Free();
     plnElement := plnElement^.NextNode;
   end;
+end;
+
+
+function TTSInfoElementsList.CreateNode(AElement: TObject): PListNode;
+begin
+  New(Result);
+
+  Result^.PreviousNode := nil;
+  Result^.NextNode := nil;
+  Result^.Element := AElement;
 end;
 
 
