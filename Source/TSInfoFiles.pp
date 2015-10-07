@@ -259,6 +259,10 @@ type
   public
     constructor Create();
     destructor Destroy(); override;
+  public
+    function GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink; overload;
+    function GetLink(AIndex: Integer): TTSInfoLink; overload;
+    function GetVirtualNode(const AName: UTF8String): TTSInfoNode;
   end;
 
 
@@ -1136,6 +1140,42 @@ function TTSInfoLinksList.InternalAddLink(const AFileName, AVirtualNodeName: UTF
 begin
   Result := TTSInfoLink.Create(AFileName, AVirtualNodeName, AModes, AComment);
   inherited AddElement(Result);
+end;
+
+
+function TTSInfoLinksList.GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink;
+var
+  linkGet: TTSInfoLink;
+  intLinkIdx: Integer;
+begin
+  for intLinkIdx := 0 to FCount - 1 do
+  begin
+    linkGet := inherited Element[intLinkIdx] as TTSInfoLink;
+
+    if SameIdentifiers(linkGet.VirtualNodeName, AVirtualNodeName) then
+      Exit(linkGet);
+  end;
+
+  Result := nil;
+end;
+
+
+function TTSInfoLinksList.GetLink(AIndex: Integer): TTSInfoLink;
+begin
+  Result := inherited Element[AIndex] as TTSInfoLink;
+end;
+
+
+function TTSInfoLinksList.GetVirtualNode(const AName: UTF8String): TTSInfoNode;
+var
+  linkGet: TTSInfoLink;
+begin
+  linkGet := GetLink(AName);
+
+  if linkGet = nil then
+    Result := nil
+  else
+    Result := linkGet.VirtualNode;
 end;
 
 
