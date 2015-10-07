@@ -31,21 +31,13 @@
 
 unit TSInfoTypes;
 
-{$MODE OBJFPC} {$LONGSTRINGS ON} {$HINTS ON}
+{$MODE OBJFPC}{$LONGSTRINGS ON}{$HINTS ON}
 
 
 interface
 
 uses
   SysUtils;
-
-
-{ ----- elements lists types -------------------------------------------------------------------------------------- }
-
-
-type
-  TTSInfoElementsList = array [0 .. MaxInt shr 4] of TObject;
-  PTSInfoElementsList = ^TTSInfoElementsList;
 
 
 { ----- common types ---------------------------------------------------------------------------------------------- }
