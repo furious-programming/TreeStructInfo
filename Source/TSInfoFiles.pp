@@ -110,9 +110,9 @@ type
     function GetLink(AIndex: Integer): TTSInfoLink; overload;
     function GetVirtualNode(const AName: UTF8String): TTSInfoNode;
   public
-    function GetAttributesCount(): UInt32;
-    function GetChildNodesCount(): UInt32;
-    function GetLinksCount(): UInt32;
+    function GetAttributesCount(): Integer;
+    function GetChildNodesCount(): Integer;
+    function GetLinksCount(): Integer;
   public
     constructor Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment);
     destructor Destroy(); override;
@@ -556,19 +556,19 @@ begin
 end;
 
 
-function TTSInfoNode.GetAttributesCount(): UInt32;
+function TTSInfoNode.GetAttributesCount(): Integer;
 begin
   Result := FAttributesList.Count;
 end;
 
 
-function TTSInfoNode.GetChildNodesCount(): UInt32;
+function TTSInfoNode.GetChildNodesCount(): Integer;
 begin
   Result := FChildNodesList.Count;
 end;
 
 
-function TTSInfoNode.GetLinksCount(): UInt32;
+function TTSInfoNode.GetLinksCount(): Integer;
 begin
   Result := FLinksList.Count;
 end;
