@@ -204,6 +204,8 @@ type
     destructor Destroy(); override;
   public
     procedure AddElement(AElement: TObject);
+    procedure RemoveElement(AIndex: Integer);
+    procedure RemoveAllElements();
   end;
 
 
@@ -864,6 +866,54 @@ begin
 
   FLastNode := plnNew;
   Inc(FCount);
+end;
+
+
+procedure TTSInfoElementsList.RemoveElement(AIndex: Integer);
+var
+  plnDispose: PListNode;
+begin
+  plnDispose := GetNodeAtIndex(AIndex);
+
+  if FLastUsedNode = FLastNode then
+  begin
+    FLastUsedNode := FLastUsedNode^.PreviousNode;
+    Dec(FLastUsedNodeIndex);
+  end
+  else
+    FLastUsedNode := FLastUsedNode^.NextNode;
+
+  if AIndex = 0 then
+  begin
+    plnDispose := FFirstNode;
+    FFirstNode := FFirstNode^.NextNode;
+
+    if FFirstNode = nil then
+      FLastNode := nil
+    else
+      FFirstNode^.PreviousNode := nil;
+  end
+  else
+  begin
+    plnDispose^.PreviousNode^.NextNode := plnDispose^.NextNode;
+
+    if plnDispose = FLastNode then
+      FLastNode := plnDispose^.PreviousNode
+    else
+      plnDispose^.NextNode^.PreviousNode := plnDispose^.PreviousNode;
+  end;
+
+  if FOwnsElements then
+    plnDispose^.Element.Free();
+
+  Dispose(plnDispose);
+  Dec(FCount);
+end;
+
+
+procedure TTSInfoElementsList.RemoveAllElements();
+begin
+  DisposeRemainingNodes();
 end;
 
 
