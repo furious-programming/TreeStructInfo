@@ -196,6 +196,9 @@ type
     procedure DisposeRemainingElements();
   private
     function CreateNode(AElement: TObject): PListNode;
+  private
+    function GetNodeAtIndex(AIndex: Integer): PListNode;
+    function GetElementAtIndex(AIndex: Integer): TObject;
   public
     constructor Create(AOwnsElements: Boolean);
     destructor Destroy(); override;
@@ -799,6 +802,43 @@ begin
   Result^.PreviousNode := nil;
   Result^.NextNode := nil;
   Result^.Element := AElement;
+end;
+
+
+function TTSInfoElementsList.GetNodeAtIndex(AIndex: Integer): PListNode;
+begin
+  if FLastUsedNodeIndex - AIndex > FLastUsedNodeIndex shr 1 then
+  begin
+    FLastUsedNode := FFirstNode;
+    FLastUsedNodeIndex := 0;
+  end
+  else
+    if AIndex - FLastUsedNodeIndex > FCount - 1 - AIndex then
+    begin
+      FLastUsedNode := FLastNode;
+      FLastUsedNodeIndex := FCount - 1;
+    end;
+
+  if FLastUsedNodeIndex < AIndex then
+    while FLastUsedNodeIndex < AIndex do
+    begin
+      FLastUsedNode := FLastUsedNode^.NextNode;
+      Inc(FLastUsedNodeIndex);
+    end
+  else
+    while FLastUsedNodeIndex > AIndex do
+    begin
+      FLastUsedNode := FLastUsedNode^.PreviousNode;
+      Dec(FLastUsedNodeIndex);
+    end;
+
+  Result := FLastUsedNode;
+end;
+
+
+function TTSInfoElementsList.GetElementAtIndex(AIndex: Integer): TObject;
+begin
+  Result := GetNodeAtIndex(AIndex)^.Element;
 end;
 
 
