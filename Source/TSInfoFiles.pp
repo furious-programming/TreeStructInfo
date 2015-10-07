@@ -100,6 +100,7 @@ type
   private
     function GetComment(AType: TCommentType): UTF8String;
     procedure SetComment(AType: TCommentType; const AValue: UTF8String);
+    procedure SetName(const AName: UTF8String);
   public
     function GetAttributeByName(const AName: UTF8String): TTSInfoAttribute;
     function GetAttributeByIndex(AIndex: UInt32): TTSInfoAttribute;
@@ -133,7 +134,7 @@ type
   public
     property ParentNode: TTSInfoNode read FParentNode;
     property Reference: Boolean read FReference write FReference;
-    property Name: UTF8String read FName write FName;
+    property Name: UTF8String read FName write SetName;
     property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
     property AttributesCount: UInt32 read GetAttributesCount;
     property ChildNodesCount: UInt32 read GetChildNodesCount;
@@ -504,6 +505,12 @@ end;
 procedure TTSInfoNode.SetComment(AType: TCommentType; const AValue: UTF8String);
 begin
   FComment[AType] := AValue;
+end;
+
+
+procedure TTSInfoNode.SetName(const AName: UTF8String);
+begin
+  FName := AName;
 end;
 
 
