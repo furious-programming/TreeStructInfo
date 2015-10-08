@@ -366,6 +366,8 @@ type
     constructor Create();
     constructor Create(const AFileName: UTF8String; AModes: TTreeModes);
   public
+    destructor Destroy(); override;
+  public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
   public
