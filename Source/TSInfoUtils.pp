@@ -73,31 +73,31 @@ uses
 
 
   function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): UTF8String;
-  function ValueToBoolean(AValue: UTF8String; ADefault: Boolean): Boolean;
+  function ValueToBoolean(const AValue: UTF8String; ADefault: Boolean): Boolean;
 
   function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
-  function ValueToInteger(AValue: UTF8String; ADefault: Integer): Integer;
+  function ValueToInteger(const AValue: UTF8String; ADefault: Integer): Integer;
 
   function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): UTF8String;
-  function ValueToFloat(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
+  function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
 
   function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
-  function ValueToCurrency(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
+  function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 
-  function StringToValue(AString: UTF8String; AFormat: TFormatString): UTF8String;
-  function ValueToString(AValue: UTF8String; AFormat: TFormatString): UTF8String;
+  function StringToValue(const AString: UTF8String; AFormat: TFormatString): UTF8String;
+  function ValueToString(const AValue: UTF8String; AFormat: TFormatString): UTF8String;
 
-  function DateTimeToValue(ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings): UTF8String;
-  function ValueToDateTime(AValue: UTF8String; AMask: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+  function DateTimeToValue(const AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings): UTF8String;
+  function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 
   function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
-  function ValueToPoint(AValue: UTF8String; ADefault: TPoint): TPoint;
+  function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
 
   procedure ListToValue(AList: TStrings; out AValue: UTF8String);
-  procedure ValueToList(AValue: UTF8String; AList: TStrings);
+  procedure ValueToList(const AValue: UTF8String; AList: TStrings);
 
-  procedure BufferToValue(const ABuffer; ASize: UInt32; out AValue: UTF8String; AFormat: TFormatBuffer);
-  procedure ValueToBuffer(AValue: UTF8String; var ABuffer; ASize, AOffset: UInt32);
+  procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: UTF8String; AFormat: TFormatBuffer);
+  procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
@@ -417,7 +417,7 @@ begin
 end;
 
 
-function ValueToBoolean(AValue: UTF8String; ADefault: Boolean): Boolean;
+function ValueToBoolean(const AValue: UTF8String; ADefault: Boolean): Boolean;
 
   procedure SetValueCamelCaseStyle();
   var
@@ -515,7 +515,7 @@ begin
 end;
 
 
-function ValueToInteger(AValue: UTF8String; ADefault: Integer): Integer;
+function ValueToInteger(const AValue: UTF8String; ADefault: Integer): Integer;
 var
   strValue: UTF8String;
   intValueLen: UInt32;
@@ -602,7 +602,7 @@ begin
 end;
 
 
-function ValueToFloat(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
+function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
 
   procedure SetValueCamelCaseStyle();
   var
@@ -669,7 +669,7 @@ begin
 end;
 
 
-function ValueToCurrency(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
+function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 var
   intValueLen, intCurrStringLen: UInt32;
   pchrFirst, pchrToken, pchrLast: PUTF8Char;
@@ -714,7 +714,7 @@ end;
 { ----- string conversion ----------------------------------------------------------------------------------------- }
 
 
-function StringToValue(AString: UTF8String; AFormat: TFormatString): UTF8String;
+function StringToValue(const AString: UTF8String; AFormat: TFormatString): UTF8String;
 begin
   case AFormat of
     fsOriginal:  Result := AString;
@@ -724,7 +724,7 @@ begin
 end;
 
 
-function ValueToString(AValue: UTF8String; AFormat: TFormatString): UTF8String;
+function ValueToString(const AValue: UTF8String; AFormat: TFormatString): UTF8String;
 begin
   case AFormat of
     fsOriginal:  Result := AValue;
@@ -737,7 +737,7 @@ end;
 { ----- date & time conversions ----------------------------------------------------------------------------------- }
 
 
-function DateTimeToValue(ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings): UTF8String;
+function DateTimeToValue(const AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings): UTF8String;
 var
   intMaskLen, intResultLen, intFormatLen: UInt32;
   pchrMaskToken, pchrMaskLast: PUTF8Char;
@@ -924,7 +924,7 @@ begin
 end;
 
 
-function ValueToDateTime(AValue: UTF8String; AMask: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 var
   intValueLen, intMaskLen: UInt32;
   pchrMaskToken, pchrMaskLast: PUTF8Char;
@@ -1157,7 +1157,7 @@ begin
 end;
 
 
-function ValueToPoint(AValue: UTF8String; ADefault: TPoint): TPoint;
+function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
 
   function ExtractPointCoords(const AValue: UTF8String; out ACoordX, ACoordY: UTF8String): Boolean;
   var
@@ -1275,7 +1275,7 @@ begin
 end;
 
 
-procedure ValueToList(AValue: UTF8String; AList: TStrings);
+procedure ValueToList(const AValue: UTF8String; AList: TStrings);
 var
   vcValue: TValueComponents;
   intCompCnt: UInt32;
@@ -1298,7 +1298,7 @@ end;
 { ----- buffer & stream conversions ------------------------------------------------------------------------------- }
 
 
-procedure BufferToValue(const ABuffer; ASize: UInt32; out AValue: UTF8String; AFormat: TFormatBuffer);
+procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: UTF8String; AFormat: TFormatBuffer);
 var
   arrBuffer: TByteDynArray;
   intValueLen, intWholePiecesCnt, I: UInt32;
@@ -1350,7 +1350,7 @@ begin
 end;
 
 
-procedure ValueToBuffer(AValue: UTF8String; var ABuffer; ASize, AOffset: UInt32);
+procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
 var
   arrBuffer: TByteDynArray;
   pintToken: PByte;
