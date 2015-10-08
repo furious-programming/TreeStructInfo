@@ -49,11 +49,12 @@ uses
   procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const); overload;
 
   function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
-  procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
 
   function CutControlChars(const AValue: AnsiString; AMode: TCuttingMode): AnsiString;
   function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: AnsiString): AnsiString;
   function GlueStrings(const AMask: AnsiString; const AStrings: array of AnsiString): AnsiString;
+
+  procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
 
   function ValidIdentifier(AIdentifier: AnsiString): Boolean;
   function SameIdentifiers(AFirst, ASecond: AnsiString): Boolean;
@@ -123,13 +124,6 @@ function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
-end;
-
-
-procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
-begin
-  SetLength(ADest, ALength);
-  Move(ASource, ADest[1], ALength);
 end;
 
 
@@ -237,6 +231,13 @@ begin
 
     Inc(pchrToken);
   end;
+end;
+
+
+procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
+begin
+  SetLength(ADest, ALength);
+  Move(ASource, ADest[1], ALength);
 end;
 
 
