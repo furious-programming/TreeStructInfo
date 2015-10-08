@@ -39,7 +39,8 @@ unit TSInfoUtils;
 interface
 
 uses
-  TSInfoTypes, TSInfoConsts, SysUtils, DateUtils, LCLProc, Classes, Math, Types;
+  TSInfoConsts, TSInfoTypes,
+  SysUtils, DateUtils, LCLProc, Classes, Math, Types;
 
 
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
