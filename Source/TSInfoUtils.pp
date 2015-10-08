@@ -52,7 +52,7 @@ uses
   function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
   function RemoveWhitespaceChars(const AValue: UTF8String; AMode: TCuttingMode): UTF8String;
 
-  function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
+  function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
   function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
 
   procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
