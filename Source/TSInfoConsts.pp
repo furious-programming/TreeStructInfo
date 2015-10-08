@@ -55,13 +55,13 @@ const
   DEFINITION_COMMENT_MARKER         = Integer($DEF);
 
 const
-  IDENTS_DELIMITER          = AnsiChar('\');
-  VALUES_DELIMITER          = AnsiChar(#10);
-  QUOTE_CHAR                = AnsiChar('"');
-  INDENT_CHAR               = AnsiChar(#32);
-  COORDS_DELIMITER          = AnsiChar(',');
-  ONE_BLANK_VALUE_LINE_CHAR = AnsiChar(#9);
-  CURRENT_NODE_SYMBOL       = AnsiChar('~');
+  IDENTS_DELIMITER          = UTF8Char('\');
+  VALUES_DELIMITER          = UTF8Char(#10);
+  QUOTE_CHAR                = UTF8Char('"');
+  INDENT_CHAR               = UTF8Char(#32);
+  COORDS_DELIMITER          = UTF8Char(',');
+  ONE_BLANK_VALUE_LINE_CHAR = UTF8Char(#9);
+  CURRENT_NODE_SYMBOL       = UTF8Char('~');
 
 const
   BINARY_FILE_SIGNATURE       = UTF8String('tsinfo');
@@ -115,9 +115,9 @@ const
   RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 const
-  INVALID_IDENT_CHARS: set of AnsiChar = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
-  CONTROL_CHARS:       set of AnsiChar = [#0 .. #32];
-  UNSAFE_CHARS:        set of AnsiChar = [#0 .. #31, #127, #192, #193, #245 .. #255];
+  INVALID_IDENT_CHARS: set of UTF8Char = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
+  CONTROL_CHARS:       set of UTF8Char = [#0 .. #32];
+  UNSAFE_CHARS:        set of UTF8Char = [#0 .. #31, #127, #192, #193, #245 .. #255];
 
 
 { ----- constants for data converting ----------------------------------------------------------------------------- }
@@ -129,7 +129,7 @@ const
 
 const
   INTEGER_UNIVERSAL_SYSTEM_PREFIXES: array [TFormatInteger] of UTF8String = ('', '', '0x', '0o', '0b');
-  INTEGER_PASCAL_SYSTEM_PREFIXES:    array [TFormatInteger] of AnsiChar = (#0, #0, '$', '&', '%');
+  INTEGER_PASCAL_SYSTEM_PREFIXES:    array [TFormatInteger] of UTF8Char = (#0, #0, '$', '&', '%');
   INTEGER_MIN_LENGTHS:               array [TFormatInteger] of UInt32 = (0, 0, 2, 2, 4);
 
 const
@@ -144,9 +144,9 @@ const
   NOT_A_NUMBER_VALUE      = UTF8String('Nan');
 
 const
-  DATE_TIME_FORMAT_CHARS:     set of AnsiChar = ['Y', 'M', 'D', 'H', 'N', 'S', 'Z', 'A'];
-  DATE_TIME_SEPARATOR_CHARS:  set of AnsiChar = ['.', '-', '/', ':'];
-  DATE_TIME_PLAIN_TEXT_CHARS: set of AnsiChar = ['''', '"'];
+  DATE_TIME_FORMAT_CHARS:     set of UTF8Char = ['Y', 'M', 'D', 'H', 'N', 'S', 'Z', 'A'];
+  DATE_TIME_SEPARATOR_CHARS:  set of UTF8Char = ['.', '-', '/', ':'];
+  DATE_TIME_PLAIN_TEXT_CHARS: set of UTF8Char = ['''', '"'];
 
 const
   POINT_SYSTEMS: array [TFormatPoint] of TFormatInteger =
