@@ -266,9 +266,9 @@ begin
 end;
 
 
-function SameIdentifiers(AFirst, ASecond: UTF8String): Boolean;
+function SameIdentifiers(const AFirst, ASecond: UTF8String): Boolean;
 var
-  intFirstLen, intSecondLen: UInt32;
+  intFirstLen, intSecondLen: Integer;
 begin
   intFirstLen := Length(AFirst);
   intSecondLen := Length(ASecond);
