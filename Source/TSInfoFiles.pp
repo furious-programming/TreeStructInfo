@@ -1499,8 +1499,8 @@ end;
 function TSimpleTSInfoTree.FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
 var
   nodeRead, nodeTemp: TTSInfoNode;
-  intPathLen: UInt32;
   pchrNameBegin, pchrNameEnd, pchrLast: PUTF8Char;
+  intPathLen: Integer;
   strName: UTF8String;
 begin
   Result := nil;
