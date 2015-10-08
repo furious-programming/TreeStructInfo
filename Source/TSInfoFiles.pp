@@ -1283,9 +1283,9 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InitFields(AFileName: TFileName; AFlags: TTreeModes);
+procedure TSimpleTSInfoTree.InitFields();
 begin
-  FFileName := AFileName;
+  FFileName := '';
   FTreeName := '';
   FTreeComment := '';
   FCurrentlyOpenNodePath := '';
@@ -1293,8 +1293,8 @@ begin
   FRootNode := TTSInfoNode.Create(nil, False, '', Comment('', ''));
   FCurrentNode := FRootNode;
 
-  FFileFlags := AFlags;
-  FReadOnlyMode := False;
+  FTreeModes := [];
+  FReadOnly := False;
 end;
 
 
