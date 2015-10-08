@@ -1135,96 +1135,71 @@ end;
 
 function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
 
-  function ExtractPointCoords(const AValue: UTF8String; out ACoordX, ACoordY: UTF8String): Boolean;
+  procedure ExtractPointCoord(AFirst, ALast: PUTF8Char; out ACoord: UTF8String); inline;
   var
-    intValueLen: UInt32;
-    pchrCoordXBegin, pchrCoordXEnd, pchrCoordYBegin, pchrCoordYEnd: PUTF8Char;
-  begin
-    Result := False;
-    intValueLen := Length(AValue);
-
-    if intValueLen >= MIN_POINT_LINE_LEN then
-    begin
-      pchrCoordXBegin := @AValue[1];
-      pchrCoordXEnd := pchrCoordXBegin;
-      pchrCoordYEnd := @AValue[intValueLen];
-
-      while (pchrCoordXEnd < pchrCoordYEnd - 1) and (pchrCoordXEnd^ <> COORDS_DELIMITER) do
-        Inc(pchrCoordXEnd);
-
-      if (pchrCoordXEnd > pchrCoordXBegin) and (pchrCoordXEnd < pchrCoordYEnd) and
-         (pchrCoordXEnd^ = COORDS_DELIMITER) then
-      begin
-        pchrCoordYBegin := pchrCoordXEnd;
-        Dec(pchrCoordXEnd);
-        Inc(pchrCoordYBegin);
-
-        while (pchrCoordXBegin < pchrCoordXEnd) and (pchrCoordXBegin^ in CONTROL_CHARS) do
-          Inc(pchrCoordXBegin);
-
-        while (pchrCoordXEnd > pchrCoordXBegin) and (pchrCoordXEnd^ in CONTROL_CHARS) do
-          Dec(pchrCoordXEnd);
-
-        while (pchrCoordYBegin < pchrCoordYEnd) and (pchrCoordYBegin^ in CONTROL_CHARS) do
-          Inc(pchrCoordYBegin);
-
-        while (pchrCoordYEnd > pchrCoordYBegin) and (pchrCoordYEnd^ in CONTROL_CHARS) do
-          Dec(pchrCoordYEnd);
-
-        if (pchrCoordXBegin < pchrCoordXEnd - 1) and (pchrCoordXBegin^ = '0') then
-          Inc(pchrCoordXBegin);
-
-        if (pchrCoordYBegin < pchrCoordYEnd - 1) and (pchrCoordYBegin^ = '0') then
-          Inc(pchrCoordYBegin);
-
-        MoveString(pchrCoordXBegin^, ACoordX, pchrCoordXEnd - pchrCoordXBegin + 1);
-        MoveString(pchrCoordYBegin^, ACoordY, pchrCoordYEnd - pchrCoordYBegin + 1);
-
-        Result := True;
-      end;
-    end;
-  end;
-
-  procedure ChangeSystemPrefix(var ACoord: UTF8String);
-  var
+    intNegativeOffset: UInt8;
     pchrSystem: PUTF8Char;
-    fiFormat: TFormatInteger = fiUnsignedDecimal;
+    fiFormat: TFormatInteger;
   begin
-    if Length(ACoord) > 2 then
+    if ALast - AFirst + 1 >= MIN_NO_DECIMAL_VALUE_LEN then
     begin
-      pchrSystem := @ACoord[1];
+      intNegativeOffset := UInt8(AFirst^ = '-');
+      pchrSystem := AFirst + intNegativeOffset;
 
-      if pchrSystem^ in ['A' .. 'Z'] then
-        Inc(pchrSystem^, 32);
+      if (pchrSystem^ = '0') and (PUTF8Char(pchrSystem + 1)^ in ['x', 'o', 'b']) then
+      begin
+        Inc(pchrSystem);
 
-      case pchrSystem^ of
-        'x': fiFormat := fiHexadecimal;
-        'o': fiFormat := fiOctal;
-        'b': fiFormat := fiBinary;
+        case pchrSystem^ of
+          'x': fiFormat := fiHexadecimal;
+          'o': fiFormat := fiOctal;
+          'b': fiFormat := fiBinary;
+        end;
+
+        SetLength(ACoord, ALast - pchrSystem + 1 + intNegativeOffset);
+        Move(pchrSystem^, ACoord[1 + intNegativeOffset], ALast - pchrSystem + 1);
+        ACoord[1 + intNegativeOffset] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiFormat];
+
+        if Boolean(intNegativeOffset) then
+          ACoord[1] := '-';
+
+        Exit();
       end;
-
-      if fiFormat <> fiUnsignedDecimal then
-        pchrSystem^ := INTEGER_PASCAL_SYSTEM_PREFIXES[fiFormat];
     end;
+
+    MoveString(AFirst^, ACoord, ALast - AFirst + 1);
   end;
 
 var
-  intCoordXCode, intCoordYCode: Integer;
+  pchrFirst, pchrLast, pchrDelimiter: PUTF8Char;
   strCoordX, strCoordY: UTF8String;
+  intValueLen, intCoordXCode, intCoordYCode: Integer;
 begin
-  if ExtractPointCoords(AValue, strCoordX, strCoordY) then
+  intValueLen := Length(AValue);
+
+  if intValueLen >= MIN_POINT_VALUE_LEN then
   begin
-    ChangeSystemPrefix(strCoordX);
-    ChangeSystemPrefix(strCoordY);
+    pchrFirst := @AValue[1];
+    pchrLast := @AValue[intValueLen];
+    pchrDelimiter := pchrFirst + 1;
 
-    Val(strCoordX, Result.X, intCoordXCode);
-    Val(strCoordY, Result.Y, intCoordYCode);
+    while (pchrDelimiter < pchrLast) and (pchrDelimiter^ <> COORDS_DELIMITER) do
+      Inc(pchrDelimiter);
 
-    if (intCoordXCode <> 0) or (intCoordYCode <> 0) then
-      Result := ADefault;
-  end
-  else
-    Result := ADefault;
+    if pchrDelimiter < pchrLast then
+    begin
+      ExtractPointCoord(pchrFirst, pchrDelimiter - 1, strCoordX);
+      ExtractPointCoord(pchrDelimiter + 1, pchrLast, strCoordY);
+
+      Val(strCoordX, Result.X, intCoordXCode);
+      Val(strCoordY, Result.Y, intCoordYCode);
+
+      if (intCoordXCode = 0) and (intCoordYCode = 0) then
+        Exit();
+    end;
+  end;
+
+  Result := ADefault;
 end;
 
 
