@@ -1246,52 +1246,44 @@ end;
 
 
 procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: UTF8String; AFormat: TFormatBuffer);
+const
+  HEX_CHARS: array [0 .. 15] of UTF8Char = '0123456789ABCDEF';
 var
-  arrBuffer: TByteDynArray;
-  intValueLen, intWholePiecesCnt, I: UInt32;
-  pintToken: PByte;
-  pchrToken, pchrLast: PUTF8Char;
-  strHexByte: UTF8String;
+  bdaBuffer: TByteDynArray;
+  intValueLen, intByteIdx: Integer;
+  pintByte: PUInt8;
+  pchrByte, pchrLast: PUTF8Char;
 begin
-  if ASize = 0 then Exit;
+  if ASize <= 0 then Exit();
 
-  intWholePiecesCnt := ASize div BUFFER_SIZES[AFormat];
+  SetLength(bdaBuffer, ASize);
+  Move(ABuffer, bdaBuffer[0], ASize);
 
-  if intWholePiecesCnt * BUFFER_SIZES[AFormat] < ASize then
-    intValueLen := ASize * 2 + intWholePiecesCnt
-  else
-    if intWholePiecesCnt = 0 then
-      intValueLen := ASize * 2
-    else
-      {$HINTS OFF}
-      intValueLen := ASize * 2 + intWholePiecesCnt - 1;
-      {$HINTS ON}
-
+  intValueLen := (ASize * 2) + ((ASize - 1) div UInt8(AFormat));
   SetLength(AValue, intValueLen);
-  SetLength(arrBuffer, ASize);
-  Move(ABuffer, arrBuffer[0], ASize);
 
-  pintToken := @arrBuffer[0];
-  pchrToken := @AValue[1];
+  pintByte := @bdaBuffer[0];
+  pchrByte := @AValue[1];
   pchrLast := @AValue[intValueLen];
 
-  while pchrToken < pchrLast do
+  while pchrByte < pchrLast do
   begin
-    I := 0;
+    intByteIdx := 0;
 
-    while (I < BUFFER_SIZES[AFormat]) and (pchrToken < pchrLast) do
+    while (intByteIdx < UInt8(AFormat)) and (pchrByte < pchrLast) do
     begin
-      strHexByte := HexStr(pintToken^, 2);
-      Move(strHexByte[1], pchrToken^, 2);
-      Inc(pintToken);
-      Inc(pchrToken, 2);
-      Inc(I);
+      PUTF8Char(pchrByte + 0)^ := HEX_CHARS[pintByte^ shr 4 and 15];
+      PUTF8Char(pchrByte + 1)^ := HEX_CHARS[pintByte^ and 15];
+
+      Inc(pintByte);
+      Inc(pchrByte, 2);
+      Inc(intByteIdx);
     end;
 
-    if pchrToken < pchrLast then
+    if pchrByte < pchrLast then
     begin
-      Move(PUTF8Char(VALUES_DELIMITER)^, pchrToken^, 1);
-      Inc(pchrToken);
+      pchrByte^ := VALUES_DELIMITER;
+      Inc(pchrByte);
     end;
   end;
 end;
