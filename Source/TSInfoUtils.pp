@@ -62,7 +62,7 @@ uses
   function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
   function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
 
-  function ExtractPathComponent(AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
+  function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
   procedure ExtractValueComponents(AValue: UTF8String; var AComponents: TValueComponents; out ACount: UInt32);
 
   function IsCurrentNodeSymbol(APath: UTF8String): Boolean;
@@ -307,9 +307,9 @@ begin
 end;
 
 
-function ExtractPathComponent(AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
+function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
 var
-  intValueLen: UInt32;
+  intValueLen: Integer;
   pchrFirst, pchrToken, pchrLast: PUTF8Char;
 begin
   Result := '';
