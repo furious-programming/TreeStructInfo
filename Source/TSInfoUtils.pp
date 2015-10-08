@@ -33,7 +33,7 @@
 
 unit TSInfoUtils;
 
-{$MODE OBJFPC} {$LONGSTRINGS ON} {$HINTS ON}
+{$MODE OBJFPC}{$LONGSTRINGS ON}{$HINTS ON}
 
 
 interface
@@ -45,9 +45,10 @@ uses
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
 
 
-  procedure ThrowException(const AMessage: AnsiString; const AArgs: array of const);
-  function Comment(ADeclaration, ADefinition: AnsiString): TComment;
+  procedure ThrowException(const AMessage: UTF8String); overload;
+  procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const); overload;
 
+  function Comment(ADeclaration, ADefinition: AnsiString): TComment;
   procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
 
   function CutControlChars(const AValue: AnsiString; AMode: TCuttingMode): AnsiString;
@@ -106,12 +107,15 @@ implementation
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
 
 
-procedure ThrowException(const AMessage: AnsiString; const AArgs: array of const);
+procedure ThrowException(const AMessage: UTF8String); overload;
 begin
-  if Length(AArgs) = 0 then
-    raise ETSInfoFileException.Create(AMessage)
-  else
-    raise ETSInfoFileException.CreateFmt(AMessage, AArgs);
+  raise ETSInfoFileException.Create(AMessage);
+end;
+
+
+procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const);
+begin
+  raise ETSInfoFileException.CreateFmt(AMessage, AArgs);
 end;
 
 
