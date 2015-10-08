@@ -204,9 +204,9 @@ const
   MASK_FORMAT_CHAR = UTF8Char('%');
 var
   pchrToken, pchrLast: PUTF8Char;
-  intStringIdx: UInt32 = 0;
-  intResultLen: UInt32 = 0;
-  intStringLen: UInt32;
+  intStringIdx: Integer = 0;
+  intResultLen: Integer = 0;
+  intStringLen: Integer;
 begin
   pchrToken := @AMask[1];
   pchrLast := @AMask[Length(AMask)];
