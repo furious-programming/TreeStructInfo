@@ -1275,7 +1275,7 @@ end;
 
 destructor TSimpleTSInfoTree.Destroy();
 begin
-  if ffWrite in FFileFlags then
+  if tmAccessWrite in FTreeModes then
     UpdateFile();
 
   FRootNode.Free();
