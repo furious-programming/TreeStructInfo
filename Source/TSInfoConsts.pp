@@ -64,29 +64,29 @@ const
   CURRENT_NODE_SYMBOL       = AnsiChar('~');
 
 const
-  BINARY_FILE_SIGNATURE       = AnsiString('tsinfo');
-  TREE_HEADER_SIGNATURE       = AnsiString('tsinfo ');
-  TREE_HEADER_VERSION_KEYWORD = AnsiString('version');
-  TREE_HEADER_VERSION         = AnsiString('1.0');
-  TREE_HEADER_NAME_KEYWORD    = AnsiString('name');
-  END_TREE_KEYWORD            = AnsiString('end tree');
-  ATTRIBUTE_KEYWORD           = AnsiString('attr ');
-  NODE_KEYWORD                = AnsiString('node ');
-  END_NODE_KEYWORD            = AnsiString('end');
-  REF_KEYWORD                 = AnsiString('ref');
-  REF_ATTRIBUTE_KEYWORD       = AnsiString(REF_KEYWORD + #32 + ATTRIBUTE_KEYWORD);
-  REF_NODE_KEYWORD            = AnsiString(REF_KEYWORD + #32 + NODE_KEYWORD);
-  END_REF_NODE_KEYWORD        = AnsiString(END_NODE_KEYWORD + #32 + REF_KEYWORD);
-  LINK_KEYWORD                = AnsiString('link ');
-  LINK_AS_KEYWORD             = AnsiString('as');
-  LINK_FLAGS_KEYWORD          = AnsiString('flags');
-  COMMENT_PREFIX              = AnsiString('::');
+  BINARY_FILE_SIGNATURE       = UTF8String('tsinfo');
+  TREE_HEADER_SIGNATURE       = UTF8String('tsinfo ');
+  TREE_HEADER_VERSION_KEYWORD = UTF8String('version');
+  TREE_HEADER_VERSION         = UTF8String('1.0');
+  TREE_HEADER_NAME_KEYWORD    = UTF8String('name');
+  END_TREE_KEYWORD            = UTF8String('end tree');
+  ATTRIBUTE_KEYWORD           = UTF8String('attr ');
+  NODE_KEYWORD                = UTF8String('node ');
+  END_NODE_KEYWORD            = UTF8String('end');
+  REF_KEYWORD                 = UTF8String('ref');
+  REF_ATTRIBUTE_KEYWORD       = UTF8String(REF_KEYWORD + #32 + ATTRIBUTE_KEYWORD);
+  REF_NODE_KEYWORD            = UTF8String(REF_KEYWORD + #32 + NODE_KEYWORD);
+  END_REF_NODE_KEYWORD        = UTF8String(END_NODE_KEYWORD + #32 + REF_KEYWORD);
+  LINK_KEYWORD                = UTF8String('link ');
+  LINK_AS_KEYWORD             = UTF8String('as');
+  LINK_FLAGS_KEYWORD          = UTF8String('flags');
+  COMMENT_PREFIX              = UTF8String('::');
 
 const
-  FLAG_TEXT_FILE   = AnsiString('text');
-  FLAG_BINARY_FILE = AnsiString('binary');
-  FLAG_READ        = AnsiString('read');
-  FLAG_WRITE       = AnsiString('write');
+  FLAG_TEXT_FILE   = UTF8String('text');
+  FLAG_BINARY_FILE = UTF8String('binary');
+  FLAG_READ        = UTF8String('read');
+  FLAG_WRITE       = UTF8String('write');
 
 const
   BINARY_FILE_SIGNATURE_LEN       = Length(BINARY_FILE_SIGNATURE);
@@ -124,11 +124,11 @@ const
 
 
 const
-  BOOLEAN_VALUES: array [Boolean, TFormatBoolean] of AnsiString =
+  BOOLEAN_VALUES: array [Boolean, TFormatBoolean] of UTF8String =
     (('False', 'No', 'Off', 'F', 'N', '0'), ('True', 'Yes', 'On', 'T', 'Y', '1'));
 
 const
-  INTEGER_UNIVERSAL_SYSTEM_PREFIXES: array [TFormatInteger] of AnsiString = ('', '', '0x', '0o', '0b');
+  INTEGER_UNIVERSAL_SYSTEM_PREFIXES: array [TFormatInteger] of UTF8String = ('', '', '0x', '0o', '0b');
   INTEGER_PASCAL_SYSTEM_PREFIXES:    array [TFormatInteger] of AnsiChar = (#0, #0, '$', '&', '%');
   INTEGER_MIN_LENGTHS:               array [TFormatInteger] of UInt32 = (0, 0, 2, 2, 4);
 
@@ -138,10 +138,10 @@ const
      TFloatFormat.ffNumber, TFloatFormat.ffNumber);
 
 const
-  UNSIGNED_INFINITY_VALUE = AnsiString('Inf');
-  SIGNED_INFINITY_VALUE   = AnsiString('+Inf');
-  NEGATIVE_INFINITY_VALUE = AnsiString('-Inf');
-  NOT_A_NUMBER_VALUE      = AnsiString('Nan');
+  UNSIGNED_INFINITY_VALUE = UTF8String('Inf');
+  SIGNED_INFINITY_VALUE   = UTF8String('+Inf');
+  NEGATIVE_INFINITY_VALUE = UTF8String('-Inf');
+  NOT_A_NUMBER_VALUE      = UTF8String('Nan');
 
 const
   DATE_TIME_FORMAT_CHARS:     set of AnsiChar = ['Y', 'M', 'D', 'H', 'N', 'S', 'Z', 'A'];
@@ -160,35 +160,35 @@ const
 
 
 const
-  EM_EMPTY_IDENTIFIER                  = AnsiString('identifier cannot be empty');
-  EM_INCORRECT_IDENTIFIER_CHARACTER    = AnsiString('identifier contains incorrect character "%s", code "%d"');
-  EM_MISSING_TREE_HEADER               = AnsiString('tree header not found');
-  EM_INVALID_TREE_HEADER               = AnsiString('"%s" is not a valid tree header');
-  EM_UNKNOWN_TREE_HEADER_COMPONENT     = AnsiString('unknown tree header component "%s"');
-  EM_INVALID_FORMAT_VERSION            = AnsiString('"%s" is not a valid format version');
-  EM_UNSUPPORTED_FORMAT_VERSION        = AnsiString('format in version "%s" is not supported');
-  EM_ROOT_NODE_RENAME                  = AnsiString('cannot set a root node name');
-  EM_ROOT_NODE_REMOVE                  = AnsiString('cannot remove a root node');
-  EM_ROOT_NODE_SET_COMMENT             = AnsiString('cannot set a root node comment');
-  EM_ROOT_NODE_GET_COMMENT             = AnsiString('root node cannot have a comment');
-  EM_ROOT_NODE_SET_REFERENCE           = AnsiString('cannot set a root node reference state');
-  EM_ROOT_NODE_GET_REFERENCE           = AnsiString('root node cannot have a reference state');
-  EM_ATTRIBUTE_NOT_EXISTS              = AnsiString('attribute "%s" not exists');
-  EM_NODE_NOT_EXISTS                   = AnsiString('node "%s" not exists');
-  EM_CANNOT_OPEN_NODE                  = AnsiString('cannot open a node under "%s" path');
-  EM_MISSING_END_TREE_LINE             = AnsiString('end tree line not found');
-  EM_READ_ONLY_MODE_VIOLATION          = AnsiString('cannot make modifications in read-only mode');
-  EM_INVALID_STREAM_SIZE               = AnsiString('size of stream is too large (maximum acceptable: %d bytes)');
-  EM_INVALID_BUFFER_SIZE               = AnsiString('size of buffer is too large (maximum acceptable: %d bytes)');
-  EM_INVALID_SOURCE_LINE               = AnsiString('invalid source line: "%s"');
-  EM_INVALID_BINARY_FILE               = AnsiString('invalid TreeStructInfo binary file');
-  EM_UNSUPPORTED_BINARY_FORMAT_VERSION = AnsiString('format version "%.1f" is not supported');
-  EM_INVALID_LINK_LINE                 = AnsiString('"%s" is not a valid link line');
-  EM_EMPTY_LINK_FILE_NAME              = AnsiString('name of linked file cannot be an empty string');
-  EM_UNKNOWN_LINK_COMPONENT            = AnsiString('unknown link component - expected "%s" but "%s" found');
-  EM_UNKNOWN_LINK_FLAG                 = AnsiString('unknown link flag "%s"');
-  EM_LINKED_FILE_NOT_EXISTS            = AnsiString('link under path "%s" with virtual node name "%s" not exists');
-  EM_ELEMENTS_LIST_MEMORY_ALLOCATION   = AnsiString('cannot allocate memory for new elements list');
+  EM_EMPTY_IDENTIFIER                  = UTF8String('identifier cannot be empty');
+  EM_INCORRECT_IDENTIFIER_CHARACTER    = UTF8String('identifier contains incorrect character "%s", code "%d"');
+  EM_MISSING_TREE_HEADER               = UTF8String('tree header not found');
+  EM_INVALID_TREE_HEADER               = UTF8String('"%s" is not a valid tree header');
+  EM_UNKNOWN_TREE_HEADER_COMPONENT     = UTF8String('unknown tree header component "%s"');
+  EM_INVALID_FORMAT_VERSION            = UTF8String('"%s" is not a valid format version');
+  EM_UNSUPPORTED_FORMAT_VERSION        = UTF8String('format in version "%s" is not supported');
+  EM_ROOT_NODE_RENAME                  = UTF8String('cannot set a root node name');
+  EM_ROOT_NODE_REMOVE                  = UTF8String('cannot remove a root node');
+  EM_ROOT_NODE_SET_COMMENT             = UTF8String('cannot set a root node comment');
+  EM_ROOT_NODE_GET_COMMENT             = UTF8String('root node cannot have a comment');
+  EM_ROOT_NODE_SET_REFERENCE           = UTF8String('cannot set a root node reference state');
+  EM_ROOT_NODE_GET_REFERENCE           = UTF8String('root node cannot have a reference state');
+  EM_ATTRIBUTE_NOT_EXISTS              = UTF8String('attribute "%s" not exists');
+  EM_NODE_NOT_EXISTS                   = UTF8String('node "%s" not exists');
+  EM_CANNOT_OPEN_NODE                  = UTF8String('cannot open a node under "%s" path');
+  EM_MISSING_END_TREE_LINE             = UTF8String('end tree line not found');
+  EM_READ_ONLY_MODE_VIOLATION          = UTF8String('cannot make modifications in read-only mode');
+  EM_INVALID_STREAM_SIZE               = UTF8String('size of stream is too large (maximum acceptable: %d bytes)');
+  EM_INVALID_BUFFER_SIZE               = UTF8String('size of buffer is too large (maximum acceptable: %d bytes)');
+  EM_INVALID_SOURCE_LINE               = UTF8String('invalid source line: "%s"');
+  EM_INVALID_BINARY_FILE               = UTF8String('invalid TreeStructInfo binary file');
+  EM_UNSUPPORTED_BINARY_FORMAT_VERSION = UTF8String('format version "%.1f" is not supported');
+  EM_INVALID_LINK_LINE                 = UTF8String('"%s" is not a valid link line');
+  EM_EMPTY_LINK_FILE_NAME              = UTF8String('name of linked file cannot be an empty string');
+  EM_UNKNOWN_LINK_COMPONENT            = UTF8String('unknown link component - expected "%s" but "%s" found');
+  EM_UNKNOWN_LINK_FLAG                 = UTF8String('unknown link flag "%s"');
+  EM_LINKED_FILE_NOT_EXISTS            = UTF8String('link under path "%s" with virtual node name "%s" not exists');
+  EM_ELEMENTS_LIST_MEMORY_ALLOCATION   = UTF8String('cannot allocate memory for new elements list');
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
