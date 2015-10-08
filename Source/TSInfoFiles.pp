@@ -277,6 +277,13 @@ type
 
 type
   TTSInfoRefElementsList = class(TTSInfoElementsList)
+  public
+    procedure InsertElement(AIndex: Integer; AElement: TObject);
+  public
+    function FirstElementIsAttribute(const AMandatoryName: UTF8String): Boolean;
+    function FirstElementIsChildNode(const AMandatoryName: UTF8String): Boolean;
+  public
+    function PopFirstElement(): TObject;
   end;
 
 
@@ -1225,6 +1232,60 @@ end;
 
 
 { ----- TTSInfoRefElementsList class ------------------------------------------------------------------------------ }
+
+
+procedure TTSInfoRefElementsList.InsertElement(AIndex: Integer; AElement: TObject);
+var
+  plnNew, plnAtIndex: PListNode;
+begin
+  if AIndex >= FCount then
+    AddElement(AElement)
+  else
+  begin
+    plnNew := CreateNode(AElement);
+
+    if AIndex = 0 then
+    begin
+      plnNew^.NextNode := FFirstNode;
+      FFirstNode^.PreviousNode := plnNew;
+      FFirstNode := plnNew;
+    end
+    else
+    begin
+      plnAtIndex := GetNodeAtIndex(AIndex);
+
+      plnNew^.PreviousNode := plnAtIndex^.PreviousNode;
+      plnNew^.NextNode := plnAtIndex;
+
+      plnAtIndex^.PreviousNode^.NextNode := plnNew;
+      plnAtIndex^.PreviousNode := plnNew;
+    end;
+
+    FLastUsedNode := FLastUsedNode^.PreviousNode;
+    Inc(FCount);
+  end;
+end;
+
+
+function TTSInfoRefElementsList.FirstElementIsAttribute(const AMandatoryName: UTF8String): Boolean;
+begin
+  Result := (FFirstNode <> nil) and (FFirstNode^.Element is TTSInfoAttribute) and
+            SameIdentifiers((Element[0] as TTSInfoAttribute).Name, AMandatoryName);
+end;
+
+
+function TTSInfoRefElementsList.FirstElementIsChildNode(const AMandatoryName: UTF8String): Boolean;
+begin
+  Result := (FFirstNode <> nil) and (FFirstNode^.Element is TTSInfoNode) and
+            SameIdentifiers((Element[0] as TTSInfoNode).FName, AMandatoryName);
+end;
+
+
+function TTSInfoRefElementsList.PopFirstElement(): TObject;
+begin
+  Result := FFirstNode^.Element;
+  RemoveElement(0);
+end;
 
 
 { ----- TTSInfoLoadedTreesList class ------------------------------------------------------------------------------ }
