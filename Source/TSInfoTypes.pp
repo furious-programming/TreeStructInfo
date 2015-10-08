@@ -66,10 +66,6 @@ type
   TExportFormat = (efTextFile, efBinaryFile);
 
 type
-  TLastMovedRefType = (lmrtAttribute, lmrtAttributeWithComment, lmrtNode);
-  TReferenceType    = (rtAttribute, rtNode);
-
-type
   TTaggingStyle = (tsFirst, tsAll);
 
 type
