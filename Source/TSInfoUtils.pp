@@ -65,7 +65,7 @@ uses
   function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
   procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
 
-  function IsCurrentNodeSymbol(APath: UTF8String): Boolean;
+  function IsCurrentNodePath(const APath: UTF8String): Boolean;
 
 
 { ----- data conversions ------------------------------------------------------------------------------------------ }
@@ -378,6 +378,12 @@ begin
     end;
 
   ACount := intCompCnt;
+end;
+
+
+function IsCurrentNodePath(const APath: UTF8String): Boolean;
+begin
+  Result := (APath = '') or (APath = CURRENT_NODE_SYMBOL);
 end;
 
 
@@ -1357,12 +1363,6 @@ begin
 
     Move(arrBuffer[0], ABuffer, ASize);
   end;
-end;
-
-
-function IsCurrentNodeSymbol(APath: UTF8String): Boolean;
-begin
-  Result := (APath = '') or (APath = CURRENT_NODE_SYMBOL);
 end;
 
 
