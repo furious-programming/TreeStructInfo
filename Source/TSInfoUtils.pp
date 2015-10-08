@@ -418,10 +418,13 @@ end;
 
 
 function ValueToBoolean(const AValue: UTF8String; ADefault: Boolean): Boolean;
+var
+  pchrToken, pchrLast: PUTF8Char;
+  fbToken: TFormatBoolean;
+begin
+  Result := ADefault;
 
-  procedure SetValueCamelCaseStyle();
-  var
-    pchrToken, pchrLast: PUTF8Char;
+  if AValue <> '' then
   begin
     pchrToken := @AValue[1];
     pchrLast := @AValue[Length(AValue)];
@@ -438,36 +441,13 @@ function ValueToBoolean(const AValue: UTF8String; ADefault: Boolean): Boolean;
 
       Inc(pchrToken);
     end;
-  end;
-
-var
-  boolValue: Boolean = False;
-
-  function MatchValue(AType: TFormatBoolean): Boolean;
-  begin
-    Result := True;
-
-    if SameIdentifiers(BOOLEAN_VALUES[True, AType], AValue) then
-      boolValue := True
-    else
-      if SameIdentifiers(BOOLEAN_VALUES[False, AType], AValue) then
-        boolValue := False
-      else
-        Exit(False);
-  end;
-
-var
-  fbToken: TFormatBoolean;
-begin
-  Result := ADefault;
-
-  if AValue <> '' then
-  begin
-    SetValueCamelCaseStyle();
 
     for fbToken in TFormatBoolean do
-      if MatchValue(fbToken) then
-        Exit(boolValue);
+      if SameIdentifiers(AValue, BOOLEAN_VALUES[True, fbToken]) then
+        Exit(True)
+      else
+        if SameIdentifiers(AValue, BOOLEAN_VALUES[False, fbToken]) then
+          Exit(False);
   end;
 end;
 
