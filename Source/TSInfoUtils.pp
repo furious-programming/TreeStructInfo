@@ -502,56 +502,56 @@ end;
 
 function ValueToInteger(const AValue: UTF8String; ADefault: Integer): Integer;
 var
+  pchrToken, pchrLast: PUTF8Char;
   strValue: UTF8String;
-  intValueLen: UInt32;
-  fiFormat: TFormatInteger = fiUnsignedDecimal;
-
-  procedure LocalizeAndChangeValueSystemPrefix();
-  var
-    pchrToken, pchrLast, pchrSystem: PUTF8Char;
-  begin
-    pchrToken := @AValue[1];
-    pchrLast := @AValue[intValueLen];
-
-    while (pchrToken < pchrLast) and (pchrToken^ in CONTROL_CHARS) do
-      Inc(pchrToken);
-
-    if pchrToken < pchrLast - 1 then
-    begin
-      pchrSystem := pchrToken + 1;
-
-      if pchrSystem^ in ['A' .. 'Z'] then
-        Inc(pchrSystem^, 32);
-
-      case pchrSystem^ of
-        'x': fiFormat := fiHexadecimal;
-        'o': fiFormat := fiOctal;
-        'b': fiFormat := fiBinary;
-      end;
-
-      if fiFormat <> fiUnsignedDecimal then
-      begin
-        intValueLen := pchrLast - pchrSystem;
-        SetLength(strValue, intValueLen + 1);
-        Move(PUTF8Char(pchrSystem + 1)^, strValue[2], intValueLen);
-        strValue[1] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiFormat];
-      end;
-    end;
-  end;
-
-var
-  intCode: Integer;
+  intValueLen, intCode: Integer;
+  boolIsNegative: Boolean = False;
+  fiNumericalFormat: TFormatInteger = fiUnsignedDecimal;
 begin
   strValue := AValue;
   intValueLen := Length(strValue);
 
   if intValueLen > 2 then
-    LocalizeAndChangeValueSystemPrefix();
+  begin
+    pchrToken := @AValue[1];
+    pchrLast := @AValue[intValueLen];
+
+    if pchrToken^ = '-' then
+    begin
+      boolIsNegative := True;
+      Inc(pchrToken);
+    end;
+
+    if pchrToken^ = '0' then
+    begin
+      Inc(pchrToken);
+
+      if pchrToken^ in ['A' .. 'Z'] then
+        Inc(pchrToken^, 32);
+
+      if pchrToken^ in ['x', 'o', 'b'] then
+      begin
+        case pchrToken^ of
+          'x': fiNumericalFormat := fiHexadecimal;
+          'o': fiNumericalFormat := fiOctal;
+          'b': fiNumericalFormat := fiBinary;
+        end;
+
+        intValueLen := pchrLast - pchrToken;
+        SetLength(strValue, intValueLen + 1);
+        Move(PUTF8Char(pchrToken + 1)^, strValue[2], intValueLen);
+        strValue[1] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiNumericalFormat];
+      end;
+    end;
+  end;
 
   Val(strValue, Result, intCode);
 
   if intCode <> 0 then
-    Result := ADefault;
+    Result := ADefault
+  else
+    if boolIsNegative and (fiNumericalFormat in [fiHexadecimal, fiOctal, fiBinary]) then
+      Result := -Result;
 end;
 
 
