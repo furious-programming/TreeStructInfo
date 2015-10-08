@@ -66,9 +66,6 @@ type
   TExportFormat = (efTextFile, efBinaryFile);
 
 type
-  TTaggingStyle = (tsFirst, tsAll);
-
-type
   TCuttingMode   = (cmLeftSide, cmBothSides);
   TPathComponent = (pcAttributeName, pcAttributePath);
 
