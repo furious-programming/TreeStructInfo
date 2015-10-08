@@ -152,11 +152,11 @@ begin
 end;
 
 
-function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: AnsiString): AnsiString;
+function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
 var
   intValueLen, intOldPtrnLen, intNewPtrnLen,
-  intPlainLen, intResultLen, intResultIdx: UInt32;
-  pchrPlainBegin, pchrPlainEnd, pchrLast, pchrResult: PAnsiChar;
+  intPlainLen, intResultLen, intResultIdx: Integer;
+  pchrPlainBegin, pchrPlainEnd, pchrLast, pchrResult: PUTF8Char;
 begin
   intValueLen := Length(AValue);
 
@@ -174,8 +174,7 @@ begin
   pchrLast := @AValue[intValueLen - intOldPtrnLen + 1];
 
   while pchrPlainEnd <= pchrLast do
-    if (pchrPlainEnd^ = AOldPattern[1]) and
-       (CompareByte(pchrPlainEnd^, AOldPattern[1], intOldPtrnLen) = 0) then
+    if (pchrPlainEnd^ = AOldPattern[1]) and (CompareByte(pchrPlainEnd^, AOldPattern[1], intOldPtrnLen) = 0) then
     begin
       intPlainLen := pchrPlainEnd - pchrPlainBegin;
       intResultIdx := intResultLen + 1;
@@ -196,7 +195,7 @@ begin
       Inc(pchrPlainEnd);
 
   if pchrPlainBegin <= pchrPlainEnd then
-    Result += AnsiString(pchrPlainBegin);
+    Result += UTF8String(pchrPlainBegin);
 end;
 
 
