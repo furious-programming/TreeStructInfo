@@ -51,7 +51,7 @@ uses
   function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
   function RemoveWhitespaceChars(const AValue: UTF8String; AMode: TCuttingMode): UTF8String;
 
-  function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: AnsiString): AnsiString;
+  function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: UTF8String): AnsiString;
   function GlueStrings(const AMask: AnsiString; const AStrings: array of AnsiString): AnsiString;
 
   procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
