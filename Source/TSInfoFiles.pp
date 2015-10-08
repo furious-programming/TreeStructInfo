@@ -371,33 +371,33 @@ type
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
   public
-    procedure WriteBoolean(AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
-    procedure WriteInteger(AAttrName: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
-    procedure WriteFloat(AAttrName: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
-    procedure WriteFloat(AAttrName: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
-    procedure WriteCurrency(AAttrName: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteCurrency(AAttrName: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteString(AAttrName: UTF8String; AString: UTF8String; AFormat: TFormatString = fsOriginal);
-    procedure WriteDateTime(AAttrName: UTF8String; ADateTime: TDateTime; AMask: UTF8String); overload;
-    procedure WriteDateTime(AAttrName: UTF8String; ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings); overload;
-    procedure WritePoint(AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
-    procedure WriteList(AAttrName: UTF8String; AList: TStrings);
-    procedure WriteBuffer(AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
-    procedure WriteStream(AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+    procedure WriteBoolean(const AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+    procedure WriteInteger(const AAttrName: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+    procedure WriteFloat(const AAttrName: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
+    procedure WriteFloat(const AAttrName: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
+    procedure WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
+    procedure WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
+    procedure WriteString(const AAttrName, AString: UTF8String; AFormat: TFormatString = fsOriginal);
+    procedure WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime); overload;
+    procedure WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings); overload;
+    procedure WritePoint(const AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+    procedure WriteList(const AAttrName: UTF8String; AList: TStrings);
+    procedure WriteBuffer(const AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+    procedure WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
   public
-    function ReadBoolean(AAttrName: UTF8String; ADefault: Boolean): Boolean;
-    function ReadInteger(AAttrName: UTF8String; ADefault: Integer): Integer;
-    function ReadFloat(AAttrName: UTF8String; ADefault: Double): Double; overload;
-    function ReadFloat(AAttrName: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double; overload;
-    function ReadCurrency(AAttrName: UTF8String; ADefault: Currency): Currency; overload;
-    function ReadCurrency(AAttrName: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
-    function ReadString(AAttrName: UTF8String; ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
-    function ReadDateTime(AAttrName, AMask: UTF8String; ADefault: TDateTime): TDateTime; overload;
-    function ReadDateTime(AAttrName, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
-    function ReadPoint(AAttrName: UTF8String; ADefault: TPoint): TPoint;
-    procedure ReadList(AAttrName: UTF8String; AList: TStrings);
-    procedure ReadBuffer(AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
-    procedure ReadStream(AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+    function ReadBoolean(const AAttrName: UTF8String; ADefault: Boolean): Boolean;
+    function ReadInteger(const AAttrName: UTF8String; ADefault: Integer): Integer;
+    function ReadFloat(const AAttrName: UTF8String; ADefault: Double): Double; overload;
+    function ReadFloat(const AAttrName: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double; overload;
+    function ReadCurrency(const AAttrName: UTF8String; ADefault: Currency): Currency; overload;
+    function ReadCurrency(const AAttrName: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
+    function ReadString(const AAttrName, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
+    function ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime): TDateTime; overload;
+    function ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
+    function ReadPoint(const AAttrName: UTF8String; ADefault: TPoint): TPoint;
+    procedure ReadList(const AAttrName: UTF8String; AList: TStrings);
+    procedure ReadBuffer(const AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+    procedure ReadStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
   public
     function CreateAttribute(ANodePath: UTF8String; AReference: Boolean; AAttrName: UTF8String): Boolean;
     function CreateChildNode(ANodePath: UTF8String; AReference: Boolean; ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
@@ -1607,7 +1607,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteBoolean(AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+procedure TSimpleTSInfoTree.WriteBoolean(const AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1627,7 +1627,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteInteger(AAttrName: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+procedure TSimpleTSInfoTree.WriteInteger(const AAttrName: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1647,7 +1647,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteFloat(AAttrName: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(const AAttrName: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1667,7 +1667,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteFloat(AAttrName: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(const AAttrName: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1687,7 +1687,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteCurrency(AAttrName: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1707,7 +1707,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteCurrency(AAttrName: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1727,7 +1727,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteString(AAttrName: UTF8String; AString: UTF8String; AFormat: TFormatString = fsOriginal);
+procedure TSimpleTSInfoTree.WriteString(const AAttrName: UTF8String; AString: UTF8String; AFormat: TFormatString = fsOriginal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1767,7 +1767,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(AAttrName: UTF8String; ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrName: UTF8String; ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1787,7 +1787,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WritePoint(AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+procedure TSimpleTSInfoTree.WritePoint(const AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1807,7 +1807,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteList(AAttrName: UTF8String; AList: TStrings);
+procedure TSimpleTSInfoTree.WriteList(const AAttrName: UTF8String; AList: TStrings);
 var
   attrWrite: TTSInfoAttribute;
   strValue: UTF8String;
@@ -1829,7 +1829,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteBuffer(AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteBuffer(const AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   strValue: UTF8String = '';
@@ -1854,7 +1854,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteStream(AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
@@ -1883,7 +1883,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadBoolean(AAttrName: UTF8String; ADefault: Boolean): Boolean;
+function TSimpleTSInfoTree.ReadBoolean(const AAttrName: UTF8String; ADefault: Boolean): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1897,7 +1897,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadInteger(AAttrName: UTF8String; ADefault: Integer): Integer;
+function TSimpleTSInfoTree.ReadInteger(const AAttrName: UTF8String; ADefault: Integer): Integer;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1911,7 +1911,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadFloat(AAttrName: UTF8String; ADefault: Double): Double;
+function TSimpleTSInfoTree.ReadFloat(const AAttrName: UTF8String; ADefault: Double): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1925,7 +1925,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadFloat(AAttrName: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double;
+function TSimpleTSInfoTree.ReadFloat(const AAttrName: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1939,7 +1939,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadCurrency(AAttrName: UTF8String; ADefault: Currency): Currency;
+function TSimpleTSInfoTree.ReadCurrency(const AAttrName: UTF8String; ADefault: Currency): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1953,7 +1953,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadCurrency(AAttrName: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency;
+function TSimpleTSInfoTree.ReadCurrency(const AAttrName: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1967,7 +1967,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadString(AAttrName: UTF8String; ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
+function TSimpleTSInfoTree.ReadString(const AAttrName: UTF8String; ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1981,7 +1981,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadDateTime(AAttrName, AMask: UTF8String; ADefault: TDateTime): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -1995,7 +1995,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadDateTime(AAttrName, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2009,7 +2009,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadPoint(AAttrName: UTF8String; ADefault: TPoint): TPoint;
+function TSimpleTSInfoTree.ReadPoint(const AAttrName: UTF8String; ADefault: TPoint): TPoint;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2023,7 +2023,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadList(AAttrName: UTF8String; AList: TStrings);
+procedure TSimpleTSInfoTree.ReadList(const AAttrName: UTF8String; AList: TStrings);
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2035,7 +2035,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadBuffer(AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadBuffer(const AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2050,7 +2050,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadStream(AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
