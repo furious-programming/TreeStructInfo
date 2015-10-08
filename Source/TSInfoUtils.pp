@@ -56,8 +56,8 @@ uses
 
   procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
 
-  function ValidIdentifier(AIdentifier: UTF8String): Boolean;
-  function SameIdentifiers(AFirst, ASecond: UTF8String): Boolean;
+  function ValidIdentifier(const AIdentifier: UTF8String): Boolean;
+  function SameIdentifiers(const AFirst, ASecond: UTF8String): Boolean;
 
   function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
   function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
@@ -240,16 +240,16 @@ begin
 end;
 
 
-function ValidIdentifier(AIdentifier: UTF8String): Boolean;
+function ValidIdentifier(const AIdentifier: UTF8String): Boolean;
 var
-  intIdentLen: UInt32;
+  intIdentLen: Integer;
   pchrToken, pchrLast: PUTF8Char;
 begin
   Result := False;
   intIdentLen := Length(AIdentifier);
 
   if intIdentLen = 0 then
-    ThrowException(EM_EMPTY_IDENTIFIER, [])
+    ThrowException(EM_EMPTY_IDENTIFIER)
   else
   begin
     pchrToken := @AIdentifier[1];
