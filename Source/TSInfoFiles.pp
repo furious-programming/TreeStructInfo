@@ -329,13 +329,13 @@ type
   private
     FRootNode: TTSInfoNode;
     FCurrentNode: TTSInfoNode;
-    FFileName: TFileName;
+    FFileName: UTF8String;
     FTreeName: UTF8String;
     FTreeComment: UTF8String;
     FCurrentlyOpenNodePath: UTF8String;
-    FFileFlags: TTreeModes;
+    FTreeModes: TTreeModes;
     FModified: Boolean;
-    FReadOnlyMode: Boolean;
+    FReadOnly: Boolean;
   protected
     procedure InitFields(AFileName: TFileName; AFlags: TTreeModes);
     procedure DamageClear();
@@ -401,13 +401,13 @@ type
   public
     procedure UpdateFile();
   public
-    property FileName: TFileName read FFileName;
+    property FileName: UTF8String read FFileName;
     property TreeName: UTF8String read FTreeName;
     property CurrentlyOpenNodeName: UTF8String read FCurrentNode.FName;
     property CurrentlyOpenNodePath: UTF8String read FCurrentlyOpenNodePath;
-    property FileFlags: TTreeModes read FFileFlags write FFileFlags;
+    property TreeModes: TTreeModes read FTreeModes write FTreeModes;
     property Modified: Boolean read FModified;
-    property ReadOnlyMode: Boolean read FReadOnlyMode;
+    property ReadOnly: Boolean read FReadOnly;
   end;
 
 
