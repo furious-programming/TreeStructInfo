@@ -904,9 +904,10 @@ end;
 
 function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 var
-  intValueLen, intMaskLen: UInt32;
+  intValueLen, intMaskLen: Integer;
   pchrMaskToken, pchrMaskLast: PUTF8Char;
   pchrValueBegin, pchrValueEnd, pchrValueLast: PUTF8Char;
+  strValue, strMask: UTF8String;
   chrFormat: UTF8Char;
 
   procedure IncreaseMaskCharacters();
@@ -928,7 +929,7 @@ var
       Inc(pchrMaskToken);
     end;
 
-    pchrMaskToken := @AMask[1];
+    pchrMaskToken := @strMask[1];
   end;
 
 var
@@ -1022,23 +1023,23 @@ var
   boolIsAMHour: Boolean = False;
   intPivot: UInt16;
 begin
-  intValueLen := Length(AValue);
-  intMaskLen := Length(AMask);
+  strMask := AMask;
+  strValue := AValue;
 
-  if (intValueLen > 0) and (intMaskLen > 0) then
+  if (strMask <> '') and (strValue <> '') then
   begin
     InitDateTimeComponents();
 
-    AMask += #32;
-    AValue += #32;
-    Inc(intMaskLen);
-    Inc(intValueLen);
+    strMask += #32;
+    strValue += #32;
+    intMaskLen := Length(strMask);
+    intValueLen := Length(strValue);
 
-    pchrMaskToken := @AMask[1];
-    pchrMaskLast := @AMask[intMaskLen];
-    pchrValueBegin := @AValue[1];
+    pchrMaskToken := @strMask[1];
+    pchrMaskLast := @strMask[intMaskLen];
+    pchrValueBegin := @strValue[1];
     pchrValueEnd := pchrValueBegin;
-    pchrValueLast := @AValue[intValueLen];
+    pchrValueLast := @strValue[intValueLen];
 
     IncreaseMaskCharacters();
 
@@ -1062,8 +1063,8 @@ begin
                end;
           'M': case intFormatLen of
                  1, 2: intMonth := StringToNumber(strFormatVal);
-                 3: intMonth := MonthNameToNumber(strFormatVal, ASettings.ShortMonthNames);
-                 4: intMonth := MonthNameToNumber(strFormatVal, ASettings.LongMonthNames);
+                 3:    intMonth := MonthNameToNumber(strFormatVal, ASettings.ShortMonthNames);
+                 4:    intMonth := MonthNameToNumber(strFormatVal, ASettings.LongMonthNames);
                end;
           'D': case intFormatLen of
                  1, 2: intDay := StringToNumber(strFormatVal);
@@ -1108,10 +1109,8 @@ begin
           intHour := 0;
       end
       else
-      begin
         if intHour < 12 then
           Inc(intHour, 12);
-      end;
 
     if not TryEncodeDateTime(intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond, Result) then
       Result := ADefault;
