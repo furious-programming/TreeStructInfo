@@ -63,7 +63,7 @@ uses
   function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
 
   function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
-  procedure ExtractValueComponents(AValue: UTF8String; var AComponents: TValueComponents; out ACount: UInt32);
+  procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
 
   function IsCurrentNodeSymbol(APath: UTF8String): Boolean;
 
@@ -338,9 +338,9 @@ begin
 end;
 
 
-procedure ExtractValueComponents(AValue: UTF8String; var AComponents: TValueComponents; out ACount: UInt32);
+procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
 var
-  intCompCnt: UInt32 = 0;
+  intCompCnt: Integer = 0;
 
   procedure AddComponent(ASource: PUTF8Char; ALength: UInt32);
   begin
@@ -351,17 +351,20 @@ var
 
 var
   pchrBegin, pchrToken, pchrLast: PUTF8Char;
+  strValue: UTF8String;
 begin
+  SetLength(AComponents, 0);
+
   if AValue <> '' then
     if AValue = ONE_BLANK_VALUE_LINE_CHAR then
       AddComponent(PUTF8Char(ONE_BLANK_VALUE_LINE_CHAR), 1)
     else
     begin
-      AValue += VALUES_DELIMITER;
+      strValue := AValue + VALUES_DELIMITER;
 
-      pchrBegin := @AValue[1];
+      pchrBegin := @strValue[1];
       pchrToken := pchrBegin;
-      pchrLast := @AValue[Length(AValue)];
+      pchrLast := @strValue[Length(strValue)];
 
       while pchrToken <= pchrLast do
         if pchrToken^ = VALUES_DELIMITER then
