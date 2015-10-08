@@ -525,6 +525,14 @@ type
 
 type
   TTSInfoBinaryOutputWriter = class(TCustomTSInfoOutputWriter)
+  private
+    FTSInfoFile: TSimpleTSInfoTree;
+    FOutput: TStream;
+    FLoadedTrees: TTSInfoLoadedTreesList;
+    FAllowLinking: Boolean;
+  public
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+    destructor Destroy(); override;
   end;
 
 
@@ -3247,6 +3255,28 @@ end;
 
 
 { ----- TTSInfoBinaryOutputWriter class --------------------------------------------------------------------------- }
+
+
+constructor TTSInfoBinaryOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+begin
+  inherited Create();
+
+  FTSInfoFile := ATSInfoFile;
+  FOutput := AOutput;
+  FLoadedTrees := ALoadedTrees;
+
+  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+end;
+
+
+destructor TTSInfoBinaryOutputWriter.Destroy();
+begin
+  FTSInfoFile := nil;
+  FOutput := nil;
+  FLoadedTrees := nil;
+
+  inherited Destroy();
+end;
 
 
 { ----- end implementation ---------------------------------------------------------------------------------------- }
