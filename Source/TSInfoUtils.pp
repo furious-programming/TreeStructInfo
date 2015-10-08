@@ -57,8 +57,8 @@ uses
   function ValidIdentifier(AIdentifier: AnsiString): Boolean;
   function SameIdentifiers(AFirst, ASecond: AnsiString): Boolean;
 
-  procedure IncludeTrailingIdentsDelimiter(var APath: AnsiString);
-  procedure ExcludeTrailingIdentsDelimiter(var APath: AnsiString);
+  function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
+  function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
 
   function ExtractPathComponent(AAttrName: AnsiString; AComponent: TPathComponent): AnsiString;
   procedure ExtractValueComponents(AValue: AnsiString; var AComponents: TValueComponents; out ACount: UInt32);
@@ -274,25 +274,32 @@ begin
 end;
 
 
-procedure IncludeTrailingIdentsDelimiter(var APath: AnsiString);
+function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
 var
-  intPathLen: UInt32;
+  intPathLen: Integer;
 begin
   intPathLen := Length(APath);
 
   if (intPathLen > 0) and (APath[intPathLen] <> IDENTS_DELIMITER) then
-    APath += IDENTS_DELIMITER;
+    Result := APath + IDENTS_DELIMITER
+  else
+    Result := APath;
 end;
 
 
-procedure ExcludeTrailingIdentsDelimiter(var APath: AnsiString);
+function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
 var
-  intPathLen: UInt32;
+  intPathLen: Integer;
 begin
   intPathLen := Length(APath);
 
   if (intPathLen > 0) and (APath[intPathLen] = IDENTS_DELIMITER) then
-    SetLength(APath, intPathLen - 1);
+  begin
+    SetLength(Result, intPathLen - 1);
+    Move(APath[1], Result[1], intPathLen - 1);
+  end
+  else
+    Result := APath;
 end;
 
 
