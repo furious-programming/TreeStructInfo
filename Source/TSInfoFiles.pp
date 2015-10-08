@@ -1874,8 +1874,7 @@ function TSimpleTSInfoTree.ReadBoolean(const AAttrName: UTF8String; ADefault: Bo
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1888,8 +1887,7 @@ function TSimpleTSInfoTree.ReadInteger(const AAttrName: UTF8String; ADefault: In
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1902,8 +1900,7 @@ function TSimpleTSInfoTree.ReadFloat(const AAttrName: UTF8String; ADefault: Doub
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1916,8 +1913,7 @@ function TSimpleTSInfoTree.ReadFloat(const AAttrName: UTF8String; ADefault: Doub
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1930,8 +1926,7 @@ function TSimpleTSInfoTree.ReadCurrency(const AAttrName: UTF8String; ADefault: C
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1944,8 +1939,7 @@ function TSimpleTSInfoTree.ReadCurrency(const AAttrName: UTF8String; ADefault: C
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1954,12 +1948,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadString(const AAttrName: UTF8String; ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
+function TSimpleTSInfoTree.ReadString(const AAttrName, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -1972,13 +1965,12 @@ function TSimpleTSInfoTree.ReadDateTime(const AAttrName, AMask: UTF8String; ADef
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToDateTime(attrRead.Value, AMask, DefaultFormatSettings, ADefault);
+    Result := ValueToDateTime(AMask, attrRead.Value, DefaultFormatSettings, ADefault);
 end;
 
 
@@ -1986,13 +1978,12 @@ function TSimpleTSInfoTree.ReadDateTime(const AAttrName, AMask: UTF8String; ADef
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToDateTime(attrRead.Value, AMask, ASettings, ADefault);
+    Result := ValueToDateTime(AMask, attrRead.Value, ASettings, ADefault);
 end;
 
 
@@ -2000,8 +1991,7 @@ function TSimpleTSInfoTree.ReadPoint(const AAttrName: UTF8String; ADefault: TPoi
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2014,8 +2004,7 @@ procedure TSimpleTSInfoTree.ReadList(const AAttrName: UTF8String; AList: TString
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead <> nil then
     ValueToList(attrRead.Value, AList);
@@ -2028,8 +2017,7 @@ var
 begin
   if ASize > 0 then
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrRead := FindAttribute(AAttrName, False);
+    attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
     if attrRead <> nil then
       ValueToBuffer(attrRead.Value, ABuffer, ASize, AOffset);
