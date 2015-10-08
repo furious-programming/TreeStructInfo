@@ -359,9 +359,9 @@ type
     procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
     procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
   private
-    function FindElement(AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
-    function FindAttribute(AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
-    function FindNode(ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
+    function FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
+    function FindAttribute(const AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
+    function FindNode(const ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
   public
     constructor Create();
     constructor Create(const AFileName: UTF8String; AModes: TTreeModes);
@@ -1496,11 +1496,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindElement(AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
+function TSimpleTSInfoTree.FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
 var
   nodeRead, nodeTemp: TTSInfoNode;
   intPathLen: UInt32;
-  pchrNameBgn, pchrNameEnd, pchrLast: PUTF8Char;
+  pchrNameBegin, pchrNameEnd, pchrLast: PUTF8Char;
   strName: UTF8String;
 begin
   Result := nil;
@@ -1511,8 +1511,8 @@ begin
     nodeRead := FCurrentNode;
 
     SetLength(strName, 0);
-    pchrNameBgn := @AElementName[1];
-    pchrNameEnd := pchrNameBgn;
+    pchrNameBegin := @AElementName[1];
+    pchrNameEnd := pchrNameBegin;
     pchrLast := @AElementName[intPathLen];
 
     while (nodeRead = nil) or (pchrNameEnd <= pchrLast) do
@@ -1522,9 +1522,9 @@ begin
 
       if (nodeRead <> nil) and (pchrNameEnd^ = IDENTS_DELIMITER) then
       begin
-        MoveString(pchrNameBgn^, strName, pchrNameEnd - pchrNameBgn);
+        MoveString(pchrNameBegin^, strName, pchrNameEnd - pchrNameBegin);
 
-        if not IsCurrentNodeSymbol(strName) and ValidIdentifier(strName) then
+        if not IsCurrentNodePath(strName) and ValidIdentifier(strName) then
         begin
           nodeTemp := nodeRead.GetChildNode(strName);
 
@@ -1538,7 +1538,7 @@ begin
         end;
 
         Inc(pchrNameEnd);
-        pchrNameBgn := pchrNameEnd;
+        pchrNameBegin := pchrNameEnd;
       end
       else
         Break;
@@ -1548,7 +1548,7 @@ begin
     begin
       if nodeRead <> nil then
       begin
-        MoveString(pchrNameBgn^, strName, pchrNameEnd - pchrNameBgn + 1);
+        MoveString(pchrNameBegin^, strName, pchrNameEnd - pchrNameBegin + 1);
 
         if ValidIdentifier(strName) then
         begin
@@ -1565,13 +1565,13 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindAttribute(AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
+function TSimpleTSInfoTree.FindAttribute(const AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
 begin
   Result := FindElement(AAttrName, AForcePath, True) as TTSInfoAttribute;
 end;
 
 
-function TSimpleTSInfoTree.FindNode(ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
+function TSimpleTSInfoTree.FindNode(const ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
 begin
   Result := FindElement(ANodePath, AForcePath, False) as TTSInfoNode;
 end;
