@@ -1208,21 +1208,20 @@ end;
 
 procedure ListToValue(AList: TStrings; out AValue: UTF8String);
 var
-  strValue: UTF8String = '';
-  I: UInt32;
+  intLineIdx: Integer;
 begin
-  if AList.Count > 0 then
-  begin
-    strValue := AList[0];
+  if AList.Count = 0 then
+    AValue := ''
+  else
+    if (AList.Count = 1) and (AList[0] = '') then
+      AValue := ONE_BLANK_VALUE_LINE_CHAR
+    else
+    begin
+      AValue := AList[0];
 
-    for I := 1 to AList.Count - 1 do
-      strValue += VALUES_DELIMITER + AList[I];
-
-    if strValue = '' then
-      strValue := ONE_BLANK_VALUE_LINE_CHAR;
-  end;
-
-  AValue := strValue;
+      for intLineIdx := 1 to AList.Count - 1 do
+        AValue += VALUES_DELIMITER + AList[intLineIdx];
+    end;
 end;
 
 
