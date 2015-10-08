@@ -1227,18 +1227,15 @@ end;
 
 procedure ValueToList(const AValue: UTF8String; AList: TStrings);
 var
-  vcValue: TValueComponents;
-  intCompCnt: UInt32;
-  I: Integer;
+  vcList: TValueComponents;
+  intLinesCnt, intLineIdx: Integer;
 begin
-  SetLength(vcValue, 0);
-  ExtractValueComponents(AValue, vcValue, intCompCnt);
+  ExtractValueComponents(AValue, vcList, intLinesCnt);
 
   AList.BeginUpdate();
-
   try
-    for I := 0 to intCompCnt - 1 do
-      AList.Add(vcValue[I]);
+    for intLineIdx := 0 to intLinesCnt - 1 do
+      AList.Add(vcList[intLineIdx]);
   finally
     AList.EndUpdate();
   end;
