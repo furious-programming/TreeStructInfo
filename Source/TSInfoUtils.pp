@@ -1124,12 +1124,12 @@ end;
 
 function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
 var
-  strX, strY: UTF8String;
+  strCoordX, strCoordY: UTF8String;
 begin
-  strX := IntegerToValue(APoint.X, POINT_SYSTEMS[AFormat]);
-  strY := IntegerToValue(APoint.Y, POINT_SYSTEMS[AFormat]);
+  strCoordX := IntegerToValue(APoint.X, POINT_SYSTEMS[AFormat]);
+  strCoordY := IntegerToValue(APoint.Y, POINT_SYSTEMS[AFormat]);
 
-  Result := GlueStrings('%%%', [strX, COORDS_DELIMITER, strY]);
+  Result := GlueStrings('%%%', [strCoordX, COORDS_DELIMITER, strCoordY]);
 end;
 
 
