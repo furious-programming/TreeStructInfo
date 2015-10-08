@@ -48,55 +48,55 @@ uses
   procedure ThrowException(const AMessage: UTF8String); overload;
   procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const); overload;
 
-  function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
+  function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
   function RemoveWhitespaceChars(const AValue: UTF8String; AMode: TCuttingMode): UTF8String;
 
-  function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: UTF8String): AnsiString;
-  function GlueStrings(const AMask: AnsiString; const AStrings: array of AnsiString): AnsiString;
+  function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
+  function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
 
-  procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
+  procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
 
-  function ValidIdentifier(AIdentifier: AnsiString): Boolean;
-  function SameIdentifiers(AFirst, ASecond: AnsiString): Boolean;
+  function ValidIdentifier(AIdentifier: UTF8String): Boolean;
+  function SameIdentifiers(AFirst, ASecond: UTF8String): Boolean;
 
   function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
   function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
 
-  function ExtractPathComponent(AAttrName: AnsiString; AComponent: TPathComponent): AnsiString;
-  procedure ExtractValueComponents(AValue: AnsiString; var AComponents: TValueComponents; out ACount: UInt32);
+  function ExtractPathComponent(AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
+  procedure ExtractValueComponents(AValue: UTF8String; var AComponents: TValueComponents; out ACount: UInt32);
 
-  function IsCurrentNodeSymbol(APath: AnsiString): Boolean;
+  function IsCurrentNodeSymbol(APath: UTF8String): Boolean;
 
 
 { ----- data conversions ------------------------------------------------------------------------------------------ }
 
 
-  function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): AnsiString;
-  function ValueToBoolean(AValue: AnsiString; ADefault: Boolean): Boolean;
+  function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): UTF8String;
+  function ValueToBoolean(AValue: UTF8String; ADefault: Boolean): Boolean;
 
-  function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): AnsiString;
-  function ValueToInteger(AValue: AnsiString; ADefault: Integer): Integer;
+  function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
+  function ValueToInteger(AValue: UTF8String; ADefault: Integer): Integer;
 
-  function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): AnsiString;
-  function ValueToFloat(AValue: AnsiString; ASettings: TFormatSettings; ADefault: Double): Double;
+  function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): UTF8String;
+  function ValueToFloat(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
 
-  function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): AnsiString;
-  function ValueToCurrency(AValue: AnsiString; ASettings: TFormatSettings; ADefault: Currency): Currency;
+  function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
+  function ValueToCurrency(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 
-  function StringToValue(AString: AnsiString; AFormat: TFormatString): AnsiString;
-  function ValueToString(AValue: AnsiString; AFormat: TFormatString): AnsiString;
+  function StringToValue(AString: UTF8String; AFormat: TFormatString): UTF8String;
+  function ValueToString(AValue: UTF8String; AFormat: TFormatString): UTF8String;
 
-  function DateTimeToValue(ADateTime: TDateTime; AMask: AnsiString; ASettings: TFormatSettings): AnsiString;
-  function ValueToDateTime(AValue: AnsiString; AMask: AnsiString; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+  function DateTimeToValue(ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings): UTF8String;
+  function ValueToDateTime(AValue: UTF8String; AMask: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 
-  function PointToValue(APoint: TPoint; AFormat: TFormatPoint): AnsiString;
-  function ValueToPoint(AValue: AnsiString; ADefault: TPoint): TPoint;
+  function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
+  function ValueToPoint(AValue: UTF8String; ADefault: TPoint): TPoint;
 
-  procedure ListToValue(AList: TStrings; out AValue: AnsiString);
-  procedure ValueToList(AValue: AnsiString; AList: TStrings);
+  procedure ListToValue(AList: TStrings; out AValue: UTF8String);
+  procedure ValueToList(AValue: UTF8String; AList: TStrings);
 
-  procedure BufferToValue(const ABuffer; ASize: UInt32; out AValue: AnsiString; AFormat: TFormatBuffer);
-  procedure ValueToBuffer(AValue: AnsiString; var ABuffer; ASize, AOffset: UInt32);
+  procedure BufferToValue(const ABuffer; ASize: UInt32; out AValue: UTF8String; AFormat: TFormatBuffer);
+  procedure ValueToBuffer(AValue: UTF8String; var ABuffer; ASize, AOffset: UInt32);
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
@@ -120,7 +120,7 @@ begin
 end;
 
 
-function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
+function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
@@ -199,11 +199,11 @@ begin
 end;
 
 
-function GlueStrings(const AMask: AnsiString; const AStrings: array of AnsiString): AnsiString;
+function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
 const
-  MASK_FORMAT_CHAR = AnsiChar('%');
+  MASK_FORMAT_CHAR = UTF8Char('%');
 var
-  pchrToken, pchrLast: PAnsiChar;
+  pchrToken, pchrLast: PUTF8Char;
   intStringIdx: UInt32 = 0;
   intResultLen: UInt32 = 0;
   intStringLen: UInt32;
@@ -233,17 +233,17 @@ begin
 end;
 
 
-procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
+procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
 begin
   SetLength(ADest, ALength);
   Move(ASource, ADest[1], ALength);
 end;
 
 
-function ValidIdentifier(AIdentifier: AnsiString): Boolean;
+function ValidIdentifier(AIdentifier: UTF8String): Boolean;
 var
   intIdentLen: UInt32;
-  pchrToken, pchrLast: PAnsiChar;
+  pchrToken, pchrLast: PUTF8Char;
 begin
   Result := False;
   intIdentLen := Length(AIdentifier);
@@ -266,7 +266,7 @@ begin
 end;
 
 
-function SameIdentifiers(AFirst, ASecond: AnsiString): Boolean;
+function SameIdentifiers(AFirst, ASecond: UTF8String): Boolean;
 var
   intFirstLen, intSecondLen: UInt32;
 begin
@@ -307,10 +307,10 @@ begin
 end;
 
 
-function ExtractPathComponent(AAttrName: AnsiString; AComponent: TPathComponent): AnsiString;
+function ExtractPathComponent(AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
 var
   intValueLen: UInt32;
-  pchrFirst, pchrToken, pchrLast: PAnsiChar;
+  pchrFirst, pchrToken, pchrLast: PUTF8Char;
 begin
   Result := '';
   intValueLen := Length(AAttrName);
@@ -327,7 +327,7 @@ begin
     case AComponent of
       pcAttributeName:
           if pchrToken^ = IDENTS_DELIMITER then
-            MoveString(PAnsiChar(pchrToken + 1)^, Result, pchrLast - pchrToken)
+            MoveString(PUTF8Char(pchrToken + 1)^, Result, pchrLast - pchrToken)
           else
             Result := AAttrName;
       pcAttributePath:
@@ -338,11 +338,11 @@ begin
 end;
 
 
-procedure ExtractValueComponents(AValue: AnsiString; var AComponents: TValueComponents; out ACount: UInt32);
+procedure ExtractValueComponents(AValue: UTF8String; var AComponents: TValueComponents; out ACount: UInt32);
 var
   intCompCnt: UInt32 = 0;
 
-  procedure AddComponent(ASource: PAnsiChar; ALength: UInt32);
+  procedure AddComponent(ASource: PUTF8Char; ALength: UInt32);
   begin
     SetLength(AComponents, intCompCnt + 1);
     MoveString(ASource^, AComponents[intCompCnt], ALength);
@@ -350,11 +350,11 @@ var
   end;
 
 var
-  pchrBegin, pchrToken, pchrLast: PAnsiChar;
+  pchrBegin, pchrToken, pchrLast: PUTF8Char;
 begin
   if AValue <> '' then
     if AValue = ONE_BLANK_VALUE_LINE_CHAR then
-      AddComponent(PAnsiChar(ONE_BLANK_VALUE_LINE_CHAR), 1)
+      AddComponent(PUTF8Char(ONE_BLANK_VALUE_LINE_CHAR), 1)
     else
     begin
       AValue += VALUES_DELIMITER;
@@ -381,17 +381,17 @@ end;
 { ----- boolean conversions --------------------------------------------------------------------------------------- }
 
 
-function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): AnsiString;
+function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): UTF8String;
 begin
   Result := BOOLEAN_VALUES[ABoolean, AFormat];
 end;
 
 
-function ValueToBoolean(AValue: AnsiString; ADefault: Boolean): Boolean;
+function ValueToBoolean(AValue: UTF8String; ADefault: Boolean): Boolean;
 
   procedure SetValueCamelCaseStyle();
   var
-    pchrToken, pchrLast: PAnsiChar;
+    pchrToken, pchrLast: PUTF8Char;
   begin
     pchrToken := @AValue[1];
     pchrLast := @AValue[Length(AValue)];
@@ -445,11 +445,11 @@ end;
 { ----- integer conversions --------------------------------------------------------------------------------------- }
 
 
-function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): AnsiString;
+function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
 var
-  strValue: AnsiString;
+  strValue: UTF8String;
   intValueLen, intMinLen: UInt32;
-  pchrToken, pchrLast: PAnsiChar;
+  pchrToken, pchrLast: PUTF8Char;
 begin
   if AFormat in [fiUnsignedDecimal, fiSignedDecimal] then
   begin
@@ -485,15 +485,15 @@ begin
 end;
 
 
-function ValueToInteger(AValue: AnsiString; ADefault: Integer): Integer;
+function ValueToInteger(AValue: UTF8String; ADefault: Integer): Integer;
 var
-  strValue: AnsiString;
+  strValue: UTF8String;
   intValueLen: UInt32;
   fiFormat: TFormatInteger = fiUnsignedDecimal;
 
   procedure LocalizeAndChangeValueSystemPrefix();
   var
-    pchrToken, pchrLast, pchrSystem: PAnsiChar;
+    pchrToken, pchrLast, pchrSystem: PUTF8Char;
   begin
     pchrToken := @AValue[1];
     pchrLast := @AValue[intValueLen];
@@ -518,7 +518,7 @@ var
       begin
         intValueLen := pchrLast - pchrSystem;
         SetLength(strValue, intValueLen + 1);
-        Move(PAnsiChar(pchrSystem + 1)^, strValue[2], intValueLen);
+        Move(PUTF8Char(pchrSystem + 1)^, strValue[2], intValueLen);
         strValue[1] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiFormat];
       end;
     end;
@@ -543,7 +543,7 @@ end;
 { ----- float conversions ----------------------------------------------------------------------------------------- }
 
 
-function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): AnsiString;
+function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): UTF8String;
 var
   boolMustBeUnsigned: Boolean;
 begin
@@ -572,11 +572,11 @@ begin
 end;
 
 
-function ValueToFloat(AValue: AnsiString; ASettings: TFormatSettings; ADefault: Double): Double;
+function ValueToFloat(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
 
   procedure SetValueCamelCaseStyle();
   var
-    pchrToken, pchrLast: PAnsiChar;
+    pchrToken, pchrLast: PUTF8Char;
   begin
     pchrToken := @AValue[1];
     pchrLast := @AValue[Length(AValue)];
@@ -625,7 +625,7 @@ end;
 { ----- currency converions --------------------------------------------------------------------------------------- }
 
 
-function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): AnsiString;
+function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
 begin
   case AFormat of
     fcUnsignedPrice, fcSignedPrice:
@@ -639,11 +639,11 @@ begin
 end;
 
 
-function ValueToCurrency(AValue: AnsiString; ASettings: TFormatSettings; ADefault: Currency): Currency;
+function ValueToCurrency(AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 var
   intValueLen, intCurrStringLen: UInt32;
-  pchrFirst, pchrToken, pchrLast: PAnsiChar;
-  strValue: AnsiString;
+  pchrFirst, pchrToken, pchrLast: PUTF8Char;
+  strValue: UTF8String;
 begin
   intValueLen := Length(AValue);
 
@@ -684,7 +684,7 @@ end;
 { ----- string conversion ----------------------------------------------------------------------------------------- }
 
 
-function StringToValue(AString: AnsiString; AFormat: TFormatString): AnsiString;
+function StringToValue(AString: UTF8String; AFormat: TFormatString): UTF8String;
 begin
   case AFormat of
     fsOriginal:  Result := AString;
@@ -694,7 +694,7 @@ begin
 end;
 
 
-function ValueToString(AValue: AnsiString; AFormat: TFormatString): AnsiString;
+function ValueToString(AValue: UTF8String; AFormat: TFormatString): UTF8String;
 begin
   case AFormat of
     fsOriginal:  Result := AValue;
@@ -707,12 +707,12 @@ end;
 { ----- date & time conversions ----------------------------------------------------------------------------------- }
 
 
-function DateTimeToValue(ADateTime: TDateTime; AMask: AnsiString; ASettings: TFormatSettings): AnsiString;
+function DateTimeToValue(ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings): UTF8String;
 var
   intMaskLen, intResultLen, intFormatLen: UInt32;
-  pchrMaskToken, pchrMaskLast: PAnsiChar;
-  chrFormat: AnsiChar;
-  strResult: AnsiString = '';
+  pchrMaskToken, pchrMaskLast: PUTF8Char;
+  chrFormat: UTF8Char;
+  strResult: UTF8String = '';
   bool12HourClock: Boolean = False;
 
   procedure IncreaseMaskCharacters();
@@ -751,7 +751,7 @@ var
     pchrMaskToken := @AMask[1];
   end;
 
-  procedure SaveString(const AString: AnsiString);
+  procedure SaveString(const AString: UTF8String);
   var
     intStringLen: UInt32;
   begin
@@ -763,7 +763,7 @@ var
 
   procedure SaveNumber(const ANumber, ADigits: UInt16);
   var
-    strNumber: AnsiString;
+    strNumber: UTF8String;
   begin
     Str(ANumber, strNumber);
     strNumber := StringOfChar('0', ADigits - Length(strNumber)) + strNumber;
@@ -894,12 +894,12 @@ begin
 end;
 
 
-function ValueToDateTime(AValue: AnsiString; AMask: AnsiString; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+function ValueToDateTime(AValue: UTF8String; AMask: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 var
   intValueLen, intMaskLen: UInt32;
-  pchrMaskToken, pchrMaskLast: PAnsiChar;
-  pchrValueBegin, pchrValueEnd, pchrValueLast: PAnsiChar;
-  chrFormat: AnsiChar;
+  pchrMaskToken, pchrMaskLast: PUTF8Char;
+  pchrValueBegin, pchrValueEnd, pchrValueLast: PUTF8Char;
+  chrFormat: UTF8Char;
 
   procedure IncreaseMaskCharacters();
   begin
@@ -938,9 +938,9 @@ var
   end;
 
 var
-  chrFormatSep: AnsiChar;
+  chrFormatSep: UTF8Char;
   intFormatLen: UInt32 = 0;
-  strFormatVal: AnsiString = '';
+  strFormatVal: UTF8String = '';
 
   procedure GetFormatInfo();
   begin
@@ -973,7 +973,7 @@ var
     pchrValueBegin := pchrValueEnd;
   end;
 
-  function StringToNumber(const AString: AnsiString): UInt16;
+  function StringToNumber(const AString: UTF8String): UInt16;
   var
     intCode: Integer;
   begin
@@ -983,7 +983,7 @@ var
       Result := 0;
   end;
 
-  function MonthNameToNumber(const AName: AnsiString; const AMonthNames: array of AnsiString): Integer;
+  function MonthNameToNumber(const AName: UTF8String; const AMonthNames: array of UTF8String): Integer;
   var
     intNameLen: Integer;
     I: Integer = 1;
@@ -1116,9 +1116,9 @@ end;
 { ----- point conversions ----------------------------------------------------------------------------------------- }
 
 
-function PointToValue(APoint: TPoint; AFormat: TFormatPoint): AnsiString;
+function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
 var
-  strX, strY: AnsiString;
+  strX, strY: UTF8String;
 begin
   strX := IntegerToValue(APoint.X, POINT_SYSTEMS[AFormat]);
   strY := IntegerToValue(APoint.Y, POINT_SYSTEMS[AFormat]);
@@ -1127,12 +1127,12 @@ begin
 end;
 
 
-function ValueToPoint(AValue: AnsiString; ADefault: TPoint): TPoint;
+function ValueToPoint(AValue: UTF8String; ADefault: TPoint): TPoint;
 
-  function ExtractPointCoords(const AValue: AnsiString; out ACoordX, ACoordY: AnsiString): Boolean;
+  function ExtractPointCoords(const AValue: UTF8String; out ACoordX, ACoordY: UTF8String): Boolean;
   var
     intValueLen: UInt32;
-    pchrCoordXBegin, pchrCoordXEnd, pchrCoordYBegin, pchrCoordYEnd: PAnsiChar;
+    pchrCoordXBegin, pchrCoordXEnd, pchrCoordYBegin, pchrCoordYEnd: PUTF8Char;
   begin
     Result := False;
     intValueLen := Length(AValue);
@@ -1179,9 +1179,9 @@ function ValueToPoint(AValue: AnsiString; ADefault: TPoint): TPoint;
     end;
   end;
 
-  procedure ChangeSystemPrefix(var ACoord: AnsiString);
+  procedure ChangeSystemPrefix(var ACoord: UTF8String);
   var
-    pchrSystem: PAnsiChar;
+    pchrSystem: PUTF8Char;
     fiFormat: TFormatInteger = fiUnsignedDecimal;
   begin
     if Length(ACoord) > 2 then
@@ -1204,7 +1204,7 @@ function ValueToPoint(AValue: AnsiString; ADefault: TPoint): TPoint;
 
 var
   intCoordXCode, intCoordYCode: Integer;
-  strCoordX, strCoordY: AnsiString;
+  strCoordX, strCoordY: UTF8String;
 begin
   if ExtractPointCoords(AValue, strCoordX, strCoordY) then
   begin
@@ -1225,9 +1225,9 @@ end;
 { ----- list conversions ------------------------------------------------------------------------------------------ }
 
 
-procedure ListToValue(AList: TStrings; out AValue: AnsiString);
+procedure ListToValue(AList: TStrings; out AValue: UTF8String);
 var
-  strValue: AnsiString = '';
+  strValue: UTF8String = '';
   I: UInt32;
 begin
   if AList.Count > 0 then
@@ -1245,7 +1245,7 @@ begin
 end;
 
 
-procedure ValueToList(AValue: AnsiString; AList: TStrings);
+procedure ValueToList(AValue: UTF8String; AList: TStrings);
 var
   vcValue: TValueComponents;
   intCompCnt: UInt32;
@@ -1268,13 +1268,13 @@ end;
 { ----- buffer & stream conversions ------------------------------------------------------------------------------- }
 
 
-procedure BufferToValue(const ABuffer; ASize: UInt32; out AValue: AnsiString; AFormat: TFormatBuffer);
+procedure BufferToValue(const ABuffer; ASize: UInt32; out AValue: UTF8String; AFormat: TFormatBuffer);
 var
   arrBuffer: TByteDynArray;
   intValueLen, intWholePiecesCnt, I: UInt32;
   pintToken: PByte;
-  pchrToken, pchrLast: PAnsiChar;
-  strHexByte: AnsiString;
+  pchrToken, pchrLast: PUTF8Char;
+  strHexByte: UTF8String;
 begin
   if ASize = 0 then Exit;
 
@@ -1313,19 +1313,19 @@ begin
 
     if pchrToken < pchrLast then
     begin
-      Move(PAnsiChar(VALUES_DELIMITER)^, pchrToken^, 1);
+      Move(PUTF8Char(VALUES_DELIMITER)^, pchrToken^, 1);
       Inc(pchrToken);
     end;
   end;
 end;
 
 
-procedure ValueToBuffer(AValue: AnsiString; var ABuffer; ASize, AOffset: UInt32);
+procedure ValueToBuffer(AValue: UTF8String; var ABuffer; ASize, AOffset: UInt32);
 var
   arrBuffer: TByteDynArray;
   pintToken: PByte;
-  pchrToken, pchrBufferLast, pchrValueLast: PAnsiChar;
-  strHexByte: AnsiString = '$00';
+  pchrToken, pchrBufferLast, pchrValueLast: PUTF8Char;
+  strHexByte: UTF8String = '$00';
   intValueLen: UInt32;
   intCode: Integer;
 begin
@@ -1357,7 +1357,7 @@ begin
 end;
 
 
-function IsCurrentNodeSymbol(APath: AnsiString): Boolean;
+function IsCurrentNodeSymbol(APath: UTF8String): Boolean;
 begin
   Result := (APath = '') or (APath = CURRENT_NODE_SYMBOL);
 end;
