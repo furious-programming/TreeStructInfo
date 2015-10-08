@@ -719,6 +719,7 @@ var
   intMaskLen, intResultLen, intFormatLen: UInt32;
   pchrMaskToken, pchrMaskLast: PUTF8Char;
   chrFormat: UTF8Char;
+  strMask: UTF8String;
   strResult: UTF8String = '';
   bool12HourClock: Boolean = False;
 
@@ -741,7 +742,7 @@ var
       Inc(pchrMaskToken);
     end;
 
-    pchrMaskToken := @AMask[1];
+    pchrMaskToken := @strMask[1];
   end;
 
   procedure GetClockInfo();
@@ -755,7 +756,7 @@ var
       else
         Inc(pchrMaskToken);
 
-    pchrMaskToken := @AMask[1];
+    pchrMaskToken := @strMask[1];
   end;
 
   procedure SaveString(const AString: UTF8String);
@@ -791,15 +792,15 @@ var
 var
   intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond, intDayOfWeek: UInt16;
 begin
-  intMaskLen := Length(AMask);
+  intMaskLen := Length(strMask);
 
   if intMaskLen > 0 then
   begin
-    AMask += #32;
+    strMask := AMask + #32;
     Inc(intMaskLen);
     intResultLen := 0;
-    pchrMaskToken := @AMask[1];
-    pchrMaskLast := @AMask[intMaskLen];
+    pchrMaskToken := @strMask[1];
+    pchrMaskLast := @strMask[intMaskLen];
 
     IncreaseMaskCharacters();
     GetClockInfo();
@@ -820,13 +821,13 @@ begin
                end;
           'M': case intFormatLen of
                  1, 2: SaveNumber(intMonth, intFormatLen);
-                 3: SaveString(ASettings.ShortMonthNames[intMonth]);
-                 4: SaveString(ASettings.LongMonthNames[intMonth]);
+                 3:    SaveString(ASettings.ShortMonthNames[intMonth]);
+                 4:    SaveString(ASettings.LongMonthNames[intMonth]);
                end;
           'D': case intFormatLen of
                  1, 2: SaveNumber(intDay, intFormatLen);
-                 3: SaveString(ASettings.ShortDayNames[intDayOfWeek]);
-                 4: SaveString(ASettings.LongDayNames[intDayOfWeek]);
+                 3:    SaveString(ASettings.ShortDayNames[intDayOfWeek]);
+                 4:    SaveString(ASettings.LongDayNames[intDayOfWeek]);
                end;
           'H': case intFormatLen of
                  1, 2: if bool12HourClock then
@@ -834,9 +835,9 @@ begin
                          if intHour < 12 then
                          begin
                            if intHour = 0 then
-                            SaveNumber(12, intFormatLen)
-                          else
-                            SaveNumber(intHour, intFormatLen);
+                             SaveNumber(12, intFormatLen)
+                           else
+                             SaveNumber(intHour, intFormatLen);
                          end
                          else
                            if intHour = 12 then
