@@ -66,6 +66,7 @@ uses
   procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
 
   function IsCurrentNodePath(const APath: UTF8String): Boolean;
+  function PathWithoutLastNodeName(const APath: UTF8String): UTF8String;
 
 
 { ----- data conversions ------------------------------------------------------------------------------------------ }
@@ -384,6 +385,26 @@ end;
 function IsCurrentNodePath(const APath: UTF8String): Boolean;
 begin
   Result := (APath = '') or (APath = CURRENT_NODE_SYMBOL);
+end;
+
+
+function PathWithoutLastNodeName(const APath: UTF8String): UTF8String;
+var
+  pchrFirst, pchrToken: PUTF8Char;
+begin
+  Result := '';
+
+  if APath <> '' then
+  begin
+    pchrFirst := @APath[1];
+    pchrToken := @APath[Length(APath) - 2];
+
+    while (pchrToken >= pchrFirst) and (pchrToken^ <> IDENTS_DELIMITER) do
+      Dec(pchrToken);
+
+    if pchrToken > pchrFirst then
+      MoveString(pchrFirst^, Result, pchrToken - pchrFirst + 1);
+  end;
 end;
 
 
