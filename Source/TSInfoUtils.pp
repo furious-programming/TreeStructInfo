@@ -1291,37 +1291,50 @@ end;
 
 procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
 var
-  arrBuffer: TByteDynArray;
-  pintToken: PByte;
-  pchrToken, pchrBufferLast, pchrValueLast: PUTF8Char;
-  strHexByte: UTF8String = '$00';
-  intValueLen: UInt32;
-  intCode: Integer;
+  bdaBuffer: TByteDynArray;
+  strValue: UTF8String;
+  intValueLen: Integer;
+  pintByte: PUInt8;
+  pchrByte, pchrBufferLast, pchrValueLast: PUTF8Char;
 begin
-  if ASize = 0 then Exit;
+  if ASize <= 0 then Exit();
 
-  AValue := ReplaceSubStrings(AValue, VALUES_DELIMITER, '');
-  intValueLen := Length(AValue);
+  strValue := ReplaceSubStrings(AValue, VALUES_DELIMITER, '');
+  intValueLen := Length(strValue);
 
   if intValueLen > 0 then
   begin
-    SetLength(arrBuffer, ASize);
-    FillChar(arrBuffer[0], ASize, 0);
+    SetLength(bdaBuffer, ASize);
+    FillChar(bdaBuffer[0], ASize, 0);
 
-    pintToken := @arrBuffer[0];
-    pchrToken := @AValue[AOffset * 2 + 1];
-    pchrBufferLast := pchrToken + ASize * 2;
-    pchrValueLast := @AValue[intValueLen];
+    pintByte := @bdaBuffer[0];
+    pchrByte := @strValue[AOffset * 2 + 1];
+    pchrBufferLast := pchrByte + ASize * 2;
+    pchrValueLast := @strValue[intValueLen];
 
-    while (pchrToken < pchrBufferLast) and (pchrToken < pchrValueLast) do
+    while (pchrByte <= pchrBufferLast) and (pchrByte <= pchrValueLast) do
     begin
-      Move(pchrToken^, strHexByte[2], 2);
-      Val(strHexByte, pintToken^, intCode);
-      Inc(pintToken);
-      Inc(pchrToken, 2);
+      if pchrByte^ in ['0' .. '9'] then
+        Dec(pchrByte^, 48)
+      else
+        if pchrByte^ in ['A' .. 'F'] then
+          Dec(pchrByte^, 55)
+        else
+          Exit();
+
+      Inc(pchrByte);
     end;
 
-    Move(arrBuffer[0], ABuffer, ASize);
+    pchrByte := @strValue[AOffset * 2 + 1];
+
+    while (pchrByte < pchrBufferLast) and (pchrByte < pchrValueLast) do
+    begin
+      pintByte^ := UInt8(pchrByte^) shl 4 or PUInt8(pchrByte + 1)^;
+      Inc(pintByte);
+      Inc(pchrByte, 2);
+    end;
+
+    Move(bdaBuffer[0], ABuffer, ASize);
   end;
 end;
 
