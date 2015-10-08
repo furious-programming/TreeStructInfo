@@ -70,7 +70,8 @@ type
   TPathComponent = (pcAttributeName, pcAttributePath);
 
 type
-  TValueComponents = array of AnsiString;
+  TValueComponents = array of UTF8String;
+  TLineComponents  = TValueComponents;
 
 type
   TFormatBoolean  = (fbLongTrueFalse, fbLongYesNo, fbLongOnOff, fbShortTrueFalse, fbShortYesNo, fbNumerical);
