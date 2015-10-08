@@ -457,40 +457,45 @@ end;
 
 function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
 var
-  strValue: UTF8String;
-  intValueLen, intMinLen: UInt32;
-  pchrToken, pchrLast: PUTF8Char;
+  boolIsNegative: Boolean;
+  strRawValue: UTF8String;
+  intRawValueLen, intRawValueMinLen: Integer;
+  pchrNonZeroDigit, pchrLast: PUTF8Char;
 begin
   if AFormat in [fiUnsignedDecimal, fiSignedDecimal] then
   begin
-    Str(AInteger, strValue);
+    Str(AInteger, Result);
 
     if (AFormat = fiSignedDecimal) and (AInteger > 0) then
-      Result := '+';
-
-    Result += strValue;
+      Result := '+' + Result;
   end
   else
   begin
+    boolIsNegative := AInteger < 0;
+    AInteger := Abs(AInteger);
+
     case AFormat of
-      fiHexadecimal: strValue := HexStr(AInteger, SizeOf(Integer) * 2);
-      fiOctal:       strValue := OctStr(AInteger, SizeOf(Integer) * 3);
-      fiBinary:      strValue := BinStr(AInteger, SizeOf(Integer) * 8);
+      fiHexadecimal: strRawValue := HexStr(AInteger, SizeOf(Integer) * 2);
+      fiOctal:       strRawValue := OctStr(AInteger, SizeOf(Integer) * 3);
+      fiBinary:      strRawValue := BinStr(AInteger, SizeOf(Integer) * 8);
     end;
 
-    intValueLen := Length(strValue);
-    intMinLen := INTEGER_MIN_LENGTHS[AFormat] - 1;
+    intRawValueLen := Length(strRawValue);
+    intRawValueMinLen := INTEGER_MIN_LENGTHS[AFormat] - 1;
 
-    pchrToken := @strValue[1];
-    pchrLast := @strValue[intValueLen];
+    pchrNonZeroDigit := @strRawValue[1];
+    pchrLast := @strRawValue[intRawValueLen];
 
-    while (pchrToken < pchrLast - intMinLen) and (pchrToken^ = '0') do
-      Inc(pchrToken);
+    while (pchrNonZeroDigit < pchrLast - intRawValueMinLen) and (pchrNonZeroDigit^ = '0') do
+      Inc(pchrNonZeroDigit);
 
-    intValueLen := pchrLast - pchrToken + 2;
-    SetLength(Result, intValueLen + 1);
-    Move(pchrToken^, Result[3], intValueLen);
-    Move(INTEGER_UNIVERSAL_SYSTEM_PREFIXES[AFormat][1], Result[1], 2);
+    intRawValueLen := pchrLast - pchrNonZeroDigit + 1;
+    SetLength(Result, intRawValueLen + 2 + UInt8(boolIsNegative));
+    Move(pchrNonZeroDigit^, Result[3 + UInt8(boolIsNegative)], intRawValueLen);
+    Move(INTEGER_UNIVERSAL_SYSTEM_PREFIXES[AFormat][1], Result[1 + UInt8(boolIsNegative)], 2);
+
+    if boolIsNegative then
+      Result[1] := '-';
   end;
 end;
 
