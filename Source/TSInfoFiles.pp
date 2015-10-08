@@ -480,6 +480,16 @@ type
 
 type
   TTSInfoTextInputReader = class(TObject)
+  private
+    FTSInfoFile: TSimpleTSInfoTree;
+    FInput: TStrings;
+    FLoadedTrees: TTSInfoLoadedTreesList;
+    FRefElements: TTSInfoRefElementsList;
+    FComment: UTF8String;
+    FAllowLinking: Boolean;
+  public
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+    destructor Destroy(); override;
   end;
 
 
@@ -3139,6 +3149,32 @@ end;
 
 
 { ----- TTSInfoTextInputReader class ------------------------------------------------------------------------------ }
+
+
+constructor TTSInfoTextInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+begin
+  inherited Create();
+
+  FTSInfoFile := ATSInfoFile;
+  FInput := AInput;
+  FLoadedTrees := ALoadedTrees;
+
+  FRefElements := TTSInfoRefElementsList.Create(False);
+
+  FComment := '';
+  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+end;
+
+
+destructor TTSInfoTextInputReader.Destroy();
+begin
+  FTSInfoFile := nil;
+  FInput := nil;
+  FLoadedTrees := nil;
+
+  FRefElements.Free();
+  inherited Destroy();
+end;
 
 
 { ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
