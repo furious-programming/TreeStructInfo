@@ -495,6 +495,15 @@ type
 
 type
   TTSInfoTextOutputWriter = class(TObject)
+  private
+    FTSInfoFile: TSimpleTSInfoTree;
+    FOutput: TStrings;
+    FLoadedTrees: TTSInfoLoadedTreesList;
+    FRefElements: TTSInfoRefElementsList;
+    FAllowLinking: Boolean;
+  public
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+    destructor Destroy(); override;
   end;
 
 
@@ -503,6 +512,14 @@ type
 
 type
   TTSInfoBinaryInputReader = class(TObject)
+  private
+    FTSInfoFile: TSimpleTSInfoTree;
+    FInput: TStream;
+    FLoadedTrees: TTSInfoLoadedTreesList;
+    FAllowLinking: Boolean;
+  public
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+    destructor Destroy(); override;
   end;
 
 
@@ -3180,7 +3197,53 @@ end;
 { ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
 
 
+constructor TTSInfoTextOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+begin
+  inherited Create();
+
+  FTSInfoFile := ATSInfoFile;
+  FOutput := AOutput;
+  FLoadedTrees := ALoadedTrees;
+
+  FRefElements := TTSInfoRefElementsList.Create(False);
+  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+end;
+
+
+destructor TTSInfoTextOutputWriter.Destroy();
+begin
+  FTSInfoFile := nil;
+  FOutput := nil;
+  FLoadedTrees := nil;
+
+  FRefElements.Free();
+  inherited Destroy();
+end;
+
+
 { ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
+
+
+constructor TTSInfoBinaryInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+begin
+  inherited Create();
+
+  FTSInfoFile := ATSInfoFile;
+  FInput := AInput;
+  FLoadedTrees := ALoadedTrees;
+
+  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+end;
+
+
+destructor TTSInfoBinaryInputReader.Destroy();
+begin
+  FTSInfoFile := nil;
+  FInput := nil;
+  FLoadedTrees := nil;
+
+  inherited Destroy();
+end;
 
 
 { ----- TTSInfoBinaryOutputWriter class --------------------------------------------------------------------------- }
