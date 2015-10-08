@@ -2030,8 +2030,7 @@ var
   attrRead: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead <> nil then
   begin
@@ -2039,7 +2038,6 @@ begin
     ValueToBuffer(attrRead.Value, arrBuffer[0], ASize, AOffset);
 
     AStream.Write(arrBuffer[0], ASize);
-    AStream.Position := AStream.Position - ASize;
   end;
 end;
 
