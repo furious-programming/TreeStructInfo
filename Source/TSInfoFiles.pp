@@ -1305,7 +1305,7 @@ begin
   FRootNode.ClearLinks();
 
   FCurrentNode := FRootNode;
-  FFileFlags := [];
+  FCurrentlyOpenNodePath := '';
 end;
 
 
