@@ -1611,12 +1611,11 @@ procedure TSimpleTSInfoTree.WriteBoolean(const AAttrName: UTF8String; ABoolean: 
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1631,12 +1630,11 @@ procedure TSimpleTSInfoTree.WriteInteger(const AAttrName: UTF8String; AInteger: 
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1651,12 +1649,11 @@ procedure TSimpleTSInfoTree.WriteFloat(const AAttrName: UTF8String; ADouble: Dou
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1671,12 +1668,11 @@ procedure TSimpleTSInfoTree.WriteFloat(const AAttrName: UTF8String; ADouble: Dou
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1691,12 +1687,11 @@ procedure TSimpleTSInfoTree.WriteCurrency(const AAttrName: UTF8String; ACurrency
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1711,12 +1706,11 @@ procedure TSimpleTSInfoTree.WriteCurrency(const AAttrName: UTF8String; ACurrency
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1727,16 +1721,15 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteString(const AAttrName: UTF8String; AString: UTF8String; AFormat: TFormatString = fsOriginal);
+procedure TSimpleTSInfoTree.WriteString(const AAttrName, AString: UTF8String; AFormat: TFormatString = fsOriginal);
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1747,40 +1740,38 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(AAttrName: UTF8String; ADateTime: TDateTime; AMask: UTF8String);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime);
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := DateTimeToValue(ADateTime, AMask, DefaultFormatSettings);
+      attrWrite.Value := DateTimeToValue(AMask, ADateTime, DefaultFormatSettings);
       FModified := True;
     end;
   end;
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(const AAttrName: UTF8String; ADateTime: TDateTime; AMask: UTF8String; ASettings: TFormatSettings);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings);
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := DateTimeToValue(ADateTime, AMask, ASettings);
+      attrWrite.Value := DateTimeToValue(AMask, ADateTime, ASettings);
       FModified := True;
     end;
   end;
@@ -1791,12 +1782,11 @@ procedure TSimpleTSInfoTree.WritePoint(const AAttrName: UTF8String; APoint: TPoi
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1812,12 +1802,11 @@ var
   attrWrite: TTSInfoAttribute;
   strValue: UTF8String;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
     if attrWrite <> nil then
     begin
@@ -1834,15 +1823,14 @@ var
   attrWrite: TTSInfoAttribute;
   strValue: UTF8String = '';
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
     if ASize > MAX_BUFFER_SIZE then
       ThrowException(EM_INVALID_BUFFER_SIZE, [MAX_BUFFER_SIZE])
     else
     begin
-      ExcludeTrailingIdentsDelimiter(AAttrName);
-      attrWrite := FindAttribute(AAttrName, True);
+      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
       if attrWrite <> nil then
       begin
@@ -1860,15 +1848,14 @@ var
   arrBuffer: TByteDynArray;
   strValue: UTF8String = '';
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
     if AStream.Size > MAX_STREAM_SIZE then
       ThrowException(EM_INVALID_STREAM_SIZE, [MAX_STREAM_SIZE])
     else
     begin
-      ExcludeTrailingIdentsDelimiter(AAttrName);
-      attrWrite := FindAttribute(AAttrName, True);
+      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
 
       if attrWrite <> nil then
       begin
