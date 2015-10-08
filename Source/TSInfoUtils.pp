@@ -48,7 +48,7 @@ uses
   procedure ThrowException(const AMessage: UTF8String); overload;
   procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const); overload;
 
-  function Comment(ADeclaration, ADefinition: AnsiString): TComment;
+  function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
   procedure MoveString(const ASource; out ADest: AnsiString; ALength: UInt32);
 
   function CutControlChars(const AValue: AnsiString; AMode: TCuttingMode): AnsiString;
@@ -119,7 +119,7 @@ begin
 end;
 
 
-function Comment(ADeclaration, ADefinition: AnsiString): TComment;
+function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
