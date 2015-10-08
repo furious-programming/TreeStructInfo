@@ -349,12 +349,8 @@ type
     function FindAttribute(AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
     function FindNode(ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
   public
-    constructor Create(AFileName: TFileName; AFlags: TTreeModes = [ffLoadFile, ffWrite]); overload;
-    constructor Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TTreeModes = []); overload;
-    constructor Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TTreeModes = []); overload;
-    constructor Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PUTF8Char; AFlags: TTreeModes = []); overload;
-    constructor Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PUTF8Char; AFlags: TTreeModes = []); overload;
-    destructor Destroy(); override;
+    constructor Create();
+    constructor Create(const AFileName: UTF8String; AModes: TTreeModes);
   public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
@@ -1260,121 +1256,20 @@ end;
 { ----- TSimpleTSInfoTree class ----------------------------------------------------------------------------------- }
 
 
-constructor TSimpleTSInfoTree.Create(AFileName: TFileName; AFlags: TTreeModes = [ffLoadFile, ffWrite]);
-var
-  fsInput: TStream;
-  slInput: TStrings;
+constructor TSimpleTSInfoTree.Create();
 begin
   inherited Create();
-  InitFields(AFileName, AFlags);
-
-  if ffLoadFile in FFileFlags then
-    if ffBinaryFile in FFileFlags then
-    begin
-      fsInput := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyWrite);
-      try
-        LoadTreeFromStream(fsInput);
-      finally
-        fsInput.Free();
-      end;
-    end
-    else
-    begin
-      slInput := TStringList.Create();
-      try
-        slInput.LoadFromFile(FFileName);
-        LoadTreeFromList(slInput);
-      finally
-        slInput.Free();
-      end;
-    end;
+  InitFields();
 end;
 
 
-constructor TSimpleTSInfoTree.Create(AInput: TStrings; AFileName: TFileName = ''; AFlags: TTreeModes = []);
+constructor TSimpleTSInfoTree.Create(const AFileName: UTF8String; AModes: TTreeModes);
 begin
   inherited Create();
+  InitFields();
 
-  InitFields(AFileName, AFlags);
-  LoadTreeFromList(AInput);
-end;
-
-
-constructor TSimpleTSInfoTree.Create(AInput: TStream; AFileName: TFileName = ''; AFlags: TTreeModes = []);
-var
-  slInput: TStrings;
-begin
-  inherited Create();
-  InitFields(AFileName, AFlags);
-
-  if ffBinaryFile in FFileFlags then
-    LoadTreeFromStream(AInput)
-  else
-  begin
-    slInput := TStringList.Create();
-    try
-      slInput.LoadFromStream(AInput);
-      LoadTreeFromList(slInput);
-    finally
-      slInput.Free();
-    end;
-  end;
-end;
-
-
-constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResName: String; AResType: PUTF8Char; AFlags: TTreeModes = []);
-var
-  rsInput: TStream;
-  slInput: TStrings;
-begin
-  inherited Create();
-  InitFields('', AFlags);
-
-  rsInput := TResourceStream.Create(AInstance, AResName, AResType);
-  try
-    if ffBinaryFile in FFileFlags then
-      LoadTreeFromStream(rsInput)
-    else
-    begin
-      slInput := TStringList.Create();
-      try
-        slInput.LoadFromStream(rsInput);
-        LoadTreeFromList(slInput);
-      finally
-        slInput.Free();
-      end;
-    end;
-  finally
-    rsInput.Free();
-  end;
-end;
-
-
-constructor TSimpleTSInfoTree.Create(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PUTF8Char; AFlags: TTreeModes = []);
-var
-  rsInput: TStream;
-  slInput: TStrings;
-begin
-  inherited Create();
-  InitFields('', AFlags);
-
-  rsInput := TResourceStream.CreateFromID(AInstance, AResID, AResType);
-  try
-    if ffBinaryFile in FFileFlags then
-      LoadTreeFromStream(rsInput)
-    else
-    begin
-      slInput := TStringList.Create();
-      try
-        slInput.LoadFromStream(rsInput);
-        LoadTreeFromList(slInput);
-      finally
-        slInput.Free();
-      end;
-    end;
-  finally
-    rsInput.Free();
-  end;
+  FFileName := AFileName;
+  FTreeModes := AModes;
 end;
 
 
