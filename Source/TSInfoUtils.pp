@@ -588,32 +588,8 @@ end;
 
 
 function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
-
-  procedure SetValueCamelCaseStyle();
-  var
-    pchrToken, pchrLast: PUTF8Char;
-  begin
-    pchrToken := @AValue[1];
-    pchrLast := @AValue[Length(AValue)];
-
-    if pchrToken^ in ['+', '-'] then
-      Inc(pchrToken);
-
-    if pchrToken^ in ['a' .. 'z'] then
-      Dec(pchrToken^, 32);
-
-    Inc(pchrToken);
-
-    while (pchrToken <= pchrLast) do
-      if pchrToken^ in ['A' .. 'Z'] then
-      begin
-        Inc(pchrToken^, 32);
-        Inc(pchrToken);
-      end
-      else
-        Exit;
-  end;
-
+var
+  pchrToken, pchrLast: PUTF8Char;
 begin
   if not TryStrToFloat(AValue, Result, ASettings) then
   begin
@@ -621,10 +597,27 @@ begin
 
     if Length(AValue) >= 3 then
     begin
-      SetValueCamelCaseStyle();
+      pchrToken := @AValue[1];
+      pchrLast := @AValue[Length(AValue)];
 
-      if (CompareStr(AValue, UNSIGNED_INFINITY_VALUE) = 0) or
-         (CompareStr(AValue, SIGNED_INFINITY_VALUE) = 0) then
+      if pchrToken^ in ['+', '-'] then
+        Inc(pchrToken);
+
+      if pchrToken^ in ['a' .. 'z'] then
+        Dec(pchrToken^, 32);
+
+      Inc(pchrToken);
+
+      while (pchrToken <= pchrLast) do
+        if pchrToken^ in ['A' .. 'Z'] then
+        begin
+          Inc(pchrToken^, 32);
+          Inc(pchrToken);
+        end
+        else
+          Break;
+
+      if (CompareStr(AValue, UNSIGNED_INFINITY_VALUE) = 0) or (CompareStr(AValue, SIGNED_INFINITY_VALUE) = 0) then
         Exit(Infinity);
 
       if CompareStr(AValue, NEGATIVE_INFINITY_VALUE) = 0 then
