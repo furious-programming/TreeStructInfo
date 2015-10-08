@@ -636,20 +636,18 @@ end;
 function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
 begin
   case AFormat of
-    fcUnsignedPrice, fcSignedPrice:
-        Result := CurrToStrF(ACurrency, ffCurrency, 2, ASettings);
-    fcUnsignedExchangeRate, fcSignedExchangeRate:
-        Result := CurrToStrF(ACurrency, ffCurrency, 4, ASettings);
+    fcUnsignedPrice, fcSignedPrice:               Result := CurrToStrF(ACurrency, ffCurrency, 2, ASettings);
+    fcUnsignedExchangeRate, fcSignedExchangeRate: Result := CurrToStrF(ACurrency, ffCurrency, 4, ASettings);
   end;
 
   if (AFormat in [fcSignedPrice, fcSignedExchangeRate]) and (ACurrency > 0) then
-    Exit('+' + Result);
+    Result := '+' + Result;
 end;
 
 
 function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 var
-  intValueLen, intCurrStringLen: UInt32;
+  intValueLen, intCurrStringLen: Integer;
   pchrFirst, pchrToken, pchrLast: PUTF8Char;
   strValue: UTF8String;
 begin
