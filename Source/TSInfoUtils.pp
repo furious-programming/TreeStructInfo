@@ -50,7 +50,6 @@ uses
 
   function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
 
-  function CutControlChars(const AValue: AnsiString; AMode: TCuttingMode): AnsiString;
   function ReplaceSubStrings(AValue, AOldPattern, ANewPattern: AnsiString): AnsiString;
   function GlueStrings(const AMask: AnsiString; const AStrings: array of AnsiString): AnsiString;
 
@@ -124,31 +123,6 @@ function Comment(const ADeclaration, ADefinition: AnsiString): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
-end;
-
-
-function CutControlChars(const AValue: AnsiString; AMode: TCuttingMode): AnsiString;
-var
-  intValueLen: UInt32;
-  pchrLeft, pchrRight: PAnsiChar;
-begin
-  Result := '';
-  intValueLen := Length(AValue);
-
-  if intValueLen > 0 then
-  begin
-    pchrLeft := @AValue[1];
-    pchrRight := @AValue[intValueLen];
-
-    while (pchrLeft <= pchrRight) and (pchrLeft^ in CONTROL_CHARS) do
-      Inc(pchrLeft);
-
-    if AMode = cmBothSides then
-      while (pchrRight > pchrLeft) and (pchrRight^ in CONTROL_CHARS) do
-        Dec(pchrRight);
-
-    MoveString(pchrLeft^, Result, pchrRight - pchrLeft + 1);
-  end;
 end;
 
 
