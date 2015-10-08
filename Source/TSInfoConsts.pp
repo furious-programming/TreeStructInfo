@@ -32,13 +32,14 @@
 
 unit TSInfoConsts;
 
-{$MODE OBJFPC} {$LONGSTRINGS ON} {$HINTS ON}
+{$MODE OBJFPC}{$LONGSTRINGS ON}{$HINTS ON}
 
 
 interface
 
 uses
-  TSInfoTypes, SysUtils;
+  TSInfoTypes,
+  SysUtils;
 
 
 { ----- constants for files processing ---------------------------------------------------------------------------- }
