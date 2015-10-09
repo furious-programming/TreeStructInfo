@@ -125,7 +125,7 @@ const
 
 const
   INVALID_IDENT_CHARS: set of UTF8Char = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
-  CONTROL_CHARS:       set of UTF8Char = [#0 .. #32];
+  WHITESPACE_CHARS:    set of UTF8Char = [#9, #32];
 
 const
   KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE: array [Boolean] of Integer = (
@@ -151,7 +151,7 @@ const
   RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 
-{ ----- constants for data converting ----------------------------------------------------------------------------- }
+{ ----- constants for data convertion ----------------------------------------------------------------------------- }
 
 
 const
