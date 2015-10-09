@@ -193,35 +193,39 @@ const
 
 
 const
-  EM_EMPTY_IDENTIFIER                  = UTF8String('identifier cannot be empty');
-  EM_INCORRECT_IDENTIFIER_CHARACTER    = UTF8String('identifier contains incorrect character "%s", code "%d"');
-  EM_MISSING_TREE_HEADER               = UTF8String('tree header not found');
-  EM_INVALID_TREE_HEADER               = UTF8String('"%s" is not a valid tree header');
-  EM_UNKNOWN_TREE_HEADER_COMPONENT     = UTF8String('unknown tree header component "%s"');
-  EM_INVALID_FORMAT_VERSION            = UTF8String('"%s" is not a valid format version');
-  EM_UNSUPPORTED_FORMAT_VERSION        = UTF8String('format in version "%s" is not supported');
-  EM_ROOT_NODE_RENAME                  = UTF8String('cannot set a root node name');
-  EM_ROOT_NODE_REMOVE                  = UTF8String('cannot remove a root node');
-  EM_ROOT_NODE_SET_COMMENT             = UTF8String('cannot set a root node comment');
-  EM_ROOT_NODE_GET_COMMENT             = UTF8String('root node cannot have a comment');
-  EM_ROOT_NODE_SET_REFERENCE           = UTF8String('cannot set a root node reference state');
-  EM_ROOT_NODE_GET_REFERENCE           = UTF8String('root node cannot have a reference state');
-  EM_ATTRIBUTE_NOT_EXISTS              = UTF8String('attribute "%s" not exists');
-  EM_NODE_NOT_EXISTS                   = UTF8String('node "%s" not exists');
-  EM_CANNOT_OPEN_NODE                  = UTF8String('cannot open a node under "%s" path');
-  EM_MISSING_END_TREE_LINE             = UTF8String('end tree line not found');
-  EM_READ_ONLY_MODE_VIOLATION          = UTF8String('cannot make modifications in read-only mode');
-  EM_INVALID_STREAM_SIZE               = UTF8String('size of stream is too large (maximum acceptable: %d bytes)');
-  EM_INVALID_BUFFER_SIZE               = UTF8String('size of buffer is too large (maximum acceptable: %d bytes)');
-  EM_INVALID_SOURCE_LINE               = UTF8String('invalid source line: "%s"');
-  EM_INVALID_BINARY_FILE               = UTF8String('invalid TreeStructInfo binary file');
-  EM_UNSUPPORTED_BINARY_FORMAT_VERSION = UTF8String('format version "%.1f" is not supported');
-  EM_INVALID_LINK_LINE                 = UTF8String('"%s" is not a valid link line');
-  EM_EMPTY_LINK_FILE_NAME              = UTF8String('name of linked file cannot be an empty string');
-  EM_UNKNOWN_LINK_COMPONENT            = UTF8String('unknown link component - expected "%s" but "%s" found');
-  EM_UNKNOWN_LINK_FLAG                 = UTF8String('unknown link flag "%s"');
-  EM_LINKED_FILE_NOT_EXISTS            = UTF8String('link under path "%s" with virtual node name "%s" not exists');
-  EM_ELEMENTS_LIST_MEMORY_ALLOCATION   = UTF8String('cannot allocate memory for new elements list');
+  EM_EMPTY_IDENTIFIER                    = UTF8String('identifier cannot be empty');
+  EM_INCORRECT_IDENTIFIER_CHARACTER      = UTF8String('identifier contains incorrect character "%s", code "%d"');
+  EM_MISSING_TREE_HEADER                 = UTF8String('tree header not found');
+  EM_INVALID_TREE_HEADER_COMPONENT_COUNT = UTF8String('"%d" is not a valid tree header component count');
+  EM_UNKNOWN_TREE_HEADER_COMPONENT       = UTF8String('unknown tree header component "%s"');
+  EM_INVALID_FORMAT_VERSION              = UTF8String('"%s" is not a valid format version');
+  EM_UNSUPPORTED_FORMAT_VERSION          = UTF8String('format in version "%s" is not supported');
+  EM_ROOT_NODE_RENAME                    = UTF8String('cannot set a root node name');
+  EM_ROOT_NODE_REMOVE                    = UTF8String('cannot remove a root node');
+  EM_ROOT_NODE_SET_COMMENT               = UTF8String('cannot set a root node comment');
+  EM_ROOT_NODE_GET_COMMENT               = UTF8String('root node cannot have a comment');
+  EM_ROOT_NODE_SET_REFERENCE             = UTF8String('cannot set a root node reference state');
+  EM_ROOT_NODE_GET_REFERENCE             = UTF8String('root node cannot have a reference state');
+  EM_ROOT_NODE_GO_TO_PARENT              = UTF8String('cannot go to parent node of root node of main tree');
+  EM_ATTRIBUTE_NOT_EXISTS                = UTF8String('attribute "%s" not exists');
+  EM_NODE_NOT_EXISTS                     = UTF8String('node "%s" not exists');
+  EM_CANNOT_OPEN_NODE                    = UTF8String('cannot open a node under "%s" path');
+  EM_MISSING_END_TREE_LINE               = UTF8String('end tree line not found');
+  EM_MISSING_REF_ATTR_DEFINITION         = UTF8String('definition of attribute "%s: not found');
+  EM_MISSING_REF_NODE_DEFINITION         = UTF8String('definition of child node "%s" not found');
+  EM_READ_ONLY_MODE_VIOLATION            = UTF8String('cannot make modifications in read-only mode');
+  EM_INVALID_STREAM_SIZE                 = UTF8String('size of stream is too large (maximum acceptable: %d bytes)');
+  EM_INVALID_BUFFER_SIZE                 = UTF8String('size of buffer is too large (maximum acceptable: %d bytes)');
+  EM_INVALID_SOURCE_LINE                 = UTF8String('invalid source line: "%s"');
+  EM_INVALID_BINARY_FILE                 = UTF8String('invalid TreeStructInfo binary file');
+  EM_UNSUPPORTED_BINARY_FORMAT_VERSION   = UTF8String('format version "%d.%d" is not supported');
+  EM_INVALID_LINK_LINE                   = UTF8String('"%s" is not a valid link line');
+  EM_MISSING_LINKED_FILE_NAME            = UTF8String('missing linked file name in link declaration');
+  EM_INVALID_LINK_COMPONENT              = UTF8String('invalid link component - expected "%s" but "%s" found');
+  EM_EMPTY_LINK_FILE_NAME                = UTF8String('name of linked file is empty');
+  EM_UNKNOWN_LINKING_MODE                = UTF8String('unknown linking mode "%s"');
+  EM_LINKING_MODES_MUTUALLY_EXCLUSIVE    = UTF8String('linking file cannot be both text and binary');
+  EM_LINKED_FILE_NOT_EXISTS              = UTF8String('link under path "%s" with virtual node name "%s" not exists');
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
