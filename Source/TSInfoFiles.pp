@@ -2225,13 +2225,10 @@ function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeTo
 var
   nodeParent: TTSInfoNode;
 begin
-  if IsCurrentNodeSymbol(AParentNodePath) then
+  if IsCurrentNodePath(AParentNodePath) then
     nodeParent := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(AParentNodePath);
-    nodeParent := FindNode(AParentNodePath, False);
-  end;
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(AParentNodePath), False);
 
   Result := (nodeParent <> nil) and (nodeParent.AttributesCount > 0);
 
