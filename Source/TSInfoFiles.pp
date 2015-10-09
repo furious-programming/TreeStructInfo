@@ -376,6 +376,7 @@ type
     procedure LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
   public
     function OpenChildNode(const ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
+    procedure GoToParentNode(AKeepReadOnlyMode: Boolean = True);
     procedure CloseChildNode();
   public
     procedure WriteBoolean(const AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
@@ -1781,6 +1782,35 @@ begin
     FCurrentNode := nodeOpen;
     FReadOnly := AReadOnly;
   end;
+end;
+
+
+procedure TSimpleTSInfoTree.GoToParentNode(AKeepReadOnlyMode: Boolean = True);
+begin
+  if FCurrentNode = FRootNode then
+    ThrowException(EM_ROOT_NODE_GO_TO_PARENT)
+  else
+    if FCurrentNode.FParentNode = FRootNode then
+    begin
+      FCurrentNode := FRootNode;
+      FCurrentlyOpenNodePath := '';
+      FReadOnly := False;
+    end
+    else
+    begin
+      FCurrentlyOpenNodePath := PathWithoutLastNodeName(FCurrentlyOpenNodePath);
+
+      if FCurrentNode.FParentNode = nil then
+      begin
+        FCurrentNode := FRootNode;
+        FCurrentNode := FindNode(FCurrentlyOpenNodePath, False);
+      end
+      else
+        FCurrentNode := FCurrentNode.FParentNode;
+
+      if not AKeepReadOnlyMode then
+        FReadOnly := False;
+    end;
 end;
 
 
