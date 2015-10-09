@@ -53,9 +53,6 @@ const
   INDENT_SIZE                       = Integer(2);
   MAX_STREAM_SIZE                   = Integer(2048);
   MAX_BUFFER_SIZE                   = Integer(2048);
-  END_TREE_REF_INDEX                = Integer($BADFACE);
-  DECLARATION_COMMENT_MARKER        = Integer($DEC);
-  DEFINITION_COMMENT_MARKER         = Integer($DEF);
 
 const
   IDENTS_DELIMITER          = UTF8Char('\');
