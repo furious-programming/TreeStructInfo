@@ -155,18 +155,22 @@ const
 
 
 const
-  BOOLEAN_VALUES: array [Boolean, TFormatBoolean] of UTF8String =
-    (('False', 'No', 'Off', 'F', 'N', '0'), ('True', 'Yes', 'On', 'T', 'Y', '1'));
+  BOOLEAN_VALUES: array [Boolean, TFormatBoolean] of UTF8String = (
+    ('False', 'No', 'Off', 'F', 'N', '0'),
+    ('True', 'Yes', 'On', 'T', 'Y', '1')
+  );
 
 const
-  INTEGER_UNIVERSAL_SYSTEM_PREFIXES: array [TFormatInteger] of UTF8String = ('', '', '0x', '0o', '0b');
+  INTEGER_UNIVERSAL_SYSTEM_PREFIXES: array [TFormatInteger] of UTF8String = (#0, #0, '0x', '0o', '0b');
   INTEGER_PASCAL_SYSTEM_PREFIXES:    array [TFormatInteger] of UTF8Char = (#0, #0, '$', '&', '%');
   INTEGER_MIN_LENGTHS:               array [TFormatInteger] of UInt32 = (0, 0, 2, 2, 4);
 
 const
-  FLOAT_FORMATS: array [TFormatFloat] of TFloatFormat =
-    (TFloatFormat.ffGeneral, TFloatFormat.ffGeneral, TFloatFormat.ffExponent, TFloatFormat.ffExponent,
-     TFloatFormat.ffNumber, TFloatFormat.ffNumber);
+  FLOAT_FORMATS: array [TFormatFloat] of TFloatFormat = (
+    TFloatFormat.ffGeneral, TFloatFormat.ffGeneral,
+    TFloatFormat.ffExponent, TFloatFormat.ffExponent,
+    TFloatFormat.ffNumber, TFloatFormat.ffNumber
+  );
 
 const
   UNSIGNED_INFINITY_VALUE = UTF8String('Inf');
@@ -180,11 +184,9 @@ const
   DATE_TIME_PLAIN_TEXT_CHARS: set of UTF8Char = ['''', '"'];
 
 const
-  POINT_SYSTEMS: array [TFormatPoint] of TFormatInteger =
-    (fiUnsignedDecimal, fiSignedDecimal, fiHexadecimal, fiOctal, fiBinary);
-
-const
-  BUFFER_SIZES: array [TFormatBuffer] of UInt32 = (8, 16, 32, 64);
+  POINT_SYSTEMS: array [TFormatPoint] of TFormatInteger = (
+    fiUnsignedDecimal, fiSignedDecimal, fiHexadecimal, fiOctal, fiBinary
+  );
 
 
 { ----- exception messages ---------------------------------------------------------------------------------------- }
