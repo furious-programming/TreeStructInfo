@@ -138,6 +138,16 @@ const
   );
 
 const
+  LINKING_MODE_COMPONENTS: array [TLinkingMode] of UTF8String = (
+    LINKING_MODE_TEXT_TREE, LINKING_MODE_BINARY_TREE, LINKING_MODE_ACCESS_READ, LINKING_MODE_ACCESS_WRITE
+  );
+
+const
+  LINKING_MODE_TREE_MODES: array [TLinkingMode] of TTreeMode = (
+    tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite
+  );
+
+const
   RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 
