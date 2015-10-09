@@ -399,9 +399,9 @@ type
     procedure ReadBuffer(const AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
     procedure ReadStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
   public
-    function CreateAttribute(ANodePath: UTF8String; AReference: Boolean; AAttrName: UTF8String): Boolean;
-    function CreateChildNode(ANodePath: UTF8String; AReference: Boolean; ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
-    function CreateLink(ANodePath: UTF8String; AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TTreeModes; AOpen: Boolean = False): Boolean;
+    function CreateAttribute(const ANodePath: UTF8String; AReference: Boolean; const AAttrName: UTF8String): Boolean;
+    function CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
+    function CreateLink(const ANodePath, AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
   public
     function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: UTF8String = ''): Boolean;
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
@@ -2042,7 +2042,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateAttribute(ANodePath: UTF8String; AReference: Boolean; AAttrName: UTF8String): Boolean;
+function TSimpleTSInfoTree.CreateAttribute(const ANodePath: UTF8String; AReference: Boolean; const AAttrName: UTF8String): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2066,7 +2066,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateChildNode(ANodePath: UTF8String; AReference: Boolean; ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
+function TSimpleTSInfoTree.CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
 var
   nodeParent, nodeCreate: TTSInfoNode;
 begin
@@ -2094,7 +2094,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateLink(ANodePath: UTF8String; AFileName: TFileName; AVirtualNodeName: UTF8String; AFlags: TTreeModes; AOpen: Boolean = False): Boolean;
+function TSimpleTSInfoTree.CreateLink(const ANodePath, AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
 var
   nodeParent: TTSInfoNode;
   linkCreate: TTSInfoLink;
