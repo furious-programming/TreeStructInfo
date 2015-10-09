@@ -64,23 +64,21 @@ const
   CURRENT_NODE_SYMBOL       = UTF8Char('~');
 
 const
-  BINARY_FILE_SIGNATURE       = UTF8String('tsinfo');
-  TREE_HEADER_SIGNATURE       = UTF8String('tsinfo ');
-  TREE_HEADER_VERSION_KEYWORD = UTF8String('version');
-  TREE_HEADER_VERSION         = UTF8String('1.0');
-  TREE_HEADER_NAME_KEYWORD    = UTF8String('name');
-  END_TREE_KEYWORD            = UTF8String('end tree');
-  ATTRIBUTE_KEYWORD           = UTF8String('attr ');
-  NODE_KEYWORD                = UTF8String('node ');
-  END_NODE_KEYWORD            = UTF8String('end');
-  REF_KEYWORD                 = UTF8String('ref');
-  REF_ATTRIBUTE_KEYWORD       = UTF8String(REF_KEYWORD + #32 + ATTRIBUTE_KEYWORD);
-  REF_NODE_KEYWORD            = UTF8String(REF_KEYWORD + #32 + NODE_KEYWORD);
-  END_REF_NODE_KEYWORD        = UTF8String(END_NODE_KEYWORD + #32 + REF_KEYWORD);
-  LINK_KEYWORD                = UTF8String('link ');
-  LINK_AS_KEYWORD             = UTF8String('as');
-  LINK_FLAGS_KEYWORD          = UTF8String('flags');
-  COMMENT_PREFIX              = UTF8String('::');
+  BINARY_FILE_SIGNATURE      = UTF8String('TREESTRUCTINFO');
+  TREE_HEADER_FORMAT_NAME    = UTF8String('treestructinfo');
+  TREE_HEADER_FORMAT_VERSION = UTF8String('2.0');
+  KEYWORD_TREE_NAME          = UTF8String('name');
+  KEYWORD_TREE_END           = UTF8String('end tree');
+  KEYWORD_STD_ATTRIBUTE      = UTF8String('attr ');
+  KEYWORD_STD_NODE           = UTF8String('node ');
+  KEYWORD_STD_NODE_END       = UTF8String('end node');
+  KEYWORD_REF_ATTRIBUTE      = UTF8String('ref attr ');
+  KEYWORD_REF_NODE           = UTF8String('ref node ');
+  KEYWORD_REF_NODE_END       = UTF8String('end ref node');
+  KEYWORD_LINK               = UTF8String('tree');
+  KEYWORD_LINK_AS_NODE       = UTF8String('as node');
+  KEYWORD_LINK_IN_MODE       = UTF8String('in mode');
+  COMMENT_PREFIX             = UTF8String('::');
 
 const
   FLAG_TEXT_FILE   = UTF8String('text');
