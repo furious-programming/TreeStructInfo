@@ -2350,26 +2350,50 @@ procedure TSimpleTSInfoTree.UpdateFile();
 var
   fsOutput: TStream;
   slOutput: TStrings;
+  ltlTrees: TTSInfoLoadedTreesList;
+  treeSave: TSimpleTSInfoTree;
+  intTreeIdx: Integer = 0;
+  boolMainTreeIsNotWritable: Boolean;
 begin
-  if ffBinaryFile in FFileFlags then
-  begin
-    fsOutput := TFileStream.Create(FFileName, fmCreate or fmShareDenyWrite);
-    try
-      SaveTreeToStream(fsOutput);
-    finally
-      fsOutput.Free();
+  boolMainTreeIsNotWritable := not (tmAccessWrite in FTreeModes);
+  Include(FTreeModes, tmAccessWrite);
+
+  ltlTrees := TTSInfoLoadedTreesList.Create(False);
+  try
+    ltlTrees.AddTree(Self);
+
+    while intTreeIdx < ltlTrees.Count do
+    begin
+      treeSave := ltlTrees.Tree[intTreeIdx];
+
+      if tmBinaryTree in treeSave.TreeModes then
+      begin
+        fsOutput := TFileStream.Create(treeSave.FileName, fmCreate or fmShareDenyWrite);
+        try
+          InternalSaveTreeToStream(fsOutput, treeSave, ltlTrees);
+        finally
+          fsOutput.Free();
+        end;
+      end
+      else
+      begin
+        slOutput := TStringList.Create();
+        try
+          InternalSaveTreeToList(slOutput, treeSave, ltlTrees);
+          slOutput.SaveToFile(treeSave.FileName);
+        finally
+          slOutput.Free();
+        end;
+      end;
+
+      Inc(intTreeIdx);
     end;
-  end
-  else
-  begin
-    slOutput := TStringList.Create();
-    try
-      SaveTreeToList(slOutput);
-      slOutput.SaveToFile(FFileName);
-    finally
-      slOutput.Free();
-    end;
+  finally
+    ltlTrees.Free();
   end;
+
+  if boolMainTreeIsNotWritable then
+    Exclude(FTreeModes, tmAccessWrite);
 
   FModified := False;
 end;
