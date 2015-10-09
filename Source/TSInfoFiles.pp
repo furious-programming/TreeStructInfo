@@ -351,7 +351,7 @@ type
     FModified: Boolean;
     FReadOnly: Boolean;
   private
-    procedure InitFields(AFileName: TFileName; AFlags: TTreeModes);
+    procedure InitFields();
     procedure DamageClear();
   private
     procedure InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
