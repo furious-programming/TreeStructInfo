@@ -81,10 +81,10 @@ const
   COMMENT_PREFIX             = UTF8String('::');
 
 const
-  FLAG_TEXT_FILE   = UTF8String('text');
-  FLAG_BINARY_FILE = UTF8String('binary');
-  FLAG_READ        = UTF8String('read');
-  FLAG_WRITE       = UTF8String('write');
+  LINKING_MODE_TEXT_TREE    = UTF8String('text');
+  LINKING_MODE_BINARY_TREE  = UTF8String('binary');
+  LINKING_MODE_ACCESS_READ  = UTF8String('read');
+  LINKING_MODE_ACCESS_WRITE = UTF8String('write');
 
 const
   BINARY_FILE_SIGNATURE_LEN       = Length(BINARY_FILE_SIGNATURE);
