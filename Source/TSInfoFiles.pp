@@ -411,7 +411,7 @@ type
     function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
-    procedure RenameAttributeTokens(ANodePath, AAttrName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
     procedure RenameChildNodeTokens(ANodePath, ANodeName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
@@ -2285,37 +2285,33 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.RenameAttributeTokens(ANodePath, AAttrName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection); {}
+procedure TSimpleTSInfoTree.RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
-  intToken, intStep: Integer;
+  intToken, intDirection: Integer;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    if IsCurrentNodeSymbol(ANodePath) then
+    if IsCurrentNodePath(ANodePath) then
       nodeParent := FCurrentNode
     else
+      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+
+    if (nodeParent <> nil) and ValidIdentifier(ATokenName) then
     begin
-      IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeParent := FindNode(ANodePath, False);
-    end;
+      intDirection := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
 
-    if nodeParent <> nil then
-      if ValidIdentifier(AAttrName) then
+      for intToken := 0 to nodeParent.AttributesCount - 1 do
       begin
-        intStep := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+        attrRename := nodeParent.GetAttribute(intToken);
+        attrRename.Name := Format(ATokenName, [AStartIndex]);
 
-        for intToken := 0 to nodeParent.AttributesCount - 1 do
-        begin
-          attrRename := nodeParent.GetAttribute(intToken);
-          attrRename.Name := Format(AAttrName, [AStartIndex]);
-
-          Inc(AStartIndex, intStep);
-        end;
+        Inc(AStartIndex, intDirection);
       end;
+    end;
   end;
 end;
 
