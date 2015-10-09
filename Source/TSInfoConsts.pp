@@ -128,6 +128,16 @@ const
   CONTROL_CHARS:       set of UTF8Char = [#0 .. #32];
 
 const
+  KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE: array [Boolean] of Integer = (
+    KEYWORD_STD_ATTRIBUTE_LEN, KEYWORD_REF_ATTRIBUTE_LEN
+  );
+
+const
+  KEYWORD_NODE_LEN_BY_REFERENCE: array [Boolean] of Integer = (
+    KEYWORD_STD_NODE_LEN, KEYWORD_REF_NODE_LEN
+  );
+
+const
   RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 
