@@ -124,12 +124,11 @@ const
   LINK_COMPONENT_INDEX_IN_MODE_KEYWORD   = Integer(4);
 
 const
-  RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
-
-const
   INVALID_IDENT_CHARS: set of UTF8Char = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
   CONTROL_CHARS:       set of UTF8Char = [#0 .. #32];
-  UNSAFE_CHARS:        set of UTF8Char = [#0 .. #31, #127, #192, #193, #245 .. #255];
+
+const
+  RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 
 { ----- constants for data converting ----------------------------------------------------------------------------- }
