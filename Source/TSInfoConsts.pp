@@ -50,9 +50,9 @@ const
   SUPPORTED_FORMAT_VERSION_MINOR = UInt8(0);
 
 const
-  INDENT_SIZE                       = Integer(2);
-  MAX_STREAM_SIZE                   = Integer(2048);
-  MAX_BUFFER_SIZE                   = Integer(2048);
+  INDENT_SIZE     = Integer(2);
+  MAX_STREAM_SIZE = Integer(2048);
+  MAX_BUFFER_SIZE = Integer(2048);
 
 const
   IDENTS_DELIMITER          = UTF8Char('\');
