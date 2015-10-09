@@ -2257,13 +2257,10 @@ function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeTo
 var
   nodeParent: TTSInfoNode;
 begin
-  if IsCurrentNodeSymbol(AParentNodePath) then
+  if IsCurrentNodePath(AParentNodePath) then
     nodeParent := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(AParentNodePath);
-    nodeParent := FindNode(AParentNodePath, False);
-  end;
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(AParentNodePath), False);
 
   Result := (nodeParent <> nil) and (nodeParent.ChildNodesCount > 0);
 
