@@ -1642,6 +1642,30 @@ begin
 end;
 
 
+procedure TSimpleTSInfoTree.LoadFromStream(AInput: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+var
+  slInput: TStringList;
+begin
+  FFileName := AFileName;
+  FTreeModes := AModes - [tmAllowLinking];
+
+  ClearTree();
+
+  if tmBinaryTree in FTreeModes then
+    InternalLoadTreeFromStream(AInput, Self, nil)
+  else
+  begin
+    slInput := TStringList.Create();
+    try
+      slInput.LoadFromStream(AInput);
+      InternalLoadTreeFromList(slInput, Self, nil);
+    finally
+      slInput.Free();
+    end;
+  end;
+end;
+
+
 function TSimpleTSInfoTree.OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
 var
   nodeOpen: TTSInfoNode;
