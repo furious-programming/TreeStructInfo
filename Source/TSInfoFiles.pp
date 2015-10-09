@@ -369,6 +369,7 @@ type
     destructor Destroy(); override;
   public
     procedure LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
+    procedure LoadFromList(AInput: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
   public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
@@ -1627,6 +1628,16 @@ begin
   finally
     ltlTrees.Free();
   end;
+end;
+
+
+procedure TSimpleTSInfoTree.LoadFromList(AInput: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+begin
+  FFileName := AFileName;
+  FTreeModes := AModes - [tmAllowLinking];
+
+  ClearTree();
+  InternalLoadTreeFromList(AInput, Self, nil);
 end;
 
 
