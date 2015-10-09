@@ -373,6 +373,7 @@ type
     procedure LoadFromStream(AInput: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
     procedure LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
     procedure LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
+    procedure LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
   public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
@@ -1724,6 +1725,36 @@ begin
     end;
   finally
     rsInput.Free();
+  end;
+end;
+
+
+procedure TSimpleTSInfoTree.LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+var
+  lrsInput: TLazarusResourceStream;
+  slInput: TStringList;
+begin
+  FFileName := AFileName;
+  FTreeModes := AModes - [tmAllowLinking];
+
+  ClearTree();
+
+  lrsInput := TLazarusResourceStream.Create(AResName, AResType);
+  try
+    if tmBinaryTree in FTreeModes then
+      InternalLoadTreeFromStream(lrsInput, Self, nil)
+    else
+    begin
+      slInput := TStringList.Create();
+      try
+        slInput.LoadFromStream(lrsInput);
+        InternalLoadTreeFromList(slInput, Self, nil);
+      finally
+        slInput.Free();
+      end;
+    end;
+  finally
+    lrsInput.Free();
   end;
 end;
 
