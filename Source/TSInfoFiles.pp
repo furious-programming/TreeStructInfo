@@ -1788,7 +1788,8 @@ procedure TSimpleTSInfoTree.CloseChildNode();
 begin
   FCurrentNode := FRootNode;
   FCurrentlyOpenNodePath := '';
-  FReadOnlyMode := False;
+
+  FReadOnly := False;
 end;
 
 
