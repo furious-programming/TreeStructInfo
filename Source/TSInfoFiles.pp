@@ -371,6 +371,8 @@ type
     procedure LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
     procedure LoadFromList(AInput: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
     procedure LoadFromStream(AInput: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+    procedure LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
+    procedure LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
   public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
@@ -1662,6 +1664,66 @@ begin
     finally
       slInput.Free();
     end;
+  end;
+end;
+
+
+procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+var
+  rsInput: TResourceStream;
+  slInput: TStringList;
+begin
+  FFileName := AFileName;
+  FTreeModes := AModes - [tmAllowLinking];
+
+  ClearTree();
+
+  rsInput := TResourceStream.Create(AInstance, AResName, AResType);
+  try
+    if tmBinaryTree in FTreeModes then
+      InternalLoadTreeFromStream(rsInput, Self, nil)
+    else
+    begin
+      slInput := TStringList.Create();
+      try
+        slInput.LoadFromStream(rsInput);
+        InternalLoadTreeFromList(slInput, Self, nil);
+      finally
+        slInput.Free();
+      end;
+    end;
+  finally
+    rsInput.Free();
+  end;
+end;
+
+
+procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+var
+  rsInput: TResourceStream;
+  slInput: TStringList;
+begin
+  FFileName := AFileName;
+  FTreeModes := AModes - [tmAllowLinking];
+
+  ClearTree();
+
+  rsInput := TResourceStream.CreateFromID(AInstance, AResID, AResType);
+  try
+    if tmBinaryTree in FTreeModes then
+      InternalLoadTreeFromStream(rsInput, Self, nil)
+    else
+    begin
+      slInput := TStringList.Create();
+      try
+        slInput.LoadFromStream(rsInput);
+        InternalLoadTreeFromList(slInput, Self, nil);
+      finally
+        slInput.Free();
+      end;
+    end;
+  finally
+    rsInput.Free();
   end;
 end;
 
