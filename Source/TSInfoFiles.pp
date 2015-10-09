@@ -2046,23 +2046,23 @@ function TSimpleTSInfoTree.CreateAttribute(const ANodePath: UTF8String; AReferen
 var
   nodeParent: TTSInfoNode;
 begin
-  Result := False;
+  Result := ValidIdentifier(AAttrName);
 
-  if IsCurrentNodeSymbol(ANodePath) then
-    nodeParent := FCurrentNode
-  else
+  if Result then
   begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeParent := FindNode(ANodePath, True);
-  end;
+    if IsCurrentNodePath(ANodePath) then
+      nodeParent := FCurrentNode
+    else
+      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), True);
 
-  if nodeParent <> nil then
-    if ValidIdentifier(AAttrName) then
+    Result := nodeParent <> nil;
+
+    if Result then
     begin
       nodeParent.CreateAttribute(AReference, AAttrName, '', Comment('', ''));
       FModified := True;
-      Result := True;
     end;
+  end;
 end;
 
 
