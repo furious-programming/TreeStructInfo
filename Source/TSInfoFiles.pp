@@ -406,9 +406,9 @@ type
     procedure ClearChildNode(const ANodePath: UTF8String = '');
     procedure ClearTree();
   public
-    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: UTF8String = ''): Boolean;
+    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
-    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: UTF8String = ''): Boolean;
+    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
     procedure RenameAttributeTokens(ANodePath, AAttrName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
@@ -2221,7 +2221,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: UTF8String = ''): Boolean;
+function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2256,7 +2256,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: UTF8String = ''): Boolean;
+function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
