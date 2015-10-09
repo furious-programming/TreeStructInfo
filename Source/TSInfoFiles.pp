@@ -2123,54 +2123,58 @@ function TSimpleTSInfoTree.CreateLink(const ANodePath, AFileName, AVirtualNodeNa
 var
   nodeParent: TTSInfoNode;
   linkCreate: TTSInfoLink;
-  fsInput: TStream;
-  slInput: TStrings;
+  strNodePath, strVirtualNodeNameAsPath: UTF8String;
+  boolPathIsSymbol: Boolean;
 begin
   Result := False;
 
-  if IsCurrentNodeSymbol(ANodePath) then
-    nodeParent := FCurrentNode
+  if AFileName = '' then
+    ThrowException(EM_EMPTY_LINK_FILE_NAME)
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeParent := FindNode(ANodePath, True);
-  end;
+    if ValidIdentifier(AVirtualNodeName) then
+    begin
+      strNodePath := ANodePath;
+      boolPathIsSymbol := IsCurrentNodePath(ANodePath);
 
-  if nodeParent <> nil then
-    if AFileName = '' then
-      ThrowException(EM_EMPTY_LINK_FILE_NAME, [])
-    else
-      if ValidIdentifier(AVirtualNodeName) then
+      if boolPathIsSymbol then
+        nodeParent := FCurrentNode
+      else
       begin
-        linkCreate := nodeParent.CreateLink(AFileName, AVirtualNodeName, AFlags, '');
+        strNodePath := IncludeTrailingIdentsDelimiter(strNodePath);
+        nodeParent := FindNode(strNodePath, True);
+      end;
+
+      if nodeParent <> nil then
+      begin
+        linkCreate := nodeParent.CreateLink(AFileName, AVirtualNodeName, AModes + [tmAllowLinking], '');
 
         if AOpen then
-          FCurrentNode := linkCreate.FLinkedTree.FCurrentNode;
+        begin
+          strVirtualNodeNameAsPath := IncludeTrailingIdentsDelimiter(AVirtualNodeName);
+
+          if FCurrentNode = FRootNode then
+          begin
+            if boolPathIsSymbol then
+              FCurrentlyOpenNodePath := strVirtualNodeNameAsPath
+            else
+              FCurrentlyOpenNodePath := strNodePath + strVirtualNodeNameAsPath;
+          end
+          else
+            if boolPathIsSymbol then
+              FCurrentlyOpenNodePath += strVirtualNodeNameAsPath
+            else
+              FCurrentlyOpenNodePath += strNodePath + strVirtualNodeNameAsPath;
+
+          FCurrentNode := linkCreate.LinkedTree.FRootNode;
+        end;
 
         FModified := True;
         Result := True;
 
-        if (ffLoadFile in AFlags) and FileExistsUTF8(AFileName) then
-          if ffBinaryFile in AFlags then
-          begin
-            fsInput := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
-            try
-              linkCreate.FLinkedTree.LoadTreeFromStream(fsInput);
-            finally
-              fsInput.Free();
-            end;
-          end
-          else
-          begin
-            slInput := TStringList.Create();
-            try
-              slInput.LoadFromFile(AFileName);
-              linkCreate.FLinkedTree.LoadTreeFromList(slInput);
-            finally
-              slInput.Free();
-            end;
-          end;
+        if (tmLoadFile in AModes) and FileExistsUTF8(AFileName) then
+          linkCreate.LinkedTree.LoadFromFile(linkCreate.FileName, linkCreate.TreeModes);
       end;
+    end;
 end;
 
 
