@@ -46,7 +46,10 @@ uses
 
 
 const
-  HIGHEST_SUPPORTED_FORMAT_VERSION  = Single(1.0);
+  SUPPORTED_FORMAT_VERSION_MAJOR = UInt8(2);
+  SUPPORTED_FORMAT_VERSION_MINOR = UInt8(0);
+
+const
   INDENT_SIZE                       = Integer(2);
   MAX_STREAM_SIZE                   = Integer(2048);
   MAX_BUFFER_SIZE                   = Integer(2048);
