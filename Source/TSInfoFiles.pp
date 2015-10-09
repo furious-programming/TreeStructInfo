@@ -403,6 +403,9 @@ type
     function CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
     function CreateLink(const ANodePath, AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
   public
+    procedure ClearChildNode(const ANodePath: UTF8String = '');
+    procedure ClearTree();
+  public
     function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: UTF8String = ''): Boolean;
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
     function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; AParentNodePath: UTF8String = ''): Boolean;
@@ -454,9 +457,6 @@ type
     procedure RemoveAllAttributes(ANodePath: UTF8String = '');
     procedure RemoveAllChildNodes(ANodePath: UTF8String = '');
     procedure RemoveAllLinks(ANodePath: UTF8String = '');
-  public
-    procedure ClearChildNode(ANodePath: UTF8String = '');
-    procedure ClearTree();
   public
     function AttributeExists(AAttrName: UTF8String): Boolean;
     function ChildNodeExists(ANodePath: UTF8String): Boolean;
@@ -2178,6 +2178,49 @@ begin
 end;
 
 
+procedure TSimpleTSInfoTree.ClearChildNode(const ANodePath: UTF8String);
+var
+  nodeParent: TTSInfoNode;
+begin
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
+  else
+  begin
+    if IsCurrentNodePath(ANodePath) then
+      nodeParent := FCurrentNode
+    else
+      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+
+    if nodeParent <> nil then
+    begin
+      nodeParent.ClearAttributes();
+      nodeParent.ClearChildNodes();
+      nodeParent.ClearLinks();
+
+      FModified := True;
+    end;
+  end;
+end;
+
+
+procedure TSimpleTSInfoTree.ClearTree();
+begin
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
+  else
+  begin
+    FRootNode.ClearAttributes();
+    FRootNode.ClearChildNodes();
+    FRootNode.ClearLinks();
+
+    FCurrentNode := FRootNode;
+    FCurrentlyOpenNodePath := '';
+
+    FModified := True;
+  end;
+end;
+
+
 function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; AParentNodePath: UTF8String = ''): Boolean;
 var
   nodeParent: TTSInfoNode;
@@ -2906,50 +2949,6 @@ begin
       nodeParent.ClearLinks();
       FModified := True;
     end;
-  end;
-end;
-
-
-procedure TTSInfoTree.ClearChildNode(ANodePath: UTF8String = '');
-var
-  nodeParent: TTSInfoNode;
-begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
-  else
-  begin
-    if IsCurrentNodeSymbol(ANodePath) then
-      nodeParent := FCurrentNode
-    else
-    begin
-      IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeParent := FindNode(ANodePath, False);
-    end;
-
-    if nodeParent <> nil then
-    begin
-      nodeParent.ClearAttributes();
-      nodeParent.ClearChildNodes();
-      nodeParent.ClearLinks();
-
-      FModified := True;
-    end;
-  end;
-end;
-
-
-procedure TTSInfoTree.ClearTree();
-begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
-  else
-  begin
-    FRootNode.ClearAttributes();
-    FRootNode.ClearChildNodes();
-    FRootNode.ClearLinks();
-
-    FCurrentNode := FRootNode;
-    FModified := True;
   end;
 end;
 
