@@ -370,6 +370,7 @@ type
   public
     procedure LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
     procedure LoadFromList(AInput: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+    procedure LoadFromStream(AInput: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
   public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
