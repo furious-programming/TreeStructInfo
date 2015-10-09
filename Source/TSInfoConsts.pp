@@ -114,6 +114,16 @@ const
   MIN_NO_DECIMAL_VALUE_LEN       = Integer(3);
 
 const
+  LINK_COMPONENTS_COUNT_SHORT = Integer(4);
+  LINK_COMPONENTS_COUNT_FULL  = Integer(6);
+
+const
+  LINK_COMPONENT_INDEX_FILE_NAME         = Integer(1);
+  LINK_COMPONENT_INDEX_AS_NODE_KEYWORD   = Integer(2);
+  LINK_COMPONENT_INDEX_VIRTUAL_NODE_NAME = Integer(3);
+  LINK_COMPONENT_INDEX_IN_MODE_KEYWORD   = Integer(4);
+
+const
   RENAMING_STEP_NUMERICAL_EQUIVALENTS: array [TRenamingDirection] of Integer = (1, -1);
 
 const
