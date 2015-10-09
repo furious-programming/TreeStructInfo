@@ -375,7 +375,7 @@ type
     procedure LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
     procedure LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
   public
-    function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
+    function OpenChildNode(const ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
   public
     procedure WriteBoolean(const AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
@@ -1759,22 +1759,27 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
+function TSimpleTSInfoTree.OpenChildNode(const ANodePath: UTF8String; AReadOnly: Boolean; ACanCreate: Boolean): Boolean;
 var
   nodeOpen: TTSInfoNode;
+  strNodePath: UTF8String;
 begin
-  IncludeTrailingIdentsDelimiter(ANodePath);
+  strNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
 
-  nodeOpen := FindNode(ANodePath, ACanCreate and not AReadOnly);
+  nodeOpen := FindNode(strNodePath, ACanCreate and not AReadOnly);
   Result := nodeOpen <> nil;
 
   if nodeOpen = nil then
-    ThrowException(EM_CANNOT_OPEN_NODE, [ANodePath])
+    ThrowException(EM_CANNOT_OPEN_NODE, [strNodePath])
   else
   begin
+    if FCurrentNode <> FRootNode then
+      FCurrentlyOpenNodePath += strNodePath
+    else
+      FCurrentlyOpenNodePath := strNodePath;
+
     FCurrentNode := nodeOpen;
-    FCurrentlyOpenNodePath := ANodePath;
-    FReadOnlyMode := AReadOnly;
+    FReadOnly := AReadOnly;
   end;
 end;
 
