@@ -368,6 +368,8 @@ type
   public
     destructor Destroy(); override;
   public
+    procedure LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
+  public
     function OpenChildNode(ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure CloseChildNode();
   public
@@ -1576,6 +1578,55 @@ end;
 function TSimpleTSInfoTree.FindNode(const ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
 begin
   Result := FindElement(ANodePath, AForcePath, False) as TTSInfoNode;
+end;
+
+
+procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
+var
+  fsInput: TFileStream;
+  slInput: TStringList;
+  ltlTrees: TTSInfoLoadedTreesList;
+  treeLoad: TSimpleTSInfoTree;
+  intTreeIdx: Integer = 0;
+begin
+  FFileName := AFileName;
+  FTreeModes := AModes;
+
+  ClearTree();
+
+  ltlTrees := TTSInfoLoadedTreesList.Create(False);
+  try
+    ltlTrees.AddTree(Self);
+
+    while intTreeIdx < ltlTrees.Count do
+    begin
+      treeLoad := ltlTrees.Tree[intTreeIdx];
+
+      if tmBinaryTree in treeLoad.TreeModes then
+      begin
+        fsInput := TFileStream.Create(treeLoad.FileName, fmOpenRead or fmShareDenyWrite);
+        try
+          InternalLoadTreeFromStream(fsInput, treeLoad, ltlTrees);
+        finally
+          fsInput.Free();
+        end;
+      end
+      else
+      begin
+        slInput := TStringList.Create();
+        try
+          slInput.LoadFromFile(treeLoad.FileName);
+          InternalLoadTreeFromList(slInput, treeLoad, ltlTrees);
+        finally
+          slInput.Free();
+        end;
+      end;
+
+      Inc(intTreeIdx);
+    end;
+  finally
+    ltlTrees.Free();
+  end;
 end;
 
 
