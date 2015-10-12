@@ -535,6 +535,7 @@ type
     procedure ReadTreeMode(var AModes: TTreeModes; AModeOnValue, AModeOffValue: TTreeMode);
   private
     procedure ReadHeader();
+    procedure ReadElements(AParentNode: TTSInfoNode);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3493,6 +3494,28 @@ begin
   end
   else
     ThrowException(EM_INVALID_BINARY_FILE);
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadElements(AParentNode: TTSInfoNode);
+var
+  intElementsCnt: UInt32;
+  intElementIdx: Integer;
+begin
+  ReadUInt32Buffer(intElementsCnt);
+
+  for intElementIdx := 0 to intElementsCnt - 1 do
+    ReadAttribute(AParentNode.CreateAttribute(False, ''));
+
+  ReadUInt32Buffer(intElementsCnt);
+
+  for intElementIdx := 0 to intElementsCnt - 1 do
+    ReadChildNode(AParentNode.CreateChildNode(False, ''));
+
+  ReadUInt32Buffer(intElementsCnt);
+
+  for intElementIdx := 0 to intElementsCnt - 1 do
+    ReadLink(AParentNode.CreateLink('', ''));
 end;
 
 
