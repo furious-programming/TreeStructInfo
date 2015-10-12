@@ -2670,28 +2670,25 @@ procedure TTSInfoTree.RenameChildNode(const ANodePath, ANewNodeName: UTF8String)
 var
   nodeRename: TTSInfoNode;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    if IsCurrentNodeSymbol(ANodePath) then
+    if IsCurrentNodePath(ANodePath) then
     begin
       if FCurrentNode = FRootNode then
-        ThrowException(EM_ROOT_NODE_RENAME, [])
+        ThrowException(EM_ROOT_NODE_RENAME)
       else
         nodeRename := FCurrentNode;
     end
     else
-    begin
-      IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeRename := FindNode(ANodePath, False);
-    end;
+      nodeRename := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeRename = nil then
       ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
     else
       if nodeRename.ParentNode = nil then
-        ThrowException(EM_ROOT_NODE_RENAME, [])
+        ThrowException(EM_ROOT_NODE_RENAME)
       else
         if ValidIdentifier(ANewNodeName) then
         begin
