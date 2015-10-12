@@ -3027,23 +3027,22 @@ end;
 procedure TTSInfoTree.RemoveChildNode(const ANodePath: UTF8String);
 var
   nodeRemove: TTSInfoNode;
-  strName: UTF8String;
+  strNodeNameOnly: UTF8String;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeRemove := FindNode(ANodePath, False);
+    nodeRemove := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeRemove <> nil then
       if nodeRemove.ParentNode = nil then
-        ThrowException(EM_ROOT_NODE_REMOVE, [])
+        ThrowException(EM_ROOT_NODE_REMOVE)
       else
       begin
-        strName := nodeRemove.Name;
+        strNodeNameOnly := nodeRemove.Name;
         nodeRemove := nodeRemove.ParentNode;
-        nodeRemove.RemoveChildNode(strName);
+        nodeRemove.RemoveChildNode(strNodeNameOnly);
         FModified := True;
       end;
   end;
