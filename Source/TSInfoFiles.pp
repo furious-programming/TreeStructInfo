@@ -537,6 +537,7 @@ type
     procedure ReadHeader();
     procedure ReadElements(AParentNode: TTSInfoNode);
     procedure ReadAttribute(AAttribute: TTSInfoAttribute);
+    procedure ReadChildNode(AChildNode: TTSInfoNode);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3529,6 +3530,18 @@ begin
 
   ReadUTF8StringBuffer(AAttribute.FComment[ctDeclaration]);
   ReadUTF8StringBuffer(AAttribute.FComment[ctDefinition]);
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadChildNode(AChildNode: TTSInfoNode);
+begin
+  ReadBooleanBuffer(AChildNode.FReference);
+
+  ReadUTF8StringBuffer(AChildNode.FName);
+  ReadUTF8StringBuffer(AChildNode.FComment[ctDeclaration]);
+  ReadUTF8StringBuffer(AChildNode.FComment[ctDefinition]);
+
+  ReadElements(AChildNode);
 end;
 
 
