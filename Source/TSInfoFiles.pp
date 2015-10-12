@@ -2973,28 +2973,25 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
+function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String): Boolean;
 var
   nodeRead: TTSInfoNode;
 begin
-  if IsCurrentNodeSymbol(ANodePath) then
+  if IsCurrentNodePath(ANodePath) then
   begin
     if FCurrentNode = FRootNode then
-      ThrowException(EM_ROOT_NODE_GET_REFERENCE, [])
+      ThrowException(EM_ROOT_NODE_GET_REFERENCE)
     else
       nodeRead := FCurrentNode;
   end
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeRead := FindNode(ANodePath, False);
-  end;
+    nodeRead := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   if nodeRead = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
     if nodeRead.ParentNode = nil then
-      ThrowException(EM_ROOT_NODE_GET_REFERENCE, [])
+      ThrowException(EM_ROOT_NODE_GET_REFERENCE)
     else
       Result := nodeRead.Reference;
 end;
