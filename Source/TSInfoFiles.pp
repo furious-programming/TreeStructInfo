@@ -569,6 +569,8 @@ type
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
+  public
+    procedure ProcessOutput();
   end;
 
 
@@ -3724,6 +3726,13 @@ begin
   if tmAccessWrite in ALink.LinkedTree.TreeModes then
     if FAllowLinking and FLoadedTrees.FileNotYetBeenProcessed(ALink.FileName) then
       FLoadedTrees.AddElement(ALink.LinkedTree);
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.ProcessOutput();
+begin
+  WriteHeader();
+  WriteElements(FTSInfoFile.FRootNode);
 end;
 
 
