@@ -2632,29 +2632,29 @@ procedure TTSInfoTree.RenameAttribute(const AAttrName, ANewAttrName: UTF8String)
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
-  strNodePath, strAttrName: UTF8String;
+  strAttrName, strAttrNameOnly, strNodePath: UTF8String;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    strNodePath := ExtractPathComponent(AAttrName, pcAttributePath);
+    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrName);
+    strNodePath := ExtractPathComponent(strAttrName, pcAttributePath);
 
-    if IsCurrentNodeSymbol(strNodePath) then
+    if IsCurrentNodePath(strNodePath) then
       nodeParent := FCurrentNode
     else
       nodeParent := FindNode(strNodePath, False);
 
     if nodeParent = nil then
-      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
+      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [strAttrName])
     else
     begin
-      strAttrName := ExtractPathComponent(AAttrName, pcAttributeName);
-      attrRename := nodeParent.GetAttribute(strAttrName);
+      strAttrNameOnly := ExtractPathComponent(strAttrName, pcAttributeName);
+      attrRename := nodeParent.GetAttribute(strAttrNameOnly);
 
       if attrRename = nil then
-        ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
+        ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [strAttrName])
       else
         if ValidIdentifier(ANewAttrName) then
         begin
