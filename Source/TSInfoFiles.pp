@@ -2973,7 +2973,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String): Boolean;
+function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3071,7 +3071,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllAttributes(const ANodePath: UTF8String);
+procedure TTSInfoTree.RemoveAllAttributes(const ANodePath: UTF8String = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3093,7 +3093,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllChildNodes(const ANodePath: UTF8String);
+procedure TTSInfoTree.RemoveAllChildNodes(const ANodePath: UTF8String = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3115,7 +3115,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String);
+procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String = '');
 var
   nodeParent: TTSInfoNode;
 begin
