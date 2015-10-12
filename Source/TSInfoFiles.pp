@@ -542,6 +542,8 @@ type
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
+  public
+    procedure ProcessInput();
   end;
 
 
@@ -3559,6 +3561,18 @@ begin
 
   if FAllowLinking and FLoadedTrees.FileNotYetBeenProcessed(ALink.FileName) then
     FLoadedTrees.AddElement(ALink.LinkedTree);
+end;
+
+
+procedure TTSInfoBinaryInputReader.ProcessInput();
+begin
+  try
+    ReadHeader();
+    ReadElements(FTSInfoFile.FRootNode);
+  except
+    FTSInfoFile.DamageClear();
+    raise;
+  end;
 end;
 
 
