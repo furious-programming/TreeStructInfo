@@ -437,51 +437,51 @@ type
 type
   TTSInfoTree = class(TSimpleTSInfoTree)
   public
-    procedure RenameTree(ANewTreeName: UTF8String);
-    procedure RenameAttribute(AAttrName, ANewAttrName: UTF8String);
-    procedure RenameChildNode(ANodePath, ANewNodeName: UTF8String);
-    procedure RenameVirtualNode(ANodePath, AVirtualNodeName, ANewVirtualNodeName: UTF8String);
+    procedure RenameTree(const ANewTreeName: UTF8String);
+    procedure RenameAttribute(const AAttrName, ANewAttrName: UTF8String);
+    procedure RenameChildNode(const ANodePath, ANewNodeName: UTF8String);
+    procedure RenameVirtualNode(const ANodePath, AVirtualNodeName, ANewVirtualNodeName: UTF8String);
   public
-    procedure WriteTreeComment(AComment, ADelimiter: UTF8String);
-    procedure WriteAttributeComment(AAttrName, AComment, ADelimiter: UTF8String; AType: TCommentType);
-    procedure WriteChildNodeComment(ANodePath, AComment, ADelimiter: UTF8String; AType: TCommentType);
-    procedure WriteLinkComment(ANodePath, AVirtualNodeName, AComment, ADelimiter: UTF8String);
+    procedure WriteTreeComment(const AComment, ADelimiter: UTF8String);
+    procedure WriteAttributeComment(const AAttrName, AComment, ADelimiter: UTF8String; AType: TCommentType);
+    procedure WriteChildNodeComment(const ANodePath, AComment, ADelimiter: UTF8String; AType: TCommentType);
+    procedure WriteLinkComment(const ANodePath, AVirtualNodeName, AComment, ADelimiter: UTF8String);
   public
-    function ReadTreeComment(ADelimiter: UTF8String): UTF8String;
-    function ReadAttributeComment(AAttrName, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
-    function ReadChildNodeComment(ANodePath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
-    function ReadLinkComment(ANodePath, AVirtualNodeName, ADelimiter: UTF8String): UTF8String;
+    function ReadTreeComment(const ADelimiter: UTF8String): UTF8String;
+    function ReadAttributeComment(const AAttrName, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
+    function ReadChildNodeComment(const ANodePath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
+    function ReadLinkComment(const ANodePath, AVirtualNodeName, ADelimiter: UTF8String): UTF8String;
   public
-    procedure SetAttributeReference(AAttrName: UTF8String; AReference: Boolean);
-    procedure SetChildNodeReference(ANodePath: UTF8String; AReference: Boolean);
+    procedure SetAttributeReference(const AAttrName: UTF8String; AReference: Boolean);
+    procedure SetChildNodeReference(const ANodePath: UTF8String; AReference: Boolean);
   public
-    function GetAttributeReference(AAttrName: UTF8String): Boolean;
-    function GetChildNodeReference(ANodePath: UTF8String = ''): Boolean;
+    function GetAttributeReference(const AAttrName: UTF8String): Boolean;
+    function GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
   public
-    procedure RemoveAttribute(AAttrName: UTF8String);
-    procedure RemoveChildNode(ANodePath: UTF8String);
-    procedure RemoveLink(ANodePath, AVirtualNodeName: UTF8String);
+    procedure RemoveAttribute(const AAttrName: UTF8String);
+    procedure RemoveChildNode(const ANodePath: UTF8String);
+    procedure RemoveLink(const ANodePath, AVirtualNodeName: UTF8String);
   public
-    procedure RemoveAllAttributes(ANodePath: UTF8String = '');
-    procedure RemoveAllChildNodes(ANodePath: UTF8String = '');
-    procedure RemoveAllLinks(ANodePath: UTF8String = '');
+    procedure RemoveAllAttributes(const ANodePath: UTF8String = '');
+    procedure RemoveAllChildNodes(const ANodePath: UTF8String = '');
+    procedure RemoveAllLinks(const ANodePath: UTF8String = '');
   public
-    function AttributeExists(AAttrName: UTF8String): Boolean;
-    function ChildNodeExists(ANodePath: UTF8String): Boolean;
-    function LinkExists(ANodePath, AVirtualNodeName: UTF8String): Boolean;
+    function AttributeExists(const AAttrName: UTF8String): Boolean;
+    function ChildNodeExists(const ANodePath: UTF8String): Boolean;
+    function LinkExists(const ANodePath, AVirtualNodeName: UTF8String): Boolean;
   public
-    function GetAttributesCount(ANodePath: UTF8String = ''): UInt32;
-    function GetChildNodesCount(ANodePath: UTF8String = ''): UInt32;
-    function GetLinksCount(ANodePath: UTF8String = ''): UInt32;
+    function GetAttributesCount(const ANodePath: UTF8String = ''): Integer;
+    function GetChildNodesCount(const ANodePath: UTF8String = ''): Integer;
+    function GetLinksCount(const ANodePath: UTF8String = ''): Integer;
   public
-    procedure ReadAttributesNames(ANodePath: UTF8String; ANames: TStrings);
-    procedure ReadAttributesValues(ANodePath: UTF8String; AValues: TStrings);
-    procedure ReadChildNodesNames(ANodePath: UTF8String; ANames: TStrings);
-    procedure ReadVirtualNodesNames(ANodePath: UTF8String; ANames: TStrings);
+    procedure ReadAttributesNames(const ANodePath: UTF8String; ANames: TStrings);
+    procedure ReadAttributesValues(const ANodePath: UTF8String; AValues: TStrings);
+    procedure ReadChildNodesNames(const ANodePath: UTF8String; ANames: TStrings);
+    procedure ReadVirtualNodesNames(const ANodePath: UTF8String; ANames: TStrings);
   public
-    procedure ExportTreeToFile(AFileName: TFileName; AFormat: TExportFormat = efTextFile);
+    procedure ExportTreeToFile(const AFileName: UTF8String; AFormat: TExportFormat = efTextTree);
     procedure ExportTreeToList(AList: TStrings);
-    procedure ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryFile);
+    procedure ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryTree);
   end;
 
 
@@ -2618,7 +2618,7 @@ end;
 { ----- TTSInfoTree class ----------------------------------------------------------------------------------------- }
 
 
-procedure TTSInfoTree.RenameTree(ANewTreeName: UTF8String);
+procedure TTSInfoTree.RenameTree(const ANewTreeName: UTF8String);
 begin
   if ANewTreeName <> '' then
     if not ValidIdentifier(ANewTreeName) then
@@ -2629,7 +2629,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RenameAttribute(AAttrName, ANewAttrName: UTF8String);
+procedure TTSInfoTree.RenameAttribute(const AAttrName, ANewAttrName: UTF8String);
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
@@ -2667,7 +2667,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RenameChildNode(ANodePath, ANewNodeName: UTF8String);
+procedure TTSInfoTree.RenameChildNode(const ANodePath, ANewNodeName: UTF8String);
 var
   nodeRename: TTSInfoNode;
 begin
@@ -2703,7 +2703,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RenameVirtualNode(ANodePath, AVirtualNodeName, ANewVirtualNodeName: UTF8String);
+procedure TTSInfoTree.RenameVirtualNode(const ANodePath, AVirtualNodeName, ANewVirtualNodeName: UTF8String);
 var
   nodeParent: TTSInfoNode;
   linkRename: TTSInfoLink;
@@ -2739,7 +2739,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteTreeComment(AComment, ADelimiter: UTF8String);
+procedure TTSInfoTree.WriteTreeComment(const AComment, ADelimiter: UTF8String);
 begin
   if ADelimiter = '' then
     FTreeComment := AComment
@@ -2750,7 +2750,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteAttributeComment(AAttrName, AComment, ADelimiter: UTF8String; AType: TCommentType);
+procedure TTSInfoTree.WriteAttributeComment(const AAttrName, AComment, ADelimiter: UTF8String; AType: TCommentType);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2776,7 +2776,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteChildNodeComment(ANodePath, AComment, ADelimiter: UTF8String; AType: TCommentType);
+procedure TTSInfoTree.WriteChildNodeComment(const ANodePath, AComment, ADelimiter: UTF8String; AType: TCommentType);
 var
   nodeWrite: TTSInfoNode;
 begin
@@ -2815,7 +2815,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteLinkComment(ANodePath, AVirtualNodeName, AComment, ADelimiter: UTF8String);
+procedure TTSInfoTree.WriteLinkComment(const ANodePath, AVirtualNodeName, AComment, ADelimiter: UTF8String);
 var
   nodeParent: TTSInfoNode;
   linkWrite: TTSInfoLink;
@@ -2854,13 +2854,13 @@ begin
 end;
 
 
-function TTSInfoTree.ReadTreeComment(ADelimiter: UTF8String): UTF8String;
+function TTSInfoTree.ReadTreeComment(const ADelimiter: UTF8String): UTF8String;
 begin
   Result := ReplaceSubStrings(FTreeComment, VALUES_DELIMITER, ADelimiter);
 end;
 
 
-function TTSInfoTree.ReadAttributeComment(AAttrName, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
+function TTSInfoTree.ReadAttributeComment(const AAttrName, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2874,7 +2874,7 @@ begin
 end;
 
 
-function TTSInfoTree.ReadChildNodeComment(ANodePath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
+function TTSInfoTree.ReadChildNodeComment(const ANodePath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -2901,7 +2901,7 @@ begin
 end;
 
 
-function TTSInfoTree.ReadLinkComment(ANodePath, AVirtualNodeName, ADelimiter: UTF8String): UTF8String;
+function TTSInfoTree.ReadLinkComment(const ANodePath, AVirtualNodeName, ADelimiter: UTF8String): UTF8String;
 var
   nodeParent: TTSInfoNode;
   linkRead: TTSInfoLink;
@@ -2928,7 +2928,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.SetAttributeReference(AAttrName: UTF8String; AReference: Boolean);
+procedure TTSInfoTree.SetAttributeReference(const AAttrName: UTF8String; AReference: Boolean);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2950,7 +2950,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.SetChildNodeReference(ANodePath: UTF8String; AReference: Boolean);
+procedure TTSInfoTree.SetChildNodeReference(const ANodePath: UTF8String; AReference: Boolean);
 var
   nodeWrite: TTSInfoNode;
 begin
@@ -2985,7 +2985,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetAttributeReference(AAttrName: UTF8String): Boolean;
+function TTSInfoTree.GetAttributeReference(const AAttrName: UTF8String): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2999,7 +2999,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodeReference(ANodePath: UTF8String = ''): Boolean;
+function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3026,7 +3026,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAttribute(AAttrName: UTF8String);
+procedure TTSInfoTree.RemoveAttribute(const AAttrName: UTF8String);
 var
   nodeParent: TTSInfoNode;
   strPath, strName: UTF8String;
@@ -3053,7 +3053,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveChildNode(ANodePath: UTF8String);
+procedure TTSInfoTree.RemoveChildNode(const ANodePath: UTF8String);
 var
   nodeRemove: TTSInfoNode;
   strName: UTF8String;
@@ -3079,7 +3079,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveLink(ANodePath, AVirtualNodeName: UTF8String);
+procedure TTSInfoTree.RemoveLink(const ANodePath, AVirtualNodeName: UTF8String);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3104,7 +3104,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllAttributes(ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllAttributes(const ANodePath: UTF8String = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3129,7 +3129,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllChildNodes(ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllChildNodes(const ANodePath: UTF8String = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3154,7 +3154,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllLinks(ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String = '');
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3179,21 +3179,21 @@ begin
 end;
 
 
-function TTSInfoTree.AttributeExists(AAttrName: UTF8String): Boolean;
+function TTSInfoTree.AttributeExists(const AAttrName: UTF8String): Boolean;
 begin
   ExcludeTrailingIdentsDelimiter(AAttrName);
   Result := FindAttribute(AAttrName, False) <> nil;
 end;
 
 
-function TTSInfoTree.ChildNodeExists(ANodePath: UTF8String): Boolean;
+function TTSInfoTree.ChildNodeExists(const ANodePath: UTF8String): Boolean;
 begin
   IncludeTrailingIdentsDelimiter(ANodePath);
   Result := FindNode(ANodePath, False) <> nil;
 end;
 
 
-function TTSInfoTree.LinkExists(ANodePath, AVirtualNodeName: UTF8String): Boolean;
+function TTSInfoTree.LinkExists(const ANodePath, AVirtualNodeName: UTF8String): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3209,7 +3209,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetAttributesCount(ANodePath: UTF8String = ''): UInt32;
+function TTSInfoTree.GetAttributesCount(const ANodePath: UTF8String = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3228,7 +3228,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodesCount(ANodePath: UTF8String = ''): UInt32;
+function TTSInfoTree.GetChildNodesCount(const ANodePath: UTF8String = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3247,7 +3247,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetLinksCount(ANodePath: UTF8String = ''): UInt32;
+function TTSInfoTree.GetLinksCount(const ANodePath: UTF8String = ''): UInt32;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3266,7 +3266,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadAttributesNames(ANodePath: UTF8String; ANames: TStrings);
+procedure TTSInfoTree.ReadAttributesNames(const ANodePath: UTF8String; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -3287,7 +3287,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadAttributesValues(ANodePath: UTF8String; AValues: TStrings);
+procedure TTSInfoTree.ReadAttributesValues(const ANodePath: UTF8String; AValues: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -3308,7 +3308,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadChildNodesNames(ANodePath: UTF8String; ANames: TStrings);
+procedure TTSInfoTree.ReadChildNodesNames(const ANodePath: UTF8String; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -3329,7 +3329,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadVirtualNodesNames(ANodePath: UTF8String; ANames: TStrings);
+procedure TTSInfoTree.ReadVirtualNodesNames(const ANodePath: UTF8String; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
   I: Integer;
@@ -3350,7 +3350,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ExportTreeToFile(AFileName: TFileName; AFormat: TExportFormat = efTextFile);
+procedure TTSInfoTree.ExportTreeToFile(const AFileName: UTF8String; AFormat: TExportFormat = efTextTree);
 var
   fsOutput: TStream;
   slOutput: TStrings;
@@ -3383,7 +3383,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryFile);
+procedure TTSInfoTree.ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryTree);
 var
   slOutput: TStrings;
 begin
