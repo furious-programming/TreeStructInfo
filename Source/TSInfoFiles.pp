@@ -3287,11 +3287,11 @@ var
   fsOutput: TStream;
   slOutput: TStrings;
 begin
-  if AFormat = efBinaryFile then
+  if AFormat = efBinaryTree then
   begin
     fsOutput := TFileStream.Create(AFileName, fmCreate or fmShareDenyWrite);
     try
-      SaveTreeToStream(fsOutput);
+      InternalSaveTreeToStream(fsOutput, Self, nil);
     finally
       fsOutput.Free();
     end;
@@ -3300,7 +3300,7 @@ begin
   begin
     slOutput := TStringList.Create();
     try
-      SaveTreeToList(slOutput);
+      InternalSaveTreeToList(slOutput, Self, nil);
       slOutput.SaveToFile(AFileName);
     finally
       slOutput.Free();
