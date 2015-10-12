@@ -2620,12 +2620,11 @@ end;
 
 procedure TTSInfoTree.RenameTree(const ANewTreeName: UTF8String);
 begin
-  if ANewTreeName <> '' then
-    if not ValidIdentifier(ANewTreeName) then
-      Exit;
-
-  FTreeName := ANewTreeName;
-  FModified := True;
+  if (ANewTreeName = '') or ValidIdentifier(ANewTreeName) then
+  begin
+    FTreeName := ANewTreeName;
+    FModified := True;
+  end;
 end;
 
 
