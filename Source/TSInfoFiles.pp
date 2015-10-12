@@ -564,6 +564,7 @@ type
     procedure WriteHeader();
     procedure WriteElements(AParentNode: TTSInfoNode);
     procedure WriteAttribute(AAttribute: TTSInfoAttribute);
+    procedure WriteChildNode(AChildNode: TTSInfoNode);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3694,6 +3695,18 @@ begin
 
   WriteUTF8StringBuffer(AAttribute.FComment[ctDeclaration]);
   WriteUTF8StringBuffer(AAttribute.FComment[ctDefinition]);
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteChildNode(AChildNode: TTSInfoNode);
+begin
+  WriteBooleanBuffer(AChildNode.FReference);
+
+  WriteUTF8StringBuffer(AChildNode.FName);
+  WriteUTF8StringBuffer(AChildNode.FComment[ctDeclaration]);
+  WriteUTF8StringBuffer(AChildNode.FComment[ctDefinition]);
+
+  WriteElements(AChildNode);
 end;
 
 
