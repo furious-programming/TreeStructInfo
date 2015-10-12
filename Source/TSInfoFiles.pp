@@ -527,6 +527,12 @@ type
     FInput: TStream;
     FLoadedTrees: TTSInfoLoadedTreesList;
     FAllowLinking: Boolean;
+  private
+    procedure ReadUTF8StringBuffer(out ABuffer: UTF8String);
+    procedure ReadBooleanBuffer(out ABuffer: Boolean);
+    procedure ReadUInt8Buffer(out ABuffer: UInt8);
+    procedure ReadUInt32Buffer(out ABuffer: UInt32);
+    procedure ReadTreeMode(var AModes: TTreeModes; AModeOnValue, AModeOffValue: TTreeMode);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3412,6 +3418,52 @@ begin
   FLoadedTrees := nil;
 
   inherited Destroy();
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadUTF8StringBuffer(out ABuffer: UTF8String);
+var
+  intBufferLen: UInt32;
+begin
+  ReadUInt32Buffer(intBufferLen);
+  SetLength(ABuffer, intBufferLen);
+  FInput.Read(ABuffer[1], intBufferLen);
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadBooleanBuffer(out ABuffer: Boolean);
+var
+  intBuffer: UInt8 = 0;
+begin
+  FInput.Read(intBuffer, SizeOf(intBuffer));
+  ABuffer := intBuffer <> 0;
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadUInt8Buffer(out ABuffer: UInt8);
+begin
+  ABuffer := 0;
+  FInput.Read(ABuffer, SizeOf(ABuffer));
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadUInt32Buffer(out ABuffer: UInt32);
+begin
+  ABuffer := 0;
+  FInput.Read(ABuffer, SizeOf(ABuffer));
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadTreeMode(var AModes: TTreeModes; AModeOnValue, AModeOffValue: TTreeMode);
+var
+  boolFileModeOn: Boolean;
+begin
+  ReadBooleanBuffer(boolFileModeOn);
+
+  if boolFileModeOn then
+    Include(AModes, AModeOnValue)
+  else
+    Include(AModes, AModeOffValue);
 end;
 
 
