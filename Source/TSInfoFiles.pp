@@ -562,6 +562,7 @@ type
     procedure WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
   private
     procedure WriteHeader();
+    procedure WriteElements(AParentNode: TTSInfoNode);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3655,6 +3656,31 @@ begin
 
   WriteUTF8StringBuffer(FTSInfoFile.FTreeName);
   WriteUTF8StringBuffer(FTSInfoFile.FTreeComment);
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteElements(AParentNode: TTSInfoNode);
+var
+  intElementsCnt: UInt32;
+  intElementIdx: Integer;
+begin
+  intElementsCnt := AParentNode.AttributesCount;
+  WriteUInt32Buffer(intElementsCnt);
+
+  for intElementIdx := 0 to intElementsCnt - 1 do
+    WriteAttribute(AParentNode.GetAttribute(intElementIdx));
+
+  intElementsCnt := AParentNode.ChildNodesCount;
+  WriteUInt32Buffer(intElementsCnt);
+
+  for intElementIdx := 0 to intElementsCnt - 1 do
+    WriteChildNode(AParentNode.GetChildNode(intElementIdx));
+
+  intElementsCnt := AParentNode.LinksCount;
+  WriteUInt32Buffer(intElementsCnt);
+
+  for intElementIdx := 0 to intElementsCnt - 1 do
+    WriteLink(AParentNode.GetLink(intElementIdx));
 end;
 
 
