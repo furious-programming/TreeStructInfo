@@ -533,6 +533,8 @@ type
     procedure ReadUInt8Buffer(out ABuffer: UInt8);
     procedure ReadUInt32Buffer(out ABuffer: UInt32);
     procedure ReadTreeMode(var AModes: TTreeModes; AModeOnValue, AModeOffValue: TTreeMode);
+  private
+    procedure ReadHeader();
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3464,6 +3466,33 @@ begin
     Include(AModes, AModeOnValue)
   else
     Include(AModes, AModeOffValue);
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadHeader();
+var
+  strSignature: UTF8String;
+  intVersionMajor, intVersionMinor: UInt8;
+begin
+  SetLength(strSignature, BINARY_FILE_SIGNATURE_LEN);
+  FillChar(strSignature[1], BINARY_FILE_SIGNATURE_LEN, 0);
+  FInput.Read(strSignature[1], BINARY_FILE_SIGNATURE_LEN);
+
+  if CompareByte(strSignature[1], BINARY_FILE_SIGNATURE[1], BINARY_FILE_SIGNATURE_LEN) = 0 then
+  begin
+    ReadUInt8Buffer(intVersionMajor);
+    ReadUInt8Buffer(intVersionMinor);
+
+    if (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor >= SUPPORTED_FORMAT_VERSION_MINOR) then
+    begin
+      ReadUTF8StringBuffer(FTSInfoFile.FTreeName);
+      ReadUTF8StringBuffer(FTSInfoFile.FTreeComment);
+    end
+    else
+      ThrowException(EM_UNSUPPORTED_BINARY_FORMAT_VERSION, [intVersionMajor, intVersionMinor]);
+  end
+  else
+    ThrowException(EM_INVALID_BINARY_FILE);
 end;
 
 
