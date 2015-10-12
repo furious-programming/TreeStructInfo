@@ -3311,7 +3311,7 @@ end;
 
 procedure TTSInfoTree.ExportTreeToList(AList: TStrings);
 begin
-  SaveTreeToList(AList);
+  InternalSaveTreeToList(AList, Self, nil);
 end;
 
 
