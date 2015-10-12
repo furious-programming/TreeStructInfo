@@ -2772,28 +2772,25 @@ procedure TTSInfoTree.WriteChildNodeComment(const ANodePath, AComment, ADelimite
 var
   nodeWrite: TTSInfoNode;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    if IsCurrentNodeSymbol(ANodePath) then
+    if IsCurrentNodePath(ANodePath) then
     begin
       if FCurrentNode = FRootNode then
-        ThrowException(EM_ROOT_NODE_SET_COMMENT, [])
+        ThrowException(EM_ROOT_NODE_SET_COMMENT)
       else
         nodeWrite := FCurrentNode;
     end
     else
-    begin
-      IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeWrite := FindNode(ANodePath, False);
-    end;
+      nodeWrite := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeWrite = nil then
       ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
     else
       if nodeWrite.ParentNode = nil then
-        ThrowException(EM_ROOT_NODE_SET_COMMENT, [])
+        ThrowException(EM_ROOT_NODE_SET_COMMENT)
       else
       begin
         if ADelimiter = '' then
