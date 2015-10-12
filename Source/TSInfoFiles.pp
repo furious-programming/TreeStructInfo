@@ -2911,12 +2911,11 @@ procedure TTSInfoTree.SetAttributeReference(const AAttrName: UTF8String; ARefere
 var
   attrWrite: TTSInfoAttribute;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    attrWrite := FindAttribute(AAttrName, False);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
     if attrWrite = nil then
       ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
