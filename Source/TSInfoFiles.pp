@@ -2809,17 +2809,14 @@ var
   nodeParent: TTSInfoNode;
   linkWrite: TTSInfoLink;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    if IsCurrentNodeSymbol(ANodePath) then
+    if IsCurrentNodePath(ANodePath) then
       nodeParent := FCurrentNode
     else
-    begin
-      IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeParent := FindNode(ANodePath, False);
-    end;
+      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeParent = nil then
       ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
