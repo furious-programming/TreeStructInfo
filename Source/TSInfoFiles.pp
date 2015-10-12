@@ -3139,15 +3139,13 @@ end;
 
 function TTSInfoTree.AttributeExists(const AAttrName: UTF8String): Boolean;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  Result := FindAttribute(AAttrName, False) <> nil;
+  Result := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False) <> nil;
 end;
 
 
 function TTSInfoTree.ChildNodeExists(const ANodePath: UTF8String): Boolean;
 begin
-  IncludeTrailingIdentsDelimiter(ANodePath);
-  Result := FindNode(ANodePath, False) <> nil;
+  Result := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False) <> nil;
 end;
 
 
