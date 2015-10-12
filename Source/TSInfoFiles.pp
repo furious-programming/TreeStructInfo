@@ -560,6 +560,8 @@ type
     procedure WriteUInt8Buffer(ABuffer: UInt8);
     procedure WriteUInt32Buffer(ABuffer: UInt32);
     procedure WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
+  private
+    procedure WriteHeader();
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3641,6 +3643,18 @@ end;
 procedure TTSInfoBinaryOutputWriter.WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
 begin
   WriteBooleanBuffer(AModeOnValue in AModes);
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteHeader();
+begin
+  FOutput.Write(BINARY_FILE_SIGNATURE[1], BINARY_FILE_SIGNATURE_LEN);
+
+  WriteUInt8Buffer(SUPPORTED_FORMAT_VERSION_MAJOR);
+  WriteUInt8Buffer(SUPPORTED_FORMAT_VERSION_MINOR);
+
+  WriteUTF8StringBuffer(FTSInfoFile.FTreeName);
+  WriteUTF8StringBuffer(FTSInfoFile.FTreeComment);
 end;
 
 
