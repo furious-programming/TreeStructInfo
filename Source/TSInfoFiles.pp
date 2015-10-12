@@ -3000,24 +3000,24 @@ end;
 procedure TTSInfoTree.RemoveAttribute(const AAttrName: UTF8String);
 var
   nodeParent: TTSInfoNode;
-  strPath, strName: UTF8String;
+  strAttrName, strAttrNameOnly, strAttrPath: UTF8String;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    ExcludeTrailingIdentsDelimiter(AAttrName);
-    strPath := ExtractPathComponent(AAttrName, pcAttributePath);
+    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrName);
+    strAttrPath := ExtractPathComponent(strAttrName, pcAttributePath);
 
-    if IsCurrentNodeSymbol(strPath) then
+    if IsCurrentNodePath(strAttrPath) then
       nodeParent := FCurrentNode
     else
-      nodeParent := FindNode(strPath, False);
+      nodeParent := FindNode(strAttrPath, False);
 
     if nodeParent <> nil then
     begin
-      strName := ExtractPathComponent(AAttrName, pcAttributeName);
-      nodeParent.RemoveAttribute(strName);
+      strAttrNameOnly := ExtractPathComponent(strAttrName, pcAttributeName);
+      nodeParent.RemoveAttribute(strAttrNameOnly);
       FModified := True;
     end;
   end;
