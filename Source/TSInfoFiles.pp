@@ -452,11 +452,11 @@ type
     function ReadChildNodeComment(ANodePath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
     function ReadLinkComment(ANodePath, AVirtualNodeName, ADelimiter: UTF8String): UTF8String;
   public
-    procedure WriteAttributeReference(AAttrName: UTF8String; AReference: Boolean);
-    procedure WriteChildNodeReference(ANodePath: UTF8String; AReference: Boolean);
+    procedure SetAttributeReference(AAttrName: UTF8String; AReference: Boolean);
+    procedure SetChildNodeReference(ANodePath: UTF8String; AReference: Boolean);
   public
-    function ReadAttributeReference(AAttrName: UTF8String): Boolean;
-    function ReadChildNodeReference(ANodePath: UTF8String = ''): Boolean;
+    function GetAttributeReference(AAttrName: UTF8String): Boolean;
+    function GetChildNodeReference(ANodePath: UTF8String = ''): Boolean;
   public
     procedure RemoveAttribute(AAttrName: UTF8String);
     procedure RemoveChildNode(ANodePath: UTF8String);
@@ -2928,7 +2928,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteAttributeReference(AAttrName: UTF8String; AReference: Boolean);
+procedure TTSInfoTree.SetAttributeReference(AAttrName: UTF8String; AReference: Boolean);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2950,7 +2950,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteChildNodeReference(ANodePath: UTF8String; AReference: Boolean);
+procedure TTSInfoTree.SetChildNodeReference(ANodePath: UTF8String; AReference: Boolean);
 var
   nodeWrite: TTSInfoNode;
 begin
@@ -2985,7 +2985,7 @@ begin
 end;
 
 
-function TTSInfoTree.ReadAttributeReference(AAttrName: UTF8String): Boolean;
+function TTSInfoTree.GetAttributeReference(AAttrName: UTF8String): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2999,7 +2999,7 @@ begin
 end;
 
 
-function TTSInfoTree.ReadChildNodeReference(ANodePath: UTF8String = ''): Boolean;
+function TTSInfoTree.GetChildNodeReference(ANodePath: UTF8String = ''): Boolean;
 var
   nodeRead: TTSInfoNode;
 begin
