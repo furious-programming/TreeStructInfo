@@ -2888,13 +2888,10 @@ var
   nodeParent: TTSInfoNode;
   linkRead: TTSInfoLink;
 begin
-  if IsCurrentNodeSymbol(ANodePath) then
+  if IsCurrentNodePath(ANodePath) then
     nodeParent := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeParent := FindNode(ANodePath, False);
-  end;
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   if nodeParent = nil then
     ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
