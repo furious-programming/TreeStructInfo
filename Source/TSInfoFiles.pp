@@ -2850,8 +2850,7 @@ function TTSInfoTree.ReadAttributeComment(const AAttrName, ADelimiter: UTF8Strin
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
