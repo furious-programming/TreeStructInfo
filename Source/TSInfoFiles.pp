@@ -3249,21 +3249,18 @@ end;
 procedure TTSInfoTree.ReadChildNodesNames(const ANodePath: UTF8String; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
-  I: Integer;
+  intNodeIdx: Integer;
 begin
-  if IsCurrentNodeSymbol(ANodePath) then
+  if IsCurrentNodePath(ANodePath) then
     nodeParent := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeParent := FindNode(ANodePath, False);
-  end;
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   if nodeParent = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
-    for I := 0 to nodeParent.ChildNodesCount - 1 do
-      ANames.Add(nodeParent.GetChildNode(I).Name);
+    for intNodeIdx := 0 to nodeParent.ChildNodesCount - 1 do
+      ANames.Add(nodeParent.GetChildNode(intNodeIdx).Name);
 end;
 
 
