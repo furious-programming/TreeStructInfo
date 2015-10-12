@@ -3267,21 +3267,18 @@ end;
 procedure TTSInfoTree.ReadVirtualNodesNames(const ANodePath: UTF8String; ANames: TStrings);
 var
   nodeParent: TTSInfoNode;
-  I: Integer;
+  intLinkIdx: Integer;
 begin
-  if IsCurrentNodeSymbol(ANodePath) then
+  if IsCurrentNodePath(ANodePath) then
     nodeParent := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeParent := FindNode(ANodePath, False);
-  end;
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   if nodeParent = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
-    for I := 0 to nodeParent.LinksCount - 1 do
-      ANames.Add(nodeParent.GetLink(I).VirtualNodeName);
+    for intLinkIdx := 0 to nodeParent.LinksCount - 1 do
+      ANames.Add(nodeParent.GetLink(intLinkIdx).VirtualNodeName);
 end;
 
 
