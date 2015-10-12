@@ -536,6 +536,7 @@ type
   private
     procedure ReadHeader();
     procedure ReadElements(AParentNode: TTSInfoNode);
+    procedure ReadAttribute(AAttribute: TTSInfoAttribute);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3516,6 +3517,18 @@ begin
 
   for intElementIdx := 0 to intElementsCnt - 1 do
     ReadLink(AParentNode.CreateLink('', ''));
+end;
+
+
+procedure TTSInfoBinaryInputReader.ReadAttribute(AAttribute: TTSInfoAttribute);
+begin
+  ReadBooleanBuffer(AAttribute.FReference);
+
+  ReadUTF8StringBuffer(AAttribute.FName);
+  ReadUTF8StringBuffer(AAttribute.FValue);
+
+  ReadUTF8StringBuffer(AAttribute.FComment[ctDeclaration]);
+  ReadUTF8StringBuffer(AAttribute.FComment[ctDefinition]);
 end;
 
 
