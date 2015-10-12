@@ -554,6 +554,12 @@ type
     FOutput: TStream;
     FLoadedTrees: TTSInfoLoadedTreesList;
     FAllowLinking: Boolean;
+  private
+    procedure WriteUTF8StringBuffer(const ABuffer: UTF8String);
+    procedure WriteBooleanBuffer(ABuffer: Boolean);
+    procedure WriteUInt8Buffer(ABuffer: UInt8);
+    procedure WriteUInt32Buffer(ABuffer: UInt32);
+    procedure WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
   public
     constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
     destructor Destroy(); override;
@@ -3598,6 +3604,43 @@ begin
   FLoadedTrees := nil;
 
   inherited Destroy();
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteUTF8StringBuffer(const ABuffer: UTF8String);
+var
+  intBufferLen: UInt32;
+begin
+  intBufferLen := Length(ABuffer);
+  WriteUInt32Buffer(intBufferLen);
+  FOutput.Write(ABuffer[1], intBufferLen);
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteBooleanBuffer(ABuffer: Boolean);
+var
+  intBuffer: UInt8;
+begin
+  intBuffer := UInt8(ABuffer);
+  FOutput.Write(intBuffer, SizeOf(intBuffer));
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteUInt8Buffer(ABuffer: UInt8);
+begin
+  FOutput.Write(ABuffer, SizeOf(ABuffer));
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteUInt32Buffer(ABuffer: UInt32);
+begin
+  FOutput.Write(ABuffer, SizeOf(ABuffer));
+end;
+
+
+procedure TTSInfoBinaryOutputWriter.WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
+begin
+  WriteBooleanBuffer(AModeOnValue in AModes);
 end;
 
 
