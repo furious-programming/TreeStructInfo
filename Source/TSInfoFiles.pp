@@ -3178,17 +3178,14 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodesCount(const ANodePath: UTF8String = ''): UInt32;
+function TTSInfoTree.GetChildNodesCount(const ANodePath: UTF8String = ''): Integer;
 var
   nodeRead: TTSInfoNode;
 begin
-  if IsCurrentNodeSymbol(ANodePath) then
+  if IsCurrentNodePath(ANodePath) then
     nodeRead := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeRead := FindNode(ANodePath, False);
-  end;
+    nodeRead := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   if nodeRead = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
