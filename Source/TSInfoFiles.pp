@@ -3319,13 +3319,13 @@ procedure TTSInfoTree.ExportTreeToStream(AStream: TStream; AFormat: TExportForma
 var
   slOutput: TStrings;
 begin
-  if AFormat = efBinaryFile then
-    SaveTreeToStream(AStream)
+  if AFormat = efBinaryTree then
+    InternalSaveTreeToStream(AStream, Self, nil)
   else
   begin
     slOutput := TStringList.Create();
     try
-      SaveTreeToList(slOutput);
+      InternalSaveTreeToList(slOutput, Self, nil);
       slOutput.SaveToStream(AStream);
     finally
       slOutput.Free();
