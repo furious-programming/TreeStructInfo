@@ -2964,8 +2964,7 @@ function TTSInfoTree.GetAttributeReference(const AAttrName: UTF8String): Boolean
 var
   attrRead: TTSInfoAttribute;
 begin
-  ExcludeTrailingIdentsDelimiter(AAttrName);
-  attrRead := FindAttribute(AAttrName, False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
 
   if attrRead = nil then
     ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
