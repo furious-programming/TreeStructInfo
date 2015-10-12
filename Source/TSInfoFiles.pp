@@ -3153,13 +3153,10 @@ function TTSInfoTree.LinkExists(const ANodePath, AVirtualNodeName: UTF8String): 
 var
   nodeParent: TTSInfoNode;
 begin
-  if IsCurrentNodeSymbol(ANodePath) then
+  if IsCurrentNodePath(ANodePath) then
     nodeParent := FCurrentNode
   else
-  begin
-    IncludeTrailingIdentsDelimiter(ANodePath);
-    nodeParent := FindNode(ANodePath, False);
-  end;
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   Result := (nodeParent <> nil) and (nodeParent.GetLink(AVirtualNodeName) <> nil);
 end;
