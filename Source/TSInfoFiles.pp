@@ -3115,21 +3115,18 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String);
 var
   nodeParent: TTSInfoNode;
 begin
-  if FReadOnlyMode then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION, [])
+  if FReadOnly then
+    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    if IsCurrentNodeSymbol(ANodePath) then
+    if IsCurrentNodePath(ANodePath) then
       nodeParent := FCurrentNode
     else
-    begin
-      IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeParent := FindNode(ANodePath, False);
-    end;
+      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeParent <> nil then
     begin
