@@ -1368,36 +1368,6 @@ begin
 end;
 
 
-{ ----- TTSInfoAttributeToken object ------------------------------------------------------------------------------ }
-
-
-function TTSInfoAttributeToken.GetComment(AType: TCommentType): UTF8String;
-begin
-  Result := FAttribute.FComment[AType];
-end;
-
-
-procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; AValue: UTF8String);
-begin
-  FAttribute.FComment[AType] := AValue;
-end;
-
-
-{ ----- TTSInfoChildNodeToken object ------------------------------------------------------------------------------ }
-
-
-function TTSInfoChildNodeToken.GetComment(AType: TCommentType): UTF8String;
-begin
-  Result := FChildNode.FComment[AType];
-end;
-
-
-procedure TTSInfoChildNodeToken.SetComment(AType: TCommentType; AValue: UTF8String);
-begin
-  FChildNode.FComment[AType] := AValue;
-end;
-
-
 { ----- TSimpleTSInfoTree class ----------------------------------------------------------------------------------- }
 
 
