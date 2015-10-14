@@ -299,42 +299,6 @@ type
   end;
 
 
-{ ----- token objects --------------------------------------------------------------------------------------------- }
-
-
-type
-  TTSInfoAttributeToken = object
-  private
-    FAttribute: TTSInfoAttribute;
-    FParentNode: TTSInfoNode;
-    FIndex: Integer;
-  private
-    function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; AValue: UTF8String);
-  public
-    property Name: UTF8String read FAttribute.FName;
-    property Reference: Boolean read FAttribute.FReference write FAttribute.FReference;
-    property Value: UTF8String read FAttribute.FValue write FAttribute.FValue;
-    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
-  end;
-
-
-type
-  TTSInfoChildNodeToken = object
-  private
-    FChildNode: TTSInfoNode;
-    FParentNode: TTSInfoNode;
-    FIndex: Integer;
-  private
-    function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; AValue: UTF8String);
-  public
-    property Name: UTF8String read FChildNode.FName;
-    property Reference: Boolean read FChildNode.FReference write FChildNode.FReference;
-    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
-  end;
-
-
 { ----- tree classes ---------------------------------------------------------------------------------------------- }
 
 
