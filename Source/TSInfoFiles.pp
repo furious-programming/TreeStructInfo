@@ -378,11 +378,6 @@ type
     procedure ClearChildNode(const ANodePath: UTF8String = '');
     procedure ClearTree();
   public
-    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
-    function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
-    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
-    function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
-  public
     procedure RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
     procedure RenameChildNodeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
@@ -2395,70 +2390,6 @@ begin
     FCurrentlyOpenNodePath := '';
 
     FModified := True;
-  end;
-end;
-
-
-function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
-var
-  nodeParent: TTSInfoNode;
-begin
-  if IsCurrentNodePath(AParentNodePath) then
-    nodeParent := FCurrentNode
-  else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(AParentNodePath), False);
-
-  Result := (nodeParent <> nil) and (nodeParent.AttributesCount > 0);
-
-  if Result then
-  begin
-    AAttrToken.FAttribute := nodeParent.GetAttribute(0);
-    AAttrToken.FParentNode := nodeParent;
-    AAttrToken.FIndex := 0;
-  end;
-end;
-
-
-function TSimpleTSInfoTree.FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
-begin
-  Result := AAttrToken.FIndex < AAttrToken.FParentNode.AttributesCount - 1;
-
-  if Result then
-  begin
-    Inc(AAttrToken.FIndex);
-    AAttrToken.FAttribute := AAttrToken.FParentNode.GetAttribute(AAttrToken.FIndex);
-  end;
-end;
-
-
-function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
-var
-  nodeParent: TTSInfoNode;
-begin
-  if IsCurrentNodePath(AParentNodePath) then
-    nodeParent := FCurrentNode
-  else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(AParentNodePath), False);
-
-  Result := (nodeParent <> nil) and (nodeParent.ChildNodesCount > 0);
-
-  if Result then
-  begin
-    ANodeToken.FChildNode := nodeParent.GetChildNode(0);
-    ANodeToken.FParentNode := nodeParent;
-    ANodeToken.FIndex := 0;
-  end;
-end;
-
-
-function TSimpleTSInfoTree.FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
-begin
-  Result := ANodeToken.FIndex < ANodeToken.FParentNode.ChildNodesCount - 1;
-
-  if Result then
-  begin
-    Inc(ANodeToken.FIndex);
-    ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNode(ANodeToken.FIndex);
   end;
 end;
 
