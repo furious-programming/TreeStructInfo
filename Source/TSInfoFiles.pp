@@ -128,9 +128,9 @@ type
     procedure RemoveChildNode(const AName: UTF8String);
     procedure RemoveLink(const AVirtualNodeName: UTF8String);
   public
-    procedure ClearAttributes();
-    procedure ClearChildNodes();
-    procedure ClearLinks();
+    procedure RemoveAllAttributes();
+    procedure RemoveAllChildNodes();
+    procedure RemoveAllLinks();
   public
     property ParentNode: TTSInfoNode read FParentNode;
     property Reference: Boolean read FReference write FReference;
@@ -749,18 +749,18 @@ begin
 end;
 
 
-procedure TTSInfoNode.ClearAttributes();
+procedure TTSInfoNode.RemoveAllAttributes();
 begin
   FAttributesList.RemoveAll();
 end;
 
-procedure TTSInfoNode.ClearChildNodes();
+procedure TTSInfoNode.RemoveAllChildNodes();
 begin
   FChildNodesList.RemoveAll();
 end;
 
 
-procedure TTSInfoNode.ClearLinks();
+procedure TTSInfoNode.RemoveAllLinks();
 begin
   FLinksList.RemoveAll();
 end;
@@ -1410,9 +1410,9 @@ end;
 
 procedure TSimpleTSInfoTree.DamageClear();
 begin
-  FRootNode.ClearAttributes();
-  FRootNode.ClearChildNodes();
-  FRootNode.ClearLinks();
+  FRootNode.RemoveAllAttributes();
+  FRootNode.RemoveAllChildNodes();
+  FRootNode.RemoveAllLinks();
 
   FCurrentNode := FRootNode;
   FCurrentlyOpenNodePath := '';
@@ -2366,9 +2366,9 @@ begin
 
     if nodeParent <> nil then
     begin
-      nodeParent.ClearAttributes();
-      nodeParent.ClearChildNodes();
-      nodeParent.ClearLinks();
+      nodeParent.RemoveAllAttributes();
+      nodeParent.RemoveAllChildNodes();
+      nodeParent.RemoveAllLinks();
 
       FModified := True;
     end;
@@ -2382,9 +2382,9 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    FRootNode.ClearAttributes();
-    FRootNode.ClearChildNodes();
-    FRootNode.ClearLinks();
+    FRootNode.RemoveAllAttributes();
+    FRootNode.RemoveAllChildNodes();
+    FRootNode.RemoveAllLinks();
 
     FCurrentNode := FRootNode;
     FCurrentlyOpenNodePath := '';
@@ -2979,7 +2979,7 @@ begin
 
     if nodeParent <> nil then
     begin
-      nodeParent.ClearAttributes();
+      nodeParent.RemoveAllAttributes();
       FModified := True;
     end;
   end;
@@ -3001,7 +3001,7 @@ begin
 
     if nodeParent <> nil then
     begin
-      nodeParent.ClearChildNodes();
+      nodeParent.RemoveAllChildNodes();
       FModified := True;
     end;
   end;
@@ -3023,7 +3023,7 @@ begin
 
     if nodeParent <> nil then
     begin
-      nodeParent.ClearLinks();
+      nodeParent.RemoveAllLinks();
       FModified := True;
     end;
   end;
