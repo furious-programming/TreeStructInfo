@@ -2518,7 +2518,13 @@ end;
 
 function TSimpleTSInfoTree.FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
 begin
+  Result := ANodeToken.FIndex < ANodeToken.FParentNode.ChildNodesCount - 1;
 
+  if Result then
+  begin
+    Inc(ANodeToken.FIndex);
+    ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNode(ANodeToken.FIndex);
+  end;
 end;
 
 
