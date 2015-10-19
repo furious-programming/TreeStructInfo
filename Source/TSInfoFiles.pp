@@ -2497,8 +2497,22 @@ end;
 
 
 function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
+var
+  nodeParent: TTSInfoNode;
 begin
+  if IsCurrentNodePath(AParentNodePath) then
+    nodeParent := FCurrentNode
+  else
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(AParentNodePath), False);
 
+  Result := (nodeParent <> nil) and (nodeParent.ChildNodesCount > 0);
+
+  if Result then
+  begin
+    ANodeToken.FChildNode := nodeParent.GetChildNode(0);
+    ANodeToken.FParentNode := nodeParent;
+    ANodeToken.FIndex := 0;
+  end;
 end;
 
 
