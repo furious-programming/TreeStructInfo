@@ -549,8 +549,7 @@ begin
   FReference := AReference;
   FName := AName;
   FValue := '';
-  FComment[ctDeclaration] := '';
-  FComment[ctDefinition] := '';
+  FComment := TSInfoUtils.Comment('', '');
 end;
 
 
