@@ -414,6 +414,11 @@ type
     procedure ClearChildNode(const ANodePath: UTF8String = '');
     procedure ClearTree();
   public
+    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
+    function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
+    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
+    function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
+  public
     procedure RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
     procedure RenameChildNodeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
@@ -2456,6 +2461,30 @@ begin
 
     FModified := True;
   end;
+end;
+
+
+function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
+begin
+
+end;
+
+
+function TSimpleTSInfoTree.FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
+begin
+
+end;
+
+
+function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
+begin
+
+end;
+
+
+function TSimpleTSInfoTree.FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
+begin
+
 end;
 
 
