@@ -10,7 +10,7 @@
 
     Contains a set of classes to handle TreeStructInfo files. The following
     classes are used to handle files and to make any changes, accordance
-    with the documentation of the format in version '1.0'.
+    with the documentation of the format in version '2.0'.
    __________________________________________________________________________
 
     For more informations about TreeStructInfo file format and the following
