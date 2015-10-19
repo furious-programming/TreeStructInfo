@@ -182,7 +182,7 @@ type
     FParentNode: TTSInfoNode;
     FIndex: Integer;
   private
-    function GetComment(AType: TCommentType): AnsiString;
+    function GetComment(AType: TCommentType): UTF8String;
     procedure SetComment(AType: TCommentType; const AComment: UTF8String);
   public
     property Name: UTF8String read FAttribute.FName write FAttribute.FName;
@@ -199,7 +199,7 @@ type
     FParentNode: TTSInfoNode;
     FIndex: Integer;
   private
-    function GetComment(AType: TCommentType): AnsiString;
+    function GetComment(AType: TCommentType): UTF8String;
     procedure SetComment(AType: TCommentType; const AComment: UTF8String);
   public
     property Name: UTF8String read FChildNode.FName write FChildNode.FName;
