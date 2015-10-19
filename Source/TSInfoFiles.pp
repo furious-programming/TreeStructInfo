@@ -2465,8 +2465,22 @@ end;
 
 
 function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
+var
+  nodeParent: TTSInfoNode;
 begin
+  if IsCurrentNodePath(AParentNodePath) then
+    nodeParent := FCurrentNode
+  else
+    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(AParentNodePath), False);
 
+  Result := (nodeParent <> nil) and (nodeParent.AttributesCount > 0);
+
+  if Result then
+  begin
+    AAttrToken.FAttribute := nodeParent.GetAttribute(0);
+    AAttrToken.FParentNode := nodeParent;
+    AAttrToken.FIndex := 0;
+  end;
 end;
 
 
