@@ -172,6 +172,23 @@ type
   end;
 
 
+type
+  TTSInfoAttributeToken = object
+  private
+    FAttribute: TTSInfoAttribute;
+    FParentNode: TTSInfoNode;
+    FIndex: Integer;
+  private
+    function GetComment(AType: TCommentType): AnsiString;
+    procedure SetComment(AType: TCommentType; const AValue: AnsiString);
+  public
+    property Name: AnsiString read FAttribute.FName write FAttribute.FName;
+    property Reference: Boolean read FAttribute.FReference write FAttribute.FReference;
+    property Value: AnsiString read FAttribute.FValue write FAttribute.FValue;
+    property Comment[AType: TCommentType]: AnsiString read GetComment write SetComment;
+  end;
+
+
 { ----- elements container classes -------------------------------------------------------------------------------- }
 
 
@@ -817,6 +834,21 @@ end;
 function TTSInfoLink.GetLinkedTreeModes(): TTreeModes;
 begin
   Result := FLinkedTree.TreeModes;
+end;
+
+
+{ ----- TTSInfoAttributeToken object ------------------------------------------------------------------------------ }
+
+
+function TTSInfoAttributeToken.GetComment(AType: TCommentType): UTF8String;
+begin
+  Result := FAttribute.Comment[AType];
+end;
+
+
+procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; const AValue: UTF8String);
+begin
+  FAttribute.Comment[AType] := AValue;
 end;
 
 
