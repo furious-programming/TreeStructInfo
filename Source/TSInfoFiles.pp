@@ -172,6 +172,9 @@ type
   end;
 
 
+{ ----- token objects --------------------------------------------------------------------------------------------- }
+
+
 type
   TTSInfoAttributeToken = object
   private
@@ -180,12 +183,28 @@ type
     FIndex: Integer;
   private
     function GetComment(AType: TCommentType): AnsiString;
-    procedure SetComment(AType: TCommentType; const AValue: AnsiString);
+    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
   public
-    property Name: AnsiString read FAttribute.FName write FAttribute.FName;
+    property Name: UTF8String read FAttribute.FName write FAttribute.FName;
     property Reference: Boolean read FAttribute.FReference write FAttribute.FReference;
-    property Value: AnsiString read FAttribute.FValue write FAttribute.FValue;
-    property Comment[AType: TCommentType]: AnsiString read GetComment write SetComment;
+    property Value: UTF8String read FAttribute.FValue write FAttribute.FValue;
+    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
+  end;
+
+
+type
+  TTSInfoChildNodeToken = object
+  private
+    FChildNode: TTSInfoNode;
+    FParentNode: TTSInfoNode;
+    FIndex: Integer;
+  private
+    function GetComment(AType: TCommentType): AnsiString;
+    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
+  public
+    property Name: UTF8String read FChildNode.FName write FChildNode.FName;
+    property Reference: Boolean read FChildNode.FReference write FChildNode.FReference;
+    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
   end;
 
 
@@ -846,9 +865,24 @@ begin
 end;
 
 
-procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; const AValue: UTF8String);
+procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; const AComment: UTF8String);
 begin
-  FAttribute.Comment[AType] := AValue;
+  FAttribute.Comment[AType] := AComment;
+end;
+
+
+{ ----- TTSInfoChildNodeToken object ------------------------------------------------------------------------------ }
+
+
+function TTSInfoChildNodeToken.GetComment(AType: TCommentType): UTF8String;
+begin
+  Result := FChildNode.Comment[AType];
+end;
+
+
+procedure TTSInfoChildNodeToken.SetComment(AType: TCommentType; const AComment: UTF8String);
+begin
+  FChildNode.Comment[AType] := AComment;
 end;
 
 
