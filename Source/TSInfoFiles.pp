@@ -2486,7 +2486,13 @@ end;
 
 function TSimpleTSInfoTree.FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
 begin
+  Result := AAttrToken.FIndex < AAttrToken.FParentNode.AttributesCount - 1;
 
+  if Result then
+  begin
+    Inc(AAttrToken.FIndex);
+    AAttrToken.FAttribute := AAttrToken.FParentNode.GetAttribute(AAttrToken.FIndex);
+  end;
 end;
 
 
