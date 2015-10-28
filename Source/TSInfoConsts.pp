@@ -209,6 +209,7 @@ const
   EM_ROOT_NODE_GO_TO_PARENT              = UTF8String('cannot go to parent node of root node of main tree');
   EM_ATTRIBUTE_NOT_EXISTS                = UTF8String('attribute "%s" not exists');
   EM_NODE_NOT_EXISTS                     = UTF8String('node "%s" not exists');
+  EM_LINK_NOT_EXISTS                     = UTF8String('link under path "%s" with virtual node name "%s" not exists');
   EM_CANNOT_OPEN_NODE                    = UTF8String('cannot open a node under "%s" path');
   EM_MISSING_END_TREE_LINE               = UTF8String('end tree line not found');
   EM_MISSING_REF_ATTR_DEFINITION         = UTF8String('definition of attribute "%s: not found');
@@ -225,7 +226,6 @@ const
   EM_EMPTY_LINK_FILE_NAME                = UTF8String('name of linked file is empty');
   EM_UNKNOWN_LINKING_MODE                = UTF8String('unknown linking mode "%s"');
   EM_LINKING_MODES_MUTUALLY_EXCLUSIVE    = UTF8String('linking file cannot be both text and binary');
-  EM_LINKED_FILE_NOT_EXISTS              = UTF8String('link under path "%s" with virtual node name "%s" not exists');
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }

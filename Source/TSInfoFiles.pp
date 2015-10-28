@@ -2741,13 +2741,13 @@ begin
       nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeParent = nil then
-      ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
+      ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
     else
     begin
       linkRename := nodeParent.GetLink(AVirtualNodeName);
 
       if linkRename = nil then
-        ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
+        ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
       else
         if ValidIdentifier(ANewVirtualNodeName) then
         begin
@@ -2846,13 +2846,13 @@ begin
       nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
     if nodeParent = nil then
-      ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
+      ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
     else
     begin
       linkWrite := nodeParent.GetLink(AVirtualNodeName);
 
       if linkWrite = nil then
-        ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
+        ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
       else
       begin
         if ADelimiter = '' then
@@ -2921,13 +2921,13 @@ begin
     nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
   if nodeParent = nil then
-    ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
+    ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
   else
   begin
     linkRead := nodeParent.GetLink(AVirtualNodeName);
 
     if linkRead = nil then
-      ThrowException(EM_LINKED_FILE_NOT_EXISTS, [ANodePath, AVirtualNodeName])
+      ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
     else
       Result := ReplaceSubStrings(linkRead.Comment, VALUES_DELIMITER, ADelimiter);
   end;
