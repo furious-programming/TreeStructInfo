@@ -81,7 +81,7 @@ type
   TFormatCurrency = (fcUnsignedPrice, fcSignedPrice, fcUnsignedExchangeRate, fcSignedExchangeRate);
   TFormatString   = (fsOriginal, fsLowerCase, fsUpperCase);
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
-  TFormatBuffer   = (fb8BytesPerLine, fb16BytesPerLine, fb32BytesPerLine, fb64BytesPerLine);
+  TFormatBuffer   = (fb8BytesPerLine = 8, fb16BytesPerLine = 16, fb32BytesPerLine = 32, fb64BytesPerLine = 64);
 
 type
   TRenamingDirection = (rdAscending, rdDescending);
