@@ -341,20 +341,19 @@ end;
 
 
 procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
-var
-  intCompCnt: Integer = 0;
 
-  procedure AddComponent(ASource: PUTF8Char; ALength: UInt32);
+  procedure AddComponent(ASource: PUTF8Char; ALength: UInt32); inline;
   begin
-    SetLength(AComponents, intCompCnt + 1);
-    MoveString(ASource^, AComponents[intCompCnt], ALength);
-    Inc(intCompCnt);
+    SetLength(AComponents, ACount + 1);
+    MoveString(ASource^, AComponents[ACount], ALength);
+    Inc(ACount);
   end;
 
 var
   pchrBegin, pchrToken, pchrLast: PUTF8Char;
   strValue: UTF8String;
 begin
+  ACount := 0;
   SetLength(AComponents, 0);
 
   if AValue <> '' then
@@ -378,8 +377,6 @@ begin
         else
           Inc(pchrToken);
     end;
-
-  ACount := intCompCnt;
 end;
 
 
