@@ -178,8 +178,8 @@ type
 type
   TTSInfoAttributeToken = object
   private
-    FAttribute: TTSInfoAttribute;
     FParentNode: TTSInfoNode;
+    FAttribute: TTSInfoAttribute;
     FIndex: Integer;
   private
     function GetComment(AType: TCommentType): UTF8String;
@@ -195,8 +195,8 @@ type
 type
   TTSInfoChildNodeToken = object
   private
-    FChildNode: TTSInfoNode;
     FParentNode: TTSInfoNode;
+    FChildNode: TTSInfoNode;
     FIndex: Integer;
   private
     function GetComment(AType: TCommentType): UTF8String;
