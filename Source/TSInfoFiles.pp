@@ -155,7 +155,7 @@ type
   private
     procedure SetVirtualNodeName(const AVirtualNodeName: UTF8String);
     procedure SetLinkedTreeModes(AModes: TTreeModes);
-    procedure SetComment(const AComment: UTF8String);
+    procedure SetComment(const AValue: UTF8String);
   private
     function GetLinkedFileName(): UTF8String;
     function GetLinkedTreeModes(): TTreeModes;
@@ -843,9 +843,9 @@ begin
 end;
 
 
-procedure TTSInfoLink.SetComment(const AComment: UTF8String);
+procedure TTSInfoLink.SetComment(const AValue: UTF8String);
 begin
-  FComment := AComment;
+  FComment := AValue;
 end;
 
 
