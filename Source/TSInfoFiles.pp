@@ -67,7 +67,7 @@ type
     procedure SetValue(const AValue: UTF8String);
   private
     function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; const AValue: UTF8String);
+    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
   public
     constructor Create(AReference: Boolean; const AName: UTF8String); overload;
     constructor Create(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment); overload;
@@ -99,7 +99,7 @@ type
     FLinksList: TTSInfoLinksList;
   private
     function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; const AValue: UTF8String);
+    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
     procedure SetName(const AName: UTF8String);
   public
     function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
@@ -155,7 +155,7 @@ type
   private
     procedure SetVirtualNodeName(const AVirtualNodeName: UTF8String);
     procedure SetLinkedTreeModes(AModes: TTreeModes);
-    procedure SetComment(const AValue: UTF8String);
+    procedure SetComment(const AComment: UTF8String);
   private
     function GetLinkedFileName(): UTF8String;
     function GetLinkedTreeModes(): TTreeModes;
@@ -623,9 +623,9 @@ begin
 end;
 
 
-procedure TTSInfoAttribute.SetComment(AType: TCommentType; const AValue: UTF8String);
+procedure TTSInfoAttribute.SetComment(AType: TCommentType; const AComment: UTF8String);
 begin
-  FComment[AType] := AValue;
+  FComment[AType] := AComment;
 end;
 
 
@@ -663,9 +663,9 @@ begin
 end;
 
 
-procedure TTSInfoNode.SetComment(AType: TCommentType; const AValue: UTF8String);
+procedure TTSInfoNode.SetComment(AType: TCommentType; const AComment: UTF8String);
 begin
-  FComment[AType] := AValue;
+  FComment[AType] := AComment;
 end;
 
 
@@ -843,9 +843,9 @@ begin
 end;
 
 
-procedure TTSInfoLink.SetComment(const AValue: UTF8String);
+procedure TTSInfoLink.SetComment(const AComment: UTF8String);
 begin
-  FComment := AValue;
+  FComment := AComment;
 end;
 
 
