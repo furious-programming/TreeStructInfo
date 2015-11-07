@@ -493,12 +493,12 @@ type
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FInput: TStrings;
-    FLoadedTrees: TTSInfoProcessedTreesList;
+    FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FComment: UTF8String;
     FAllowLinking: Boolean;
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   end;
 
@@ -3364,18 +3364,18 @@ end;
 { ----- TTSInfoTextInputReader class ------------------------------------------------------------------------------ }
 
 
-constructor TTSInfoTextInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoTextInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
   FTSInfoFile := ATSInfoFile;
   FInput := AInput;
-  FLoadedTrees := ALoadedTrees;
+  FProcessedTrees := AProcessedTrees;
 
   FRefElements := TTSInfoRefElementsList.Create(False);
 
   FComment := '';
-  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
 end;
 
 
@@ -3383,7 +3383,7 @@ destructor TTSInfoTextInputReader.Destroy();
 begin
   FTSInfoFile := nil;
   FInput := nil;
-  FLoadedTrees := nil;
+  FProcessedTrees := nil;
 
   FRefElements.Free();
   inherited Destroy();
