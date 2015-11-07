@@ -508,11 +508,11 @@ type
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FOutput: TStrings;
-    FLoadedTrees: TTSInfoProcessedTreesList;
+    FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FAllowLinking: Boolean;
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   end;
 
@@ -3393,16 +3393,16 @@ end;
 { ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
 
 
-constructor TTSInfoTextOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoTextOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
   FTSInfoFile := ATSInfoFile;
   FOutput := AOutput;
-  FLoadedTrees := ALoadedTrees;
+  FProcessedTrees := AProcessedTrees;
 
   FRefElements := TTSInfoRefElementsList.Create(False);
-  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
 end;
 
 
@@ -3410,7 +3410,7 @@ destructor TTSInfoTextOutputWriter.Destroy();
 begin
   FTSInfoFile := nil;
   FOutput := nil;
-  FLoadedTrees := nil;
+  FProcessedTrees := nil;
 
   FRefElements.Free();
   inherited Destroy();
