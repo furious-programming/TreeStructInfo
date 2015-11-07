@@ -525,7 +525,7 @@ type
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FInput: TStream;
-    FLoadedTrees: TTSInfoProcessedTreesList;
+    FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
     procedure ReadUTF8StringBuffer(out ABuffer: UTF8String);
@@ -540,7 +540,7 @@ type
     procedure ReadChildNode(AChildNode: TTSInfoNode);
     procedure ReadLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   public
     procedure ProcessInput();
@@ -3420,15 +3420,15 @@ end;
 { ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoBinaryInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
   FTSInfoFile := ATSInfoFile;
   FInput := AInput;
-  FLoadedTrees := ALoadedTrees;
+  FProcessedTrees := AProcessedTrees;
 
-  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
 end;
 
 
@@ -3436,7 +3436,7 @@ destructor TTSInfoBinaryInputReader.Destroy();
 begin
   FTSInfoFile := nil;
   FInput := nil;
-  FLoadedTrees := nil;
+  FProcessedTrees := nil;
 
   inherited Destroy();
 end;
@@ -3572,8 +3572,8 @@ begin
 
   ReadUTF8StringBuffer(ALink.FComment);
 
-  if FAllowLinking and FLoadedTrees.FileNotYetBeenProcessed(ALink.FileName) then
-    FLoadedTrees.AddElement(ALink.LinkedTree);
+  if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(ALink.FileName) then
+    FProcessedTrees.AddElement(ALink.LinkedTree);
 end;
 
 
