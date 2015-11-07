@@ -324,7 +324,7 @@ type
 
 
 type
-  TTSInfoLoadedTreesList = class(TTSInfoElementsList)
+  TTSInfoProcessedTreesList = class(TTSInfoElementsList)
   private
     function GetTreeAtIndex(AIndex: Integer): TSimpleTSInfoTree;
   public
@@ -354,10 +354,10 @@ type
     procedure InitFields();
     procedure DamageClear();
   private
-    procedure InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
-    procedure InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
-    procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
-    procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
+    procedure InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
+    procedure InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
+    procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
+    procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
   private
     function FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
     function FindAttribute(const AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
@@ -493,12 +493,12 @@ type
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FInput: TStrings;
-    FLoadedTrees: TTSInfoLoadedTreesList;
+    FLoadedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FComment: UTF8String;
     FAllowLinking: Boolean;
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   end;
 
@@ -508,11 +508,11 @@ type
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FOutput: TStrings;
-    FLoadedTrees: TTSInfoLoadedTreesList;
+    FLoadedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FAllowLinking: Boolean;
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   end;
 
@@ -525,7 +525,7 @@ type
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FInput: TStream;
-    FLoadedTrees: TTSInfoLoadedTreesList;
+    FLoadedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
     procedure ReadUTF8StringBuffer(out ABuffer: UTF8String);
@@ -540,7 +540,7 @@ type
     procedure ReadChildNode(AChildNode: TTSInfoNode);
     procedure ReadLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   public
     procedure ProcessInput();
@@ -1390,22 +1390,22 @@ begin
 end;
 
 
-{ ----- TTSInfoLoadedTreesList class ------------------------------------------------------------------------------ }
+{ ----- TTSInfoProcessedTreesList class --------------------------------------------------------------------------- }
 
 
-function TTSInfoLoadedTreesList.GetTreeAtIndex(AIndex: Integer): TSimpleTSInfoTree;
+function TTSInfoProcessedTreesList.GetTreeAtIndex(AIndex: Integer): TSimpleTSInfoTree;
 begin
   Result := inherited Element[AIndex] as TSimpleTSInfoTree;
 end;
 
 
-procedure TTSInfoLoadedTreesList.AddTree(ATree: TSimpleTSInfoTree);
+procedure TTSInfoProcessedTreesList.AddTree(ATree: TSimpleTSInfoTree);
 begin
   inherited AddElement(ATree);
 end;
 
 
-function TTSInfoLoadedTreesList.FileNotYetBeenProcessed(const AFileName: UTF8String): Boolean;
+function TTSInfoProcessedTreesList.FileNotYetBeenProcessed(const AFileName: UTF8String): Boolean;
 var
   treeRead: TSimpleTSInfoTree;
   strFullInputFileName, strFullTreeFileName: UTF8String;
@@ -1489,7 +1489,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
+procedure TSimpleTSInfoTree.InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   with TTSInfoTextInputReader.Create(ATree, AList, ALoadedTrees) do
   try
@@ -1500,7 +1500,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
+procedure TSimpleTSInfoTree.InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   with TTSInfoBinaryInputReader.Create(ATree, AStream, ALoadedTrees) do
   try
@@ -1511,7 +1511,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
+procedure TSimpleTSInfoTree.InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   with TTSInfoTextOutputWriter.Create(ATree, AList, ALoadedTrees) do
   try
@@ -1522,7 +1522,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoLoadedTreesList);
+procedure TSimpleTSInfoTree.InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   with TTSInfoBinaryOutputWriter.Create(ATree, AStream, ALoadedTrees) do
   try
@@ -1618,7 +1618,7 @@ procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: UTF8String; AModes: TT
 var
   fsInput: TFileStream;
   slInput: TStringList;
-  ltlTrees: TTSInfoLoadedTreesList;
+  ltlTrees: TTSInfoProcessedTreesList;
   treeLoad: TSimpleTSInfoTree;
   intTreeIdx: Integer = 0;
 begin
@@ -1627,7 +1627,7 @@ begin
 
   ClearTree();
 
-  ltlTrees := TTSInfoLoadedTreesList.Create(False);
+  ltlTrees := TTSInfoProcessedTreesList.Create(False);
   try
     ltlTrees.AddTree(Self);
 
@@ -2593,7 +2593,7 @@ procedure TSimpleTSInfoTree.UpdateFile();
 var
   fsOutput: TStream;
   slOutput: TStrings;
-  ltlTrees: TTSInfoLoadedTreesList;
+  ltlTrees: TTSInfoProcessedTreesList;
   treeSave: TSimpleTSInfoTree;
   intTreeIdx: Integer = 0;
   boolMainTreeIsNotWritable: Boolean;
@@ -2601,7 +2601,7 @@ begin
   boolMainTreeIsNotWritable := not (tmAccessWrite in FTreeModes);
   Include(FTreeModes, tmAccessWrite);
 
-  ltlTrees := TTSInfoLoadedTreesList.Create(False);
+  ltlTrees := TTSInfoProcessedTreesList.Create(False);
   try
     ltlTrees.AddTree(Self);
 
@@ -3364,7 +3364,7 @@ end;
 { ----- TTSInfoTextInputReader class ------------------------------------------------------------------------------ }
 
 
-constructor TTSInfoTextInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+constructor TTSInfoTextInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
@@ -3393,7 +3393,7 @@ end;
 { ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
 
 
-constructor TTSInfoTextOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoLoadedTreesList);
+constructor TTSInfoTextOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
@@ -3420,7 +3420,7 @@ end;
 { ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+constructor TTSInfoBinaryInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; ALoadedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
