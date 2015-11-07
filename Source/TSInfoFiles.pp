@@ -548,11 +548,11 @@ type
 
 
 type
-  TTSInfoBinaryOutputWriter = class(TCustomTSInfoOutputWriter)
+  TTSInfoBinaryOutputWriter = class(TObject)
   private
     FTSInfoFile: TSimpleTSInfoTree;
     FOutput: TStream;
-    FLoadedTrees: TTSInfoLoadedTreesList;
+    FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
     procedure WriteUTF8StringBuffer(const ABuffer: UTF8String);
@@ -567,7 +567,7 @@ type
     procedure WriteChildNode(AChildNode: TTSInfoNode);
     procedure WriteLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   public
     procedure ProcessOutput();
@@ -3592,15 +3592,15 @@ end;
 { ----- TTSInfoBinaryOutputWriter class --------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; ALoadedTrees: TTSInfoLoadedTreesList);
+constructor TTSInfoBinaryOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
   FTSInfoFile := ATSInfoFile;
   FOutput := AOutput;
-  FLoadedTrees := ALoadedTrees;
+  FProcessedTrees := AProcessedTrees;
 
-  FAllowLinking := Assigned(FLoadedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
 end;
 
 
@@ -3608,7 +3608,7 @@ destructor TTSInfoBinaryOutputWriter.Destroy();
 begin
   FTSInfoFile := nil;
   FOutput := nil;
-  FLoadedTrees := nil;
+  FProcessedTrees := nil;
 
   inherited Destroy();
 end;
@@ -3723,8 +3723,8 @@ begin
   WriteUTF8StringBuffer(ALink.FComment);
 
   if tmAccessWrite in ALink.LinkedTree.TreeModes then
-    if FAllowLinking and FLoadedTrees.FileNotYetBeenProcessed(ALink.FileName) then
-      FLoadedTrees.AddElement(ALink.LinkedTree);
+    if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(ALink.FileName) then
+      FProcessedTrees.AddElement(ALink.LinkedTree);
 end;
 
 
