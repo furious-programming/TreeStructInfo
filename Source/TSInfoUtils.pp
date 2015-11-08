@@ -50,7 +50,7 @@ uses
   procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const); overload;
 
   function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
-  function RemoveWhitespaceChars(const AValue: UTF8String; AMode: TCuttingMode): UTF8String;
+  function RemoveWhitespaceChars(const AValue: UTF8String): UTF8String;
 
   function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
   function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
@@ -129,7 +129,7 @@ begin
 end;
 
 
-function RemoveWhitespaceChars(const AValue: UTF8String; AMode: TCuttingMode): UTF8String;
+function RemoveWhitespaceChars(const AValue: UTF8String): UTF8String;
 var
   intValueLen: Integer;
   pchrLeft, pchrRight: PUTF8Char;
@@ -145,9 +145,8 @@ begin
     while (pchrLeft <= pchrRight) and (pchrLeft^ in WHITESPACE_CHARS) do
       Inc(pchrLeft);
 
-    if AMode = cmBothSides then
-      while (pchrRight > pchrLeft) and (pchrRight^ in WHITESPACE_CHARS) do
-        Dec(pchrRight);
+    while (pchrRight > pchrLeft) and (pchrRight^ in WHITESPACE_CHARS) do
+      Dec(pchrRight);
 
     MoveString(pchrLeft^, Result, pchrRight - pchrLeft + 1);
   end;
