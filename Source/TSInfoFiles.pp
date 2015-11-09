@@ -369,8 +369,8 @@ type
     destructor Destroy(); override;
   public
     procedure LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
-    procedure LoadFromList(AInput: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
-    procedure LoadFromStream(AInput: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+    procedure LoadFromList(AList: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+    procedure LoadFromStream(AStream: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
     procedure LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
     procedure LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
     procedure LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
@@ -1663,17 +1663,17 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromList(AInput: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromList(AList: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
 begin
   FFileName := AFileName;
   FTreeModes := AModes - [tmAllowLinking];
 
   ClearTree();
-  InternalLoadTreeFromList(AInput, Self, nil);
+  InternalLoadTreeFromList(AList, Self, nil);
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromStream(AInput: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromStream(AStream: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
 var
   slInput: TStringList;
 begin
@@ -1683,12 +1683,12 @@ begin
   ClearTree();
 
   if tmBinaryTree in FTreeModes then
-    InternalLoadTreeFromStream(AInput, Self, nil)
+    InternalLoadTreeFromStream(AStream, Self, nil)
   else
   begin
     slInput := TStringList.Create();
     try
-      slInput.LoadFromStream(AInput);
+      slInput.LoadFromStream(AStream);
       InternalLoadTreeFromList(slInput, Self, nil);
     finally
       slInput.Free();
