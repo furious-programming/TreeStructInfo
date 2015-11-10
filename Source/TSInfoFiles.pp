@@ -491,14 +491,14 @@ type
 type
   TTSInfoTextInputReader = class(TObject)
   private
-    FTSInfoFile: TSimpleTSInfoTree;
+    FTSInfoTree: TSimpleTSInfoTree;
     FInput: TStrings;
     FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FComment: UTF8String;
     FAllowLinking: Boolean;
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   end;
 
@@ -506,13 +506,13 @@ type
 type
   TTSInfoTextOutputWriter = class(TObject)
   private
-    FTSInfoFile: TSimpleTSInfoTree;
+    FTSInfoTree: TSimpleTSInfoTree;
     FOutput: TStrings;
     FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FAllowLinking: Boolean;
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   end;
 
@@ -523,7 +523,7 @@ type
 type
   TTSInfoBinaryInputReader = class(TObject)
   private
-    FTSInfoFile: TSimpleTSInfoTree;
+    FTSInfoTree: TSimpleTSInfoTree;
     FInput: TStream;
     FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
@@ -540,7 +540,7 @@ type
     procedure ReadChildNode(AChildNode: TTSInfoNode);
     procedure ReadLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   public
     procedure ProcessInput();
@@ -550,7 +550,7 @@ type
 type
   TTSInfoBinaryOutputWriter = class(TObject)
   private
-    FTSInfoFile: TSimpleTSInfoTree;
+    FTSInfoTree: TSimpleTSInfoTree;
     FOutput: TStream;
     FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
@@ -567,7 +567,7 @@ type
     procedure WriteChildNode(AChildNode: TTSInfoNode);
     procedure WriteLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
   public
     procedure ProcessOutput();
@@ -3364,24 +3364,24 @@ end;
 { ----- TTSInfoTextInputReader class ------------------------------------------------------------------------------ }
 
 
-constructor TTSInfoTextInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoTextInputReader.Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
-  FTSInfoFile := ATSInfoFile;
+  FTSInfoTree := ATSInfoTree;
   FInput := AInput;
   FProcessedTrees := AProcessedTrees;
 
   FRefElements := TTSInfoRefElementsList.Create(False);
 
   FComment := '';
-  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
 
 
 destructor TTSInfoTextInputReader.Destroy();
 begin
-  FTSInfoFile := nil;
+  FTSInfoTree := nil;
   FInput := nil;
   FProcessedTrees := nil;
 
@@ -3393,22 +3393,22 @@ end;
 { ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
 
 
-constructor TTSInfoTextOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoTextOutputWriter.Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
-  FTSInfoFile := ATSInfoFile;
+  FTSInfoTree := ATSInfoTree;
   FOutput := AOutput;
   FProcessedTrees := AProcessedTrees;
 
   FRefElements := TTSInfoRefElementsList.Create(False);
-  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
 
 
 destructor TTSInfoTextOutputWriter.Destroy();
 begin
-  FTSInfoFile := nil;
+  FTSInfoTree := nil;
   FOutput := nil;
   FProcessedTrees := nil;
 
@@ -3420,21 +3420,21 @@ end;
 { ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryInputReader.Create(ATSInfoFile: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoBinaryInputReader.Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
-  FTSInfoFile := ATSInfoFile;
+  FTSInfoTree := ATSInfoTree;
   FInput := AInput;
   FProcessedTrees := AProcessedTrees;
 
-  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
 
 
 destructor TTSInfoBinaryInputReader.Destroy();
 begin
-  FTSInfoFile := nil;
+  FTSInfoTree := nil;
   FInput := nil;
   FProcessedTrees := nil;
 
@@ -3504,8 +3504,8 @@ begin
 
     if (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor >= SUPPORTED_FORMAT_VERSION_MINOR) then
     begin
-      ReadUTF8StringBuffer(FTSInfoFile.FTreeName);
-      ReadUTF8StringBuffer(FTSInfoFile.FTreeComment);
+      ReadUTF8StringBuffer(FTSInfoTree.FTreeName);
+      ReadUTF8StringBuffer(FTSInfoTree.FTreeComment);
     end
     else
       ThrowException(EM_UNSUPPORTED_BINARY_FORMAT_VERSION, [intVersionMajor, intVersionMinor]);
@@ -3581,9 +3581,9 @@ procedure TTSInfoBinaryInputReader.ProcessInput();
 begin
   try
     ReadHeader();
-    ReadElements(FTSInfoFile.FRootNode);
+    ReadElements(FTSInfoTree.FRootNode);
   except
-    FTSInfoFile.DamageClear();
+    FTSInfoTree.DamageClear();
     raise;
   end;
 end;
@@ -3592,21 +3592,21 @@ end;
 { ----- TTSInfoBinaryOutputWriter class --------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryOutputWriter.Create(ATSInfoFile: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoBinaryOutputWriter.Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
 begin
   inherited Create();
 
-  FTSInfoFile := ATSInfoFile;
+  FTSInfoTree := ATSInfoTree;
   FOutput := AOutput;
   FProcessedTrees := AProcessedTrees;
 
-  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoFile.TreeModes);
+  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
 
 
 destructor TTSInfoBinaryOutputWriter.Destroy();
 begin
-  FTSInfoFile := nil;
+  FTSInfoTree := nil;
   FOutput := nil;
   FProcessedTrees := nil;
 
@@ -3658,8 +3658,8 @@ begin
   WriteUInt8Buffer(SUPPORTED_FORMAT_VERSION_MAJOR);
   WriteUInt8Buffer(SUPPORTED_FORMAT_VERSION_MINOR);
 
-  WriteUTF8StringBuffer(FTSInfoFile.FTreeName);
-  WriteUTF8StringBuffer(FTSInfoFile.FTreeComment);
+  WriteUTF8StringBuffer(FTSInfoTree.FTreeName);
+  WriteUTF8StringBuffer(FTSInfoTree.FTreeComment);
 end;
 
 
@@ -3731,7 +3731,7 @@ end;
 procedure TTSInfoBinaryOutputWriter.ProcessOutput();
 begin
   WriteHeader();
-  WriteElements(FTSInfoFile.FRootNode);
+  WriteElements(FTSInfoTree.FRootNode);
 end;
 
 
