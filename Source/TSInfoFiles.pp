@@ -536,6 +536,8 @@ type
     procedure CloseStdChildNode();
     procedure CloseRefChildNode();
   private
+    procedure FillRefAttribute();
+  private
     procedure ClearComment();
   private
     procedure ExtractComment();
@@ -3818,6 +3820,37 @@ procedure TTSInfoTextInputReader.CloseRefChildNode();
 begin
   FNestedLevel := 0;
   Inc(FLineIndex);
+end;
+
+
+procedure TTSInfoTextInputReader.FillRefAttribute();
+var
+  strAttrName, strAttrValue, strAttrNextValue: UTF8String;
+  boolReference: Boolean;
+begin
+  ExtractAttribute(FInput[FLineIndex], boolReference, strAttrName, strAttrValue);
+
+  if FRefElements.FirstElementIsAttribute(strAttrName) then
+  begin
+    Inc(FLineIndex);
+
+    while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
+    begin
+      ExtractAttributeNextValue(FInput[FLineIndex], strAttrNextValue);
+      strAttrValue += VALUES_DELIMITER + strAttrNextValue;
+      Inc(FLineIndex);
+    end;
+
+    with FRefElements.PopFirstElement() as TTSInfoAttribute do
+    begin
+      Comment[ctDefinition] := Self.FComment;
+      Value := strAttrValue;
+    end;
+
+    ClearComment();
+  end
+  else
+    ThrowException(EM_MISSING_REF_ATTR_DEFINITION, [strAttrName]);
 end;
 
 
