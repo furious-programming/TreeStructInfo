@@ -507,6 +507,7 @@ type
   private
     procedure RemoveBOMSignature();
     procedure RemoveWhitespace();
+    procedure DetermineLineIndexes();
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3434,6 +3435,17 @@ begin
     else
       FInput[intLineIdx] := strCurrentLine;
   end;
+end;
+
+
+procedure TTSInfoTextInputReader.DetermineLineIndexes();
+begin
+  FEndTreeLineIndex := FInput.IndexOf(KEYWORD_TREE_END);
+
+  if FEndTreeLineIndex = -1 then
+    ThrowException(EM_MISSING_END_TREE_LINE);
+
+  FLineIndex := 0;
 end;
 
 
