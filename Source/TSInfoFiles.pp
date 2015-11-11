@@ -502,6 +502,8 @@ type
     FLineIndex: Integer;
     FNestedLevel: Integer;
     FNestedRefElementsCount: Integer;
+  private
+    FAddRefElement: TAddRefElementProc;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
