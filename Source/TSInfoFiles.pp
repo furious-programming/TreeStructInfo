@@ -528,6 +528,7 @@ type
     procedure InsertRefElement(AElement: TObject);
   private
     procedure AddStdAttribute();
+    procedure AddStdChildNode();
   private
     procedure ClearComment();
   private
@@ -3690,6 +3691,27 @@ begin
     attrAdd.Value := strAttrValue;
     ClearComment();
   end;
+end;
+
+
+procedure TTSInfoTextInputReader.AddStdChildNode();
+var
+  nodeAdd: TTSInfoNode;
+  strNodeName: UTF8String;
+  boolReference: Boolean;
+begin
+  ExtractChildNode(FInput[FLineIndex], boolReference, strNodeName);
+
+  if ValidIdentifier(strNodeName) then
+  begin
+    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(boolReference, strNodeName, Comment(FComment, ''));
+    FTSInfoTree.FCurrentNode := nodeAdd;
+  end;
+
+  ClearComment();
+
+  Inc(FNestedLevel);
+  Inc(FLineIndex);
 end;
 
 
