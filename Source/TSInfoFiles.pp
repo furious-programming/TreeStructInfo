@@ -529,6 +529,7 @@ type
   private
     procedure ExtractComment();
     procedure ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
+    procedure ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3735,6 +3736,35 @@ begin
       pchrComponentBegin := pchrComponentEnd + UInt8(pchrComponentBegin^ = QUOTE_CHAR);
     end
   end;
+end;
+
+
+procedure TTSInfoTextInputReader.ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
+var
+  pchrName, pchrValueBegin, pchrValueEnd: PUTF8Char;
+begin
+  AReference := ALine[1] = KEYWORD_REF_ATTRIBUTE[1];
+  pchrName := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[AReference]] + 1;
+
+  while pchrName^ in WHITESPACE_CHARS do
+    Inc(pchrName);
+
+  pchrValueBegin := pchrName + 1;
+  pchrValueEnd := @ALine[Length(ALine)];
+
+  while pchrValueBegin^ <> QUOTE_CHAR do
+    Inc(pchrValueBegin);
+
+  while pchrValueEnd^ <> QUOTE_CHAR do
+    Dec(pchrValueEnd);
+
+  MoveString(PUTF8Char(pchrValueBegin + 1)^, AValue, pchrValueEnd - pchrValueBegin - 1);
+
+  repeat
+    Dec(pchrValueBegin);
+  until not (pchrValueBegin^ in WHITESPACE_CHARS);
+
+  MoveString(pchrName^, AName, pchrValueBegin - pchrName + 1);
 end;
 
 
