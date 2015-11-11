@@ -512,6 +512,7 @@ type
     procedure ProcessMainTreeComment();
     procedure ProcessTreeHeader();
     procedure ProcessMainPart();
+    procedure ProcessReferencingPart();
   private
     function IsCommentLine(const ALine: UTF8String): Boolean;
     function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
@@ -3567,6 +3568,22 @@ begin
     if IsRefAttributeDeclarationLine(FInput[FLineIndex]) then AddRefAttribute()   else
     if IsRefChildNodeLine(FInput[FLineIndex])            then AddRefChildNode()   else
     if IsLinkLine(FInput[FLineIndex])                    then AddLink()
+    else
+      ThrowException(EM_INVALID_SOURCE_LINE, [FInput[FLineIndex]]);
+end;
+
+
+procedure TTSInfoTextInputReader.ProcessReferencingPart();
+begin
+  FAddRefElement := @InsertRefElement;
+
+  FLineIndex := FEndTreeLineIndex + 1;
+  FNestedLevel := 0;
+
+  while FLineIndex < FInput.Count do
+    if IsCommentLine(FInput[FLineIndex])                then ExtractComment()   else
+    if IsRefAttributeDefinitionLine(FInput[FLineIndex]) then FillRefAttribute() else
+    if IsRefChildNodeLine(FInput[FLineIndex])           then FillRefChildNode()
     else
       ThrowException(EM_INVALID_SOURCE_LINE, [FInput[FLineIndex]]);
 end;
