@@ -4209,7 +4209,25 @@ end;
 
 procedure TTSInfoTextInputReader.ProcessInput();
 begin
+  FTSInfoTree.FCurrentNode := FTSInfoTree.FRootNode;
+  try
+    try
+      RemoveBOMSignature();
+      RemoveWhitespace();
+      DetermineLineIndexes();
 
+      ProcessMainTreeComment();
+      ProcessTreeHeader();
+      ProcessMainPart();
+      ProcessReferencingPart();
+    except
+      FTSInfoTree.DamageClear();
+      raise;
+    end;
+  finally
+    FTSInfoTree.FCurrentNode := FTSInfoTree.FRootNode;
+    FTSInfoTree.FModified := False;
+  end;
 end;
 
 
