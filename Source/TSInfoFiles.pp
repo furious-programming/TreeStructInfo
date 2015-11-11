@@ -517,6 +517,7 @@ type
     function IsStdAttributeLine(const ALine: UTF8String): Boolean;
     function IsStdChildNodeLine(const ALine: UTF8String): Boolean;
     function IsStdChildNodeEndLine(const ALine: UTF8String): Boolean;
+    function IsRefAttributeDeclarationLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3556,6 +3557,31 @@ function TTSInfoTextInputReader.IsStdChildNodeEndLine(const ALine: UTF8String): 
 begin
   Result := (Length(ALine) = KEYWORD_STD_NODE_END_LEN) and
             (CompareByte(ALine[1], KEYWORD_STD_NODE_END[1], KEYWORD_STD_NODE_END_LEN) = 0);
+end;
+
+
+function TTSInfoTextInputReader.IsRefAttributeDeclarationLine(const ALine: UTF8String): Boolean;
+var
+  pchrToken, pchrLast: PUTF8Char;
+  intLineLen: Integer;
+begin
+  Result := False;
+  intLineLen := Length(ALine);
+
+  if intLineLen >= MIN_REF_ATTRIBUTE_DEC_LINE_LEN then
+    if CompareByte(ALine[1], KEYWORD_REF_ATTRIBUTE[1], KEYWORD_REF_ATTRIBUTE_LEN) = 0 then
+    begin
+      pchrToken := @ALine[KEYWORD_REF_ATTRIBUTE_LEN] + 1;
+      pchrLast := @ALine[intLineLen];
+
+      while (pchrToken < pchrLast) and (pchrToken^ in WHITESPACE_CHARS) do
+        Inc(pchrToken);
+
+      while (pchrToken <= pchrLast) and (pchrToken^ <> QUOTE_CHAR) do
+        Inc(pchrToken);
+
+      Result := pchrToken > pchrLast;
+    end;
 end;
 
 
