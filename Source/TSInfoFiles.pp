@@ -504,6 +504,8 @@ type
     FNestedRefElementsCount: Integer;
   private
     FAddRefElement: TAddRefElementProc;
+  private
+    procedure RemoveBOMSignature();
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3394,6 +3396,26 @@ begin
 
   FRefElements.Free();
   inherited Destroy();
+end;
+
+
+procedure TTSInfoTextInputReader.RemoveBOMSignature();
+const
+  UTF8_BOM_SIGNATURE     = UTF8String(#239#187#191);
+  UTF8_BOM_SIGNATURE_LEN = Length(UTF8_BOM_SIGNATURE);
+var
+  strFirstLine: UTF8String;
+begin
+  if FInput.Count > 0 then
+  begin
+    strFirstLine := FInput[0];
+
+    if (strFirstLine <> '') and (CompareByte(strFirstLine[1], UTF8_BOM_SIGNATURE[1], UTF8_BOM_SIGNATURE_LEN) = 0) then
+    begin
+      Delete(strFirstLine, 1, UTF8_BOM_SIGNATURE_LEN);
+      FInput[0] := strFirstLine;
+    end;
+  end;
 end;
 
 
