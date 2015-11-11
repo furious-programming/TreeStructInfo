@@ -537,6 +537,7 @@ type
     procedure CloseRefChildNode();
   private
     procedure FillRefAttribute();
+    procedure FillRefChildNode();
   private
     procedure ClearComment();
   private
@@ -3851,6 +3852,42 @@ begin
   end
   else
     ThrowException(EM_MISSING_REF_ATTR_DEFINITION, [strAttrName]);
+end;
+
+
+procedure TTSInfoTextInputReader.FillRefChildNode();
+var
+  strNodeName: UTF8String;
+begin
+  FNestedRefElementsCount := 0;
+  ExtractChildNodeName(FInput[FLineIndex], strNodeName);
+
+  if FRefElements.FirstElementIsChildNode(strNodeName) then
+  begin
+    FTSInfoTree.FCurrentNode := FRefElements.PopFirstElement() as TTSInfoNode;
+    FTSInfoTree.FCurrentNode.Comment[ctDefinition] := FComment;
+
+    ClearComment();
+    Inc(FLineIndex);
+
+    while FLineIndex < FInput.Count do
+      if IsCommentLine(FInput[FLineIndex])                 then ExtractComment()    else
+      if IsStdAttributeLine(FInput[FLineIndex])            then AddStdAttribute()   else
+      if IsStdChildNodeLine(FInput[FLineIndex])            then AddStdChildNode()   else
+      if IsStdChildNodeEndLine(FInput[FLineIndex])         then CloseStdChildNode() else
+      if IsRefAttributeDeclarationLine(FInput[FLineIndex]) then AddRefAttribute()   else
+      if IsRefChildNodeLine(FInput[FLineIndex])            then AddRefChildNode()   else
+      if IsLinkLine(FInput[FLineIndex])                    then AddLink()           else
+      if IsRefChildNodeEndLine(FInput[FLineIndex])         then
+      begin
+        CloseRefChildNode();
+        Break;
+      end
+      else
+        ThrowException(EM_INVALID_SOURCE_LINE, [FInput[FLineIndex]]);
+  end
+  else
+    ThrowException(EM_MISSING_REF_NODE_DEFINITION, [strNodeName]);
 end;
 
 
