@@ -53,7 +53,7 @@ type
 
 type
   TCommentType = (ctDeclaration, ctDefinition);
-  TComment     = array [TCommentType] of AnsiString;
+  TComment     = array [TCommentType] of UTF8String;
 
 type
   TTreeMode  = (tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite, tmAllowLinking, tmLoadFile);
@@ -63,7 +63,7 @@ type
   TLinkingMode = (lmTextTree, lmBinaryTree, lmAccessRead, lmAccessWrite);
 
 type
-  TExportFormat = (efTextFile, efBinaryFile);
+  TExportFormat = (efTextTree, efBinaryTree);
 
 type
   TPathComponent = (pcAttributeName, pcAttributePath);
