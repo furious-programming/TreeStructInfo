@@ -530,6 +530,7 @@ type
     procedure ExtractComment();
     procedure ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
     procedure ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
+    procedure ExtractAttributeNextValue(const ALine: UTF8String; out ANextValue: UTF8String);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3765,6 +3766,12 @@ begin
   until not (pchrValueBegin^ in WHITESPACE_CHARS);
 
   MoveString(pchrName^, AName, pchrValueBegin - pchrName + 1);
+end;
+
+
+procedure TTSInfoTextInputReader.ExtractAttributeNextValue(const ALine: UTF8String; out ANextValue: UTF8String);
+begin
+  MoveString(ALine[2], ANextValue, Length(ALine) - 2);
 end;
 
 
