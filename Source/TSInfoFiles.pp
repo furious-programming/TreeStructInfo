@@ -555,6 +555,8 @@ type
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
+  public
+    procedure ProcessInput();
   end;
 
 
@@ -4108,6 +4110,12 @@ begin
 
   if [tmTextTree, tmBinaryTree] * AModes = [tmTextTree, tmBinaryTree] then
     ThrowException(EM_LINKING_MODES_MUTUALLY_EXCLUSIVE);
+end;
+
+
+procedure TTSInfoTextInputReader.ProcessInput();
+begin
+
 end;
 
 
