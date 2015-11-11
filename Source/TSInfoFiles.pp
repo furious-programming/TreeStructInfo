@@ -514,6 +514,7 @@ type
     function IsFormatVersionValue(const AValue: UTF8String): Boolean;
     function IsTreeEndLine(const ALine: UTF8String): Boolean;
     function IsAttributeNameAndValueLine(const ALine: UTF8String): Boolean;
+    function IsStdAttributeLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3526,6 +3527,19 @@ begin
 
     Result := (pchrToken < pchrLast) and (pchrLast^ = QUOTE_CHAR);
   end;
+end;
+
+
+function TTSInfoTextInputReader.IsStdAttributeLine(const ALine: UTF8String): Boolean;
+var
+  intLineLen: Integer;
+begin
+  Result := False;
+  intLineLen := Length(ALine);
+
+  if intLineLen >= MIN_STD_ATTRIBUTE_LINE_LEN then
+    if CompareByte(ALine[1], KEYWORD_STD_ATTRIBUTE[1], KEYWORD_STD_ATTRIBUTE_LEN) = 0 then
+      Result := IsAttributeNameAndValueLine(ALine);
 end;
 
 
