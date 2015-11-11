@@ -513,6 +513,7 @@ type
     function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
     function IsFormatVersionValue(const AValue: UTF8String): Boolean;
     function IsTreeEndLine(const ALine: UTF8String): Boolean;
+    function IsAttributeNameAndValueLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3500,6 +3501,31 @@ function TTSInfoTextInputReader.IsTreeEndLine(const ALine: UTF8String): Boolean;
 begin
   Result := (Length(ALine) = KEYWORD_TREE_END_LEN) and
             (CompareByte(ALine[1], KEYWORD_TREE_END[1], KEYWORD_TREE_END_LEN) = 0);
+end;
+
+
+function TTSInfoTextInputReader.IsAttributeNameAndValueLine(const ALine: UTF8String): Boolean;
+var
+  pchrToken, pchrLast: PUTF8Char;
+begin
+  pchrToken := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[ALine[1] = KEYWORD_REF_ATTRIBUTE[1]]] + 1;
+  pchrLast := @ALine[Length(ALine)];
+
+  while (pchrToken < pchrLast) and (pchrToken^ in WHITESPACE_CHARS) do
+    Inc(pchrToken);
+
+  Result := pchrToken^ <> QUOTE_CHAR;
+
+  if Result then
+  begin
+    while (pchrToken < pchrLast) and (pchrToken^ <> QUOTE_CHAR) do
+      Inc(pchrToken);
+
+    while (pchrLast > pchrToken) and (pchrLast^ <> QUOTE_CHAR) do
+      Dec(pchrLast);
+
+    Result := (pchrToken < pchrLast) and (pchrLast^ = QUOTE_CHAR);
+  end;
 end;
 
 
