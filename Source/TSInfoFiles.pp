@@ -510,6 +510,7 @@ type
     procedure DetermineLineIndexes();
   private
     procedure ProcessMainTreeComment();
+    procedure ProcessTreeHeader();
   private
     function IsCommentLine(const ALine: UTF8String): Boolean;
     function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
@@ -3506,6 +3507,49 @@ begin
     FTSInfoTree.FTreeComment := FComment;
     ClearComment();
   end;
+end;
+
+
+procedure TTSInfoTextInputReader.ProcessTreeHeader();
+const
+  SHORT_TREE_HEADER_COMPONENT_COUNT = Integer(2);
+  LONG_TREE_HEADER_COMPONENT_COUNT  = Integer(4);
+const
+  COMPONENT_INDEX_FORMAT_VERSION = Integer(1);
+  COMPONENT_INDEX_KEYWORD_NAME   = Integer(2);
+  COMPONENT_INDEX_TREE_NAME      = Integer(3);
+var
+  lcHeader: TLineComponents;
+  intComponentCnt: Integer = 0;
+begin
+  if (FLineIndex < FInput.Count) and IsTreeHeaderLine(FInput[FLineIndex]) then
+  begin
+    ExtractLineComponents(FInput[FLineIndex], lcHeader, intComponentCnt);
+
+    if intComponentCnt in [SHORT_TREE_HEADER_COMPONENT_COUNT, LONG_TREE_HEADER_COMPONENT_COUNT] then
+    begin
+      if IsFormatVersionValue(lcHeader[COMPONENT_INDEX_FORMAT_VERSION]) then
+      begin
+        if intComponentCnt = LONG_TREE_HEADER_COMPONENT_COUNT then
+          if SameIdentifiers(lcHeader[COMPONENT_INDEX_KEYWORD_NAME], KEYWORD_TREE_NAME) then
+          begin
+            if (intComponentCnt = LONG_TREE_HEADER_COMPONENT_COUNT) then
+              if (lcHeader[COMPONENT_INDEX_TREE_NAME] <> '') and ValidIdentifier(lcHeader[COMPONENT_INDEX_TREE_NAME]) then
+                FTSInfoTree.FTreeName := lcHeader[COMPONENT_INDEX_TREE_NAME];
+          end
+          else
+            ThrowException(EM_UNKNOWN_TREE_HEADER_COMPONENT, [lcHeader[COMPONENT_INDEX_KEYWORD_NAME]]);
+      end
+      else
+        ThrowException(EM_INVALID_FORMAT_VERSION, [lcHeader[COMPONENT_INDEX_FORMAT_VERSION]]);
+    end
+    else
+      ThrowException(EM_INVALID_TREE_HEADER_COMPONENT_COUNT, [intComponentCnt]);
+
+    Inc(FLineIndex);
+  end
+  else
+    ThrowException(EM_MISSING_TREE_HEADER);
 end;
 
 
