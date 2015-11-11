@@ -73,6 +73,13 @@ type
   TLineComponents  = TValueComponents;
 
 type
+  TRenamingDirection = (rdAscending, rdDescending);
+
+
+{ ----- data convertion types ------------------------------------------------------------------------------------- }
+
+
+type
   TFormatBoolean  = (fbLongTrueFalse, fbLongYesNo, fbLongOnOff, fbShortTrueFalse, fbShortYesNo, fbNumerical);
   TFormatInteger  = (fiUnsignedDecimal, fiSignedDecimal, fiHexadecimal, fiOctal, fiBinary);
   TFormatFloat    = (ffUnsignedGeneral, ffSignedGeneral, ffUnsignedExponent, ffSignedExponent,
@@ -82,8 +89,16 @@ type
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
   TFormatBuffer   = (fb8BytesPerLine = 8, fb16BytesPerLine = 16, fb32BytesPerLine = 32, fb64BytesPerLine = 64);
 
+
+{ ----- procedural types ------------------------------------------------------------------------------------------ }
+
+
 type
-  TRenamingDirection = (rdAscending, rdDescending);
+  TAddRefElementProc = procedure(AElement: TObject) of object;
+
+
+{ ----- class types ----------------------------------------------------------------------------------------------- }
+
 
 type
   ETSInfoFileException = class(Exception);
