@@ -531,6 +531,7 @@ type
     procedure ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
     procedure ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
     procedure ExtractAttributeNextValue(const ALine: UTF8String; out ANextValue: UTF8String);
+    procedure ExtractChildNode(const ALine: UTF8String; out AReference: Boolean; out AName: UTF8String);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3772,6 +3773,22 @@ end;
 procedure TTSInfoTextInputReader.ExtractAttributeNextValue(const ALine: UTF8String; out ANextValue: UTF8String);
 begin
   MoveString(ALine[2], ANextValue, Length(ALine) - 2);
+end;
+
+
+procedure TTSInfoTextInputReader.ExtractChildNode(const ALine: UTF8String; out AReference: Boolean; out AName: UTF8String);
+var
+  pchrNameBegin, pchrNameEnd: PUTF8Char;
+begin
+  AReference := ALine[1] = KEYWORD_REF_NODE[1];
+
+  pchrNameBegin := @ALine[KEYWORD_NODE_LEN_BY_REFERENCE[AReference]] + 1;
+  pchrNameEnd := @ALine[Length(ALine)];
+
+  while pchrNameBegin^ in WHITESPACE_CHARS do
+    Inc(pchrNameBegin);
+
+  MoveString(pchrNameBegin^, AName, pchrNameEnd - pchrNameBegin + 1);
 end;
 
 
