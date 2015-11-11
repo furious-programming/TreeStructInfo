@@ -523,6 +523,9 @@ type
     function IsRefChildNodeEndLine(const ALine: UTF8String): Boolean;
     function IsLinkLine(const ALine: UTF8String): Boolean;
     function IsValueLine(const ALine: UTF8String): Boolean;
+  private
+    procedure AddRefElement(AElement: TObject);
+    procedure InsertRefElement(AElement: TObject);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3632,6 +3635,19 @@ begin
 
   Result := (intLineLen >= MIN_ATTRIBUTE_VALUE_LINE_LEN) and
             (ALine[1] = QUOTE_CHAR) and (ALine[intLineLen] = QUOTE_CHAR);
+end;
+
+
+procedure TTSInfoTextInputReader.AddRefElement(AElement: TObject);
+begin
+  FRefElements.AddElement(AElement);
+end;
+
+
+procedure TTSInfoTextInputReader.InsertRefElement(AElement: TObject);
+begin
+  FRefElements.InsertElement(FNestedRefElementsCount, AElement);
+  Inc(FNestedRefElementsCount);
 end;
 
 
