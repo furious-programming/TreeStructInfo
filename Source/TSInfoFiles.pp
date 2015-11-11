@@ -506,6 +506,7 @@ type
     FAddRefElement: TAddRefElementProc;
   private
     procedure RemoveBOMSignature();
+    procedure RemoveWhitespace();
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3415,6 +3416,23 @@ begin
       Delete(strFirstLine, 1, UTF8_BOM_SIGNATURE_LEN);
       FInput[0] := strFirstLine;
     end;
+  end;
+end;
+
+
+procedure TTSInfoTextInputReader.RemoveWhitespace();
+var
+  strCurrentLine: UTF8String;
+  intLineIdx: Integer;
+begin
+  for intLineIdx := FInput.Count - 1 downto 0 do
+  begin
+    strCurrentLine := RemoveWhitespaceChars(FInput[intLineIdx]);
+
+    if strCurrentLine = '' then
+      FInput.Delete(intLineIdx)
+    else
+      FInput[intLineIdx] := strCurrentLine;
   end;
 end;
 
