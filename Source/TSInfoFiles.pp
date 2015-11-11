@@ -497,6 +497,11 @@ type
     FRefElements: TTSInfoRefElementsList;
     FComment: UTF8String;
     FAllowLinking: Boolean;
+  private
+    FEndTreeLineIndex: Integer;
+    FLineIndex: Integer;
+    FNestedLevel: Integer;
+    FNestedRefElementsCount: Integer;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
