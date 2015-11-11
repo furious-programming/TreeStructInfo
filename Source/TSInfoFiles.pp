@@ -256,7 +256,6 @@ type
     function InternalAddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
   public
     constructor Create();
-    destructor Destroy(); override;
   public
     function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
     function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
@@ -275,7 +274,6 @@ type
     function InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
   public
     constructor Create();
-    destructor Destroy(); override;
   public
     function GetChildNode(const AName: UTF8String): TTSInfoNode; overload;
     function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
@@ -294,7 +292,6 @@ type
     function InternalAddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
   public
     constructor Create();
-    destructor Destroy(); override;
   public
     function GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink; overload;
     function GetLink(AIndex: Integer): TTSInfoLink; overload;
@@ -1148,12 +1145,6 @@ begin
 end;
 
 
-destructor TTSInfoAttributesList.Destroy();
-begin
-  inherited Destroy();
-end;
-
-
 function TTSInfoAttributesList.InternalAddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
 begin
   Result := TTSInfoAttribute.Create(AReference, AName, AValue, AComment);
@@ -1229,12 +1220,6 @@ begin
 end;
 
 
-destructor TTSInfoNodesList.Destroy();
-begin
-  inherited Destroy();
-end;
-
-
 function TTSInfoNodesList.InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
 begin
   Result := TTSInfoNode.Create(AParentNode, AReference, AName, AComment);
@@ -1307,12 +1292,6 @@ end;
 constructor TTSInfoLinksList.Create();
 begin
   inherited Create(True);
-end;
-
-
-destructor TTSInfoLinksList.Destroy();
-begin
-  inherited Destroy();
 end;
 
 
