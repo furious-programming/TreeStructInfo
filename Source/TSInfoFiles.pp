@@ -526,6 +526,8 @@ type
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
+  private
+    procedure ExtractComment();
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3648,6 +3650,41 @@ procedure TTSInfoTextInputReader.InsertRefElement(AElement: TObject);
 begin
   FRefElements.InsertElement(FNestedRefElementsCount, AElement);
   Inc(FNestedRefElementsCount);
+end;
+
+
+procedure TTSInfoTextInputReader.ExtractComment();
+var
+  strCurrentLine, strCurrentValue: UTF8String;
+  intCurrentLineLen: Integer;
+  pchrFirst, pchrLast: PUTF8Char;
+begin
+  ClearComment();
+
+  repeat
+    strCurrentLine := FInput[FLineIndex];
+    intCurrentLineLen := Length(strCurrentLine);
+    strCurrentValue := '';
+
+    if intCurrentLineLen > COMMENT_PREFIX_LEN then
+    begin
+      pchrFirst := @strCurrentLine[COMMENT_PREFIX_LEN] + 1;
+      pchrLast := @strCurrentLine[intCurrentLineLen];
+
+      if pchrFirst^ in WHITESPACE_CHARS then
+        Inc(pchrFirst);
+
+      MoveString(pchrFirst^, strCurrentValue, pchrLast - pchrFirst + 1);
+    end;
+
+    FComment += strCurrentValue + VALUES_DELIMITER;
+    Inc(FLineIndex);
+  until (FLineIndex = FInput.Count) or not IsCommentLine(FInput[FLineIndex]);
+
+  if FComment = VALUES_DELIMITER then
+    FComment := ONE_BLANK_VALUE_LINE_CHAR
+  else
+    SetLength(FComment, Length(FComment) - 1);
 end;
 
 
