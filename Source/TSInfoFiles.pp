@@ -512,6 +512,7 @@ type
     function IsCommentLine(const ALine: UTF8String): Boolean;
     function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
     function IsFormatVersionValue(const AValue: UTF8String): Boolean;
+    function IsTreeEndLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3492,6 +3493,13 @@ begin
         ThrowException(EM_UNSUPPORTED_FORMAT_VERSION, [AValue]);
     end;
   end;
+end;
+
+
+function TTSInfoTextInputReader.IsTreeEndLine(const ALine: UTF8String): Boolean;
+begin
+  Result := (Length(ALine) = KEYWORD_TREE_END_LEN) and
+            (CompareByte(ALine[1], KEYWORD_TREE_END[1], KEYWORD_TREE_END_LEN) = 0);
 end;
 
 
