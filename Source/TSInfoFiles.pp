@@ -516,6 +516,7 @@ type
     function IsAttributeNameAndValueLine(const ALine: UTF8String): Boolean;
     function IsStdAttributeLine(const ALine: UTF8String): Boolean;
     function IsStdChildNodeLine(const ALine: UTF8String): Boolean;
+    function IsStdChildNodeEndLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3548,6 +3549,13 @@ function TTSInfoTextInputReader.IsStdChildNodeLine(const ALine: UTF8String): Boo
 begin
   Result := (Length(ALine) >= MIN_STD_NODE_LINE_LEN) and
             (CompareByte(ALine[1], KEYWORD_STD_NODE[1], KEYWORD_STD_NODE_LEN) = 0);
+end;
+
+
+function TTSInfoTextInputReader.IsStdChildNodeEndLine(const ALine: UTF8String): Boolean;
+begin
+  Result := (Length(ALine) = KEYWORD_STD_NODE_END_LEN) and
+            (CompareByte(ALine[1], KEYWORD_STD_NODE_END[1], KEYWORD_STD_NODE_END_LEN) = 0);
 end;
 
 
