@@ -509,6 +509,8 @@ type
     procedure RemoveWhitespace();
     procedure DetermineLineIndexes();
   private
+    procedure ProcessMainTreeComment();
+  private
     function IsCommentLine(const ALine: UTF8String): Boolean;
     function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
     function IsFormatVersionValue(const AValue: UTF8String): Boolean;
@@ -3492,6 +3494,18 @@ begin
     ThrowException(EM_MISSING_END_TREE_LINE);
 
   FLineIndex := 0;
+end;
+
+
+procedure TTSInfoTextInputReader.ProcessMainTreeComment();
+begin
+  if (FLineIndex < FInput.Count) and IsCommentLine(FInput[FLineIndex]) then
+  begin
+    ExtractComment();
+
+    FTSInfoTree.FTreeComment := FComment;
+    ClearComment();
+  end;
 end;
 
 
