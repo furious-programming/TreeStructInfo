@@ -508,6 +508,8 @@ type
     procedure RemoveBOMSignature();
     procedure RemoveWhitespace();
     procedure DetermineLineIndexes();
+  private
+    function IsCommentLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3446,6 +3448,13 @@ begin
     ThrowException(EM_MISSING_END_TREE_LINE);
 
   FLineIndex := 0;
+end;
+
+
+function TTSInfoTextInputReader.IsCommentLine(const ALine: UTF8String): Boolean;
+begin
+  Result := (Length(ALine) >= COMMENT_PREFIX_LEN) and
+            (CompareByte(ALine[1], COMMENT_PREFIX[1], COMMENT_PREFIX_LEN) = 0);
 end;
 
 
