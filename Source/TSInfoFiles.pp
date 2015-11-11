@@ -519,6 +519,8 @@ type
     function IsStdChildNodeEndLine(const ALine: UTF8String): Boolean;
     function IsRefAttributeDeclarationLine(const ALine: UTF8String): Boolean;
     function IsRefAttributeDefinitionLine(const ALine: UTF8String): Boolean;
+    function IsRefChildNodeLine(const ALine: UTF8String): Boolean;
+    function IsRefChildNodeEndLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3596,6 +3598,20 @@ begin
   if intLineLen >= MIN_REF_ATTRIBUTE_DEF_LINE_LEN then
     if CompareByte(ALine[1], KEYWORD_REF_ATTRIBUTE[1], KEYWORD_REF_ATTRIBUTE_LEN) = 0 then
       Result := IsAttributeNameAndValueLine(ALine);
+end;
+
+
+function TTSInfoTextInputReader.IsRefChildNodeLine(const ALine: UTF8String): Boolean;
+begin
+  Result := (Length(ALine) >= MIN_REF_NODE_LINE_LEN) and
+            (CompareByte(ALine[1], KEYWORD_REF_NODE[1], KEYWORD_REF_NODE_LEN) = 0);
+end;
+
+
+function TTSInfoTextInputReader.IsRefChildNodeEndLine(const ALine: UTF8String): Boolean;
+begin
+  Result := (Length(ALine) = KEYWORD_REF_NODE_END_LEN) and
+            (CompareByte(ALine[1], KEYWORD_REF_NODE_END[1], KEYWORD_REF_NODE_END_LEN) = 0);
 end;
 
 
