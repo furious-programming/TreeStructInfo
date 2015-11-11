@@ -522,6 +522,7 @@ type
     function IsRefChildNodeLine(const ALine: UTF8String): Boolean;
     function IsRefChildNodeEndLine(const ALine: UTF8String): Boolean;
     function IsLinkLine(const ALine: UTF8String): Boolean;
+    function IsValueLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3620,6 +3621,17 @@ function TTSInfoTextInputReader.IsLinkLine(const ALine: UTF8String): Boolean;
 begin
   Result := (Length(ALine) >= MIN_LINK_LINE_LEN) and
             (CompareByte(ALine[1], KEYWORD_LINK[1], KEYWORD_LINK_LEN) = 0);
+end;
+
+
+function TTSInfoTextInputReader.IsValueLine(const ALine: UTF8String): Boolean;
+var
+  intLineLen: Integer;
+begin
+  intLineLen := Length(ALine);
+
+  Result := (intLineLen >= MIN_ATTRIBUTE_VALUE_LINE_LEN) and
+            (ALine[1] = QUOTE_CHAR) and (ALine[intLineLen] = QUOTE_CHAR);
 end;
 
 
