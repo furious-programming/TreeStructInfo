@@ -510,6 +510,7 @@ type
     procedure DetermineLineIndexes();
   private
     function IsCommentLine(const ALine: UTF8String): Boolean;
+    function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3455,6 +3456,13 @@ function TTSInfoTextInputReader.IsCommentLine(const ALine: UTF8String): Boolean;
 begin
   Result := (Length(ALine) >= COMMENT_PREFIX_LEN) and
             (CompareByte(ALine[1], COMMENT_PREFIX[1], COMMENT_PREFIX_LEN) = 0);
+end;
+
+
+function TTSInfoTextInputReader.IsTreeHeaderLine(const ALine: UTF8String): Boolean;
+begin
+  Result := (Length(ALine) >= MIN_TREE_HEADER_LINE_LEN) and
+            (CompareByte(ALine[1], TREE_HEADER_FORMAT_NAME[1], TREE_HEADER_FORMAT_NAME_LEN) = 0);
 end;
 
 
