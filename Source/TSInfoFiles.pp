@@ -527,6 +527,8 @@ type
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
   private
+    procedure ClearComment();
+  private
     procedure ExtractComment();
     procedure ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
     procedure ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
@@ -3660,6 +3662,12 @@ procedure TTSInfoTextInputReader.InsertRefElement(AElement: TObject);
 begin
   FRefElements.InsertElement(FNestedRefElementsCount, AElement);
   Inc(FNestedRefElementsCount);
+end;
+
+
+procedure TTSInfoTextInputReader.ClearComment();
+begin
+  FComment := '';
 end;
 
 
