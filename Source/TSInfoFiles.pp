@@ -528,6 +528,7 @@ type
     procedure InsertRefElement(AElement: TObject);
   private
     procedure ExtractComment();
+    procedure ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -3685,6 +3686,55 @@ begin
     FComment := ONE_BLANK_VALUE_LINE_CHAR
   else
     SetLength(FComment, Length(FComment) - 1);
+end;
+
+
+procedure TTSInfoTextInputReader.ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
+var
+  strLine: UTF8String;
+  pchrComponentBegin, pchrComponentEnd, pchrValueBegin, pchrValueEnd, pchrLast: PUTF8Char;
+begin
+  strLine := ALine + INDENT_CHAR;
+  pchrComponentBegin := @strLine[1];
+  pchrLast := @strLine[Length(strLine)];
+
+  while pchrComponentBegin < pchrLast do
+  begin
+    while (pchrComponentBegin < pchrLast) and (pchrComponentBegin^ in WHITESPACE_CHARS) do
+      Inc(pchrComponentBegin);
+
+    if pchrComponentBegin < pchrLast then
+    begin
+      pchrComponentEnd := pchrComponentBegin;
+
+      repeat
+        Inc(pchrComponentEnd);
+      until (pchrComponentEnd = pchrLast) or (pchrComponentEnd^ = QUOTE_CHAR);
+
+      if (pchrComponentBegin^ <> QUOTE_CHAR) or (pchrComponentEnd < pchrLast) then
+      begin
+        pchrValueBegin := pchrComponentBegin;
+        pchrValueEnd := pchrComponentEnd - 1;
+
+        if pchrValueBegin^ = QUOTE_CHAR then
+        begin
+          Inc(pchrValueBegin);
+
+          while (pchrValueBegin <= pchrValueEnd) and (pchrValueBegin^ in WHITESPACE_CHARS) do
+            Inc(pchrValueBegin);
+        end;
+
+        while (pchrValueEnd >= pchrValueBegin) and (pchrValueEnd^ in WHITESPACE_CHARS) do
+          Dec(pchrValueEnd);
+
+        SetLength(AComponents, ACount + 1);
+        MoveString(pchrValueBegin^, AComponents[ACount], pchrValueEnd - pchrValueBegin + 1);
+        Inc(ACount);
+      end;
+
+      pchrComponentBegin := pchrComponentEnd + UInt8(pchrComponentBegin^ = QUOTE_CHAR);
+    end
+  end;
 end;
 
 
