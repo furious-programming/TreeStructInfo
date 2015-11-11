@@ -529,6 +529,7 @@ type
   private
     procedure AddStdAttribute();
     procedure AddStdChildNode();
+    procedure AddRefAttribute();
   private
     procedure ClearComment();
   private
@@ -3712,6 +3713,24 @@ begin
 
   Inc(FNestedLevel);
   Inc(FLineIndex);
+end;
+
+
+procedure TTSInfoTextInputReader.AddRefAttribute();
+var
+  attrAdd: TTSInfoAttribute;
+  strAttrName: UTF8String;
+begin
+  ExtractAttributeNameFromDeclarationLine(FInput[FLineIndex], strAttrName);
+
+  if ValidIdentifier(strAttrName) then
+  begin
+    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName, '', Comment(FComment, ''));
+    FAddRefElement(attrAdd);
+
+    ClearComment();
+    Inc(FLineIndex);
+  end;
 end;
 
 
