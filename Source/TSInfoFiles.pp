@@ -533,6 +533,9 @@ type
     procedure AddRefChildNode();
     procedure AddLink();
   private
+    procedure CloseStdChildNode();
+    procedure CloseRefChildNode();
+  private
     procedure ClearComment();
   private
     procedure ExtractComment();
@@ -3795,6 +3798,25 @@ begin
     ThrowException(EM_INVALID_LINK_LINE, [FInput[FLineIndex]]);
 
   ClearComment();
+  Inc(FLineIndex);
+end;
+
+
+procedure TTSInfoTextInputReader.CloseStdChildNode();
+begin
+  if FNestedLevel > 0 then
+  begin
+    FTSInfoTree.FCurrentNode := FTSInfoTree.FCurrentNode.ParentNode;
+    Dec(FNestedLevel);
+  end;
+
+  Inc(FLineIndex);
+end;
+
+
+procedure TTSInfoTextInputReader.CloseRefChildNode();
+begin
+  FNestedLevel := 0;
   Inc(FLineIndex);
 end;
 
