@@ -527,6 +527,8 @@ type
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
   private
+    procedure AddStdAttribute();
+  private
     procedure ClearComment();
   private
     procedure ExtractComment();
@@ -3662,6 +3664,32 @@ procedure TTSInfoTextInputReader.InsertRefElement(AElement: TObject);
 begin
   FRefElements.InsertElement(FNestedRefElementsCount, AElement);
   Inc(FNestedRefElementsCount);
+end;
+
+
+procedure TTSInfoTextInputReader.AddStdAttribute();
+var
+  attrAdd: TTSInfoAttribute;
+  strAttrName, strAttrValue, strAttrNextValue: UTF8String;
+  boolReference: Boolean;
+begin
+  ExtractAttribute(FInput[FLineIndex], boolReference, strAttrName, strAttrValue);
+
+  if ValidIdentifier(strAttrName) then
+  begin
+    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, strAttrName, '', Comment(FComment, ''));
+    Inc(FLineIndex);
+
+    while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
+    begin
+      ExtractAttributeNextValue(FInput[FLineIndex], strAttrNextValue);
+      strAttrValue += VALUES_DELIMITER + strAttrNextValue;
+      Inc(FLineIndex);
+    end;
+
+    attrAdd.Value := strAttrValue;
+    ClearComment();
+  end;
 end;
 
 
