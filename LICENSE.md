@@ -1,5 +1,5 @@
 **API to handle the TreeStructInfo configuration files**<br/>
-*Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014. All rights reserved.*<br/>
+*Copyright © Jaroslaw Baran, furious programming 2011 - 2015. All rights reserved.*<br/>
 <br/>
 **GNU Lesser GPL 3**
 
