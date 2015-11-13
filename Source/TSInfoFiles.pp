@@ -589,6 +589,7 @@ type
     procedure AddStdChildNode(AChildNode: TTSInfoNode);
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
+    procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -4361,6 +4362,26 @@ begin
     end
     else
       AddStdAttribute(attrAdd);
+  end;
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddChildNodeChildNodes(AParentNode: TTSInfoNode);
+var
+  nodeAdd: TTSInfoNode;
+  intChildNodeIdx: Integer;
+begin
+  for intChildNodeIdx := 0 to AParentNode.ChildNodesCount - 1 do
+  begin
+    nodeAdd := AParentNode.GetChildNode(intChildNodeIdx);
+
+    if nodeAdd.Reference then
+    begin
+      AddRefChildNodeDeclaration(nodeAdd);
+      FStoreRefElement(nodeAdd);
+    end
+    else
+      AddStdChildNode(nodeAdd);
   end;
 end;
 
