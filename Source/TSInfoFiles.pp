@@ -585,6 +585,7 @@ type
     procedure AddTreeComment(const ATreeComment: UTF8String);
     procedure AddTreeHeader(const ATreeName: UTF8String);
     procedure AddTreeEnd();
+    procedure AddStdAttribute(AAttribute: TTSInfoAttribute);
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -4292,6 +4293,35 @@ end;
 procedure TTSInfoTextOutputWriter.AddTreeEnd();
 begin
   FOutput.Add(KEYWORD_TREE_END);
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddStdAttribute(AAttribute: TTSInfoAttribute);
+var
+  vcAttrValue: TValueComponents;
+  intValueLinesCnt, intValueLineIdx: Integer;
+  strValue, strValuesIndent: UTF8String;
+begin
+  if AAttribute.Comment[ctDeclaration] <> '' then
+    AddComment(AAttribute.Comment[ctDeclaration]);
+
+  ExtractValueComponents(AAttribute.Value, vcAttrValue, intValueLinesCnt);
+
+  if intValueLinesCnt > 0 then
+    strValue := vcAttrValue[0]
+  else
+    strValue := '';
+
+  FOutput.Add(GlueStrings('%%% %%%', [FIndentation, KEYWORD_STD_ATTRIBUTE, AAttribute.Name,
+                                      QUOTE_CHAR, strValue, QUOTE_CHAR]));
+
+  if intValueLinesCnt > 1 then
+  begin
+    strValuesIndent := FIndentation + StringOfChar(INDENT_CHAR, KEYWORD_STD_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
+
+    for intValueLineIdx := 1 to intValueLinesCnt - 1 do
+      FOutput.Add(GlueStrings('% %%%', [strValuesIndent, QUOTE_CHAR, vcAttrValue[intValueLineIdx], QUOTE_CHAR]));
+  end;
 end;
 
 
