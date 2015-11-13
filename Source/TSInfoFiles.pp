@@ -606,6 +606,8 @@ type
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
+  public
+    procedure ProcessOutput();
   end;
 
 
@@ -4576,6 +4578,13 @@ procedure TTSInfoTextOutputWriter.InsertRefElement(AElement: TObject);
 begin
   FRefElements.InsertElement(FNestedRefElementsCount, AElement);
   Inc(FNestedRefElementsCount);
+end;
+
+
+procedure TTSInfoTextOutputWriter.ProcessOutput();
+begin
+  ProcessMainPart();
+  ProcessReferencingPart();
 end;
 
 
