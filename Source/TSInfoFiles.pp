@@ -568,6 +568,14 @@ type
     FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FAllowLinking: Boolean;
+  private
+    FNestedRefElementsCount: Integer;
+    FExtraSpaceNeeded: Boolean;
+  private
+    FIndentation: UTF8String;
+    FIndentationSize: Integer;
+  private
+    FStoreRefElement: TStoreRefElementProc;
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
