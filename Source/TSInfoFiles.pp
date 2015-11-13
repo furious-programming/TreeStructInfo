@@ -584,6 +584,7 @@ type
     procedure AddComment(const AComment: UTF8String);
     procedure AddTreeComment(const ATreeComment: UTF8String);
     procedure AddTreeHeader(const ATreeName: UTF8String);
+    procedure AddTreeEnd();
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -4285,6 +4286,12 @@ begin
     strHeader += GlueStrings(' % %%%', [KEYWORD_TREE_NAME, QUOTE_CHAR, ATreeName, QUOTE_CHAR]);
 
   FOutput.Add(strHeader);
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddTreeEnd();
+begin
+  FOutput.Add(KEYWORD_TREE_END);
 end;
 
 
