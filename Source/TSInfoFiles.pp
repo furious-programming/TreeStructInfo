@@ -580,6 +580,9 @@ type
     procedure IncIndentation();
     procedure DecIndentation();
     procedure ResetIndentation();
+  private
+    procedure AddRefElement(AElement: TObject);
+    procedure InsertRefElement(AElement: TObject);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -4237,6 +4240,19 @@ procedure TTSInfoTextOutputWriter.ResetIndentation();
 begin
   FIndentation := '';
   FIndentationSize := 0;
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddRefElement(AElement: TObject);
+begin
+  FRefElements.AddElement(AElement);
+end;
+
+
+procedure TTSInfoTextOutputWriter.InsertRefElement(AElement: TObject);
+begin
+  FRefElements.InsertElement(FNestedRefElementsCount, AElement);
+  Inc(FNestedRefElementsCount);
 end;
 
 
