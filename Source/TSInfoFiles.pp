@@ -592,6 +592,7 @@ type
     procedure AddRefChildNodeDeclaration(AChildNode: TTSInfoNode);
     procedure AddRefChildNodeDefinition(AChildNode: TTSInfoNode);
     procedure AddLink(ALink: TTSInfoLink);
+    procedure AddEmptySpace();
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
     procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
@@ -4457,6 +4458,12 @@ begin
   end;
 
   FOutput.Add(strLink);
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddEmptySpace();
+begin
+  FOutput.Add('');
 end;
 
 
