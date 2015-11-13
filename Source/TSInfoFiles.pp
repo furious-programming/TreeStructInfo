@@ -500,7 +500,7 @@ type
     FNestedLevel: Integer;
     FNestedRefElementsCount: Integer;
   private
-    FAddRefElement: TAddRefElementProc;
+    FStoreRefElement: TStoreRefElementProc;
   private
     procedure RemoveBOMSignature();
     procedure RemoveWhitespace();
@@ -3534,7 +3534,7 @@ end;
 
 procedure TTSInfoTextInputReader.ProcessMainPart();
 begin
-  FAddRefElement := @AddRefElement;
+  FStoreRefElement := @AddRefElement;
   FNestedLevel := 0;
 
   while FLineIndex < FEndTreeLineIndex do
@@ -3552,7 +3552,7 @@ end;
 
 procedure TTSInfoTextInputReader.ProcessReferencingPart();
 begin
-  FAddRefElement := @InsertRefElement;
+  FStoreRefElement := @InsertRefElement;
 
   FLineIndex := FEndTreeLineIndex + 1;
   FNestedLevel := 0;
@@ -3800,7 +3800,7 @@ begin
   if ValidIdentifier(strAttrName) then
   begin
     attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName, '', Comment(FComment, ''));
-    FAddRefElement(attrAdd);
+    FStoreRefElement(attrAdd);
 
     ClearComment();
     Inc(FLineIndex);
@@ -3818,7 +3818,7 @@ begin
   if ValidIdentifier(strNodeName) then
   begin
     nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(True, strNodeName, Comment(FComment, ''));
-    FAddRefElement(nodeAdd);
+    FStoreRefElement(nodeAdd);
 
     ClearComment();
     Inc(FLineIndex);

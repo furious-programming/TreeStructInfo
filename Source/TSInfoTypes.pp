@@ -94,7 +94,7 @@ type
 
 
 type
-  TAddRefElementProc = procedure(AElement: TObject) of object;
+  TStoreRefElementProc = procedure(AElement: TObject) of object;
 
 
 { ----- class types ----------------------------------------------------------------------------------------------- }
