@@ -587,6 +587,7 @@ type
     procedure AddTreeEnd();
     procedure AddStdAttribute(AAttribute: TTSInfoAttribute);
     procedure AddStdChildNode(AChildNode: TTSInfoNode);
+    procedure AddRefAttributeDeclaration(AAttribute: TTSInfoAttribute);
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
     procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
@@ -4344,6 +4345,15 @@ begin
 
   DecIndentation();
   FOutput.Add(GlueStrings('%%', [FIndentation, KEYWORD_STD_NODE_END]));
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddRefAttributeDeclaration(AAttribute: TTSInfoAttribute);
+begin
+  if AAttribute.Comment[ctDeclaration] <> '' then
+    AddComment(AAttribute.Comment[ctDeclaration]);
+
+  FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_REF_ATTRIBUTE, AAttribute.Name]));
 end;
 
 
