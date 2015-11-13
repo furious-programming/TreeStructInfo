@@ -1,8 +1,8 @@
 {
 
-    TSInfoTypes.pp                last modified: 27 December 2014
+    TSInfoTypes.pp              last modified: 13 November 2015
 
-    Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
+    Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
    __________________________________________________________________________
 
