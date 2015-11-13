@@ -3,7 +3,7 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="TreeStructInfo"/>
-    <Author Value="Copyright (C) Jaroslaw Baran, furious programming 2011 - 2015. All rights reserved."/>
+    <Author Value="Copyright © Jaroslaw Baran, furious programming 2011 - 2015. All rights reserved."/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
