@@ -588,6 +588,8 @@ type
     procedure AddStdAttribute(AAttribute: TTSInfoAttribute);
     procedure AddStdChildNode(AChildNode: TTSInfoNode);
   private
+    procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
+  private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
   public
@@ -4340,6 +4342,26 @@ begin
 
   DecIndentation();
   FOutput.Add(GlueStrings('%%', [FIndentation, KEYWORD_STD_NODE_END]));
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddChildNodeAttributes(AParentNode: TTSInfoNode);
+var
+  attrAdd: TTSInfoAttribute;
+  intAttributeIdx: Integer;
+begin
+  for intAttributeIdx := 0 to AParentNode.AttributesCount - 1 do
+  begin
+    attrAdd := AParentNode.GetAttribute(intAttributeIdx);
+
+    if attrAdd.Reference then
+    begin
+      AddRefAttributeDeclaration(attrAdd);
+      FStoreRefElement(attrAdd);
+    end
+    else
+      AddStdAttribute(attrAdd);
+  end;
 end;
 
 
