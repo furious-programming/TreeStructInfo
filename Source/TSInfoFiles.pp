@@ -590,6 +590,7 @@ type
     procedure AddRefAttributeDeclaration(AAttribute: TTSInfoAttribute);
     procedure AddRefAttributeDefinition(AAttribute: TTSInfoAttribute);
     procedure AddRefChildNodeDeclaration(AChildNode: TTSInfoNode);
+    procedure AddRefChildNodeDefinition(AChildNode: TTSInfoNode);
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
     procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
@@ -4402,6 +4403,28 @@ begin
     AddComment(AChildNode.Comment[ctDeclaration]);
 
   FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_REF_NODE, AChildNode.Name]));
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddRefChildNodeDefinition(AChildNode: TTSInfoNode);
+begin
+  FExtraSpaceNeeded := True;
+  FNestedRefElementsCount := 0;
+
+  AddEmptySpace();
+
+  if AChildNode.Comment[ctDefinition] <> '' then
+    AddComment(AChildNode.Comment[ctDefinition]);
+
+  FOutput.Add(GlueStrings('%%', [KEYWORD_REF_NODE, AChildNode.Name]));
+  IncIndentation();
+
+  AddChildNodeAttributes(AChildNode);
+  AddChildNodeChildNodes(AChildNode);
+  AddChildNodeLinks(AChildNode);
+
+  ResetIndentation();
+  FOutput.Add(KEYWORD_REF_NODE_END);
 end;
 
 
