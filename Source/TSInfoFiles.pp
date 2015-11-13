@@ -588,6 +588,7 @@ type
     procedure AddStdAttribute(AAttribute: TTSInfoAttribute);
     procedure AddStdChildNode(AChildNode: TTSInfoNode);
     procedure AddRefAttributeDeclaration(AAttribute: TTSInfoAttribute);
+    procedure AddRefAttributeDefinition(AAttribute: TTSInfoAttribute);
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
     procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
@@ -4354,6 +4355,43 @@ begin
     AddComment(AAttribute.Comment[ctDeclaration]);
 
   FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_REF_ATTRIBUTE, AAttribute.Name]));
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddRefAttributeDefinition(AAttribute: TTSInfoAttribute);
+var
+  vcAttrValue: TValueComponents;
+  intValueLinesCnt, intValueLineIdx: Integer;
+  strValue, strValuesIndent: UTF8String;
+  boolAttrHasComment, boolMultilineValue: Boolean;
+begin
+  ExtractValueComponents(AAttribute.Value, vcAttrValue, intValueLinesCnt);
+
+  boolAttrHasComment := AAttribute.Comment[ctDefinition] <> '';
+  boolMultilineValue := intValueLinesCnt > 1;
+
+  if FExtraSpaceNeeded or boolAttrHasComment or boolMultilineValue then
+    AddEmptySpace();
+
+  FExtraSpaceNeeded := boolAttrHasComment or boolMultilineValue;
+
+  if boolAttrHasComment then
+    AddComment(AAttribute.Comment[ctDefinition]);
+
+  if intValueLinesCnt > 0 then
+    strValue := vcAttrValue[0]
+  else
+    strValue := '';
+
+  FOutput.Add(GlueStrings('%% %%%', [KEYWORD_REF_ATTRIBUTE, AAttribute.Name, QUOTE_CHAR, strValue, QUOTE_CHAR]));
+
+  if boolMultilineValue then
+  begin
+    strValuesIndent := StringOfChar(INDENT_CHAR, KEYWORD_REF_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
+
+    for intValueLineIdx := 1 to intValueLinesCnt - 1 do
+      FOutput.Add(GlueStrings('% %%%', [strValuesIndent, QUOTE_CHAR, vcAttrValue[intValueLineIdx], QUOTE_CHAR]));
+  end;
 end;
 
 
