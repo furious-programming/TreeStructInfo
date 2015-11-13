@@ -577,6 +577,8 @@ type
   private
     FStoreRefElement: TStoreRefElementProc;
   private
+    procedure ProcessMainPart();
+  private
     procedure IncIndentation();
     procedure DecIndentation();
     procedure ResetIndentation();
@@ -4235,6 +4237,24 @@ begin
 
   FRefElements.Free();
   inherited Destroy();
+end;
+
+
+procedure TTSInfoTextOutputWriter.ProcessMainPart();
+begin
+  FStoreRefElement := @AddRefElement;
+  ResetIndentation();
+
+  AddTreeComment(FTSInfoTree.FTreeComment);
+  AddTreeHeader(FTSInfoTree.FTreeName);
+
+  IncIndentation();
+
+  AddChildNodeAttributes(FTSInfoTree.FRootNode);
+  AddChildNodeChildNodes(FTSInfoTree.FRootNode);
+  AddChildNodeLinks(FTSInfoTree.FRootNode);
+
+  AddTreeEnd();
 end;
 
 
