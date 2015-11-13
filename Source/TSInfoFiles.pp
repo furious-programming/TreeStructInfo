@@ -586,6 +586,7 @@ type
     procedure AddTreeHeader(const ATreeName: UTF8String);
     procedure AddTreeEnd();
     procedure AddStdAttribute(AAttribute: TTSInfoAttribute);
+    procedure AddStdChildNode(AChildNode: TTSInfoNode);
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -4322,6 +4323,23 @@ begin
     for intValueLineIdx := 1 to intValueLinesCnt - 1 do
       FOutput.Add(GlueStrings('% %%%', [strValuesIndent, QUOTE_CHAR, vcAttrValue[intValueLineIdx], QUOTE_CHAR]));
   end;
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddStdChildNode(AChildNode: TTSInfoNode);
+begin
+  if AChildNode.Comment[ctDeclaration] <> '' then
+    AddComment(AChildNode.Comment[ctDeclaration]);
+
+  FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_STD_NODE, AChildNode.Name]));
+  IncIndentation();
+
+  AddChildNodeAttributes(AChildNode);
+  AddChildNodeChildNodes(AChildNode);
+  AddChildNodeLinks(AChildNode);
+
+  DecIndentation();
+  FOutput.Add(GlueStrings('%%', [FIndentation, KEYWORD_STD_NODE_END]));
 end;
 
 
