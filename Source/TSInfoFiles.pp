@@ -589,6 +589,7 @@ type
     procedure AddStdChildNode(AChildNode: TTSInfoNode);
     procedure AddRefAttributeDeclaration(AAttribute: TTSInfoAttribute);
     procedure AddRefAttributeDefinition(AAttribute: TTSInfoAttribute);
+    procedure AddRefChildNodeDeclaration(AChildNode: TTSInfoNode);
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
     procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
@@ -4392,6 +4393,15 @@ begin
     for intValueLineIdx := 1 to intValueLinesCnt - 1 do
       FOutput.Add(GlueStrings('% %%%', [strValuesIndent, QUOTE_CHAR, vcAttrValue[intValueLineIdx], QUOTE_CHAR]));
   end;
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddRefChildNodeDeclaration(AChildNode: TTSInfoNode);
+begin
+  if AChildNode.Comment[ctDeclaration] <> '' then
+    AddComment(AChildNode.Comment[ctDeclaration]);
+
+  FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_REF_NODE, AChildNode.Name]));
 end;
 
 
