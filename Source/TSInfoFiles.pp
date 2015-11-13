@@ -1,8 +1,8 @@
 ﻿{
 
-    TSInfoFiles.pp                last modified: 27 December 2014
+    TSInfoFiles.pp              last modified: 13 November 2015
 
-    Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
+    Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
    __________________________________________________________________________
 
@@ -14,7 +14,7 @@
    __________________________________________________________________________
 
     For more informations about TreeStructInfo file format and the following
-    library, see <http://www.treestruct.info>.
+    library, see <http://treestruct.info>.
 
     You can write to <support@treestruct.info> if you have any questions,
     or to <bugs@treestruct.info> if you find a bugs in this library.
