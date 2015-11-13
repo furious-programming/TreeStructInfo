@@ -576,6 +576,10 @@ type
     FIndentationSize: Integer;
   private
     FStoreRefElement: TStoreRefElementProc;
+  private
+    procedure IncIndentation();
+    procedure DecIndentation();
+    procedure ResetIndentation();
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
     destructor Destroy(); override;
@@ -4211,6 +4215,28 @@ begin
 
   FRefElements.Free();
   inherited Destroy();
+end;
+
+
+procedure TTSInfoTextOutputWriter.IncIndentation();
+begin
+  SetLength(FIndentation, FIndentationSize + INDENT_SIZE);
+  FillChar(FIndentation[FIndentationSize + 1], INDENT_SIZE, INDENT_CHAR);
+  Inc(FIndentationSize, INDENT_SIZE);
+end;
+
+
+procedure TTSInfoTextOutputWriter.DecIndentation();
+begin
+  Dec(FIndentationSize, INDENT_SIZE);
+  SetLength(FIndentation, FIndentationSize);
+end;
+
+
+procedure TTSInfoTextOutputWriter.ResetIndentation();
+begin
+  FIndentation := '';
+  FIndentationSize := 0;
 end;
 
 
