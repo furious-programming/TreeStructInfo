@@ -136,9 +136,9 @@ type
     property Reference: Boolean read FReference write FReference;
     property Name: UTF8String read FName write SetName;
     property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
-    property AttributesCount: UInt32 read GetAttributesCount;
-    property ChildNodesCount: UInt32 read GetChildNodesCount;
-    property LinksCount: UInt32 read GetLinksCount;
+    property AttributesCount: Integer read GetAttributesCount;
+    property ChildNodesCount: Integer read GetChildNodesCount;
+    property LinksCount: Integer read GetLinksCount;
   end;
 
 
@@ -684,7 +684,8 @@ begin
   FReference := AReference;
   FName := AName;
   FValue := '';
-  FComment := TSInfoUtils.Comment('', '');
+  FComment[ctDeclaration] := '';
+  FComment[ctDefinition] := '';
 end;
 
 
@@ -1694,7 +1695,7 @@ procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: UTF8String; AModes: TT
 var
   fsInput: TFileStream;
   slInput: TStringList;
-  ltlTrees: TTSInfoProcessedTreesList;
+  ptlTrees: TTSInfoProcessedTreesList;
   treeLoad: TSimpleTSInfoTree;
   intTreeIdx: Integer = 0;
 begin
@@ -1703,19 +1704,19 @@ begin
 
   ClearTree();
 
-  ltlTrees := TTSInfoProcessedTreesList.Create(False);
+  ptlTrees := TTSInfoProcessedTreesList.Create(False);
   try
-    ltlTrees.AddTree(Self);
+    ptlTrees.AddTree(Self);
 
-    while intTreeIdx < ltlTrees.Count do
+    while intTreeIdx < ptlTrees.Count do
     begin
-      treeLoad := ltlTrees.Tree[intTreeIdx];
+      treeLoad := ptlTrees.Tree[intTreeIdx];
 
       if tmBinaryTree in treeLoad.TreeModes then
       begin
         fsInput := TFileStream.Create(treeLoad.FileName, fmOpenRead or fmShareDenyWrite);
         try
-          InternalLoadTreeFromStream(fsInput, treeLoad, ltlTrees);
+          InternalLoadTreeFromStream(fsInput, treeLoad, ptlTrees);
         finally
           fsInput.Free();
         end;
@@ -1725,7 +1726,7 @@ begin
         slInput := TStringList.Create();
         try
           slInput.LoadFromFile(treeLoad.FileName);
-          InternalLoadTreeFromList(slInput, treeLoad, ltlTrees);
+          InternalLoadTreeFromList(slInput, treeLoad, ptlTrees);
         finally
           slInput.Free();
         end;
@@ -1734,7 +1735,7 @@ begin
       Inc(intTreeIdx);
     end;
   finally
-    ltlTrees.Free();
+    ptlTrees.Free();
   end;
 end;
 
@@ -2669,7 +2670,7 @@ procedure TSimpleTSInfoTree.UpdateFile();
 var
   fsOutput: TStream;
   slOutput: TStrings;
-  ltlTrees: TTSInfoProcessedTreesList;
+  ptlTrees: TTSInfoProcessedTreesList;
   treeSave: TSimpleTSInfoTree;
   intTreeIdx: Integer = 0;
   boolMainTreeIsNotWritable: Boolean;
@@ -2677,19 +2678,19 @@ begin
   boolMainTreeIsNotWritable := not (tmAccessWrite in FTreeModes);
   Include(FTreeModes, tmAccessWrite);
 
-  ltlTrees := TTSInfoProcessedTreesList.Create(False);
+  ptlTrees := TTSInfoProcessedTreesList.Create(False);
   try
-    ltlTrees.AddTree(Self);
+    ptlTrees.AddTree(Self);
 
-    while intTreeIdx < ltlTrees.Count do
+    while intTreeIdx < ptlTrees.Count do
     begin
-      treeSave := ltlTrees.Tree[intTreeIdx];
+      treeSave := ptlTrees.Tree[intTreeIdx];
 
       if tmBinaryTree in treeSave.TreeModes then
       begin
         fsOutput := TFileStream.Create(treeSave.FileName, fmCreate or fmShareDenyWrite);
         try
-          InternalSaveTreeToStream(fsOutput, treeSave, ltlTrees);
+          InternalSaveTreeToStream(fsOutput, treeSave, ptlTrees);
         finally
           fsOutput.Free();
         end;
@@ -2698,7 +2699,7 @@ begin
       begin
         slOutput := TStringList.Create();
         try
-          InternalSaveTreeToList(slOutput, treeSave, ltlTrees);
+          InternalSaveTreeToList(slOutput, treeSave, ptlTrees);
           slOutput.SaveToFile(treeSave.FileName);
         finally
           slOutput.Free();
@@ -2708,7 +2709,7 @@ begin
       Inc(intTreeIdx);
     end;
   finally
-    ltlTrees.Free();
+    ptlTrees.Free();
   end;
 
   if boolMainTreeIsNotWritable then
