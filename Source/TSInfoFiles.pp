@@ -583,6 +583,7 @@ type
   private
     procedure AddComment(const AComment: UTF8String);
     procedure AddTreeComment(const ATreeComment: UTF8String);
+    procedure AddTreeHeader(const ATreeName: UTF8String);
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -4271,6 +4272,19 @@ begin
     AddComment(ATreeComment);
     AddEmptySpace();
   end;
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddTreeHeader(const ATreeName: UTF8String);
+var
+  strHeader: UTF8String;
+begin
+  strHeader := GlueStrings('% %%%', [TREE_HEADER_FORMAT_NAME, QUOTE_CHAR, TREE_HEADER_FORMAT_VERSION, QUOTE_CHAR]);
+
+  if ATreeName <> '' then
+    strHeader += GlueStrings(' % %%%', [KEYWORD_TREE_NAME, QUOTE_CHAR, ATreeName, QUOTE_CHAR]);
+
+  FOutput.Add(strHeader);
 end;
 
 
