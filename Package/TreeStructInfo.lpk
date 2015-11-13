@@ -3,7 +3,7 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="TreeStructInfo"/>
-    <Author Value="Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014. All rights reserved."/>
+    <Author Value="Copyright (C) Jaroslaw Baran, furious programming 2011 - 2015. All rights reserved."/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
@@ -24,7 +24,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Description Value="This package contains a source to handle the TreeStructInfo configuration files in format version 1.0.
+    <Description Value="This package contains a source to handle the TreeStructInfo configuration files in format version 2.0.
 
 For more information about TreeStructInfo file format and the following library, see &lt;http://treestruct.info>.
 
@@ -41,7 +41,7 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program. If not, see &lt;http://www.gnu.org/licenses/>."/>
-    <Version Major="1"/>
+    <Version Major="2"/>
     <Files Count="4">
       <Item1>
         <Filename Value="..\Source\TSInfoConsts.pp"/>
