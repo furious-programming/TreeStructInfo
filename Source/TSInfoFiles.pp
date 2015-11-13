@@ -581,6 +581,8 @@ type
     procedure DecIndentation();
     procedure ResetIndentation();
   private
+    procedure AddComment(const AComment: UTF8String);
+  private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
   public
@@ -4240,6 +4242,24 @@ procedure TTSInfoTextOutputWriter.ResetIndentation();
 begin
   FIndentation := '';
   FIndentationSize := 0;
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddComment(const AComment: UTF8String);
+var
+  vcComment: TValueComponents;
+  intCommentLinesCnt, intCommentLineIdx: Integer;
+begin
+  ExtractValueComponents(AComment, vcComment, intCommentLinesCnt);
+
+  if (intCommentLinesCnt = 1) and (vcComment[0] = ONE_BLANK_VALUE_LINE_CHAR) then
+    FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
+  else
+    for intCommentLineIdx := 0 to intCommentLinesCnt - 1 do
+      if vcComment[intCommentLineIdx] = '' then
+        FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
+      else
+        FOutput.Add(GlueStrings('%% %', [FIndentation, COMMENT_PREFIX, vcComment[intCommentLineIdx]]));
 end;
 
 
