@@ -578,6 +578,7 @@ type
     FStoreRefElement: TStoreRefElementProc;
   private
     procedure ProcessMainPart();
+    procedure ProcessReferencingPart();
   private
     procedure IncIndentation();
     procedure DecIndentation();
@@ -4255,6 +4256,27 @@ begin
   AddChildNodeLinks(FTSInfoTree.FRootNode);
 
   AddTreeEnd();
+end;
+
+
+procedure TTSInfoTextOutputWriter.ProcessReferencingPart();
+var
+  objElement: TObject;
+begin
+  FStoreRefElement := @InsertRefElement;
+  FExtraSpaceNeeded := True;
+
+  ResetIndentation();
+
+  while FRefElements.Count > 0 do
+  begin
+    objElement := FRefElements.PopFirstElement();
+
+    if objElement is TTSInfoAttribute then
+      AddRefAttributeDefinition(objElement as TTSInfoAttribute)
+    else
+      AddRefChildNodeDefinition(objElement as TTSInfoNode);
+  end;
 end;
 
 
