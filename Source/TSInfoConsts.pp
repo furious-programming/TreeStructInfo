@@ -2,14 +2,14 @@
 
     TSInfoConsts.pp            last modified: 28 September 2015
 
-    Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
+    Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
    __________________________________________________________________________
 
     This unit is a part of the TreeStructInfo library.
 
     Includes the constants for files processing, functions and procedures
-    to data converting and throwing the exceptions procedure. The following
+    to data converting and throwing the exceptions procedures. The following
     constants are common for the entire library.
    __________________________________________________________________________
 
