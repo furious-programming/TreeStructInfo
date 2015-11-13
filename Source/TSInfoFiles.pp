@@ -582,6 +582,7 @@ type
     procedure ResetIndentation();
   private
     procedure AddComment(const AComment: UTF8String);
+    procedure AddTreeComment(const ATreeComment: UTF8String);
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -4260,6 +4261,16 @@ begin
         FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
       else
         FOutput.Add(GlueStrings('%% %', [FIndentation, COMMENT_PREFIX, vcComment[intCommentLineIdx]]));
+end;
+
+
+procedure TTSInfoTextOutputWriter.AddTreeComment(const ATreeComment: UTF8String);
+begin
+  if ATreeComment <> '' then
+  begin
+    AddComment(ATreeComment);
+    AddEmptySpace();
+  end;
 end;
 
 
