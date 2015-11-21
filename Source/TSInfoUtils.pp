@@ -788,7 +788,7 @@ var
 var
   intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond, intDayOfWeek: UInt16;
 begin
-  intMaskLen := Length(strMask);
+  intMaskLen := Length(AMask);
 
   if intMaskLen > 0 then
   begin
