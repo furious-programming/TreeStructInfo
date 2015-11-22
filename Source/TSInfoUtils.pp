@@ -1,6 +1,6 @@
 {
 
-    TSInfoUtils.pp              last modified: 21 November 2015
+    TSInfoUtils.pp              last modified: 22 November 2015
 
     Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
@@ -961,6 +961,16 @@ var
         Inc(intFormatLen);
         Inc(pchrMaskToken);
       until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ <> chrFormat);
+    end;
+
+    if pchrMaskToken^ in DATE_TIME_SEPARATOR_CHARS then
+    begin
+      case pchrMaskToken^ of
+        '.', '-', '/': chrFormatSep := ASettings.DateSeparator;
+        ':':           chrFormatSep := ASettings.TimeSeparator;
+      end;
+
+      Exit();
     end;
 
     if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
