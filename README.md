@@ -616,18 +616,18 @@ If the tree has a main comment, it must be written before his body:
 ```
 :: main tree comment
 
-tsinfo version "1.0"
+treestructinfo "2.0"
 end tree
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idTreeComment)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idTreeComment)
 
 # Attributes comments
 
 Each attribute can have a comment. It must be written directly above his declaration:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   :: attribute comment
   attr Name "Value"
 end tree
@@ -636,7 +636,7 @@ end tree
 Referencing attributes can have two comments - declaration comment and definition comment:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   :: attribute declaration comment
   ref attr Name
 end tree
@@ -645,7 +645,7 @@ end tree
 ref attr Name "Value" 
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttrsComments)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrsComments)
 
 # Child nodes comments
 
