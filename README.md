@@ -15,7 +15,7 @@ Format is human-friendly - text files syntax is based on a small set of keywords
 
 # Sample file
 
-I can not use my own syntax highlighting, so if you want to see the sample text file, go to the [**sample file** point in specification](http://treestruct.info/pl/format/1.0.htm#idSampleFile).
+I can not use my own syntax highlighting, so if you want to see the sample text file, go to the [**sample file** point in specification](http://treestruct.info/pl/format/2.0.htm#idSampleFile).
 
 # Text files syntax
 
