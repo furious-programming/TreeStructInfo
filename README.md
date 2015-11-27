@@ -476,7 +476,7 @@ Referencing elements serve exactly the same purpose as standard elements. What m
 
 Referencing form may have attributes and child nodes.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefElements)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefElements)
 
 # Referencing attributes
 
