@@ -752,24 +752,24 @@ Each element is represented by another sequence of bytes, by virtue of having di
 **The structure schema of writing a single attribute**:
 
 ```
-size     value        data type     component             description
+size    value         data type    component              description
 
-4        n            uint32        declaration comment   comment length
-n        n chars      string        declaration comment   comment value
+1       True/False    boolean      referencing state      state
 
-4        n            uint32        definition comment    comment length
-n        n chars      string        definition comment    comment value
+4       n             uint32       identifier             identifier length
+n       n chars       string       identifier             identifier value
 
-1        True/False   boolean       referencing state     state
+4       n             uint32       value                  value length
+n       n chars       string       value                  value content
 
-4        n            uint32        identifier            identifier length
-n        n chars      string        identifier            identifier value
+4       n             uint32       declaration comment    comment length
+n       n chars       string       declaration comment    comment value
 
-4        n            uint32        value                 value length
-n        n chars      string        value                 value content
+4       n             uint32       definition comment     comment length
+n       n chars       string       definition comment     comment value
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicAttributes)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicAttributes)
 
 **The structure schema of writing a single child node**:
 
