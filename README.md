@@ -294,16 +294,16 @@ time examples:
 "19:20"
 "19:20:04"
 "19:20:04:127"
-"07:20 PM"
+"07:20 pm"
 ```
 
 date and time together in one value:
 
 ```
-"24-10-2011 19:20"
+"24.10.2011 19:20"
 "24 October 2011, 19:20"
-"October, 24-10-2011 (19:20)"
-"October, 24 Oct 2011 (07:20 PM)"
+"Monday, 24.10.2011 (19:20)"
+"Monday, 24 Oct 2011 (07:20 PM)"
 ```
 
 and example with plain text substrings:
@@ -313,6 +313,8 @@ and example with plain text substrings:
 ```
 
 Text values of date and time components, such as the names of days and months, symbols and names of the seasons of the day (`am`, `pm`), as well as the date and time components separators are dependent on the location, so can take other characters or strings than those listed.
+
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeDateTime)
 
 ## Point coordinates
 
