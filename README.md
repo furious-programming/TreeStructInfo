@@ -388,7 +388,7 @@ Number of **characters** per value line is not specified (may also be odd), but 
 
 ## Other data types
 
-The issue of data storage in attributes of the not listed types is open and unlimited. Because of this, the serialization and deserialization native data to and from strings in different programming languages are different,the attribute values may store almost any data, with the proviso that stored in a precise way, without affecting the linear construction of the file and the tree structure information.
+The issue of data storage in attributes of the not listed types is open and unlimited. Because of this, the serialization and deserialization native data to and from strings in different programming languages are different, the attribute values may store almost any data, with the proviso that stored in a precise way, without affecting the linear construction of the file and the tree structure information.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeOther)
 
