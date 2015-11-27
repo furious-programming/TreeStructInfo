@@ -717,31 +717,29 @@ If the string is multiline, its individual substrings are separated by character
 
 # Static data
 
-The static informations includes the file signature, comment and the name of the tree, as well as informations relating to the root node of the tree.
+The static informations includes the file signature, name of the tree and main comment, as well as the count of elements, included in the root node.
 
 The structure schema of the binary file, containing the **empty tree**:
 
 ```
-size     value     data type     component        description
+size    value             data type    component         description
 
-6        tsinfo    string        file signature   format name
-4        1.0       single        file signature   format version
+14      TREESTRUCTINFO    string       file signature    format name
 
-4        0         uint32        tree             main comment length
-4        0         uint32        tree             tree name length
+1       2                 uint8        format version    major version
+1       0                 uint8        format version    minor version
 
-4        0         uint32        root node        declaration comment length
-4        0         uint32        root node        definition comment length
-1        False     boolean       root node        referencing state
-4        0         uint32        root node        identifier length
-4        0         uint32        root node        attributes count
-4        0         uint32        root node        child nodes count
-4        0         uint32        root node        links count
+4       0                 uint32       tree name         tree name length
+4       0                 uint32       tree comment      tree comment length
+
+4       0                 uint32       root node         attributes count
+4       0                 uint32       root node         chlid nodes count
+4       0                 uint32       root node         links count
 ```
 
-Binary file containing empty configuration tree, should always take exactly `43 bytes`.
+Binary file containing empty configuration tree, should always take exactly `36 bytes`.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idStaticData)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idStaticData)
 
 # Dynamic data
 
