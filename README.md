@@ -323,15 +323,15 @@ Rules for the transcription the coordinates of the points are the same as in the
 Examples of writing positive, negative and zero coordinates below:
 
 ```
-"72,114" or "+72,+114"
-"0x48,0x72"
-"0o110,0o162"
-"0b1001000,0b1110010"
+"163,141"               or "+163,+141"
+"0xA3,0x8D"             or "+0xA3,+0x8D"
+"0o243,0o215"           or "+0o243,+0o215"
+"0b10100011,0b10001101" or "+0b10100011,+0b10001101"
 
-"-72,-114"
-"0xFFFFFFB8,0xFFFFFF8E"
-"0o37777777670,0o37777777616"
-"0b11111111111111111111111110111000,0b11111111111111111111111110001110"
+"-94,-75"
+"-0x5E,-0x4B"
+"-0o136,-0o113"
+"-0b1011110,-0b1001011"
 
 "0,0"
 "0x00,0x00"
@@ -340,6 +340,8 @@ Examples of writing positive, negative and zero coordinates below:
 ```
 
 Both the coordinates should be written in the same numeral system (but is not a hard rule).
+
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypePointCoords)
 
 ## Binary data
 
