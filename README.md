@@ -804,20 +804,20 @@ n        n chars      string        definition comment    comment value
 ```
 size     value        data type     component             description
 
-4        n            uint32        declaration comment   comment length
-n        n chars      string        declaration comment   comment value
-
 4        n            uint32        linked file name      file name length
 n        n chars      string        linked file name      file name value
 
 4        n            uint32        virtual node name     name length
 n        n chars      string        virtual node name     name value
 
-1        True/False   boolean       "binary" flag         flag existing state
-1        True/False   boolean       "write" flag          flag existing state
+1        True/False   boolean       "binary" mode         mode existing state
+1        True/False   boolean       "write" mode          mode existing state
+
+4        n            uint32        declaration comment   comment length
+n        n chars      string        declaration comment   comment value
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicLinks)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicLinks)
 
 # Bindings
 
