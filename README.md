@@ -171,6 +171,8 @@ Boolean values are determined using conventional strings:
 
 PascalCase for string values is not mandatory (uppercase for character values too). Digits `1` and `0` are the only permitted.
 
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeBoolean)
+
 ## Integers
 
 Integers can be written in the four most popular numeral systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numeral systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary.
