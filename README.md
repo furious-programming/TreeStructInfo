@@ -203,16 +203,14 @@ A positive, negative and zero numbers written in all systems:
 Floating-point numbers can be written in universal or scientific form. May have a leading characters `+` or `-`. A positive, negative and zero numbers written in both forms:
 
 ```
-"1009,1989" or "+1009,1989"
-"1 009,1989000000"
-"1,00919890000000E+0003"
+"1009,1989"   or "+1009,1989"
+"1,0091989E3" or "+1,0091989E+03"
 
 "-1009,1989"
-"-1 009,1989000000"
-"-1,00919890000000E+0003"
+"-1,0091989E3" or "-1,0091989E+03"
 
-"0" or "0,0000000000"
-"0,00000000000000E+0000"
+"0"   or "0,0000"
+"0E0" or "0,0E0" or "0,00E+00"
 ```
 
 Decimal and thousand separators may be other, suitable according to your location.
@@ -226,6 +224,8 @@ There is also possibility to store special numbers as strings - positive or nega
 ```
 
 PascalCase for these strings is not mandatory.
+
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeFloat)
 
 ## Currencies
 
