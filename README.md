@@ -747,7 +747,7 @@ For a set of dynamic informations includes descriptions of the tree elements, su
 
 Each element is represented by another sequence of bytes, by virtue of having different and varying amounts of information.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicData)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicData)
 
 **The structure schema of writing a single attribute**:
 
