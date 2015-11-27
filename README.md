@@ -501,14 +501,14 @@ The definition of the referencing attribute must be located outside the main bod
 Example:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   ref attr Foo
 end tree
 
 ref attr Foo "Value"
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefAttributes)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefAttributes)
 
 # Referencing child nodes
 
