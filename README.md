@@ -175,7 +175,7 @@ PascalCase for string values is not mandatory (uppercase for character values to
 
 ## Integers
 
-Integers can be written in the four most popular numeral systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numeral systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary.
+Integers can be written in the four most popular numeral systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numeral systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary. May have a leading characters `+` or `-`.
 
 A positive, negative and zero numbers written in all systems:
 
