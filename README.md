@@ -273,6 +273,8 @@ Strings can be multiline - each line of the string must be on a separate line:
 
 and may also contain any number of blank lines.
 
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeString)
+
 ## Dates and times
 
 The date and time values can be written in any form - the order of date and/or time constituents is arbitrary. Twelve-hour clock format is permitted. Such values may also contain plaint text substrings.
