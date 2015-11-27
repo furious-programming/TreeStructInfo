@@ -776,16 +776,16 @@ n       n chars       string       definition comment     comment value
 ```
 size     value        data type     component             description
 
+1        True/False   boolean       referencing state     state
+
+4        n            uint32        identifier            identifier length
+n        n chars      string        identifier            identifier value
+
 4        n            uint32        declaration comment   comment length
 n        n chars      string        declaration comment   comment value
 
 4        n            uint32        definition comment    comment length
 n        n chars      string        definition comment    comment value
-
-1        True/False   boolean       referencing state     state
-
-4        n            uint32        identifier            identifier length
-n        n chars      string        identifier            identifier value
 
 4        n            uint32        attributes            attributes count
          ...          ...           attributes            attributes bodies
@@ -797,7 +797,7 @@ n        n chars      string        identifier            identifier value
          ...          ...           links                 links bodies
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDynamicNodes)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicNodes)
 
 **The structure schema of writing a single link**:
 
