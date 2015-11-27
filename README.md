@@ -76,11 +76,13 @@ Identifiers are the names of the tree elements (the name of the tree is the iden
 #0 .. #31    - set of control characters
 \            - reserved for the paths to the elements
 "            - quote character opens and closes the values
+
+~            - character specifying (in the path) a reference to the current node
 ```
 
 other characters are allowed (`0x20` too). Identifiers are case-sensitive.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idIdentifiers)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idIdentifiers)
 
 # Frame of tree
 
