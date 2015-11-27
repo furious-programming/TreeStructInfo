@@ -19,33 +19,35 @@ I can not use my own syntax highlighting, so if you want to see the sample text 
 
 # Text files syntax
 
-Text files are build in a linear manner - in every single line can be written only one information, such as the tree header or attribute declaration. Is allowed to insert any number of blank lines. Syntax is based on the following keywords:
+Text files are build in a linear manner - in every single line can be written only one information, such as the tree header or the header of attribute declaration. Is allowed to insert any number of blank lines. Syntax is based on the following keywords and key phrases:
 
 ```
-tsinfo      - opens the header of the tree
-version     - stands before the format version
-name        - stands before the name of the tree
-end tree    - closes the main body of the tree
-attr        - opens the standard attribute declaration
-node        - opens the standard node declaration
-end         - ends the standard node body
-link        - opens the link declaration
-as          - stands before the virtual node name
-flags       - stands before the set of linking flags
-ref attr    - opens the referencing attribute declaration
-ref node    - opens the referencing node declaration
-end ref     - ends the referencing node body
+treestructinfo    - opens the header of the tree
+name              - stands before the name of the tree
+end tree          - closes the main body of the tree
+
+attr              - opens the header of standard attribute declaration
+node              - opens the header of standard node declaration
+end node          - ends the standard node body
+
+tree              - opens the header of link declaration
+as node           - stands before the virtual node name
+in mode           - stands before the set of linking modes
+
+ref attr          - opens the header of referencing attribute declaration
+ref node          - opens the headers of referencing node declaration and definition
+end ref node      - ends the referencing node body
 ```
 
-Keywords can be made up only of lowercase letters. To describe the syntax of text configuration files used are also several strings:
+Keywords and key phrases can be made up only of lowercase letters. To describe the syntax of text configuration files used are also several strings:
 
 ```
-"1.0"      - the value of the format version
+"2.0"      - the value of the format version
 
-"text"     - flag indicating the inclusion of a text file
-"binary"   - flag indicating the inclusion of a binary file
-"read"     - flag indication inclusion of the file for read only
-"write"    - flag indicating inclusion of the file for read and write
+"text"     - mode indicating the inclusion of a text file
+"binary"   - mode indicating the inclusion of a binary file
+"read"     - mode indication inclusion of the file for read only
+"write"    - mode indicating inclusion of the file for read and write
 ```
 
 a small number of special characters:
@@ -64,7 +66,7 @@ and a single string, acting as a keyword, but consisting only of special charact
 
 The default size of a single indentation is two space characters (`0x20`), but indentation are not mandatory.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idTextFileSyntax)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idTextFileSyntax)
 
 # Identifiers
 
