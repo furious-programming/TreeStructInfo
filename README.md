@@ -146,7 +146,7 @@ attr Name "first line"
           "third line"
 ```
 
-Attribute value con also contain blank lines at the beginning, in the middle or at the end:
+Attribute value can also contain blank lines at the beginning, in the middle or at the end:
 
 ```
 attr Name ""
@@ -158,7 +158,7 @@ attr Name ""
 
 Attributes can store data in multiple types, written in many different ways. In addition to simple types, attributes can also contain binary data, written as a strings of hexadecimal characters.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttributes)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttributes)
 
 ## Booleans
 
