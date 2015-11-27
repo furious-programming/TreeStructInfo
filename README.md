@@ -679,13 +679,13 @@ end ref node
 Links can have only one comment:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   :: link comment
-  link "File.ext" as "Virtual Node Name"
+  tree "File.ext" as node "Virtual Node Name"
 end tree
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idLinksComments)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idLinksComments)
 
 # Binary form
 
