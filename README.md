@@ -180,21 +180,23 @@ Integers can be written in the four most popular numeral systems - decimal, hexa
 A positive, negative and zero numbers written in all systems:
 
 ```
-"64206" or "+64206"
-"0xFACE"
-"0o175316"
-"0b1111101011001110"
+"64206"              or "+64206"
+"0xFACE"             or "+OxFACE"
+"0o175316"           or "+0o175316"
+"0b1111101011001110" or "+0b1111101011001110"
 
 "-2989"
-"0xFFFFF453"
-"0o37777772123"
-"0b11111111111111111111010001010011"
+"-0xBAD"
+"-0o5655"
+"-0b101110101101"
 
 "0"
 "0x00"
 "0o00"
 "0b0000"
 ```
+
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeInteger)
 
 ## Floating-point numbers
 
