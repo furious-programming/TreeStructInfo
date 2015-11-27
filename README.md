@@ -544,12 +544,12 @@ end ref node
 
 ## The order of referencing elements definitions
 
-The order of writing the definition of referencing elements its recursive, regardless of whether the element is standard or referencing, the content is immediately considered.
+The order of writing the definition of referencing elements is recursive, regardless of whether the element is standard or referencing, the content is immediately considered.
 
 Short example:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   ref attr Integer
   ref node First
   ref node Third
@@ -561,22 +561,22 @@ ref node First
   ref attr Float
   ref attr Currency
   ref node Second
-end ref
+end ref node
 
 ref attr Float "3,14"
-ref attr Currency "5,25$"
+ref attr Currency "5,25 $"
 
 ref node Second
   ref attr Point
-end ref
+end ref node
 
 ref attr Point "0o00,0o00"
 
 ref node Third
-end ref
+end ref node
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idOrderOfDefRefElements)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idOrderOfDefRefElements)
 
 # Comments
 
