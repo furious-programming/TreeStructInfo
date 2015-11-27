@@ -689,11 +689,11 @@ end tree
 
 # Binary form
 
-The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indents, blank lines and separated definitions of referencing elements. But just like text files, keep comments of elements.
+The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indentations, blank lines and separated definitions of referencing elements. But just like text files, keep comments of elements.
 
 Binary configuration files are intended for closed configurations, not giving the user to easy modification, putting to the foreground the speed of loading files and saving the trees to the files.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idBinaryForm)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBinaryForm)
 
 # Data types
 
