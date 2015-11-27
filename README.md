@@ -229,25 +229,25 @@ PascalCase for these strings is not mandatory.
 
 ## Currencies
 
-Currency values have separate format - first, there is a number, followed by the currency string (is optional). Precision is arbitrary, but not more than four digits. Currency values also can contain leading character `+` or `-`.
+Currency values have separate format - first, there is a number, followed by the currency string. Precision is arbitrary, but not more than four digits. Currency values also can contain leading character `+` or `-`.
 
 Format of sample numbers below:
 
 ```
-"5$"      or "+5$"
-"5,25$"   or "+5,25$"
-"5,2578$" or "+5,2578$"
+"4 zł"      or "+4 zł"
+"4,18 zł"   or "+4,18 zł"
+"4,1784 zł" or "+4,1784 zł"
 
-"-5$"
-"-5,25$"
-"-5,2578$"
+"-3 $"
+"-3,04 $"
+"-3,0350 $"
 
-"0$"
-"0,00$"
-"0,0000$"
+"0 ¥"
+"0,00 ¥"
+"0,0000 ¥"
 ```
 
-Of course, the currency string and the currency separator may be different.
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeCurrency)
 
 ## Strings
 
