@@ -89,13 +89,13 @@ other characters are allowed (`0x20` too). Identifiers are case-sensitive.
 The body of the tree opens the line containing the specified header. The basic form of the header looks like this:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
 ```
 
-line must contain the keyword `tsinfo`, then the keyword `version`, and the value of the format version. Extended version of the header further includes a keyword `name` and value of the tree name:
+line must contain the keyword `treestructinfo`, then the value of the format version. Extended version of the header further includes a keyword `name` and value of the tree name:
 
 ```
-tsinfo version "1.0" name "Tree Name"
+treestructinfo "2.0" name "Tree Name"
 ```
 
 Main body of the tree closes the line containing the following key phrase:
@@ -107,20 +107,20 @@ end tree
 So text file content with empty tree should look like this:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
 end tree
 ```
 
 or this:
 
 ```
-tsinfo version "1.0" name "Tree Name"
+treestructinfo "2.0" name "Tree Name"
 end tree
 ```
 
 All standard elements must be declared between these lines.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idFrameOfTree)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idFrameOfTree)
 
 # Basic tree elements
 
