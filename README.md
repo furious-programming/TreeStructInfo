@@ -403,65 +403,72 @@ The body of the standard child node opens the line containing the keyword `node`
 node Name
 ```
 
-and closes the line with only the keyword `end`:
+and closes the line with only the key phrase `end node`:
 
 ```
-end
+end node
 ```
 
-The body of the empty child node looks like the following:
+The body of the empty standard child node looks like the following:
 
 ```
 node Name
-end
+end node
 ```
 
 For a given node are those elements, that are defined between the header line and the end line.
 
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodes)
+
 # Links
 
-Links are elements used for including trees from another files. Linked files can be text or binary. Line with link declaration can exist in two forms - basic and full. The basic link declaration line must contain the keyword `link`, then the name or path to linked file, keyword `as` and then the name of virtual node:
+Links are elements used for including trees from another files. Linked files can be text or binary. Line with link declaration can exist in two forms - basic and full. The basic link declaration line must contain the keyword `tree`, then the name or path to linked file, key phrese `as node` and then the name of virtual node:
 
 ```
-link "File.ext" as "Virtual Node Name"
+tree "File.ext" as node "Virtual Node Name"
 ```
 
 File name/path and the virtual node name are the values, so they must be covered by quotation marks.
 
-The full version of link declaration can also contain the keyword `flags`, and then the flag values. If the file must be included only for reading - no flags is required.
+The full version of link declaration can also contain the key phrase `in mode`, and then the mode values. If the file is text and must be included only for reading - no modes is required.
 
 Example for linking the text file in read only mode:
 
 ```
-link "C:\Linked.tsinfo" as "Linked"
-link "C:\Linked.tsinfo" as "Linked" flags ""
-link "C:\Linked.tsinfo" as "Linked" flags "text" "read"
+tree "FileName.ext" as node "Virtual Node Name"
+tree "FileName.ext" as node "Virtual Node Name" in mode "text"
+tree "FileName.ext" as node "Virtual Node Name" in mode "read"
+tree "FileName.ext" as node "Virtual Node Name" in mode "text" "read"
 ```
 
 linking the text file in read and write mode:
  
 ```
-link "C:\Linked.tsinfo" as "Linked" flags "text" "write"
+tree "FileName.ext" as node "Virtual Node Name" in mode "write"
+tree "FileName.ext" as node "Virtual Node Name" in mode "read" "write"
+tree "FileName.ext" as node "Virtual Node Name" in mode "text" "write"
+tree "FileName.ext" as node "Virtual Node Name" in mode "text" "read" "write"
 ```
 
 linking the binary file in read only mode:
 
 ```
-link "C:\Linked.tsibin" as "Linked" flags "binary"
-link "C:\Linked.tsibin" as "Linked" flags "binary" "read"
+tree "FileName.ext" as node "Virtual Node Name" in mode "binary"
+tree "FileName.ext" as node "Virtual Node Name" in mode "binary" "read"
 ```
 
 and linking the binary file in read and write mode:
 
 ```
-link "C:\Linked.tsibin" as "Linked" flags "binary" "write"
+tree "FileName.ext" as node "Virtual Node Name" in mode "binary" "write"
+tree "FileName.ext" as node "Virtual Node Name" in mode "binary" "read" "write"
 ```
 
-Flags are the values too. If you want to type a path of linked file - you can use the relative or absolute path.
+Modes are the values too. If you want to type a path of linked file - you can use the relative or absolute path.
 
-**Important:** the paths are used to locate the file based on the location of the executable file.
+**Important:** the paths are used to locate the file based on the "working directory" (or "current directory").
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idLinks)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idLinks)
 
 # Referencing elements
 
