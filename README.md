@@ -580,7 +580,7 @@ end ref node
 
 # Comments
 
-Comments are not elements of trees - are additional informations, always belonging to the elements. Each element of the tree (**attribute**, **child node** or **link**) may have a comment, single-line or multiline. The tree may also have a comment - in this case, it is always written at the beginning of the file, before the main body of the tree.
+Comments are not elements of trees - are additional informations, always belonging to the elements. Each element of the tree (**attributes**, **child nodes** and **links**) may have a comment, single-line or multiline. The tree may also have a comment - in this case, it is always written at the beginning of the file, before the main body of the tree.
 
 Comment is simple the line, which has a prefix `::`:
 
@@ -607,7 +607,7 @@ Multiline comments may also contain empty lines:
 ::
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idComments)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idComments)
 
 # Tree comment
 
