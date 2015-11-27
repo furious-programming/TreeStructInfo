@@ -1,6 +1,6 @@
 {
 
-    TSInfoTypes.pp                  last modified: 14 August 2014
+    TSInfoTypes.pp                last modified: 13 November 2015
 
     Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014.
     All rights reserved.
@@ -31,7 +31,7 @@
 
 unit TSInfoTypes;
 
-{$MODE OBJFPC} {$LONGSTRINGS ON} {$HINTS ON}
+{$MODE OBJFPC}{$LONGSTRINGS ON}{$HINTS ON}
 
 
 interface
@@ -40,12 +40,12 @@ uses
   SysUtils;
 
 
-{ ----- elements lists types -------------------------------------------------------------------------------------- }
+{ ----- type aliases ---------------------------------------------------------------------------------------------- }
 
 
 type
-  TTSInfoElementsList = array [0 .. MaxInt shr 4] of TObject;
-  PTSInfoElementsList = ^TTSInfoElementsList;
+  UTF8Char = AnsiChar;
+  PUTF8Char = PAnsiChar;
 
 
 { ----- common types ---------------------------------------------------------------------------------------------- }
@@ -53,28 +53,31 @@ type
 
 type
   TCommentType = (ctDeclaration, ctDefinition);
-  TComment     = array [TCommentType] of AnsiString;
+  TComment     = array [TCommentType] of UTF8String;
 
 type
-  TFileFlag  = (ffLoadFile, ffTextFile, ffBinaryFile, ffRead, ffWrite, ffNoLinking);
-  TFileFlags = set of TFileFlag;
+  TTreeMode  = (tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite, tmAllowLinking, tmLoadFile);
+  TTreeModes = set of TTreeMode;
 
 type
-  TExportFormat = (efTextFile, efBinaryFile);
+  TLinkingMode = (lmTextTree, lmBinaryTree, lmAccessRead, lmAccessWrite);
 
 type
-  TLastMovedRefType = (lmrtAttribute, lmrtAttributeWithComment, lmrtNode);
-  TReferenceType    = (rtAttribute, rtNode);
+  TExportFormat = (efTextTree, efBinaryTree);
 
 type
-  TTaggingStyle = (tsFirst, tsAll);
-
-type
-  TCuttingMode   = (cmLeftSide, cmBothSides);
   TPathComponent = (pcAttributeName, pcAttributePath);
 
 type
-  TValueComponents = array of AnsiString;
+  TValueComponents = array of UTF8String;
+  TLineComponents  = TValueComponents;
+
+type
+  TRenamingDirection = (rdAscending, rdDescending);
+
+
+{ ----- data convertion types ------------------------------------------------------------------------------------- }
+
 
 type
   TFormatBoolean  = (fbLongTrueFalse, fbLongYesNo, fbLongOnOff, fbShortTrueFalse, fbShortYesNo, fbNumerical);
@@ -84,10 +87,18 @@ type
   TFormatCurrency = (fcUnsignedPrice, fcSignedPrice, fcUnsignedExchangeRate, fcSignedExchangeRate);
   TFormatString   = (fsOriginal, fsLowerCase, fsUpperCase);
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
-  TFormatBuffer   = (fb8BytesPerLine, fb16BytesPerLine, fb32BytesPerLine, fb64BytesPerLine);
+  TFormatBuffer   = (fb8BytesPerLine = 8, fb16BytesPerLine = 16, fb32BytesPerLine = 32, fb64BytesPerLine = 64);
+
+
+{ ----- procedural types ------------------------------------------------------------------------------------------ }
+
 
 type
-  TRenamingDirection = (rdAscending, rdDescending);
+  TStoreRefElementProc = procedure(AElement: TObject) of object;
+
+
+{ ----- class types ----------------------------------------------------------------------------------------------- }
+
 
 type
   ETSInfoFileException = class(Exception);

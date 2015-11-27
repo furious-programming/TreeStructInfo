@@ -1,13 +1,14 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="TreeStructInfo"/>
-    <Author Value="Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014. All rights reserved."/>
+    <Author Value="Copyright (C) Jaroslaw Baran, furious programming 2011 - 2015. All rights reserved."/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
+        <OtherUnitFiles Value="..\Source"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Linking>
@@ -23,7 +24,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Description Value="This package contains a source to handle the TreeStructInfo configuration files in format version 1.0.
+    <Description Value="This package contains a source to handle the TreeStructInfo configuration files in format version 2.0.
 
 For more information about TreeStructInfo file format and the following library, see &lt;http://treestruct.info>.
 
@@ -40,22 +41,22 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program. If not, see &lt;http://www.gnu.org/licenses/>."/>
-    <Version Major="1"/>
+    <Version Major="2"/>
     <Files Count="4">
       <Item1>
-        <Filename Value="TSInfoConsts.pp"/>
+        <Filename Value="..\Source\TSInfoConsts.pp"/>
         <UnitName Value="TSInfoConsts"/>
       </Item1>
       <Item2>
-        <Filename Value="TSInfoTypes.pp"/>
+        <Filename Value="..\Source\TSInfoTypes.pp"/>
         <UnitName Value="TSInfoTypes"/>
       </Item2>
       <Item3>
-        <Filename Value="TSInfoUtils.pp"/>
+        <Filename Value="..\Source\TSInfoUtils.pp"/>
         <UnitName Value="TSInfoUtils"/>
       </Item3>
       <Item4>
-        <Filename Value="TSInfoFiles.pp"/>
+        <Filename Value="..\Source\TSInfoFiles.pp"/>
         <UnitName Value="TSInfoFiles"/>
       </Item4>
     </Files>
