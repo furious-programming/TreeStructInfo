@@ -700,20 +700,20 @@ Binary configuration files are intended for closed configurations, not giving th
 To binary files are stored are written data of four types - floating-point numbers and integers, logical values and strings:
 
 ```
-data type     size     for writting
+data type    size    for writing
 
-single        4        format version in file signature
-uint32        4        elements count; values, comments and identifiers length
-boolean       1        referencing states, flags existing state
+uint8        1       format version components
+uint32       4       elements count, length of values, comments and identifiers
+boolean      1       referencing states, modes existing state
 
 string:
-  uint32      4        length of string
-  string      n        content of string
+  uint32     4       length of string
+  string     n       content of string
 ```
 
 If the string is multiline, its individual substrings are separated by characters `0x0A`.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idDataTypesAndFormat)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDataTypesAndFormat)
 
 # Static data
 
