@@ -697,7 +697,7 @@ Binary configuration files are intended for closed configurations, not giving th
 
 # Data types
 
-To binary files are stored are written data of four types - floating-point numbers and integers, logical values and strings:
+In binary files are stored data of four types - 1-byte and 4-bytes integers, logical values and strings:
 
 ```
 data type    size    for writing
