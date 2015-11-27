@@ -652,27 +652,27 @@ ref attr Name "Value"
 Standard child nodes can have one comment:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   :: child node comment
   node Name
-  end
+  end node
 end tree
 ```
 
 and the referencing nodes can have two:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   :: child node declaration comment
   ref node Name
 end tree
 
 :: child node definition comment
 ref node Name
-end ref
+end ref node
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idNodesComments)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodesComments)
 
 # Links comments
 
