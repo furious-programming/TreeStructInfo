@@ -1,9 +1,9 @@
 ![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
-*Copyright (C) Jaroslaw Baran, furious programming 2011 - 2014*
+*Copyright © Jaroslaw Baran, furious programming 2011 - 2015*
 
-Latest API release: [TreeStructInfo 1.0 stable](https://github.com/furious-programming/TreeStructInfo/releases/tag/v1.0.0-stable)<br/><br/>
+Latest API release: [TreeStructInfo 2.0 beta](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0-beta)<br/><br/>
 
-This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 1.0** format specification](http://treestruct.info/pl/format/1.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-1.0-objpas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-1.0-objpas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
+This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](http://treestruct.info/pl/format/2.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
 
 # Introduction
 
