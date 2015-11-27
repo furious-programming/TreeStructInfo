@@ -520,11 +520,11 @@ The line with referencing child node declaration must contain only the key phras
 ref node Name
 ```
 
-The definition must contain a complete body of the node, terminated with the line with key phrase `end ref`:
+The definition must contain a complete body of the node, terminated with the line with key phrase `end ref node`:
 
 ```
 ref node Name
-end ref
+end ref node
 ```
 
 Declaration of the referencing child node may be located inside the main body of the tree or inside the body of the referencing node, but the definition must be outside them.
@@ -532,15 +532,15 @@ Declaration of the referencing child node may be located inside the main body of
 Example:
 
 ```
-tsinfo version "1.0"
+treestructinfo "2.0"
   ref node Bald
 end tree
 
 ref node Bald
-end ref
+end ref node
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idRefNodes)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefNodes)
 
 ## The order of referencing elements definitions
 
