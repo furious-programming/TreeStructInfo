@@ -386,11 +386,11 @@ Number of **characters** per value line is not specified (may also be odd), but 
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeBinary)
 
-## Multiline values
+## Other data types
 
-Each multiline values have a one, universal form of writing. The issue of data types that can be written in the form of multiline values is open, depends mainly on programming languages. Thus, this type of values can be of any data, but written in a specific form, from which there are no exceptions.
+The issue of data storage in attributes of the not listed types is open and unlimited. Because of this, the serialization and deserialization native data to and from strings in different programming languages are different,the attribute values may store almost any data, with the proviso that stored in a precise way, without affecting the linear construction of the file and the tree structure information.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm#idAttrValuesDataTypes)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeOther)
 
 
 # Child nodes
