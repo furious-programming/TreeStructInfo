@@ -9,9 +9,9 @@ This document is highly abbreviated version of the format specification. Full fo
 
 **TreeStructInfo** is a project of the universal format for text and binary configuration files, for storing settings of applications and games in the form of data trees. Allows to create a single-file configurations and complex configuration systems, consisting of many interrelated files.
 
-Format is human-friendly - text files syntax is based on a small set of keywords and linear structure. Text form gives the possibility to create an open configurations. Binary form provides faster files processing, maintaining compatibility of native data in memory with a text form.
+Format is human-friendly - text files syntax is based on a small set of keywords and key phrases and linear structure. Text form gives the possibility to create an open configurations. Binary form provides faster files processing, maintaining compatibility of native data in memory with a text form.
 
-`pl` [read more...](http://treestruct.info/pl/format/1.0.htm)
+`pl` [read more...](http://treestruct.info/pl/format/2.0.htm)
 
 # Sample file
 
