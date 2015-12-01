@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp              last modified: 13 November 2015
+    TSInfoFiles.pp               last modified: 1 December 2015
 
     Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
@@ -4485,7 +4485,7 @@ begin
   strLink := GlueStrings('%% %%% % %%%', [FIndentation, KEYWORD_LINK, QUOTE_CHAR, ALink.FileName, QUOTE_CHAR,
                                           KEYWORD_LINK_AS_NODE, QUOTE_CHAR, ALink.VirtualNodeName, QUOTE_CHAR]);
 
-  if ALink.TreeModes <> [] then
+  if ALink.TreeModes * [tmBinaryTree, tmAccessWrite] <> [] then
   begin
     strLink += GlueStrings(' %', [KEYWORD_LINK_IN_MODE]);
 
