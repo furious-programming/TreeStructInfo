@@ -435,27 +435,27 @@ type
   TTSInfoTree = class(TSimpleTSInfoTree)
   public
     procedure RenameTree(const ANewTreeName: UTF8String);
-    procedure RenameAttribute(const AAttrName, ANewAttrName: UTF8String);
+    procedure RenameAttribute(const AAttrPath, ANewAttrName: UTF8String);
     procedure RenameChildNode(const ANodePath, ANewNodeName: UTF8String);
     procedure RenameVirtualNode(const ANodePath, AVirtualNodeName, ANewVirtualNodeName: UTF8String);
   public
     procedure WriteTreeComment(const AComment, ADelimiter: UTF8String);
-    procedure WriteAttributeComment(const AAttrName, AComment, ADelimiter: UTF8String; AType: TCommentType);
+    procedure WriteAttributeComment(const AAttrPath, AComment, ADelimiter: UTF8String; AType: TCommentType);
     procedure WriteChildNodeComment(const ANodePath, AComment, ADelimiter: UTF8String; AType: TCommentType);
     procedure WriteLinkComment(const ANodePath, AVirtualNodeName, AComment, ADelimiter: UTF8String);
   public
     function ReadTreeComment(const ADelimiter: UTF8String): UTF8String;
-    function ReadAttributeComment(const AAttrName, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
+    function ReadAttributeComment(const AAttrPath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
     function ReadChildNodeComment(const ANodePath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
     function ReadLinkComment(const ANodePath, AVirtualNodeName, ADelimiter: UTF8String): UTF8String;
   public
-    procedure SetAttributeReference(const AAttrName: UTF8String; AReference: Boolean);
+    procedure SetAttributeReference(const AAttrPath: UTF8String; AReference: Boolean);
     procedure SetChildNodeReference(const ANodePath: UTF8String; AReference: Boolean);
   public
-    function GetAttributeReference(const AAttrName: UTF8String): Boolean;
+    function GetAttributeReference(const AAttrPath: UTF8String): Boolean;
     function GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
   public
-    procedure RemoveAttribute(const AAttrName: UTF8String);
+    procedure RemoveAttribute(const AAttrPath: UTF8String);
     procedure RemoveChildNode(const ANodePath: UTF8String);
     procedure RemoveLink(const ANodePath, AVirtualNodeName: UTF8String);
   public
@@ -463,7 +463,7 @@ type
     procedure RemoveAllChildNodes(const ANodePath: UTF8String = '');
     procedure RemoveAllLinks(const ANodePath: UTF8String = '');
   public
-    function AttributeExists(const AAttrName: UTF8String): Boolean;
+    function AttributeExists(const AAttrPath: UTF8String): Boolean;
     function ChildNodeExists(const ANodePath: UTF8String): Boolean;
     function LinkExists(const ANodePath, AVirtualNodeName: UTF8String): Boolean;
   public
@@ -2732,7 +2732,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RenameAttribute(const AAttrName, ANewAttrName: UTF8String);
+procedure TTSInfoTree.RenameAttribute(const AAttrPath, ANewAttrName: UTF8String);
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
@@ -2742,7 +2742,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrName);
+    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrPath);
     strNodePath := ExtractPathComponent(strAttrName, pcAttributePath);
 
     if IsCurrentNodePath(strNodePath) then
@@ -2847,7 +2847,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteAttributeComment(const AAttrName, AComment, ADelimiter: UTF8String; AType: TCommentType);
+procedure TTSInfoTree.WriteAttributeComment(const AAttrPath, AComment, ADelimiter: UTF8String; AType: TCommentType);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2855,10 +2855,10 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
     if attrWrite = nil then
-      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
+      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
     else
     begin
       if ADelimiter = '' then
@@ -2950,14 +2950,14 @@ begin
 end;
 
 
-function TTSInfoTree.ReadAttributeComment(const AAttrName, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
+function TTSInfoTree.ReadAttributeComment(const AAttrPath, ADelimiter: UTF8String; AType: TCommentType): UTF8String;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
-    ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
+    ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
   else
     Result := ReplaceSubStrings(attrRead.Comment[AType], VALUES_DELIMITER, ADelimiter);
 end;
@@ -3011,7 +3011,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.SetAttributeReference(const AAttrName: UTF8String; AReference: Boolean);
+procedure TTSInfoTree.SetAttributeReference(const AAttrPath: UTF8String; AReference: Boolean);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -3019,10 +3019,10 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
     if attrWrite = nil then
-      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
+      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
     else
     begin
       attrWrite.Reference := AReference;
@@ -3064,14 +3064,14 @@ begin
 end;
 
 
-function TTSInfoTree.GetAttributeReference(const AAttrName: UTF8String): Boolean;
+function TTSInfoTree.GetAttributeReference(const AAttrPath: UTF8String): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
-    ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrName])
+    ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
   else
     Result := attrRead.Reference;
 end;
@@ -3101,7 +3101,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAttribute(const AAttrName: UTF8String);
+procedure TTSInfoTree.RemoveAttribute(const AAttrPath: UTF8String);
 var
   nodeParent: TTSInfoNode;
   strAttrName, strAttrNameOnly, strAttrPath: UTF8String;
@@ -3110,7 +3110,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrName);
+    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrPath);
     strAttrPath := ExtractPathComponent(strAttrName, pcAttributePath);
 
     if IsCurrentNodePath(strAttrPath) then
@@ -3241,9 +3241,9 @@ begin
 end;
 
 
-function TTSInfoTree.AttributeExists(const AAttrName: UTF8String): Boolean;
+function TTSInfoTree.AttributeExists(const AAttrPath: UTF8String): Boolean;
 begin
-  Result := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False) <> nil;
+  Result := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False) <> nil;
 end;
 
 
