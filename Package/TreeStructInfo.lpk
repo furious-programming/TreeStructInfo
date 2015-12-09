@@ -28,7 +28,9 @@
 
 For more information about TreeStructInfo file format and the following library, see &lt;http://treestruct.info>.
 
-You can write to &lt;support@treestruct.info> if you have any questions, or to &lt;bugs@treestruct.info> if you find a bugs in this library. Also you can write to &lt;join@treestruct.info> if you use this package and TreeStructInfo files and want to it announce publicly."/>
+You can write to &lt;support@treestruct.info> if you have any questions, or to &lt;bugs@treestruct.info> if you find a bugs in this library. Also you can write to &lt;join@treestruct.info> if you use this package and TreeStructInfo files and want to it announce publicly.
+
+Package version: 2.0 beta 2"/>
     <License Value="This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
@@ -41,7 +43,7 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program. If not, see &lt;http://www.gnu.org/licenses/>."/>
-    <Version Major="2" Release="1"/>
+    <Version Major="2"/>
     <Files Count="4">
       <Item1>
         <Filename Value="..\Source\TSInfoConsts.pp"/>
