@@ -453,23 +453,23 @@ type
     procedure SetChildNodeReference(const ANodePath: UTF8String; AReference: Boolean);
   public
     function GetAttributeReference(const AAttrPath: UTF8String): Boolean;
-    function GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
+    function GetChildNodeReference(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
   public
     procedure RemoveAttribute(const AAttrPath: UTF8String);
     procedure RemoveChildNode(const ANodePath: UTF8String);
     procedure RemoveLink(const ANodePath, AVirtualNodeName: UTF8String);
   public
-    procedure RemoveAllAttributes(const ANodePath: UTF8String = '');
-    procedure RemoveAllChildNodes(const ANodePath: UTF8String = '');
-    procedure RemoveAllLinks(const ANodePath: UTF8String = '');
+    procedure RemoveAllAttributes(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+    procedure RemoveAllChildNodes(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+    procedure RemoveAllLinks(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
   public
     function AttributeExists(const AAttrPath: UTF8String): Boolean;
     function ChildNodeExists(const ANodePath: UTF8String): Boolean;
     function LinkExists(const ANodePath, AVirtualNodeName: UTF8String): Boolean;
   public
-    function GetAttributesCount(const ANodePath: UTF8String = ''): Integer;
-    function GetChildNodesCount(const ANodePath: UTF8String = ''): Integer;
-    function GetLinksCount(const ANodePath: UTF8String = ''): Integer;
+    function GetAttributesCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
+    function GetChildNodesCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
+    function GetLinksCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
   public
     procedure ReadAttributesNames(const ANodePath: UTF8String; ANames: TStrings);
     procedure ReadAttributesValues(const ANodePath: UTF8String; AValues: TStrings);
@@ -3077,7 +3077,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String = ''): Boolean;
+function TTSInfoTree.GetChildNodeReference(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3175,7 +3175,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllAttributes(const ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllAttributes(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3197,7 +3197,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllChildNodes(const ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllChildNodes(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3219,7 +3219,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String = '');
+procedure TTSInfoTree.RemoveAllLinks(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -3266,7 +3266,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetAttributesCount(const ANodePath: UTF8String = ''): Integer;
+function TTSInfoTree.GetAttributesCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3282,7 +3282,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetChildNodesCount(const ANodePath: UTF8String = ''): Integer;
+function TTSInfoTree.GetChildNodesCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
 var
   nodeRead: TTSInfoNode;
 begin
@@ -3298,7 +3298,7 @@ begin
 end;
 
 
-function TTSInfoTree.GetLinksCount(const ANodePath: UTF8String = ''): Integer;
+function TTSInfoTree.GetLinksCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
 var
   nodeRead: TTSInfoNode;
 begin
