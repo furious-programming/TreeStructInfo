@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp               last modified: 1 December 2015
+    TSInfoFiles.pp               last modified: 9 December 2015
 
     Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
@@ -388,7 +388,7 @@ type
     procedure WritePoint(const AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
     procedure WriteList(const AAttrName: UTF8String; AList: TStrings);
     procedure WriteBuffer(const AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
-    procedure WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+    procedure WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
   public
     function ReadBoolean(const AAttrName: UTF8String; ADefault: Boolean): Boolean;
     function ReadInteger(const AAttrName: UTF8String; ADefault: Integer): Integer;
@@ -2162,7 +2162,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
@@ -2182,7 +2182,7 @@ begin
         SetLength(arrBuffer, ASize);
         AStream.Read(arrBuffer[0], ASize);
 
-        BufferToValue(arrBuffer[0], ASize, strValue, AFormat);
+        BufferToValue(arrBuffer[0], ASize, strValue, TFormatBuffer(AFormat));
         attrWrite.Value := strValue;
         FModified := True;
       end;

@@ -1,6 +1,6 @@
 {
 
-    TSInfoTypes.pp              last modified: 13 November 2015
+    TSInfoTypes.pp               last modified: 9 December 2015
 
     Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
     All rights reserved.
@@ -88,6 +88,7 @@ type
   TFormatString   = (fsOriginal, fsLowerCase, fsUpperCase);
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
   TFormatBuffer   = (fb8BytesPerLine = 8, fb16BytesPerLine = 16, fb32BytesPerLine = 32, fb64BytesPerLine = 64);
+  TFormatStream   = (fs8BytesPerLine = 8, fs16BytesPerLine = 16, fs32BytesPerLine = 32, fs64BytesPerLine = 64);
 
 
 { ----- procedural types ------------------------------------------------------------------------------------------ }
