@@ -471,10 +471,10 @@ type
     function GetChildNodesCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
     function GetLinksCount(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL): Integer;
   public
-    procedure ReadAttributesNames(const ANodePath: UTF8String; ANames: TStrings);
-    procedure ReadAttributesValues(const ANodePath: UTF8String; AValues: TStrings);
-    procedure ReadChildNodesNames(const ANodePath: UTF8String; ANames: TStrings);
-    procedure ReadVirtualNodesNames(const ANodePath: UTF8String; ANames: TStrings);
+    procedure ReadAttributesNames(ANames: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+    procedure ReadAttributesValues(AValues: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+    procedure ReadChildNodesNames(ANames: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+    procedure ReadVirtualNodesNames(ANames: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
   public
     procedure ExportTreeToFile(const AFileName: UTF8String; AFormat: TExportFormat = efTextTree);
     procedure ExportTreeToList(AList: TStrings);
@@ -3314,7 +3314,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadAttributesNames(const ANodePath: UTF8String; ANames: TStrings);
+procedure TTSInfoTree.ReadAttributesNames(ANames: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
   intAttributeIdx: Integer;
@@ -3332,7 +3332,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadAttributesValues(const ANodePath: UTF8String; AValues: TStrings);
+procedure TTSInfoTree.ReadAttributesValues(AValues: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
   intAttributeIdx: Integer;
@@ -3350,7 +3350,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadChildNodesNames(const ANodePath: UTF8String; ANames: TStrings);
+procedure TTSInfoTree.ReadChildNodesNames(ANames: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
   intNodeIdx: Integer;
@@ -3368,7 +3368,7 @@ begin
 end;
 
 
-procedure TTSInfoTree.ReadVirtualNodesNames(const ANodePath: UTF8String; ANames: TStrings);
+procedure TTSInfoTree.ReadVirtualNodesNames(ANames: TStrings; const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
   intLinkIdx: Integer;
@@ -4587,6 +4587,9 @@ begin
   ProcessMainPart();
   ProcessReferencingPart();
 end;
+
+
+
 
 
 { ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
