@@ -357,7 +357,7 @@ type
     procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
   private
     function FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
-    function FindAttribute(const AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
+    function FindAttribute(const AAttrPath: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
     function FindNode(const ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
   public
     constructor Create();
@@ -376,33 +376,33 @@ type
     procedure GoToParentNode(AKeepReadOnlyMode: Boolean = True);
     procedure CloseChildNode();
   public
-    procedure WriteBoolean(const AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
-    procedure WriteInteger(const AAttrName: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
-    procedure WriteFloat(const AAttrName: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
-    procedure WriteFloat(const AAttrName: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
-    procedure WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteString(const AAttrName, AString: UTF8String; AFormat: TFormatString = fsOriginal);
-    procedure WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime); overload;
-    procedure WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings); overload;
-    procedure WritePoint(const AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
-    procedure WriteList(const AAttrName: UTF8String; AList: TStrings);
-    procedure WriteBuffer(const AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
-    procedure WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
+    procedure WriteBoolean(const AAttrPath: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+    procedure WriteInteger(const AAttrPath: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+    procedure WriteFloat(const AAttrPath: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
+    procedure WriteFloat(const AAttrPath: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
+    procedure WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
+    procedure WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
+    procedure WriteString(const AAttrPath, AString: UTF8String; AFormat: TFormatString = fsOriginal);
+    procedure WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime); overload;
+    procedure WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings); overload;
+    procedure WritePoint(const AAttrPath: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+    procedure WriteList(const AAttrPath: UTF8String; AList: TStrings);
+    procedure WriteBuffer(const AAttrPath: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+    procedure WriteStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
   public
-    function ReadBoolean(const AAttrName: UTF8String; ADefault: Boolean): Boolean;
-    function ReadInteger(const AAttrName: UTF8String; ADefault: Integer): Integer;
-    function ReadFloat(const AAttrName: UTF8String; ADefault: Double): Double; overload;
-    function ReadFloat(const AAttrName: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double; overload;
-    function ReadCurrency(const AAttrName: UTF8String; ADefault: Currency): Currency; overload;
-    function ReadCurrency(const AAttrName: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
-    function ReadString(const AAttrName, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
-    function ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime): TDateTime; overload;
-    function ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
-    function ReadPoint(const AAttrName: UTF8String; ADefault: TPoint): TPoint;
-    procedure ReadList(const AAttrName: UTF8String; AList: TStrings);
-    procedure ReadBuffer(const AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
-    procedure ReadStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+    function ReadBoolean(const AAttrPath: UTF8String; ADefault: Boolean): Boolean;
+    function ReadInteger(const AAttrPath: UTF8String; ADefault: Integer): Integer;
+    function ReadFloat(const AAttrPath: UTF8String; ADefault: Double): Double; overload;
+    function ReadFloat(const AAttrPath: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double; overload;
+    function ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency): Currency; overload;
+    function ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
+    function ReadString(const AAttrPath, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
+    function ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime): TDateTime; overload;
+    function ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
+    function ReadPoint(const AAttrPath: UTF8String; ADefault: TPoint): TPoint;
+    procedure ReadList(const AAttrPath: UTF8String; AList: TStrings);
+    procedure ReadBuffer(const AAttrPath: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+    procedure ReadStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
   public
     function CreateAttribute(const ANodePath: UTF8String; AReference: Boolean; const AAttrName: UTF8String): Boolean;
     function CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
@@ -1679,9 +1679,9 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindAttribute(const AAttrName: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
+function TSimpleTSInfoTree.FindAttribute(const AAttrPath: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
 begin
-  Result := FindElement(AAttrName, AForcePath, True) as TTSInfoAttribute;
+  Result := FindElement(AAttrPath, AForcePath, True) as TTSInfoAttribute;
 end;
 
 
@@ -1927,7 +1927,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteBoolean(const AAttrName: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+procedure TSimpleTSInfoTree.WriteBoolean(const AAttrPath: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1935,7 +1935,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -1946,7 +1946,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteInteger(const AAttrName: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+procedure TSimpleTSInfoTree.WriteInteger(const AAttrPath: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1954,7 +1954,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -1965,7 +1965,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteFloat(const AAttrName: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1973,7 +1973,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -1984,7 +1984,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteFloat(const AAttrName: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1992,7 +1992,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2003,7 +2003,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2011,7 +2011,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2022,7 +2022,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteCurrency(const AAttrName: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2030,7 +2030,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2041,7 +2041,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteString(const AAttrName, AString: UTF8String; AFormat: TFormatString = fsOriginal);
+procedure TSimpleTSInfoTree.WriteString(const AAttrPath, AString: UTF8String; AFormat: TFormatString = fsOriginal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2049,7 +2049,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2060,7 +2060,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2068,7 +2068,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2079,7 +2079,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(const AAttrName, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2087,7 +2087,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2098,7 +2098,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WritePoint(const AAttrName: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+procedure TSimpleTSInfoTree.WritePoint(const AAttrPath: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2106,7 +2106,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2117,7 +2117,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteList(const AAttrName: UTF8String; AList: TStrings);
+procedure TSimpleTSInfoTree.WriteList(const AAttrPath: UTF8String; AList: TStrings);
 var
   attrWrite: TTSInfoAttribute;
   strValue: UTF8String;
@@ -2126,7 +2126,7 @@ begin
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
     if attrWrite <> nil then
     begin
@@ -2138,7 +2138,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteBuffer(const AAttrName: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteBuffer(const AAttrPath: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   strValue: UTF8String = '';
@@ -2150,7 +2150,7 @@ begin
       ThrowException(EM_INVALID_BUFFER_SIZE, [MAX_BUFFER_SIZE])
     else
     begin
-      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
       if attrWrite <> nil then
       begin
@@ -2162,7 +2162,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
@@ -2175,7 +2175,7 @@ begin
       ThrowException(EM_INVALID_STREAM_SIZE, [MAX_STREAM_SIZE])
     else
     begin
-      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), True);
+      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
       if attrWrite <> nil then
       begin
@@ -2190,11 +2190,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadBoolean(const AAttrName: UTF8String; ADefault: Boolean): Boolean;
+function TSimpleTSInfoTree.ReadBoolean(const AAttrPath: UTF8String; ADefault: Boolean): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2203,11 +2203,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadInteger(const AAttrName: UTF8String; ADefault: Integer): Integer;
+function TSimpleTSInfoTree.ReadInteger(const AAttrPath: UTF8String; ADefault: Integer): Integer;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2216,11 +2216,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadFloat(const AAttrName: UTF8String; ADefault: Double): Double;
+function TSimpleTSInfoTree.ReadFloat(const AAttrPath: UTF8String; ADefault: Double): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2229,11 +2229,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadFloat(const AAttrName: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double;
+function TSimpleTSInfoTree.ReadFloat(const AAttrPath: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2242,11 +2242,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadCurrency(const AAttrName: UTF8String; ADefault: Currency): Currency;
+function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2255,11 +2255,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadCurrency(const AAttrName: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency;
+function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2268,11 +2268,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadString(const AAttrName, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
+function TSimpleTSInfoTree.ReadString(const AAttrPath, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2281,11 +2281,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2294,11 +2294,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadDateTime(const AAttrName, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2307,11 +2307,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadPoint(const AAttrName: UTF8String; ADefault: TPoint): TPoint;
+function TSimpleTSInfoTree.ReadPoint(const AAttrPath: UTF8String; ADefault: TPoint): TPoint;
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead = nil then
     Result := ADefault
@@ -2320,24 +2320,24 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadList(const AAttrName: UTF8String; AList: TStrings);
+procedure TSimpleTSInfoTree.ReadList(const AAttrPath: UTF8String; AList: TStrings);
 var
   attrRead: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead <> nil then
     ValueToList(attrRead.Value, AList);
 end;
 
 
-procedure TSimpleTSInfoTree.ReadBuffer(const AAttrName: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadBuffer(const AAttrPath: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
 begin
   if ASize > 0 then
   begin
-    attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+    attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
     if attrRead <> nil then
       ValueToBuffer(attrRead.Value, ABuffer, ASize, AOffset);
@@ -2345,12 +2345,12 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadStream(const AAttrName: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrName), False);
+  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead <> nil then
   begin
