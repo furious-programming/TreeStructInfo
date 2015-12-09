@@ -408,12 +408,12 @@ type
     function CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
     function CreateLink(const ANodePath, AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
   public
-    procedure ClearChildNode(const ANodePath: UTF8String = '');
+    procedure ClearChildNode(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
     procedure ClearTree();
   public
-    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
+    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
-    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
+    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
     procedure RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
@@ -2498,7 +2498,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ClearChildNode(const ANodePath: UTF8String);
+procedure TSimpleTSInfoTree.ClearChildNode(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2541,7 +2541,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = ''): Boolean;
+function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2573,7 +2573,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = ''): Boolean;
+function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
