@@ -1,7 +1,7 @@
 ![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
 *Copyright © Jaroslaw Baran, furious programming 2011 - 2015*
 
-Latest API release: [TreeStructInfo 2.0 beta](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0-beta)<br/><br/>
+Latest API release: [TreeStructInfo 2.0 beta 2](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0-beta.2)<br/><br/>
 
 This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](http://treestruct.info/pl/format/2.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
 
