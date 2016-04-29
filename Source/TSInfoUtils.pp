@@ -52,7 +52,7 @@ uses
   function RemoveWhitespaceChars(const AValue: String): String;
 
   function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
-  function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
+  function GlueStrings(const AMask: String; const AStrings: array of String): String;
 
   procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
 
@@ -198,11 +198,11 @@ begin
 end;
 
 
-function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
+function GlueStrings(const AMask: String; const AStrings: array of String): String;
 const
-  MASK_FORMAT_CHAR = UTF8Char('%');
+  MASK_FORMAT_CHAR = '%';
 var
-  pchrToken, pchrLast: PUTF8Char;
+  pchrToken, pchrLast: PChar;
   intStringIdx: Integer = 0;
   intResultLen: Integer = 0;
   intStringLen: Integer;
