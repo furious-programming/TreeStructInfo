@@ -149,24 +149,24 @@ type
   private
     FLinkedTree: TSimpleTSInfoTree;
     FVirtualNode: TTSInfoNode;
-    FVirtualNodeName: UTF8String;
-    FComment: UTF8String;
+    FVirtualNodeName: String;
+    FComment: String;
   private
-    procedure SetVirtualNodeName(const AVirtualNodeName: UTF8String);
+    procedure SetVirtualNodeName(const AVirtualNodeName: String);
     procedure SetLinkedTreeModes(AModes: TTreeModes);
-    procedure SetComment(const AComment: UTF8String);
+    procedure SetComment(const AComment: String);
   private
-    function GetLinkedFileName(): UTF8String;
+    function GetLinkedFileName(): String;
     function GetLinkedTreeModes(): TTreeModes;
   public
-    constructor Create(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String);
+    constructor Create(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String);
     destructor Destroy(); override;
   public
     property LinkedTree: TSimpleTSInfoTree read FLinkedTree;
     property VirtualNode: TTSInfoNode read FVirtualNode;
-    property VirtualNodeName: UTF8String read FVirtualNodeName write SetVirtualNodeName;
-    property Comment: UTF8String read FComment write SetComment;
-    property FileName: UTF8String read GetLinkedFileName;
+    property VirtualNodeName: String read FVirtualNodeName write SetVirtualNodeName;
+    property Comment: String read FComment write SetComment;
+    property FileName: String read GetLinkedFileName;
     property TreeModes: TTreeModes read GetLinkedTreeModes write SetLinkedTreeModes;
   end;
 
@@ -903,7 +903,7 @@ end;
 { ----- TTSInfoLink class ----------------------------------------------------------------------------------------- }
 
 
-constructor TTSInfoLink.Create(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String);
+constructor TTSInfoLink.Create(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String);
 begin
   inherited Create();
 
@@ -925,7 +925,7 @@ begin
 end;
 
 
-procedure TTSInfoLink.SetVirtualNodeName(const AVirtualNodeName: UTF8String);
+procedure TTSInfoLink.SetVirtualNodeName(const AVirtualNodeName: String);
 begin
   FVirtualNodeName := AVirtualNodeName;
 end;
@@ -937,13 +937,13 @@ begin
 end;
 
 
-procedure TTSInfoLink.SetComment(const AComment: UTF8String);
+procedure TTSInfoLink.SetComment(const AComment: String);
 begin
   FComment := AComment;
 end;
 
 
-function TTSInfoLink.GetLinkedFileName(): UTF8String;
+function TTSInfoLink.GetLinkedFileName(): String;
 begin
   Result := FLinkedTree.FileName;
 end;
