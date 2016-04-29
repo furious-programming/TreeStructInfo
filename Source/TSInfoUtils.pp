@@ -1,6 +1,6 @@
 {
 
-    TSInfoUtils.pp                 last modified: 29 April 2016
+    TSInfoUtils.pp                 last modified: 30 April 2016
 
     Copyright © Jaroslaw Baran, furious programming 2011 - 2016.
     All rights reserved.
@@ -423,14 +423,14 @@ begin
     pchrToken := @AValue[1];
     pchrLast := @AValue[Length(AValue)];
 
-    if pchrToken^ in ['a' .. 'z'] then
+    if pchrToken^ in SMALL_LETTERS then
       Dec(pchrToken^, 32);
 
     Inc(pchrToken);
 
     while pchrToken <= pchrLast do
     begin
-      if pchrToken^ in ['A' .. 'Z'] then
+      if pchrToken^ in CAPITAL_LETTERS then
         Inc(pchrToken^, 32);
 
       Inc(pchrToken);
@@ -520,10 +520,10 @@ begin
     begin
       Inc(pchrToken);
 
-      if pchrToken^ in ['A' .. 'Z'] then
+      if pchrToken^ in CAPITAL_LETTERS then
         Inc(pchrToken^, 32);
 
-      if pchrToken^ in ['x', 'o', 'b'] then
+      if pchrToken^ in NUMERICAL_SYSTEM_CHARS then
       begin
         case pchrToken^ of
           'x': fiNumericalFormat := fiHexadecimal;
@@ -594,16 +594,16 @@ begin
       pchrToken := @AValue[1];
       pchrLast := @AValue[Length(AValue)];
 
-      if pchrToken^ in ['+', '-'] then
+      if pchrToken^ in PLUS_MINUS_CHARS then
         Inc(pchrToken);
 
-      if pchrToken^ in ['a' .. 'z'] then
+      if pchrToken^ in SMALL_LETTERS then
         Dec(pchrToken^, 32);
 
       Inc(pchrToken);
 
       while (pchrToken <= pchrLast) do
-        if pchrToken^ in ['A' .. 'Z'] then
+        if pchrToken^ in CAPITAL_LETTERS then
         begin
           Inc(pchrToken^, 32);
           Inc(pchrToken);
@@ -667,7 +667,7 @@ begin
       begin
         repeat
           Dec(pchrToken);
-        until pchrToken^ in ['0' .. '9'];
+        until pchrToken^ in NUMBER_CHARS;
 
         MoveString(pchrFirst^, strValue, pchrToken - pchrFirst + 1);
       end
@@ -722,7 +722,7 @@ var
   begin
     while (pchrMaskToken < pchrMaskLast) do
     begin
-      if pchrMaskToken^ in ['a' .. 'z'] then
+      if pchrMaskToken^ in SMALL_LETTERS then
         Dec(pchrMaskToken^, 32)
       else
         if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
@@ -909,7 +909,7 @@ var
   begin
     while (pchrMaskToken < pchrMaskLast) do
     begin
-      if pchrMaskToken^ in ['a' .. 'z'] then
+      if pchrMaskToken^ in SMALL_LETTERS then
         Dec(pchrMaskToken^, 32)
       else
         if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
@@ -1152,7 +1152,7 @@ function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
       intNegativeOffset := Ord(AFirst^ = '-');
       pchrSystem := AFirst + intNegativeOffset;
 
-      if (pchrSystem^ = '0') and (PChar(pchrSystem + 1)^ in ['x', 'o', 'b']) then
+      if (pchrSystem^ = '0') and (PChar(pchrSystem + 1)^ in NUMERICAL_SYSTEM_CHARS) then
       begin
         Inc(pchrSystem);
 
@@ -1320,10 +1320,10 @@ begin
 
     while (pchrByte <= pchrBufferLast) and (pchrByte <= pchrValueLast) do
     begin
-      if pchrByte^ in ['0' .. '9'] then
+      if pchrByte^ in NUMBER_CHARS then
         Dec(pchrByte^, 48)
       else
-        if pchrByte^ in ['A' .. 'F'] then
+        if pchrByte^ in HEX_LETTERS then
           Dec(pchrByte^, 55)
         else
           Exit();
