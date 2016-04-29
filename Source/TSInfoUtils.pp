@@ -65,7 +65,7 @@ uses
   function ExtractPathComponent(const AAttrName: String; AComponent: TPathComponent): String;
   procedure ExtractValueComponents(const AValue: String; out AComponents: TValueComponents; out ACount: Integer);
 
-  function IsCurrentNodePath(const APath: UTF8String): Boolean;
+  function IsCurrentNodePath(const APath: String): Boolean;
   function PathWithoutLastNodeName(const APath: UTF8String): UTF8String;
 
 
@@ -376,7 +376,7 @@ begin
 end;
 
 
-function IsCurrentNodePath(const APath: UTF8String): Boolean;
+function IsCurrentNodePath(const APath: String): Boolean;
 begin
   Result := (APath = '') or (APath = CURRENT_NODE_SYMBOL);
 end;
