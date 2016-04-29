@@ -325,7 +325,7 @@ type
     function GetTreeAtIndex(AIndex: Integer): TSimpleTSInfoTree;
   public
     procedure AddTree(ATree: TSimpleTSInfoTree);
-    function FileNotYetBeenProcessed(const AFileName: UTF8String): Boolean;
+    function FileNotYetBeenProcessed(const AFileName: String): Boolean;
   public
     property Tree[AIndex: Integer]: TSimpleTSInfoTree read GetTreeAtIndex;
   end;
@@ -1481,10 +1481,10 @@ begin
 end;
 
 
-function TTSInfoProcessedTreesList.FileNotYetBeenProcessed(const AFileName: UTF8String): Boolean;
+function TTSInfoProcessedTreesList.FileNotYetBeenProcessed(const AFileName: String): Boolean;
 var
   treeRead: TSimpleTSInfoTree;
-  strFullInputFileName, strFullTreeFileName: UTF8String;
+  strFullInputFileName, strFullTreeFileName: String;
   intTreeIdx: Integer;
 begin
   if FCount > 0 then
