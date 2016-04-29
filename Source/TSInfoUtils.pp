@@ -82,7 +82,7 @@ uses
   function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
 
   function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
-  function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
+  function ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 
   function StringToValue(const AString: UTF8String; AFormat: TFormatString): UTF8String;
   function ValueToString(const AValue: UTF8String; AFormat: TFormatString): UTF8String;
@@ -636,11 +636,11 @@ begin
 end;
 
 
-function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
+function ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 var
   intValueLen, intCurrStringLen: Integer;
-  pchrFirst, pchrToken, pchrLast: PUTF8Char;
-  strValue: UTF8String;
+  pchrFirst, pchrToken, pchrLast: PChar;
+  strValue: String;
 begin
   intValueLen := Length(AValue);
 
