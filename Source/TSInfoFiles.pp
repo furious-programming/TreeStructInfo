@@ -48,8 +48,7 @@ unit TSInfoFiles;
 interface
 
 uses
-  TSInfoConsts, TSInfoTypes, TSInfoUtils,
-  LResources, LazUTF8, Classes, SysUtils, FileUtil, Types;
+  TSInfoConsts, TSInfoTypes, TSInfoUtils, LResources, LazUTF8, Classes, SysUtils, FileUtil, Types;
 
 
 { ----- basic elements classes ------------------------------------------------------------------------------------ }
