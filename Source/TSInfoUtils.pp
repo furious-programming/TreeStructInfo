@@ -93,8 +93,8 @@ uses
   function PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
   function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
 
-  procedure ListToValue(AList: TStrings; out AValue: UTF8String);
-  procedure ValueToList(const AValue: UTF8String; AList: TStrings);
+  procedure ListToValue(AList: TStrings; out AValue: String);
+  procedure ValueToList(const AValue: String; AList: TStrings);
 
   procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: UTF8String; AFormat: TFormatBuffer);
   procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
@@ -1207,7 +1207,7 @@ end;
 { ----- list conversions ------------------------------------------------------------------------------------------ }
 
 
-procedure ListToValue(AList: TStrings; out AValue: UTF8String);
+procedure ListToValue(AList: TStrings; out AValue: String);
 var
   intLineIdx: Integer;
 begin
@@ -1226,7 +1226,7 @@ begin
 end;
 
 
-procedure ValueToList(const AValue: UTF8String; AList: TStrings);
+procedure ValueToList(const AValue: String; AList: TStrings);
 var
   vcList: TValueComponents;
   intLinesCnt, intLineIdx: Integer;
