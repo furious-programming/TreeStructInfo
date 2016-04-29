@@ -3,7 +3,8 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="TreeStructInfo"/>
-    <Author Value="Copyright © Jaroslaw Baran, furious programming 2011 - 2015. All rights reserved."/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Copyright © Jaroslaw Baran, furious programming 2011 - 2016. All rights reserved."/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
@@ -18,10 +19,6 @@
       </Linking>
       <Other>
         <WriteFPCLogo Value="False"/>
-        <CompilerMessages>
-          <MsgFileName Value=""/>
-        </CompilerMessages>
-        <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
     <Description Value="This package contains a source to handle the TreeStructInfo configuration files in format version 2.0.
@@ -30,7 +27,7 @@ For more information about TreeStructInfo file format and the following library,
 
 You can write to &lt;support@treestruct.info> if you have any questions, or to &lt;bugs@treestruct.info> if you find a bugs in this library. Also you can write to &lt;join@treestruct.info> if you use this package and TreeStructInfo files and want to it announce publicly.
 
-Package version: 2.0 beta 2"/>
+Package version: 2.0 beta 3"/>
     <License Value="This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
@@ -62,7 +59,6 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>."/>
         <UnitName Value="TSInfoFiles"/>
       </Item4>
     </Files>
-    <Type Value="RunTimeOnly"/>
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="LCL"/>
