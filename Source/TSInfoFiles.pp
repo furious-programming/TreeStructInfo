@@ -58,23 +58,23 @@ type
   TTSInfoAttribute = class(TObject)
   private
     FReference: Boolean;
-    FName: UTF8String;
-    FValue: UTF8String;
+    FName: String;
+    FValue: String;
     FComment: TComment;
   private
-    procedure SetName(const AName: UTF8String);
-    procedure SetValue(const AValue: UTF8String);
+    procedure SetName(const AName: String);
+    procedure SetValue(const AValue: String);
   private
-    function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
+    function GetComment(AType: TCommentType): String;
+    procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    constructor Create(AReference: Boolean; const AName: UTF8String); overload;
-    constructor Create(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment); overload;
+    constructor Create(AReference: Boolean; const AName: String); overload;
+    constructor Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment); overload;
   public
     property Reference: Boolean read FReference write FReference;
-    property Name: UTF8String read FName write SetName;
-    property Value: UTF8String read FValue write SetValue;
-    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
+    property Name: String read FName write SetName;
+    property Value: String read FValue write SetValue;
+    property Comment[AType: TCommentType]: String read GetComment write SetComment;
   end;
 
 
@@ -676,7 +676,7 @@ implementation
 { ----- TTSInfoAttribute class ------------------------------------------------------------------------------------ }
 
 
-constructor TTSInfoAttribute.Create(AReference: Boolean; const AName: UTF8String);
+constructor TTSInfoAttribute.Create(AReference: Boolean; const AName: String);
 begin
   inherited Create();
 
@@ -688,7 +688,7 @@ begin
 end;
 
 
-constructor TTSInfoAttribute.Create(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment);
+constructor TTSInfoAttribute.Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment);
 begin
   inherited Create();
 
@@ -699,25 +699,25 @@ begin
 end;
 
 
-procedure TTSInfoAttribute.SetName(const AName: UTF8String);
+procedure TTSInfoAttribute.SetName(const AName: String);
 begin
   FName := AName;
 end;
 
 
-procedure TTSInfoAttribute.SetValue(const AValue: UTF8String);
+procedure TTSInfoAttribute.SetValue(const AValue: String);
 begin
   FValue := AValue;
 end;
 
 
-function TTSInfoAttribute.GetComment(AType: TCommentType): UTF8String;
+function TTSInfoAttribute.GetComment(AType: TCommentType): String;
 begin
   Result := FComment[AType];
 end;
 
 
-procedure TTSInfoAttribute.SetComment(AType: TCommentType; const AComment: UTF8String);
+procedure TTSInfoAttribute.SetComment(AType: TCommentType; const AComment: String);
 begin
   FComment[AType] := AComment;
 end;
