@@ -561,7 +561,12 @@ begin
   if IsInfinite(AFloat) then
   begin
     if AFloat = Infinity then
-      Exit(IfThen(boolMustBeSigned, SIGNED_INFINITY_VALUE, UNSIGNED_INFINITY_VALUE))
+    begin
+      if boolMustBeSigned then
+        Exit(SIGNED_INFINITY_VALUE)
+      else
+        Exit(UNSIGNED_INFINITY_VALUE);
+    end
     else
       Exit(NEGATIVE_INFINITY_VALUE);
   end
