@@ -63,7 +63,7 @@ uses
   function ExcludeTrailingIdentsDelimiter(const APath: String): String;
 
   function ExtractPathComponent(const AAttrName: String; AComponent: TPathComponent): String;
-  procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
+  procedure ExtractValueComponents(const AValue: String; out AComponents: TValueComponents; out ACount: Integer);
 
   function IsCurrentNodePath(const APath: UTF8String): Boolean;
   function PathWithoutLastNodeName(const APath: UTF8String): UTF8String;
@@ -337,25 +337,21 @@ begin
 end;
 
 
-procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
-
-  procedure AddComponent(ASource: PUTF8Char; ALength: UInt32); inline;
-  begin
-    SetLength(AComponents, ACount + 1);
-    MoveString(ASource^, AComponents[ACount], ALength);
-    Inc(ACount);
-  end;
-
+procedure ExtractValueComponents(const AValue: String; out AComponents: TValueComponents; out ACount: Integer);
 var
-  pchrBegin, pchrToken, pchrLast: PUTF8Char;
-  strValue: UTF8String;
+  pchrBegin, pchrToken, pchrLast: PChar;
+  strValue: String;
 begin
   ACount := 0;
   SetLength(AComponents, 0);
 
   if AValue <> '' then
     if AValue = ONE_BLANK_VALUE_LINE_CHAR then
-      AddComponent(PUTF8Char(ONE_BLANK_VALUE_LINE_CHAR), 1)
+    begin
+      SetLength(AComponents, 1);
+      AComponents[0] := ONE_BLANK_VALUE_LINE_CHAR;
+      ACount := 1;
+    end
     else
     begin
       strValue := AValue + VALUES_DELIMITER;
@@ -367,7 +363,10 @@ begin
       while pchrToken <= pchrLast do
         if pchrToken^ = VALUES_DELIMITER then
         begin
-          AddComponent(pchrBegin, pchrToken - pchrBegin);
+          SetLength(AComponents, ACount + 1);
+          MoveString(pchrBegin^, AComponents[ACount], pchrToken - pchrBegin);
+          Inc(ACount);
+
           Inc(pchrToken);
           pchrBegin := pchrToken;
         end
