@@ -1,8 +1,8 @@
 ﻿{
 
-    TSInfoFiles.pp               last modified: 9 December 2015
+    TSInfoFiles.pp                 last modified: 29 April 2016
 
-    Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
+    Copyright © Jaroslaw Baran, furious programming 2011 - 2016.
     All rights reserved.
    __________________________________________________________________________
 
