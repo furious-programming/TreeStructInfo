@@ -339,10 +339,10 @@ type
   private
     FRootNode: TTSInfoNode;
     FCurrentNode: TTSInfoNode;
-    FFileName: UTF8String;
-    FTreeName: UTF8String;
-    FTreeComment: UTF8String;
-    FCurrentlyOpenNodePath: UTF8String;
+    FFileName: String;
+    FTreeName: String;
+    FTreeComment: String;
+    FCurrentlyOpenNodePath: String;
     FTreeModes: TTreeModes;
     FModified: Boolean;
     FReadOnly: Boolean;
@@ -355,75 +355,75 @@ type
     procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
     procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
   private
-    function FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
-    function FindAttribute(const AAttrPath: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
-    function FindNode(const ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
+    function FindElement(const AElementName: String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
+    function FindAttribute(const AAttrPath: String; AForcePath: Boolean): TTSInfoAttribute;
+    function FindNode(const ANodePath: String; AForcePath: Boolean): TTSInfoNode;
   public
     constructor Create();
-    constructor Create(const AFileName: UTF8String; AModes: TTreeModes);
+    constructor Create(const AFileName: String; AModes: TTreeModes);
   public
     destructor Destroy(); override;
   public
-    procedure LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
-    procedure LoadFromList(AList: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
-    procedure LoadFromStream(AStream: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
-    procedure LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
-    procedure LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []); overload;
-    procedure LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+    procedure LoadFromFile(const AFileName: String; AModes: TTreeModes = []);
+    procedure LoadFromList(AList: TStrings; const AFileName: String = ''; AModes: TTreeModes = []);
+    procedure LoadFromStream(AStream: TStream; const AFileName: String = ''; AModes: TTreeModes = []);
+    procedure LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []); overload;
+    procedure LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []); overload;
+    procedure LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []);
   public
-    function OpenChildNode(const ANodePath: UTF8String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
+    function OpenChildNode(const ANodePath: String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
     procedure GoToParentNode(AKeepReadOnlyMode: Boolean = True);
     procedure CloseChildNode();
   public
-    procedure WriteBoolean(const AAttrPath: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
-    procedure WriteInteger(const AAttrPath: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
-    procedure WriteFloat(const AAttrPath: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
-    procedure WriteFloat(const AAttrPath: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
-    procedure WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
-    procedure WriteString(const AAttrPath, AString: UTF8String; AFormat: TFormatString = fsOriginal);
-    procedure WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime); overload;
-    procedure WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings); overload;
-    procedure WritePoint(const AAttrPath: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
-    procedure WriteList(const AAttrPath: UTF8String; AList: TStrings);
-    procedure WriteBuffer(const AAttrPath: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
-    procedure WriteStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
+    procedure WriteBoolean(const AAttrPath: String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+    procedure WriteInteger(const AAttrPath: String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+    procedure WriteFloat(const AAttrPath: String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
+    procedure WriteFloat(const AAttrPath: String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral); overload;
+    procedure WriteCurrency(const AAttrPath: String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
+    procedure WriteCurrency(const AAttrPath: String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice); overload;
+    procedure WriteString(const AAttrPath, AString: String; AFormat: TFormatString = fsOriginal);
+    procedure WriteDateTime(const AAttrPath, AMask: String; ADateTime: TDateTime); overload;
+    procedure WriteDateTime(const AAttrPath, AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings); overload;
+    procedure WritePoint(const AAttrPath: String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+    procedure WriteList(const AAttrPath: String; AList: TStrings);
+    procedure WriteBuffer(const AAttrPath: String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+    procedure WriteStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
   public
-    function ReadBoolean(const AAttrPath: UTF8String; ADefault: Boolean): Boolean;
-    function ReadInteger(const AAttrPath: UTF8String; ADefault: Integer): Integer;
-    function ReadFloat(const AAttrPath: UTF8String; ADefault: Double): Double; overload;
-    function ReadFloat(const AAttrPath: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double; overload;
-    function ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency): Currency; overload;
-    function ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
-    function ReadString(const AAttrPath, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
-    function ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime): TDateTime; overload;
-    function ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
-    function ReadPoint(const AAttrPath: UTF8String; ADefault: TPoint): TPoint;
-    procedure ReadList(const AAttrPath: UTF8String; AList: TStrings);
-    procedure ReadBuffer(const AAttrPath: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
-    procedure ReadStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+    function ReadBoolean(const AAttrPath: String; ADefault: Boolean): Boolean;
+    function ReadInteger(const AAttrPath: String; ADefault: Integer): Integer;
+    function ReadFloat(const AAttrPath: String; ADefault: Double): Double; overload;
+    function ReadFloat(const AAttrPath: String; ADefault: Double; ASettings: TFormatSettings): Double; overload;
+    function ReadCurrency(const AAttrPath: String; ADefault: Currency): Currency; overload;
+    function ReadCurrency(const AAttrPath: String; ADefault: Currency; ASettings: TFormatSettings): Currency; overload;
+    function ReadString(const AAttrPath, ADefault: String; AFormat: TFormatString = fsOriginal): String;
+    function ReadDateTime(const AAttrPath, AMask: String; ADefault: TDateTime): TDateTime; overload;
+    function ReadDateTime(const AAttrPath, AMask: String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime; overload;
+    function ReadPoint(const AAttrPath: String; ADefault: TPoint): TPoint;
+    procedure ReadList(const AAttrPath: String; AList: TStrings);
+    procedure ReadBuffer(const AAttrPath: String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+    procedure ReadStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
   public
-    function CreateAttribute(const ANodePath: UTF8String; AReference: Boolean; const AAttrName: UTF8String): Boolean;
-    function CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean = False): Boolean;
-    function CreateLink(const ANodePath, AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
+    function CreateAttribute(const ANodePath: String; AReference: Boolean; const AAttrName: String): Boolean;
+    function CreateChildNode(const ANodePath: String; AReference: Boolean; const ANodeName: String; AOpen: Boolean = False): Boolean;
+    function CreateLink(const ANodePath, AFileName, AVirtualNodeName: String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
   public
-    procedure ClearChildNode(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+    procedure ClearChildNode(const ANodePath: String = CURRENT_NODE_SYMBOL);
     procedure ClearTree();
   public
-    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
+    function FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: String = CURRENT_NODE_SYMBOL): Boolean;
     function FindNextAttribute(var AAttrToken: TTSInfoAttributeToken): Boolean;
-    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
+    function FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: String = CURRENT_NODE_SYMBOL): Boolean;
     function FindNextChildNode(var ANodeToken: TTSInfoChildNodeToken): Boolean;
   public
-    procedure RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
-    procedure RenameChildNodeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameAttributeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
+    procedure RenameChildNodeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
   public
-    property FileName: UTF8String read FFileName;
-    property TreeName: UTF8String read FTreeName;
-    property CurrentlyOpenNodeName: UTF8String read FCurrentNode.FName;
-    property CurrentlyOpenNodePath: UTF8String read FCurrentlyOpenNodePath;
+    property FileName: String read FFileName;
+    property TreeName: String read FTreeName;
+    property CurrentlyOpenNodeName: String read FCurrentNode.FName;
+    property CurrentlyOpenNodePath: String read FCurrentlyOpenNodePath;
     property TreeModes: TTreeModes read FTreeModes write FTreeModes;
     property Modified: Boolean read FModified;
     property ReadOnly: Boolean read FReadOnly;
@@ -1519,7 +1519,7 @@ begin
 end;
 
 
-constructor TSimpleTSInfoTree.Create(const AFileName: UTF8String; AModes: TTreeModes);
+constructor TSimpleTSInfoTree.Create(const AFileName: String; AModes: TTreeModes);
 begin
   inherited Create();
   InitFields();
@@ -1609,12 +1609,12 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindElement(const AElementName: UTF8String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
+function TSimpleTSInfoTree.FindElement(const AElementName: String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
 var
   nodeRead, nodeTemp: TTSInfoNode;
-  pchrNameBegin, pchrNameEnd, pchrLast: PUTF8Char;
+  pchrNameBegin, pchrNameEnd, pchrLast: PChar;
   intPathLen: Integer;
-  strName: UTF8String;
+  strName: String;
 begin
   Result := nil;
   intPathLen := Length(AElementName);
@@ -1678,19 +1678,19 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindAttribute(const AAttrPath: UTF8String; AForcePath: Boolean): TTSInfoAttribute;
+function TSimpleTSInfoTree.FindAttribute(const AAttrPath: String; AForcePath: Boolean): TTSInfoAttribute;
 begin
   Result := FindElement(AAttrPath, AForcePath, True) as TTSInfoAttribute;
 end;
 
 
-function TSimpleTSInfoTree.FindNode(const ANodePath: UTF8String; AForcePath: Boolean): TTSInfoNode;
+function TSimpleTSInfoTree.FindNode(const ANodePath: String; AForcePath: Boolean): TTSInfoNode;
 begin
   Result := FindElement(ANodePath, AForcePath, False) as TTSInfoNode;
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: UTF8String; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: String; AModes: TTreeModes = []);
 var
   fsInput: TFileStream;
   slInput: TStringList;
@@ -1739,7 +1739,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromList(AList: TStrings; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromList(AList: TStrings; const AFileName: String = ''; AModes: TTreeModes = []);
 begin
   FFileName := AFileName;
   FTreeModes := AModes - [tmAllowLinking];
@@ -1749,7 +1749,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromStream(AStream: TStream; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromStream(AStream: TStream; const AFileName: String = ''; AModes: TTreeModes = []);
 var
   slInput: TStringList;
 begin
@@ -1773,7 +1773,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []);
 var
   rsInput: TResourceStream;
   slInput: TStringList;
@@ -1803,7 +1803,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; AResID: Integer; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []);
 var
   rsInput: TResourceStream;
   slInput: TStringList;
@@ -1833,7 +1833,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: UTF8String = ''; AModes: TTreeModes = []);
+procedure TSimpleTSInfoTree.LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []);
 var
   lrsInput: TLazarusResourceStream;
   slInput: TStringList;
@@ -1863,10 +1863,10 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.OpenChildNode(const ANodePath: UTF8String; AReadOnly: Boolean; ACanCreate: Boolean): Boolean;
+function TSimpleTSInfoTree.OpenChildNode(const ANodePath: String; AReadOnly: Boolean; ACanCreate: Boolean): Boolean;
 var
   nodeOpen: TTSInfoNode;
-  strNodePath: UTF8String;
+  strNodePath: String;
 begin
   strNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
 
@@ -1926,7 +1926,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteBoolean(const AAttrPath: UTF8String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
+procedure TSimpleTSInfoTree.WriteBoolean(const AAttrPath: String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1945,7 +1945,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteInteger(const AAttrPath: UTF8String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
+procedure TSimpleTSInfoTree.WriteInteger(const AAttrPath: String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1964,7 +1964,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: UTF8String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -1983,7 +1983,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: UTF8String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
+procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: String; ADouble: Double; ASettings: TFormatSettings; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2002,7 +2002,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: String; ACurrency: Currency; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2021,7 +2021,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: UTF8String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
+procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2040,7 +2040,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteString(const AAttrPath, AString: UTF8String; AFormat: TFormatString = fsOriginal);
+procedure TSimpleTSInfoTree.WriteString(const AAttrPath, AString: String; AFormat: TFormatString = fsOriginal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2059,7 +2059,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: String; ADateTime: TDateTime);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2078,7 +2078,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings);
+procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2097,7 +2097,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WritePoint(const AAttrPath: UTF8String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
+procedure TSimpleTSInfoTree.WritePoint(const AAttrPath: String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
 var
   attrWrite: TTSInfoAttribute;
 begin
@@ -2116,10 +2116,10 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteList(const AAttrPath: UTF8String; AList: TStrings);
+procedure TSimpleTSInfoTree.WriteList(const AAttrPath: String; AList: TStrings);
 var
   attrWrite: TTSInfoAttribute;
-  strValue: UTF8String;
+  strValue: String;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -2137,10 +2137,10 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteBuffer(const AAttrPath: UTF8String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteBuffer(const AAttrPath: String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
-  strValue: UTF8String = '';
+  strValue: String = '';
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -2161,11 +2161,11 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.WriteStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
+procedure TSimpleTSInfoTree.WriteStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
-  strValue: UTF8String = '';
+  strValue: String = '';
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -2189,7 +2189,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadBoolean(const AAttrPath: UTF8String; ADefault: Boolean): Boolean;
+function TSimpleTSInfoTree.ReadBoolean(const AAttrPath: String; ADefault: Boolean): Boolean;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2202,7 +2202,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadInteger(const AAttrPath: UTF8String; ADefault: Integer): Integer;
+function TSimpleTSInfoTree.ReadInteger(const AAttrPath: String; ADefault: Integer): Integer;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2215,7 +2215,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadFloat(const AAttrPath: UTF8String; ADefault: Double): Double;
+function TSimpleTSInfoTree.ReadFloat(const AAttrPath: String; ADefault: Double): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2228,7 +2228,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadFloat(const AAttrPath: UTF8String; ADefault: Double; ASettings: TFormatSettings): Double;
+function TSimpleTSInfoTree.ReadFloat(const AAttrPath: String; ADefault: Double; ASettings: TFormatSettings): Double;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2241,7 +2241,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency): Currency;
+function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: String; ADefault: Currency): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2254,7 +2254,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: UTF8String; ADefault: Currency; ASettings: TFormatSettings): Currency;
+function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: String; ADefault: Currency; ASettings: TFormatSettings): Currency;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2267,7 +2267,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadString(const AAttrPath, ADefault: UTF8String; AFormat: TFormatString = fsOriginal): UTF8String;
+function TSimpleTSInfoTree.ReadString(const AAttrPath, ADefault: String; AFormat: TFormatString = fsOriginal): String;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2280,7 +2280,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: String; ADefault: TDateTime): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2293,7 +2293,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: UTF8String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
+function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: String; ADefault: TDateTime; ASettings: TFormatSettings): TDateTime;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2306,7 +2306,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.ReadPoint(const AAttrPath: UTF8String; ADefault: TPoint): TPoint;
+function TSimpleTSInfoTree.ReadPoint(const AAttrPath: String; ADefault: TPoint): TPoint;
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2319,7 +2319,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadList(const AAttrPath: UTF8String; AList: TStrings);
+procedure TSimpleTSInfoTree.ReadList(const AAttrPath: String; AList: TStrings);
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2330,7 +2330,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadBuffer(const AAttrPath: UTF8String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadBuffer(const AAttrPath: String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
 begin
@@ -2344,7 +2344,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ReadStream(const AAttrPath: UTF8String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
+procedure TSimpleTSInfoTree.ReadStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
   arrBuffer: TByteDynArray;
@@ -2361,7 +2361,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateAttribute(const ANodePath: UTF8String; AReference: Boolean; const AAttrName: UTF8String): Boolean;
+function TSimpleTSInfoTree.CreateAttribute(const ANodePath: String; AReference: Boolean; const AAttrName: String): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2385,10 +2385,10 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateChildNode(const ANodePath: UTF8String; AReference: Boolean; const ANodeName: UTF8String; AOpen: Boolean): Boolean;
+function TSimpleTSInfoTree.CreateChildNode(const ANodePath: String; AReference: Boolean; const ANodeName: String; AOpen: Boolean): Boolean;
 var
   nodeParent, nodeCreate: TTSInfoNode;
-  strNodePath, strNodeNameAsPath: UTF8String;
+  strNodePath, strNodeNameAsPath: String;
   boolPathIsSymbol: Boolean;
 begin
   Result := ValidIdentifier(ANodeName);
@@ -2438,11 +2438,11 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.CreateLink(const ANodePath, AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
+function TSimpleTSInfoTree.CreateLink(const ANodePath, AFileName, AVirtualNodeName: String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
 var
   nodeParent: TTSInfoNode;
   linkCreate: TTSInfoLink;
-  strNodePath, strVirtualNodeNameAsPath: UTF8String;
+  strNodePath, strVirtualNodeNameAsPath: String;
   boolPathIsSymbol: Boolean;
 begin
   Result := False;
@@ -2497,7 +2497,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.ClearChildNode(const ANodePath: UTF8String = CURRENT_NODE_SYMBOL);
+procedure TSimpleTSInfoTree.ClearChildNode(const ANodePath: String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2540,7 +2540,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
+function TSimpleTSInfoTree.FindFirstAttribute(out AAttrToken: TTSInfoAttributeToken; const AParentNodePath: String = CURRENT_NODE_SYMBOL): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2572,7 +2572,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: UTF8String = CURRENT_NODE_SYMBOL): Boolean;
+function TSimpleTSInfoTree.FindFirstChildNode(out ANodeToken: TTSInfoChildNodeToken; const AParentNodePath: String = CURRENT_NODE_SYMBOL): Boolean;
 var
   nodeParent: TTSInfoNode;
 begin
@@ -2604,7 +2604,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.RenameAttributeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
+procedure TSimpleTSInfoTree.RenameAttributeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
 var
   nodeParent: TTSInfoNode;
   attrRename: TTSInfoAttribute;
@@ -2635,7 +2635,7 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.RenameChildNodeTokens(const ANodePath, ATokenName: UTF8String; AStartIndex: Integer; ADirection: TRenamingDirection);
+procedure TSimpleTSInfoTree.RenameChildNodeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
 var
   nodeParent, nodeRename: TTSInfoNode;
   intToken, intStep: Integer;
