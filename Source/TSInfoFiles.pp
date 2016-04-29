@@ -288,18 +288,18 @@ type
 type
   TTSInfoLinksList = class(TTSInfoElementsList)
   private
-    function InternalAddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
+    function InternalAddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
   public
     constructor Create();
   public
-    function GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink; overload;
+    function GetLink(const AVirtualNodeName: String): TTSInfoLink; overload;
     function GetLink(AIndex: Integer): TTSInfoLink; overload;
-    function GetVirtualNode(const AName: UTF8String): TTSInfoNode;
+    function GetVirtualNode(const AName: String): TTSInfoNode;
   public
-    function AddLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink; overload;
-    function AddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink; overload;
+    function AddLink(const AFileName, AVirtualNodeName: String): TTSInfoLink; overload;
+    function AddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink; overload;
   public
-    procedure RemoveLink(const AVirtualNodeName: UTF8String);
+    procedure RemoveLink(const AVirtualNodeName: String);
     procedure RemoveAll();
   end;
 
@@ -1330,14 +1330,14 @@ begin
 end;
 
 
-function TTSInfoLinksList.InternalAddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
+function TTSInfoLinksList.InternalAddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
 begin
   Result := TTSInfoLink.Create(AFileName, AVirtualNodeName, AModes, AComment);
   inherited AddElement(Result);
 end;
 
 
-function TTSInfoLinksList.GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink;
+function TTSInfoLinksList.GetLink(const AVirtualNodeName: String): TTSInfoLink;
 var
   linkGet: TTSInfoLink;
   intLinkIdx: Integer;
@@ -1360,7 +1360,7 @@ begin
 end;
 
 
-function TTSInfoLinksList.GetVirtualNode(const AName: UTF8String): TTSInfoNode;
+function TTSInfoLinksList.GetVirtualNode(const AName: String): TTSInfoNode;
 var
   linkGet: TTSInfoLink;
 begin
@@ -1373,19 +1373,19 @@ begin
 end;
 
 
-function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink;
+function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: String): TTSInfoLink;
 begin
   Result := InternalAddLink(AFileName, AVirtualNodeName, [], '');
 end;
 
 
-function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
+function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
 begin
   Result := InternalAddLink(AFileName, AVirtualNodeName, AModes, AComment);
 end;
 
 
-procedure TTSInfoLinksList.RemoveLink(const AVirtualNodeName: UTF8String);
+procedure TTSInfoLinksList.RemoveLink(const AVirtualNodeName: String);
 var
   linkRemove: TTSInfoLink;
   intLinkIdx: Integer;
