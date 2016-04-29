@@ -78,7 +78,7 @@ uses
   function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
   function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
 
-  function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): UTF8String;
+  function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
   function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
 
   function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
@@ -552,21 +552,16 @@ end;
 { ----- float conversions ----------------------------------------------------------------------------------------- }
 
 
-function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): UTF8String;
+function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
 var
-  boolMustBeUnsigned: Boolean;
+  boolMustBeSigned: Boolean;
 begin
-  boolMustBeUnsigned := AFormat in [ffUnsignedGeneral, ffUnsignedExponent, ffUnsignedNumber];
+  boolMustBeSigned := AFormat in [ffSignedGeneral, ffSignedExponent, ffSignedNumber];
 
   if IsInfinite(AFloat) then
   begin
     if AFloat = Infinity then
-    begin
-      if boolMustBeUnsigned then
-        Exit(UNSIGNED_INFINITY_VALUE)
-      else
-        Exit(SIGNED_INFINITY_VALUE);
-    end
+      Exit(IfThen(boolMustBeSigned, SIGNED_INFINITY_VALUE, UNSIGNED_INFINITY_VALUE))
     else
       Exit(NEGATIVE_INFINITY_VALUE);
   end
@@ -576,7 +571,7 @@ begin
 
   Result := FloatToStrF(AFloat, FLOAT_FORMATS[AFormat], 15, 10, ASettings);
 
-  if (not boolMustBeUnsigned) and (CompareValue(AFloat, 0) = GreaterThanValue) then
+  if boolMustBeSigned and (CompareValue(AFloat, 0) = GreaterThanValue) then
     Result := '+' + Result;
 end;
 
