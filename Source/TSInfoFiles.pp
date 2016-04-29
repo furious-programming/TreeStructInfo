@@ -648,7 +648,7 @@ type
     FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
-    procedure WriteUTF8StringBuffer(const ABuffer: UTF8String);
+    procedure WriteStringBuffer(const ABuffer: String);
     procedure WriteBooleanBuffer(ABuffer: Boolean);
     procedure WriteUInt8Buffer(ABuffer: UInt8);
     procedure WriteUInt32Buffer(ABuffer: UInt32);
@@ -4788,7 +4788,7 @@ begin
 end;
 
 
-procedure TTSInfoBinaryOutputWriter.WriteUTF8StringBuffer(const ABuffer: UTF8String);
+procedure TTSInfoBinaryOutputWriter.WriteStringBuffer(const ABuffer: String);
 var
   intBufferLen: UInt32;
 begin
@@ -4832,8 +4832,8 @@ begin
   WriteUInt8Buffer(SUPPORTED_FORMAT_VERSION_MAJOR);
   WriteUInt8Buffer(SUPPORTED_FORMAT_VERSION_MINOR);
 
-  WriteUTF8StringBuffer(FTSInfoTree.FTreeName);
-  WriteUTF8StringBuffer(FTSInfoTree.FTreeComment);
+  WriteStringBuffer(FTSInfoTree.FTreeName);
+  WriteStringBuffer(FTSInfoTree.FTreeComment);
 end;
 
 
@@ -4866,11 +4866,11 @@ procedure TTSInfoBinaryOutputWriter.WriteAttribute(AAttribute: TTSInfoAttribute)
 begin
   WriteBooleanBuffer(AAttribute.FReference);
 
-  WriteUTF8StringBuffer(AAttribute.FName);
-  WriteUTF8StringBuffer(AAttribute.FValue);
+  WriteStringBuffer(AAttribute.FName);
+  WriteStringBuffer(AAttribute.FValue);
 
-  WriteUTF8StringBuffer(AAttribute.FComment[ctDeclaration]);
-  WriteUTF8StringBuffer(AAttribute.FComment[ctDefinition]);
+  WriteStringBuffer(AAttribute.FComment[ctDeclaration]);
+  WriteStringBuffer(AAttribute.FComment[ctDefinition]);
 end;
 
 
@@ -4878,9 +4878,9 @@ procedure TTSInfoBinaryOutputWriter.WriteChildNode(AChildNode: TTSInfoNode);
 begin
   WriteBooleanBuffer(AChildNode.FReference);
 
-  WriteUTF8StringBuffer(AChildNode.FName);
-  WriteUTF8StringBuffer(AChildNode.FComment[ctDeclaration]);
-  WriteUTF8StringBuffer(AChildNode.FComment[ctDefinition]);
+  WriteStringBuffer(AChildNode.FName);
+  WriteStringBuffer(AChildNode.FComment[ctDeclaration]);
+  WriteStringBuffer(AChildNode.FComment[ctDefinition]);
 
   WriteElements(AChildNode);
 end;
@@ -4888,13 +4888,13 @@ end;
 
 procedure TTSInfoBinaryOutputWriter.WriteLink(ALink: TTSInfoLink);
 begin
-  WriteUTF8StringBuffer(ALink.LinkedTree.FFileName);
-  WriteUTF8StringBuffer(ALink.FVirtualNodeName);
+  WriteStringBuffer(ALink.LinkedTree.FFileName);
+  WriteStringBuffer(ALink.FVirtualNodeName);
 
   WriteTreeMode(ALink.LinkedTree.FTreeModes, tmBinaryTree);
   WriteTreeMode(ALink.LinkedTree.FTreeModes, tmAccessWrite);
 
-  WriteUTF8StringBuffer(ALink.FComment);
+  WriteStringBuffer(ALink.FComment);
 
   if tmAccessWrite in ALink.LinkedTree.TreeModes then
     if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(ALink.FileName) then
