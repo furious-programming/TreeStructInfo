@@ -96,7 +96,7 @@ uses
   procedure ListToValue(AList: TStrings; out AValue: String);
   procedure ValueToList(const AValue: String; AList: TStrings);
 
-  procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: UTF8String; AFormat: TFormatBuffer);
+  procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
   procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
 
 
@@ -1246,14 +1246,14 @@ end;
 { ----- buffer & stream conversions ------------------------------------------------------------------------------- }
 
 
-procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: UTF8String; AFormat: TFormatBuffer);
+procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
 const
-  HEX_CHARS: array [0 .. 15] of UTF8Char = '0123456789ABCDEF';
+  HEX_CHARS: array [0 .. 15] of Char = '0123456789ABCDEF';
 var
   bdaBuffer: TByteDynArray;
   intValueLen, intByteIdx: Integer;
   pintByte: PUInt8;
-  pchrByte, pchrLast: PUTF8Char;
+  pchrByte, pchrLast: PChar;
 begin
   if ASize <= 0 then Exit();
 
@@ -1273,8 +1273,8 @@ begin
 
     while (intByteIdx < UInt8(AFormat)) and (pchrByte < pchrLast) do
     begin
-      PUTF8Char(pchrByte + 0)^ := HEX_CHARS[pintByte^ shr 4 and 15];
-      PUTF8Char(pchrByte + 1)^ := HEX_CHARS[pintByte^ and 15];
+      PChar(pchrByte + 0)^ := HEX_CHARS[pintByte^ shr 4 and 15];
+      PChar(pchrByte + 1)^ := HEX_CHARS[pintByte^ and 15];
 
       Inc(pintByte);
       Inc(pchrByte, 2);
