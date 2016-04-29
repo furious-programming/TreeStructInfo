@@ -62,7 +62,7 @@ uses
   function IncludeTrailingIdentsDelimiter(const APath: String): String;
   function ExcludeTrailingIdentsDelimiter(const APath: String): String;
 
-  function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
+  function ExtractPathComponent(const AAttrName: String; AComponent: TPathComponent): String;
   procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
 
   function IsCurrentNodePath(const APath: UTF8String): Boolean;
@@ -306,10 +306,10 @@ begin
 end;
 
 
-function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
+function ExtractPathComponent(const AAttrName: String; AComponent: TPathComponent): String;
 var
   intValueLen: Integer;
-  pchrFirst, pchrToken, pchrLast: PUTF8Char;
+  pchrFirst, pchrToken, pchrLast: PChar;
 begin
   Result := '';
   intValueLen := Length(AAttrName);
@@ -325,13 +325,13 @@ begin
 
     case AComponent of
       pcAttributeName:
-          if pchrToken^ = IDENTS_DELIMITER then
-            MoveString(PUTF8Char(pchrToken + 1)^, Result, pchrLast - pchrToken)
-          else
-            Result := AAttrName;
+        if pchrToken^ = IDENTS_DELIMITER then
+          MoveString(PChar(pchrToken + 1)^, Result, pchrLast - pchrToken)
+        else
+          Result := AAttrName;
       pcAttributePath:
-          if pchrToken^ = IDENTS_DELIMITER then
-            MoveString(pchrFirst^, Result, pchrToken - pchrFirst + 1);
+        if pchrToken^ = IDENTS_DELIMITER then
+          MoveString(pchrFirst^, Result, pchrToken - pchrFirst + 1);
     end;
   end;
 end;
