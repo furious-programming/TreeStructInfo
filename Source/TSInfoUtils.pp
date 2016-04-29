@@ -84,8 +84,8 @@ uses
   function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
   function ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 
-  function StringToValue(const AString: UTF8String; AFormat: TFormatString): UTF8String;
-  function ValueToString(const AValue: UTF8String; AFormat: TFormatString): UTF8String;
+  function StringToValue(const AString: String; AFormat: TFormatString): String;
+  function ValueToString(const AValue: String; AFormat: TFormatString): String;
 
   function DateTimeToValue(const AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings): UTF8String;
   function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
@@ -681,7 +681,7 @@ end;
 { ----- string conversion ----------------------------------------------------------------------------------------- }
 
 
-function StringToValue(const AString: UTF8String; AFormat: TFormatString): UTF8String;
+function StringToValue(const AString: String; AFormat: TFormatString): String;
 begin
   case AFormat of
     fsOriginal:  Result := AString;
@@ -691,7 +691,7 @@ begin
 end;
 
 
-function ValueToString(const AValue: UTF8String; AFormat: TFormatString): UTF8String;
+function ValueToString(const AValue: String; AFormat: TFormatString): String;
 begin
   case AFormat of
     fsOriginal:  Result := AValue;
