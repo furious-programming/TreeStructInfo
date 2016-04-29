@@ -621,7 +621,7 @@ type
     FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
-    procedure ReadUTF8StringBuffer(out ABuffer: UTF8String);
+    procedure ReadStringBuffer(out ABuffer: String);
     procedure ReadBooleanBuffer(out ABuffer: Boolean);
     procedure ReadUInt8Buffer(out ABuffer: UInt8);
     procedure ReadUInt32Buffer(out ABuffer: UInt32);
@@ -4616,7 +4616,7 @@ begin
 end;
 
 
-procedure TTSInfoBinaryInputReader.ReadUTF8StringBuffer(out ABuffer: UTF8String);
+procedure TTSInfoBinaryInputReader.ReadStringBuffer(out ABuffer: String);
 var
   intBufferLen: UInt32;
 begin
@@ -4664,7 +4664,7 @@ end;
 
 procedure TTSInfoBinaryInputReader.ReadHeader();
 var
-  strSignature: UTF8String;
+  strSignature: String;
   intVersionMajor, intVersionMinor: UInt8;
 begin
   SetLength(strSignature, BINARY_FILE_SIGNATURE_LEN);
@@ -4678,8 +4678,8 @@ begin
 
     if (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor >= SUPPORTED_FORMAT_VERSION_MINOR) then
     begin
-      ReadUTF8StringBuffer(FTSInfoTree.FTreeName);
-      ReadUTF8StringBuffer(FTSInfoTree.FTreeComment);
+      ReadStringBuffer(FTSInfoTree.FTreeName);
+      ReadStringBuffer(FTSInfoTree.FTreeComment);
     end
     else
       ThrowException(EM_UNSUPPORTED_BINARY_FORMAT_VERSION, [intVersionMajor, intVersionMinor]);
@@ -4715,11 +4715,11 @@ procedure TTSInfoBinaryInputReader.ReadAttribute(AAttribute: TTSInfoAttribute);
 begin
   ReadBooleanBuffer(AAttribute.FReference);
 
-  ReadUTF8StringBuffer(AAttribute.FName);
-  ReadUTF8StringBuffer(AAttribute.FValue);
+  ReadStringBuffer(AAttribute.FName);
+  ReadStringBuffer(AAttribute.FValue);
 
-  ReadUTF8StringBuffer(AAttribute.FComment[ctDeclaration]);
-  ReadUTF8StringBuffer(AAttribute.FComment[ctDefinition]);
+  ReadStringBuffer(AAttribute.FComment[ctDeclaration]);
+  ReadStringBuffer(AAttribute.FComment[ctDefinition]);
 end;
 
 
@@ -4727,9 +4727,9 @@ procedure TTSInfoBinaryInputReader.ReadChildNode(AChildNode: TTSInfoNode);
 begin
   ReadBooleanBuffer(AChildNode.FReference);
 
-  ReadUTF8StringBuffer(AChildNode.FName);
-  ReadUTF8StringBuffer(AChildNode.FComment[ctDeclaration]);
-  ReadUTF8StringBuffer(AChildNode.FComment[ctDefinition]);
+  ReadStringBuffer(AChildNode.FName);
+  ReadStringBuffer(AChildNode.FComment[ctDeclaration]);
+  ReadStringBuffer(AChildNode.FComment[ctDefinition]);
 
   ReadElements(AChildNode);
 end;
@@ -4737,14 +4737,14 @@ end;
 
 procedure TTSInfoBinaryInputReader.ReadLink(ALink: TTSInfoLink);
 begin
-  ReadUTF8StringBuffer(ALink.LinkedTree.FFileName);
-  ReadUTF8StringBuffer(ALink.FVirtualNodeName);
+  ReadStringBuffer(ALink.LinkedTree.FFileName);
+  ReadStringBuffer(ALink.FVirtualNodeName);
 
   ALink.LinkedTree.TreeModes := [tmAllowLinking];
   ReadTreeMode(ALink.LinkedTree.FTreeModes, tmBinaryTree, tmTextTree);
   ReadTreeMode(ALink.LinkedTree.FTreeModes, tmAccessWrite, tmAccessRead);
 
-  ReadUTF8StringBuffer(ALink.FComment);
+  ReadStringBuffer(ALink.FComment);
 
   if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(ALink.FileName) then
     FProcessedTrees.AddElement(ALink.LinkedTree);
