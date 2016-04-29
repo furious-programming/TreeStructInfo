@@ -49,7 +49,7 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const); overload;
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-  function RemoveWhitespaceChars(const AValue: UTF8String): UTF8String;
+  function RemoveWhitespaceChars(const AValue: String): String;
 
   function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
   function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
@@ -124,14 +124,14 @@ end;
 function Comment(const ADeclaration, ADefinition: String): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
-  Result[ctDefinition]  := ADefinition;
+  Result[ctDefinition] := ADefinition;
 end;
 
 
-function RemoveWhitespaceChars(const AValue: UTF8String): UTF8String;
+function RemoveWhitespaceChars(const AValue: String): String;
 var
   intValueLen: Integer;
-  pchrLeft, pchrRight: PUTF8Char;
+  pchrLeft, pchrRight: PChar;
 begin
   Result := '';
   intValueLen := Length(AValue);
