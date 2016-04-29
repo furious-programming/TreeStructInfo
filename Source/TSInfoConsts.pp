@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                last modified: 29 April 2016
+    TSInfoConsts.pp                last modified: 30 April 2016
 
     Copyright © Jarosław Baran, furious programming 2011 - 2016.
     All rights reserved.
@@ -125,6 +125,14 @@ const
 const
   INVALID_IDENT_CHARS: set of Char = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
   WHITESPACE_CHARS:    set of Char = [#9, #32];
+
+const
+  NUMBER_CHARS:           set of Char = ['0' .. '9'];
+  SMALL_LETTERS:          set of Char = ['a' .. 'z'];
+  CAPITAL_LETTERS:        set of Char = ['A' .. 'Z'];
+  HEX_LETTERS:            set of Char = ['A' .. 'F'];
+  NUMERICAL_SYSTEM_CHARS: set of Char = ['x', 'o', 'b'];
+  PLUS_MINUS_CHARS:       set of Char = ['+', '-'];
 
 const
   KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE: array [Boolean] of Integer = (
