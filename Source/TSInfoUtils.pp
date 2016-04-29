@@ -48,7 +48,7 @@ uses
   procedure ThrowException(const AMessage: String); overload;
   procedure ThrowException(const AMessage: String; const AArgs: array of const); overload;
 
-  function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
+  function Comment(const ADeclaration, ADefinition: String): TComment;
   function RemoveWhitespaceChars(const AValue: UTF8String): UTF8String;
 
   function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
@@ -121,10 +121,10 @@ begin
 end;
 
 
-function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
+function Comment(const ADeclaration, ADefinition: String): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
-  Result[ctDefinition] := ADefinition;
+  Result[ctDefinition]  := ADefinition;
 end;
 
 
