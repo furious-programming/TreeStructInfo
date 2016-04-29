@@ -270,17 +270,17 @@ type
 type
   TTSInfoNodesList = class(TTSInfoElementsList)
   private
-    function InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
+    function InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode;
   public
     constructor Create();
   public
-    function GetChildNode(const AName: UTF8String): TTSInfoNode; overload;
+    function GetChildNode(const AName: String): TTSInfoNode; overload;
     function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
   public
-    function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String): TTSInfoNode; overload;
-    function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode; overload;
+    function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String): TTSInfoNode; overload;
+    function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
   public
-    procedure RemoveChildNode(const AName: UTF8String);
+    procedure RemoveChildNode(const AName: String);
     procedure RemoveAll();
   end;
 
@@ -1255,14 +1255,14 @@ begin
 end;
 
 
-function TTSInfoNodesList.InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
+function TTSInfoNodesList.InternalAddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode;
 begin
   Result := TTSInfoNode.Create(AParentNode, AReference, AName, AComment);
   inherited AddElement(Result);
 end;
 
 
-function TTSInfoNodesList.GetChildNode(const AName: UTF8String): TTSInfoNode;
+function TTSInfoNodesList.GetChildNode(const AName: String): TTSInfoNode;
 var
   nodeGet: TTSInfoNode;
   intChildNodeIdx: Integer;
@@ -1285,19 +1285,19 @@ begin
 end;
 
 
-function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String): TTSInfoNode;
+function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String): TTSInfoNode;
 begin
   Result := InternalAddChildNode(AParentNode, AReference, AName, Comment('', ''));
 end;
 
 
-function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
+function TTSInfoNodesList.AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode;
 begin
   Result := InternalAddChildNode(AParentNode, AReference, AName, AComment);
 end;
 
 
-procedure TTSInfoNodesList.RemoveChildNode(const AName: UTF8String);
+procedure TTSInfoNodesList.RemoveChildNode(const AName: String);
 var
   nodeRemove: TTSInfoNode;
   intChildNodeIdx: Integer;
