@@ -181,13 +181,13 @@ type
     FAttribute: TTSInfoAttribute;
     FIndex: Integer;
   private
-    function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
+    function GetComment(AType: TCommentType): String;
+    procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    property Name: UTF8String read FAttribute.FName write FAttribute.FName;
+    property Name: String read FAttribute.FName write FAttribute.FName;
     property Reference: Boolean read FAttribute.FReference write FAttribute.FReference;
-    property Value: UTF8String read FAttribute.FValue write FAttribute.FValue;
-    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
+    property Value: String read FAttribute.FValue write FAttribute.FValue;
+    property Comment[AType: TCommentType]: String read GetComment write SetComment;
   end;
 
 
@@ -958,13 +958,13 @@ end;
 { ----- TTSInfoAttributeToken object ------------------------------------------------------------------------------ }
 
 
-function TTSInfoAttributeToken.GetComment(AType: TCommentType): UTF8String;
+function TTSInfoAttributeToken.GetComment(AType: TCommentType): String;
 begin
   Result := FAttribute.Comment[AType];
 end;
 
 
-procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; const AComment: UTF8String);
+procedure TTSInfoAttributeToken.SetComment(AType: TCommentType; const AComment: String);
 begin
   FAttribute.Comment[AType] := AComment;
 end;
