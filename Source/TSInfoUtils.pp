@@ -97,7 +97,7 @@ uses
   procedure ValueToList(const AValue: String; AList: TStrings);
 
   procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
-  procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
+  procedure ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
@@ -1290,13 +1290,13 @@ begin
 end;
 
 
-procedure ValueToBuffer(const AValue: UTF8String; var ABuffer; ASize, AOffset: Integer);
+procedure ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
 var
   bdaBuffer: TByteDynArray;
-  strValue: UTF8String;
+  strValue: String;
   intValueLen: Integer;
   pintByte: PUInt8;
-  pchrByte, pchrBufferLast, pchrValueLast: PUTF8Char;
+  pchrByte, pchrBufferLast, pchrValueLast: PChar;
 begin
   if ASize <= 0 then Exit();
 
