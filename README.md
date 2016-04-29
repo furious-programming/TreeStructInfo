@@ -1,5 +1,5 @@
 ![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
-*Copyright © Jaroslaw Baran, furious programming 2011 - 2015*
+*Copyright © Jaroslaw Baran, furious programming 2011 - 2016*
 
 Latest API release: [TreeStructInfo 2.0 beta 2](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0-beta.2)<br/><br/>
 
