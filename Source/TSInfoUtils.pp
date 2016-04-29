@@ -90,8 +90,8 @@ uses
   function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
   function ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 
-  function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
-  function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
+  function PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
+  function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
 
   procedure ListToValue(AList: TStrings; out AValue: UTF8String);
   procedure ValueToList(const AValue: UTF8String; AList: TStrings);
@@ -1123,9 +1123,9 @@ end;
 { ----- point conversions ----------------------------------------------------------------------------------------- }
 
 
-function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
+function PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
 var
-  strCoordX, strCoordY: UTF8String;
+  strCoordX, strCoordY: String;
 begin
   strCoordX := IntegerToValue(APoint.X, POINT_SYSTEMS[AFormat]);
   strCoordY := IntegerToValue(APoint.Y, POINT_SYSTEMS[AFormat]);
@@ -1134,20 +1134,20 @@ begin
 end;
 
 
-function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
+function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
 
-  procedure ExtractPointCoord(AFirst, ALast: PUTF8Char; out ACoord: UTF8String); inline;
+  procedure ExtractPointCoord(AFirst, ALast: PChar; out ACoord: String); inline;
   var
     intNegativeOffset: UInt8;
-    pchrSystem: PUTF8Char;
+    pchrSystem: PChar;
     fiFormat: TFormatInteger;
   begin
     if ALast - AFirst + 1 >= MIN_NO_DECIMAL_VALUE_LEN then
     begin
-      intNegativeOffset := UInt8(AFirst^ = '-');
+      intNegativeOffset := Ord(AFirst^ = '-');
       pchrSystem := AFirst + intNegativeOffset;
 
-      if (pchrSystem^ = '0') and (PUTF8Char(pchrSystem + 1)^ in ['x', 'o', 'b']) then
+      if (pchrSystem^ = '0') and (PChar(pchrSystem + 1)^ in ['x', 'o', 'b']) then
       begin
         Inc(pchrSystem);
 
@@ -1172,8 +1172,8 @@ function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
   end;
 
 var
-  pchrFirst, pchrLast, pchrDelimiter: PUTF8Char;
-  strCoordX, strCoordY: UTF8String;
+  pchrFirst, pchrLast, pchrDelimiter: PChar;
+  strCoordX, strCoordY: String;
   intValueLen, intCoordXCode, intCoordYCode: Integer;
 begin
   intValueLen := Length(AValue);
