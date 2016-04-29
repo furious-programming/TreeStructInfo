@@ -1,8 +1,8 @@
 {
 
-    TSInfoUtils.pp              last modified: 22 November 2015
+    TSInfoUtils.pp                 last modified: 29 April 2016
 
-    Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
+    Copyright © Jaroslaw Baran, furious programming 2011 - 2016.
     All rights reserved.
    __________________________________________________________________________
 
