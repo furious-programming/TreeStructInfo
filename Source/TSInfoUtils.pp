@@ -57,7 +57,7 @@ uses
   procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
   function ValidIdentifier(const AIdentifier: String): Boolean;
-  function SameIdentifiers(const AFirst, ASecond: UTF8String): Boolean;
+  function SameIdentifiers(const AFirst, ASecond: String): Boolean;
 
   function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
   function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
@@ -265,7 +265,7 @@ begin
 end;
 
 
-function SameIdentifiers(const AFirst, ASecond: UTF8String): Boolean;
+function SameIdentifiers(const AFirst, ASecond: String): Boolean;
 var
   intFirstLen, intSecondLen: Integer;
 begin
