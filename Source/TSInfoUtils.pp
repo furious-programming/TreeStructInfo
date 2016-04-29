@@ -51,7 +51,7 @@ uses
   function Comment(const ADeclaration, ADefinition: String): TComment;
   function RemoveWhitespaceChars(const AValue: String): String;
 
-  function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
+  function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
   function GlueStrings(const AMask: UTF8String; const AStrings: array of UTF8String): UTF8String;
 
   procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
@@ -152,11 +152,10 @@ begin
 end;
 
 
-function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: UTF8String): UTF8String;
+function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
 var
-  intValueLen, intOldPtrnLen, intNewPtrnLen,
-  intPlainLen, intResultLen, intResultIdx: Integer;
-  pchrPlainBegin, pchrPlainEnd, pchrLast, pchrResult: PUTF8Char;
+  intValueLen, intOldPtrnLen, intNewPtrnLen, intPlainLen, intResultLen, intResultIdx: Integer;
+  pchrPlainBegin, pchrPlainEnd, pchrLast, pchrResult: PChar;
 begin
   intValueLen := Length(AValue);
 
@@ -195,7 +194,7 @@ begin
       Inc(pchrPlainEnd);
 
   if pchrPlainBegin <= pchrPlainEnd then
-    Result += UTF8String(pchrPlainBegin);
+    Result += String(pchrPlainBegin);
 end;
 
 
