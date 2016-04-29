@@ -571,7 +571,7 @@ type
     FNestedRefElementsCount: Integer;
     FExtraSpaceNeeded: Boolean;
   private
-    FIndentation: UTF8String;
+    FIndentation: String;
     FIndentationSize: Integer;
   private
     FStoreRefElement: TStoreRefElementProc;
@@ -583,9 +583,9 @@ type
     procedure DecIndentation();
     procedure ResetIndentation();
   private
-    procedure AddComment(const AComment: UTF8String);
-    procedure AddTreeComment(const ATreeComment: UTF8String);
-    procedure AddTreeHeader(const ATreeName: UTF8String);
+    procedure AddComment(const AComment: String);
+    procedure AddTreeComment(const ATreeComment: String);
+    procedure AddTreeHeader(const ATreeName: String);
     procedure AddTreeEnd();
     procedure AddStdAttribute(AAttribute: TTSInfoAttribute);
     procedure AddStdChildNode(AChildNode: TTSInfoNode);
@@ -4304,7 +4304,7 @@ begin
 end;
 
 
-procedure TTSInfoTextOutputWriter.AddComment(const AComment: UTF8String);
+procedure TTSInfoTextOutputWriter.AddComment(const AComment: String);
 var
   vcComment: TValueComponents;
   intCommentLinesCnt, intCommentLineIdx: Integer;
@@ -4322,7 +4322,7 @@ begin
 end;
 
 
-procedure TTSInfoTextOutputWriter.AddTreeComment(const ATreeComment: UTF8String);
+procedure TTSInfoTextOutputWriter.AddTreeComment(const ATreeComment: String);
 begin
   if ATreeComment <> '' then
   begin
@@ -4332,9 +4332,9 @@ begin
 end;
 
 
-procedure TTSInfoTextOutputWriter.AddTreeHeader(const ATreeName: UTF8String);
+procedure TTSInfoTextOutputWriter.AddTreeHeader(const ATreeName: String);
 var
-  strHeader: UTF8String;
+  strHeader: String;
 begin
   strHeader := GlueStrings('% %%%', [TREE_HEADER_FORMAT_NAME, QUOTE_CHAR, TREE_HEADER_FORMAT_VERSION, QUOTE_CHAR]);
 
@@ -4355,7 +4355,7 @@ procedure TTSInfoTextOutputWriter.AddStdAttribute(AAttribute: TTSInfoAttribute);
 var
   vcAttrValue: TValueComponents;
   intValueLinesCnt, intValueLineIdx: Integer;
-  strValue, strValuesIndent: UTF8String;
+  strValue, strValuesIndent: String;
 begin
   if AAttribute.Comment[ctDeclaration] <> '' then
     AddComment(AAttribute.Comment[ctDeclaration]);
@@ -4410,7 +4410,7 @@ procedure TTSInfoTextOutputWriter.AddRefAttributeDefinition(AAttribute: TTSInfoA
 var
   vcAttrValue: TValueComponents;
   intValueLinesCnt, intValueLineIdx: Integer;
-  strValue, strValuesIndent: UTF8String;
+  strValue, strValuesIndent: String;
   boolAttrHasComment, boolMultilineValue: Boolean;
 begin
   ExtractValueComponents(AAttribute.Value, vcAttrValue, intValueLinesCnt);
@@ -4476,7 +4476,7 @@ end;
 
 procedure TTSInfoTextOutputWriter.AddLink(ALink: TTSInfoLink);
 var
-  strLink: UTF8String;
+  strLink: String;
 begin
   if ALink.Comment <> '' then
     AddComment(ALink.Comment);
