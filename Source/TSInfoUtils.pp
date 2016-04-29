@@ -72,8 +72,8 @@ uses
 { ----- data conversions ------------------------------------------------------------------------------------------ }
 
 
-  function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): UTF8String;
-  function ValueToBoolean(const AValue: UTF8String; ADefault: Boolean): Boolean;
+  function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
+  function ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
 
   function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
   function ValueToInteger(const AValue: UTF8String; ADefault: Integer): Integer;
@@ -405,15 +405,15 @@ end;
 { ----- boolean conversions --------------------------------------------------------------------------------------- }
 
 
-function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): UTF8String;
+function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
 begin
   Result := BOOLEAN_VALUES[ABoolean, AFormat];
 end;
 
 
-function ValueToBoolean(const AValue: UTF8String; ADefault: Boolean): Boolean;
+function ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
 var
-  pchrToken, pchrLast: PUTF8Char;
+  pchrToken, pchrLast: PChar;
   fbToken: TFormatBoolean;
 begin
   Result := ADefault;
