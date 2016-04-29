@@ -491,7 +491,7 @@ type
     FInput: TStrings;
     FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
-    FComment: UTF8String;
+    FComment: String;
     FAllowLinking: Boolean;
   private
     FEndTreeLineIndex: Integer;
@@ -510,19 +510,19 @@ type
     procedure ProcessMainPart();
     procedure ProcessReferencingPart();
   private
-    function IsCommentLine(const ALine: UTF8String): Boolean;
-    function IsTreeHeaderLine(const ALine: UTF8String): Boolean;
-    function IsFormatVersionValue(const AValue: UTF8String): Boolean;
-    function IsAttributeNameAndValueLine(const ALine: UTF8String): Boolean;
-    function IsStdAttributeLine(const ALine: UTF8String): Boolean;
-    function IsStdChildNodeLine(const ALine: UTF8String): Boolean;
-    function IsStdChildNodeEndLine(const ALine: UTF8String): Boolean;
-    function IsRefAttributeDeclarationLine(const ALine: UTF8String): Boolean;
-    function IsRefAttributeDefinitionLine(const ALine: UTF8String): Boolean;
-    function IsRefChildNodeLine(const ALine: UTF8String): Boolean;
-    function IsRefChildNodeEndLine(const ALine: UTF8String): Boolean;
-    function IsLinkLine(const ALine: UTF8String): Boolean;
-    function IsValueLine(const ALine: UTF8String): Boolean;
+    function IsCommentLine(const ALine: String): Boolean;
+    function IsTreeHeaderLine(const ALine: String): Boolean;
+    function IsFormatVersionValue(const AValue: String): Boolean;
+    function IsAttributeNameAndValueLine(const ALine: String): Boolean;
+    function IsStdAttributeLine(const ALine: String): Boolean;
+    function IsStdChildNodeLine(const ALine: String): Boolean;
+    function IsStdChildNodeEndLine(const ALine: String): Boolean;
+    function IsRefAttributeDeclarationLine(const ALine: String): Boolean;
+    function IsRefAttributeDefinitionLine(const ALine: String): Boolean;
+    function IsRefChildNodeLine(const ALine: String): Boolean;
+    function IsRefChildNodeEndLine(const ALine: String): Boolean;
+    function IsLinkLine(const ALine: String): Boolean;
+    function IsValueLine(const ALine: String): Boolean;
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -542,13 +542,13 @@ type
     procedure ClearComment();
   private
     procedure ExtractComment();
-    procedure ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
-    procedure ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
-    procedure ExtractAttributeNextValue(const ALine: UTF8String; out ANextValue: UTF8String);
-    procedure ExtractChildNode(const ALine: UTF8String; out AReference: Boolean; out AName: UTF8String);
+    procedure ExtractLineComponents(const ALine: String; out AComponents: TLineComponents; var ACount: Integer);
+    procedure ExtractAttribute(const ALine: String; out AReference: Boolean; out AName, AValue: String);
+    procedure ExtractAttributeNextValue(const ALine: String; out ANextValue: String);
+    procedure ExtractChildNode(const ALine: String; out AReference: Boolean; out AName: String);
   private
-    procedure ExtractAttributeName(const ALine: UTF8String; out AName: UTF8String);
-    procedure ExtractChildNodeName(const ALine: UTF8String; out AName: UTF8String);
+    procedure ExtractAttributeName(const ALine: String; out AName: String);
+    procedure ExtractChildNodeName(const ALine: String; out AName: String);
   private
     procedure ComponentsToTreeModes(const AComponents: TLineComponents; var AModes: TTreeModes);
   public
@@ -3468,10 +3468,10 @@ end;
 
 procedure TTSInfoTextInputReader.RemoveBOMSignature();
 const
-  UTF8_BOM_SIGNATURE     = UTF8String(#239#187#191);
+  UTF8_BOM_SIGNATURE     = String(#239#187#191);
   UTF8_BOM_SIGNATURE_LEN = Length(UTF8_BOM_SIGNATURE);
 var
-  strFirstLine: UTF8String;
+  strFirstLine: String;
 begin
   if FInput.Count > 0 then
   begin
@@ -3488,7 +3488,7 @@ end;
 
 procedure TTSInfoTextInputReader.RemoveWhitespace();
 var
-  strCurrentLine: UTF8String;
+  strCurrentLine: String;
   intLineIdx: Integer;
 begin
   for intLineIdx := FInput.Count - 1 downto 0 do
@@ -3603,21 +3603,21 @@ begin
 end;
 
 
-function TTSInfoTextInputReader.IsCommentLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsCommentLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) >= COMMENT_PREFIX_LEN) and
             (CompareByte(ALine[1], COMMENT_PREFIX[1], COMMENT_PREFIX_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsTreeHeaderLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsTreeHeaderLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) >= MIN_TREE_HEADER_LINE_LEN) and
             (CompareByte(ALine[1], TREE_HEADER_FORMAT_NAME[1], TREE_HEADER_FORMAT_NAME_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsFormatVersionValue(const AValue: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsFormatVersionValue(const AValue: String): Boolean;
 const
   FORMAT_VERSION_INDEX_MAJOR = Integer(1);
   FORMAT_VERSION_INDEX_MINOR = Integer(3);
@@ -3645,9 +3645,9 @@ begin
 end;
 
 
-function TTSInfoTextInputReader.IsAttributeNameAndValueLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsAttributeNameAndValueLine(const ALine: String): Boolean;
 var
-  pchrToken, pchrLast: PUTF8Char;
+  pchrToken, pchrLast: PChar;
 begin
   pchrToken := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[ALine[1] = KEYWORD_REF_ATTRIBUTE[1]]] + 1;
   pchrLast := @ALine[Length(ALine)];
@@ -3670,7 +3670,7 @@ begin
 end;
 
 
-function TTSInfoTextInputReader.IsStdAttributeLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsStdAttributeLine(const ALine: String): Boolean;
 var
   intLineLen: Integer;
 begin
@@ -3683,23 +3683,23 @@ begin
 end;
 
 
-function TTSInfoTextInputReader.IsStdChildNodeLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsStdChildNodeLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) >= MIN_STD_NODE_LINE_LEN) and
             (CompareByte(ALine[1], KEYWORD_STD_NODE[1], KEYWORD_STD_NODE_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsStdChildNodeEndLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsStdChildNodeEndLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) = KEYWORD_STD_NODE_END_LEN) and
             (CompareByte(ALine[1], KEYWORD_STD_NODE_END[1], KEYWORD_STD_NODE_END_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsRefAttributeDeclarationLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsRefAttributeDeclarationLine(const ALine: String): Boolean;
 var
-  pchrToken, pchrLast: PUTF8Char;
+  pchrToken, pchrLast: PChar;
   intLineLen: Integer;
 begin
   Result := False;
@@ -3722,7 +3722,7 @@ begin
 end;
 
 
-function TTSInfoTextInputReader.IsRefAttributeDefinitionLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsRefAttributeDefinitionLine(const ALine: String): Boolean;
 var
   intLineLen: Integer;
 begin
@@ -3735,28 +3735,28 @@ begin
 end;
 
 
-function TTSInfoTextInputReader.IsRefChildNodeLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsRefChildNodeLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) >= MIN_REF_NODE_LINE_LEN) and
             (CompareByte(ALine[1], KEYWORD_REF_NODE[1], KEYWORD_REF_NODE_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsRefChildNodeEndLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsRefChildNodeEndLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) = KEYWORD_REF_NODE_END_LEN) and
             (CompareByte(ALine[1], KEYWORD_REF_NODE_END[1], KEYWORD_REF_NODE_END_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsLinkLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsLinkLine(const ALine: String): Boolean;
 begin
   Result := (Length(ALine) >= MIN_LINK_LINE_LEN) and
             (CompareByte(ALine[1], KEYWORD_LINK[1], KEYWORD_LINK_LEN) = 0);
 end;
 
 
-function TTSInfoTextInputReader.IsValueLine(const ALine: UTF8String): Boolean;
+function TTSInfoTextInputReader.IsValueLine(const ALine: String): Boolean;
 var
   intLineLen: Integer;
 begin
@@ -3783,7 +3783,7 @@ end;
 procedure TTSInfoTextInputReader.AddStdAttribute();
 var
   attrAdd: TTSInfoAttribute;
-  strAttrName, strAttrValue, strAttrNextValue: UTF8String;
+  strAttrName, strAttrValue, strAttrNextValue: String;
   boolReference: Boolean;
 begin
   ExtractAttribute(FInput[FLineIndex], boolReference, strAttrName, strAttrValue);
@@ -3809,7 +3809,7 @@ end;
 procedure TTSInfoTextInputReader.AddStdChildNode();
 var
   nodeAdd: TTSInfoNode;
-  strNodeName: UTF8String;
+  strNodeName: String;
   boolReference: Boolean;
 begin
   ExtractChildNode(FInput[FLineIndex], boolReference, strNodeName);
@@ -3830,7 +3830,7 @@ end;
 procedure TTSInfoTextInputReader.AddRefAttribute();
 var
   attrAdd: TTSInfoAttribute;
-  strAttrName: UTF8String;
+  strAttrName: String;
 begin
   ExtractAttributeName(FInput[FLineIndex], strAttrName);
 
@@ -3848,7 +3848,7 @@ end;
 procedure TTSInfoTextInputReader.AddRefChildNode();
 var
   nodeAdd: TTSInfoNode;
-  strNodeName: UTF8String;
+  strNodeName: String;
 begin
   ExtractChildNodeName(FInput[FLineIndex], strNodeName);
 
@@ -3929,7 +3929,7 @@ end;
 
 procedure TTSInfoTextInputReader.FillRefAttribute();
 var
-  strAttrName, strAttrValue, strAttrNextValue: UTF8String;
+  strAttrName, strAttrValue, strAttrNextValue: String;
   boolReference: Boolean;
 begin
   ExtractAttribute(FInput[FLineIndex], boolReference, strAttrName, strAttrValue);
@@ -3960,7 +3960,7 @@ end;
 
 procedure TTSInfoTextInputReader.FillRefChildNode();
 var
-  strNodeName: UTF8String;
+  strNodeName: String;
 begin
   FNestedRefElementsCount := 0;
   ExtractChildNodeName(FInput[FLineIndex], strNodeName);
@@ -4002,9 +4002,9 @@ end;
 
 procedure TTSInfoTextInputReader.ExtractComment();
 var
-  strCurrentLine, strCurrentValue: UTF8String;
+  strCurrentLine, strCurrentValue: String;
   intCurrentLineLen: Integer;
-  pchrFirst, pchrLast: PUTF8Char;
+  pchrFirst, pchrLast: PChar;
 begin
   ClearComment();
 
@@ -4035,10 +4035,10 @@ begin
 end;
 
 
-procedure TTSInfoTextInputReader.ExtractLineComponents(const ALine: UTF8String; out AComponents: TLineComponents; var ACount: Integer);
+procedure TTSInfoTextInputReader.ExtractLineComponents(const ALine: String; out AComponents: TLineComponents; var ACount: Integer);
 var
-  strLine: UTF8String;
-  pchrComponentBegin, pchrComponentEnd, pchrValueBegin, pchrValueEnd, pchrLast: PUTF8Char;
+  strLine: String;
+  pchrComponentBegin, pchrComponentEnd, pchrValueBegin, pchrValueEnd, pchrLast: PChar;
 begin
   strLine := ALine + INDENT_CHAR;
   pchrComponentBegin := @strLine[1];
@@ -4084,9 +4084,9 @@ begin
 end;
 
 
-procedure TTSInfoTextInputReader.ExtractAttribute(const ALine: UTF8String; out AReference: Boolean; out AName, AValue: UTF8String);
+procedure TTSInfoTextInputReader.ExtractAttribute(const ALine: String; out AReference: Boolean; out AName, AValue: String);
 var
-  pchrName, pchrValueBegin, pchrValueEnd: PUTF8Char;
+  pchrName, pchrValueBegin, pchrValueEnd: PChar;
 begin
   AReference := ALine[1] = KEYWORD_REF_ATTRIBUTE[1];
   pchrName := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[AReference]] + 1;
@@ -4103,7 +4103,7 @@ begin
   while pchrValueEnd^ <> QUOTE_CHAR do
     Dec(pchrValueEnd);
 
-  MoveString(PUTF8Char(pchrValueBegin + 1)^, AValue, pchrValueEnd - pchrValueBegin - 1);
+  MoveString(PChar(pchrValueBegin + 1)^, AValue, pchrValueEnd - pchrValueBegin - 1);
 
   repeat
     Dec(pchrValueBegin);
@@ -4113,15 +4113,15 @@ begin
 end;
 
 
-procedure TTSInfoTextInputReader.ExtractAttributeNextValue(const ALine: UTF8String; out ANextValue: UTF8String);
+procedure TTSInfoTextInputReader.ExtractAttributeNextValue(const ALine: String; out ANextValue: String);
 begin
   MoveString(ALine[2], ANextValue, Length(ALine) - 2);
 end;
 
 
-procedure TTSInfoTextInputReader.ExtractChildNode(const ALine: UTF8String; out AReference: Boolean; out AName: UTF8String);
+procedure TTSInfoTextInputReader.ExtractChildNode(const ALine: String; out AReference: Boolean; out AName: String);
 var
-  pchrNameBegin, pchrNameEnd: PUTF8Char;
+  pchrNameBegin, pchrNameEnd: PChar;
 begin
   AReference := ALine[1] = KEYWORD_REF_NODE[1];
 
@@ -4135,9 +4135,9 @@ begin
 end;
 
 
-procedure TTSInfoTextInputReader.ExtractAttributeName(const ALine: UTF8String; out AName: UTF8String);
+procedure TTSInfoTextInputReader.ExtractAttributeName(const ALine: String; out AName: String);
 var
-  pchrNameBegin, pchrNameEnd: PUTF8Char;
+  pchrNameBegin, pchrNameEnd: PChar;
 begin
   pchrNameBegin := @ALine[KEYWORD_REF_ATTRIBUTE_LEN] + 1;
   pchrNameEnd := @ALine[Length(ALine)];
@@ -4149,9 +4149,9 @@ begin
 end;
 
 
-procedure TTSInfoTextInputReader.ExtractChildNodeName(const ALine: UTF8String; out AName: UTF8String);
+procedure TTSInfoTextInputReader.ExtractChildNodeName(const ALine: String; out AName: String);
 var
-  pchrNameBegin, pchrNameEnd: PUTF8Char;
+  pchrNameBegin, pchrNameEnd: PChar;
 begin
   pchrNameBegin := @ALine[KEYWORD_REF_NODE_LEN] + 1;
   pchrNameEnd := @ALine[Length(ALine)];
