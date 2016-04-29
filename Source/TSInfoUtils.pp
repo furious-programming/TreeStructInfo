@@ -39,7 +39,7 @@ unit TSInfoUtils;
 interface
 
 uses
-  TSInfoConsts, TSInfoTypes, SysUtils, DateUtils, LCLProc, Classes, Math, Types;
+  TSInfoConsts, TSInfoTypes, LazUTF8, SysUtils, DateUtils, Classes, Math, Types;
 
 
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
@@ -756,7 +756,7 @@ var
 
   procedure SaveString(const AString: String);
   var
-    intStringLen: Integer;
+    intStringLen: UInt32;
   begin
     intStringLen := Length(AString);
     SetLength(strResult, intResultLen + intStringLen);
