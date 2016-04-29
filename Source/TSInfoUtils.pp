@@ -81,7 +81,7 @@ uses
   function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
   function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
 
-  function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
+  function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
   function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 
   function StringToValue(const AString: UTF8String; AFormat: TFormatString): UTF8String;
@@ -622,11 +622,13 @@ end;
 { ----- currency converions --------------------------------------------------------------------------------------- }
 
 
-function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
+function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
 begin
   case AFormat of
-    fcUnsignedPrice, fcSignedPrice:               Result := CurrToStrF(ACurrency, ffCurrency, 2, ASettings);
-    fcUnsignedExchangeRate, fcSignedExchangeRate: Result := CurrToStrF(ACurrency, ffCurrency, 4, ASettings);
+    fcUnsignedPrice, fcSignedPrice:
+      Result := CurrToStrF(ACurrency, ffCurrency, 2, ASettings);
+    fcUnsignedExchangeRate, fcSignedExchangeRate:
+      Result := CurrToStrF(ACurrency, ffCurrency, 4, ASettings);
   end;
 
   if (AFormat in [fcSignedPrice, fcSignedExchangeRate]) and (ACurrency > 0) then
