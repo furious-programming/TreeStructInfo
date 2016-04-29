@@ -997,7 +997,7 @@ var
       Result := 0;
   end;
 
-  function MonthNameToNumber(const AName: String; const AMonthNames: array of String): Integer;
+  function MonthNameToNumber(const AName: String; const AMonthNames: TMonthNameArray): Integer;
   var
     intNameLen: Integer;
     I: Integer = 1;
