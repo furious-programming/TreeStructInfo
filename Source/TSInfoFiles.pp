@@ -3445,8 +3445,10 @@ begin
   inherited Create();
 
   FTSInfoTree := ATSInfoTree;
-  FInput := AInput;
   FProcessedTrees := AProcessedTrees;
+
+  FInput := TStringList.Create();
+  FInput.Assign(AInput);
 
   FRefElements := TTSInfoRefElementsList.Create(False);
 
@@ -3458,10 +3460,11 @@ end;
 destructor TTSInfoTextInputReader.Destroy();
 begin
   FTSInfoTree := nil;
-  FInput := nil;
   FProcessedTrees := nil;
 
+  FInput.Free();
   FRefElements.Free();
+
   inherited Destroy();
 end;
 
