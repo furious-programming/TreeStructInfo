@@ -198,12 +198,12 @@ type
     FChildNode: TTSInfoNode;
     FIndex: Integer;
   private
-    function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
+    function GetComment(AType: TCommentType): String;
+    procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    property Name: UTF8String read FChildNode.FName write FChildNode.FName;
+    property Name: String read FChildNode.FName write FChildNode.FName;
     property Reference: Boolean read FChildNode.FReference write FChildNode.FReference;
-    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
+    property Comment[AType: TCommentType]: String read GetComment write SetComment;
   end;
 
 
@@ -973,13 +973,13 @@ end;
 { ----- TTSInfoChildNodeToken object ------------------------------------------------------------------------------ }
 
 
-function TTSInfoChildNodeToken.GetComment(AType: TCommentType): UTF8String;
+function TTSInfoChildNodeToken.GetComment(AType: TCommentType): String;
 begin
   Result := FChildNode.Comment[AType];
 end;
 
 
-procedure TTSInfoChildNodeToken.SetComment(AType: TCommentType; const AComment: UTF8String);
+procedure TTSInfoChildNodeToken.SetComment(AType: TCommentType; const AComment: String);
 begin
   FChildNode.Comment[AType] := AComment;
 end;
