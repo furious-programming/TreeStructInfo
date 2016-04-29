@@ -1,8 +1,8 @@
 {
 
-    TSInfoConsts.pp            last modified: 28 September 2015
+    TSInfoConsts.pp                last modified: 29 April 2016
 
-    Copyright © Jaroslaw Baran, furious programming 2011 - 2015.
+    Copyright © Jarosław Baran, furious programming 2011 - 2016.
     All rights reserved.
    __________________________________________________________________________
 
@@ -38,8 +38,7 @@ unit TSInfoConsts;
 interface
 
 uses
-  TSInfoTypes,
-  SysUtils;
+  TSInfoTypes, SysUtils;
 
 
 { ----- constants for files processing ---------------------------------------------------------------------------- }
