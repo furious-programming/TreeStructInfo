@@ -88,7 +88,7 @@ uses
   function ValueToString(const AValue: String; AFormat: TFormatString): String;
 
   function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
-  function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+  function ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 
   function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
   function ValueToPoint(const AValue: UTF8String; ADefault: TPoint): TPoint;
@@ -892,13 +892,13 @@ begin
 end;
 
 
-function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+function ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 var
   intValueLen, intMaskLen: Integer;
-  pchrMaskToken, pchrMaskLast: PUTF8Char;
-  pchrValueBegin, pchrValueEnd, pchrValueLast: PUTF8Char;
-  strValue, strMask: UTF8String;
-  chrFormat: UTF8Char;
+  pchrMaskToken, pchrMaskLast: PChar;
+  pchrValueBegin, pchrValueEnd, pchrValueLast: PChar;
+  strValue, strMask: String;
+  chrFormat: Char;
 
   procedure IncreaseMaskCharacters();
   begin
@@ -937,9 +937,9 @@ var
   end;
 
 var
-  chrFormatSep: UTF8Char;
+  chrFormatSep: Char;
   intFormatLen: UInt32 = 0;
-  strFormatVal: UTF8String = '';
+  strFormatVal: String = '';
 
   procedure GetFormatInfo();
   begin
@@ -982,7 +982,7 @@ var
     pchrValueBegin := pchrValueEnd;
   end;
 
-  function StringToNumber(const AString: UTF8String): UInt16;
+  function StringToNumber(const AString: String): UInt16;
   var
     intCode: Integer;
   begin
@@ -992,7 +992,7 @@ var
       Result := 0;
   end;
 
-  function MonthNameToNumber(const AName: UTF8String; const AMonthNames: array of UTF8String): Integer;
+  function MonthNameToNumber(const AName: String; const AMonthNames: array of String): Integer;
   var
     intNameLen: Integer;
     I: Integer = 1;
