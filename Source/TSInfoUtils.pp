@@ -79,7 +79,7 @@ uses
   function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
 
   function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
-  function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
+  function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
 
   function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): UTF8String;
   function ValueToCurrency(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Currency): Currency;
@@ -576,9 +576,9 @@ begin
 end;
 
 
-function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
+function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
 var
-  pchrToken, pchrLast: PUTF8Char;
+  pchrToken, pchrLast: PChar;
 begin
   if not TryStrToFloat(AValue, Result, ASettings) then
   begin
