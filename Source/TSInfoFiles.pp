@@ -312,8 +312,8 @@ type
   public
     procedure InsertElement(AIndex: Integer; AElement: TObject);
   public
-    function FirstElementIsAttribute(const AMandatoryName: UTF8String): Boolean;
-    function FirstElementIsChildNode(const AMandatoryName: UTF8String): Boolean;
+    function FirstElementIsAttribute(const AMandatoryName: String): Boolean;
+    function FirstElementIsChildNode(const AMandatoryName: String): Boolean;
   public
     function PopFirstElement(): TObject;
   end;
@@ -1445,14 +1445,14 @@ begin
 end;
 
 
-function TTSInfoRefElementsList.FirstElementIsAttribute(const AMandatoryName: UTF8String): Boolean;
+function TTSInfoRefElementsList.FirstElementIsAttribute(const AMandatoryName: String): Boolean;
 begin
   Result := (FFirstNode <> nil) and (FFirstNode^.Element is TTSInfoAttribute) and
             SameIdentifiers((Element[0] as TTSInfoAttribute).Name, AMandatoryName);
 end;
 
 
-function TTSInfoRefElementsList.FirstElementIsChildNode(const AMandatoryName: UTF8String): Boolean;
+function TTSInfoRefElementsList.FirstElementIsChildNode(const AMandatoryName: String): Boolean;
 begin
   Result := (FFirstNode <> nil) and (FFirstNode^.Element is TTSInfoNode) and
             SameIdentifiers((Element[0] as TTSInfoNode).FName, AMandatoryName);
