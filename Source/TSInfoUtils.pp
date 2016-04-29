@@ -75,8 +75,8 @@ uses
   function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
   function ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
 
-  function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
-  function ValueToInteger(const AValue: UTF8String; ADefault: Integer): Integer;
+  function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
+  function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
 
   function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): UTF8String;
   function ValueToFloat(const AValue: UTF8String; ASettings: TFormatSettings; ADefault: Double): Double;
@@ -449,12 +449,12 @@ end;
 { ----- integer conversions --------------------------------------------------------------------------------------- }
 
 
-function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): UTF8String;
+function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
 var
   boolIsNegative: Boolean;
-  strRawValue: UTF8String;
+  strRawValue: String;
   intRawValueLen, intRawValueMinLen: Integer;
-  pchrNonZeroDigit, pchrLast: PUTF8Char;
+  pchrNonZeroDigit, pchrLast: PChar;
 begin
   if AFormat in [fiUnsignedDecimal, fiSignedDecimal] then
   begin
@@ -484,9 +484,9 @@ begin
       Inc(pchrNonZeroDigit);
 
     intRawValueLen := pchrLast - pchrNonZeroDigit + 1;
-    SetLength(Result, intRawValueLen + 2 + UInt8(boolIsNegative));
-    Move(pchrNonZeroDigit^, Result[3 + UInt8(boolIsNegative)], intRawValueLen);
-    Move(INTEGER_UNIVERSAL_SYSTEM_PREFIXES[AFormat][1], Result[1 + UInt8(boolIsNegative)], 2);
+    SetLength(Result, intRawValueLen + 2 + Ord(boolIsNegative));
+    Move(pchrNonZeroDigit^, Result[3 + Ord(boolIsNegative)], intRawValueLen);
+    Move(INTEGER_UNIVERSAL_SYSTEM_PREFIXES[AFormat][1], Result[1 + Ord(boolIsNegative)], 2);
 
     if boolIsNegative then
       Result[1] := '-';
@@ -494,10 +494,10 @@ begin
 end;
 
 
-function ValueToInteger(const AValue: UTF8String; ADefault: Integer): Integer;
+function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
 var
-  pchrToken, pchrLast: PUTF8Char;
-  strValue: UTF8String;
+  pchrToken, pchrLast: PChar;
+  strValue: String;
   intValueLen, intCode: Integer;
   boolIsNegative: Boolean = False;
   fiNumericalFormat: TFormatInteger = fiUnsignedDecimal;
@@ -533,7 +533,7 @@ begin
 
         intValueLen := pchrLast - pchrToken;
         SetLength(strValue, intValueLen + 1);
-        Move(PUTF8Char(pchrToken + 1)^, strValue[2], intValueLen);
+        Move(PChar(pchrToken + 1)^, strValue[2], intValueLen);
         strValue[1] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiNumericalFormat];
       end;
     end;
