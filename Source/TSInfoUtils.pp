@@ -66,7 +66,7 @@ uses
   procedure ExtractValueComponents(const AValue: String; out AComponents: TValueComponents; out ACount: Integer);
 
   function IsCurrentNodePath(const APath: String): Boolean;
-  function PathWithoutLastNodeName(const APath: UTF8String): UTF8String;
+  function PathWithoutLastNodeName(const APath: String): String;
 
 
 { ----- data conversions ------------------------------------------------------------------------------------------ }
@@ -382,9 +382,9 @@ begin
 end;
 
 
-function PathWithoutLastNodeName(const APath: UTF8String): UTF8String;
+function PathWithoutLastNodeName(const APath: String): String;
 var
-  pchrFirst, pchrToken: PUTF8Char;
+  pchrFirst, pchrToken: PChar;
 begin
   Result := '';
 
