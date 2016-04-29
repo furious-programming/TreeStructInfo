@@ -87,7 +87,7 @@ uses
   function StringToValue(const AString: String; AFormat: TFormatString): String;
   function ValueToString(const AValue: String; AFormat: TFormatString): String;
 
-  function DateTimeToValue(const AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings): UTF8String;
+  function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
   function ValueToDateTime(const AMask, AValue: UTF8String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 
   function PointToValue(APoint: TPoint; AFormat: TFormatPoint): UTF8String;
@@ -704,13 +704,13 @@ end;
 { ----- date & time conversions ----------------------------------------------------------------------------------- }
 
 
-function DateTimeToValue(const AMask: UTF8String; ADateTime: TDateTime; ASettings: TFormatSettings): UTF8String;
+function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
 var
   intMaskLen, intResultLen, intFormatLen: UInt32;
-  pchrMaskToken, pchrMaskLast: PUTF8Char;
-  chrFormat: UTF8Char;
-  strMask: UTF8String;
-  strResult: UTF8String = '';
+  pchrMaskToken, pchrMaskLast: PChar;
+  chrFormat: Char;
+  strMask: String;
+  strResult: String = '';
   bool12HourClock: Boolean = False;
 
   procedure IncreaseMaskCharacters();
@@ -749,9 +749,9 @@ var
     pchrMaskToken := @strMask[1];
   end;
 
-  procedure SaveString(const AString: UTF8String);
+  procedure SaveString(const AString: String);
   var
-    intStringLen: UInt32;
+    intStringLen: Integer;
   begin
     intStringLen := Length(AString);
     SetLength(strResult, intResultLen + intStringLen);
@@ -761,7 +761,7 @@ var
 
   procedure SaveNumber(const ANumber, ADigits: UInt16);
   var
-    strNumber: UTF8String;
+    strNumber: String;
   begin
     Str(ANumber, strNumber);
     strNumber := StringOfChar('0', ADigits - Length(strNumber)) + strNumber;
