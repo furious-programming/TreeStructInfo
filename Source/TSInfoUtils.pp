@@ -54,7 +54,7 @@ uses
   function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
   function GlueStrings(const AMask: String; const AStrings: array of String): String;
 
-  procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
+  procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
   function ValidIdentifier(const AIdentifier: UTF8String): Boolean;
   function SameIdentifiers(const AFirst, ASecond: UTF8String): Boolean;
@@ -232,7 +232,7 @@ begin
 end;
 
 
-procedure MoveString(const ASource; out ADest: UTF8String; ALength: UInt32);
+procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 begin
   SetLength(ADest, ALength);
   Move(ASource, ADest[1], ALength);
