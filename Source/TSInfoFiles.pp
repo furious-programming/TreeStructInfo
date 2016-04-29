@@ -252,17 +252,17 @@ type
 type
   TTSInfoAttributesList = class(TTSInfoElementsList)
   private
-    function InternalAddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
+    function InternalAddAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute;
   public
     constructor Create();
   public
-    function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
+    function GetAttribute(const AName: String): TTSInfoAttribute; overload;
     function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
   public
-    function AddAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute; overload;
-    function AddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute; overload;
+    function AddAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute; overload;
+    function AddAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute; overload;
   public
-    procedure RemoveAttribute(const AName: UTF8String);
+    procedure RemoveAttribute(const AName: String);
     procedure RemoveAll();
   end;
 
@@ -1180,14 +1180,14 @@ begin
 end;
 
 
-function TTSInfoAttributesList.InternalAddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
+function TTSInfoAttributesList.InternalAddAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute;
 begin
   Result := TTSInfoAttribute.Create(AReference, AName, AValue, AComment);
   inherited AddElement(Result);
 end;
 
 
-function TTSInfoAttributesList.GetAttribute(const AName: UTF8String): TTSInfoAttribute;
+function TTSInfoAttributesList.GetAttribute(const AName: String): TTSInfoAttribute;
 var
   attrGet: TTSInfoAttribute;
   intAttributeIdx: Integer;
@@ -1210,19 +1210,19 @@ begin
 end;
 
 
-function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute;
+function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute;
 begin
   Result := InternalAddAttribute(AReference, AName, '', Comment('', ''));
 end;
 
 
-function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
+function TTSInfoAttributesList.AddAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute;
 begin
   Result := InternalAddAttribute(AReference, AName, AValue, AComment);
 end;
 
 
-procedure TTSInfoAttributesList.RemoveAttribute(const AName: UTF8String);
+procedure TTSInfoAttributesList.RemoveAttribute(const AName: String);
 var
   attrRemove: TTSInfoAttribute;
   intAttributeIdx: Integer;
