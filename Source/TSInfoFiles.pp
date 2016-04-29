@@ -91,41 +91,41 @@ type
   private
     FParentNode: TTSInfoNode;
     FReference: Boolean;
-    FName: UTF8String;
+    FName: String;
     FComment: TComment;
     FAttributesList: TTSInfoAttributesList;
     FChildNodesList: TTSInfoNodesList;
     FLinksList: TTSInfoLinksList;
   private
-    function GetComment(AType: TCommentType): UTF8String;
-    procedure SetComment(AType: TCommentType; const AComment: UTF8String);
-    procedure SetName(const AName: UTF8String);
+    function GetComment(AType: TCommentType): String;
+    procedure SetComment(AType: TCommentType; const AComment: String);
+    procedure SetName(const AName: String);
   public
-    function GetAttribute(const AName: UTF8String): TTSInfoAttribute; overload;
+    function GetAttribute(const AName: String): TTSInfoAttribute; overload;
     function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
-    function GetChildNode(const AName: UTF8String): TTSInfoNode; overload;
+    function GetChildNode(const AName: String): TTSInfoNode; overload;
     function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
-    function GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink; overload;
+    function GetLink(const AVirtualNodeName: String): TTSInfoLink; overload;
     function GetLink(AIndex: Integer): TTSInfoLink; overload;
-    function GetVirtualNode(const AName: UTF8String): TTSInfoNode;
+    function GetVirtualNode(const AName: String): TTSInfoNode;
   public
     function GetAttributesCount(): Integer;
     function GetChildNodesCount(): Integer;
     function GetLinksCount(): Integer;
   public
-    constructor Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment);
+    constructor Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment);
     destructor Destroy(); override;
   public
-    function CreateAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute; overload;
-    function CreateAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute; overload;
-    function CreateChildNode(AReference: Boolean; const AName: UTF8String): TTSInfoNode; overload;
-    function CreateChildNode(AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode; overload;
-    function CreateLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink; overload;
-    function CreateLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink; overload;
+    function CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute; overload;
+    function CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute; overload;
+    function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode; overload;
+    function CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
+    function CreateLink(const AFileName, AVirtualNodeName: String): TTSInfoLink; overload;
+    function CreateLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink; overload;
   public
-    procedure RemoveAttribute(const AName: UTF8String);
-    procedure RemoveChildNode(const AName: UTF8String);
-    procedure RemoveLink(const AVirtualNodeName: UTF8String);
+    procedure RemoveAttribute(const AName: String);
+    procedure RemoveChildNode(const AName: String);
+    procedure RemoveLink(const AVirtualNodeName: String);
   public
     procedure RemoveAllAttributes();
     procedure RemoveAllChildNodes();
@@ -133,8 +133,8 @@ type
   public
     property ParentNode: TTSInfoNode read FParentNode;
     property Reference: Boolean read FReference write FReference;
-    property Name: UTF8String read FName write SetName;
-    property Comment[AType: TCommentType]: UTF8String read GetComment write SetComment;
+    property Name: String read FName write SetName;
+    property Comment[AType: TCommentType]: String read GetComment write SetComment;
     property AttributesCount: Integer read GetAttributesCount;
     property ChildNodesCount: Integer read GetChildNodesCount;
     property LinksCount: Integer read GetLinksCount;
@@ -726,7 +726,7 @@ end;
 { ----- TTSInfoNode class ----------------------------------------------------------------------------------------- }
 
 
-constructor TTSInfoNode.Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: UTF8String; const AComment: TComment);
+constructor TTSInfoNode.Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment);
 begin
   inherited Create();
 
@@ -751,25 +751,25 @@ begin
 end;
 
 
-function TTSInfoNode.GetComment(AType: TCommentType): UTF8String;
+function TTSInfoNode.GetComment(AType: TCommentType): String;
 begin
   Result := FComment[AType];
 end;
 
 
-procedure TTSInfoNode.SetComment(AType: TCommentType; const AComment: UTF8String);
+procedure TTSInfoNode.SetComment(AType: TCommentType; const AComment: String);
 begin
   FComment[AType] := AComment;
 end;
 
 
-procedure TTSInfoNode.SetName(const AName: UTF8String);
+procedure TTSInfoNode.SetName(const AName: String);
 begin
   FName := AName;
 end;
 
 
-function TTSInfoNode.GetAttribute(const AName: UTF8String): TTSInfoAttribute;
+function TTSInfoNode.GetAttribute(const AName: String): TTSInfoAttribute;
 begin
   Result := FAttributesList.GetAttribute(AName);
 end;
@@ -781,7 +781,7 @@ begin
 end;
 
 
-function TTSInfoNode.GetChildNode(const AName: UTF8String): TTSInfoNode;
+function TTSInfoNode.GetChildNode(const AName: String): TTSInfoNode;
 begin
   Result := FChildNodesList.GetChildNode(AName);
 end;
@@ -793,7 +793,7 @@ begin
 end;
 
 
-function TTSInfoNode.GetLink(const AVirtualNodeName: UTF8String): TTSInfoLink;
+function TTSInfoNode.GetLink(const AVirtualNodeName: String): TTSInfoLink;
 begin
   Result := FLinksList.GetLink(AVirtualNodeName);
 end;
@@ -805,7 +805,7 @@ begin
 end;
 
 
-function TTSInfoNode.GetVirtualNode(const AName: UTF8String): TTSInfoNode;
+function TTSInfoNode.GetVirtualNode(const AName: String): TTSInfoNode;
 begin
   Result := FLinksList.GetVirtualNode(AName);
 end;
@@ -829,55 +829,55 @@ begin
 end;
 
 
-function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName: UTF8String): TTSInfoAttribute;
+function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute;
 begin
   Result := FAttributesList.AddAttribute(AReference, AName);
 end;
 
 
-function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName, AValue: UTF8String; const AComment: TComment): TTSInfoAttribute;
+function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute;
 begin
   Result := FAttributesList.AddAttribute(AReference, AName, AValue, AComment);
 end;
 
 
-function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: UTF8String): TTSInfoNode;
+function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode;
 begin
   Result := FChildNodesList.AddChildNode(Self, AReference, AName);
 end;
 
 
-function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: UTF8String; const AComment: TComment): TTSInfoNode;
+function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode;
 begin
   Result := FChildNodesList.AddChildNode(Self, AReference, AName, AComment);
 end;
 
 
-function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: UTF8String): TTSInfoLink;
+function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: String): TTSInfoLink;
 begin
   Result := FLinksList.AddLink(AFileName, AVirtualNodeName);
 end;
 
 
-function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: UTF8String; AModes: TTreeModes; const AComment: UTF8String): TTSInfoLink;
+function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
 begin
   Result := FLinksList.AddLink(AFileName, AVirtualNodeName, AModes, AComment);
 end;
 
 
-procedure TTSInfoNode.RemoveAttribute(const AName: UTF8String);
+procedure TTSInfoNode.RemoveAttribute(const AName: String);
 begin
   FAttributesList.RemoveAttribute(AName);
 end;
 
 
-procedure TTSInfoNode.RemoveChildNode(const AName: UTF8String);
+procedure TTSInfoNode.RemoveChildNode(const AName: String);
 begin
   FChildNodesList.RemoveChildNode(AName);
 end;
 
 
-procedure TTSInfoNode.RemoveLink(const AVirtualNodeName: UTF8String);
+procedure TTSInfoNode.RemoveLink(const AVirtualNodeName: String);
 begin
   FLinksList.RemoveLink(AVirtualNodeName);
 end;
