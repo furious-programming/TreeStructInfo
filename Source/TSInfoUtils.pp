@@ -56,7 +56,7 @@ uses
 
   procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
-  function ValidIdentifier(const AIdentifier: UTF8String): Boolean;
+  function ValidIdentifier(const AIdentifier: String): Boolean;
   function SameIdentifiers(const AFirst, ASecond: UTF8String): Boolean;
 
   function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
@@ -239,10 +239,10 @@ begin
 end;
 
 
-function ValidIdentifier(const AIdentifier: UTF8String): Boolean;
+function ValidIdentifier(const AIdentifier: String): Boolean;
 var
   intIdentLen: Integer;
-  pchrToken, pchrLast: PUTF8Char;
+  pchrToken, pchrLast: PChar;
 begin
   Result := False;
   intIdentLen := Length(AIdentifier);
