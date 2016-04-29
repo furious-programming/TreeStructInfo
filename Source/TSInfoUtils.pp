@@ -59,8 +59,8 @@ uses
   function ValidIdentifier(const AIdentifier: String): Boolean;
   function SameIdentifiers(const AFirst, ASecond: String): Boolean;
 
-  function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
-  function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
+  function IncludeTrailingIdentsDelimiter(const APath: String): String;
+  function ExcludeTrailingIdentsDelimiter(const APath: String): String;
 
   function ExtractPathComponent(const AAttrName: UTF8String; AComponent: TPathComponent): UTF8String;
   procedure ExtractValueComponents(const AValue: UTF8String; out AComponents: TValueComponents; out ACount: Integer);
@@ -277,7 +277,7 @@ begin
 end;
 
 
-function IncludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
+function IncludeTrailingIdentsDelimiter(const APath: String): String;
 var
   intPathLen: Integer;
 begin
@@ -290,7 +290,7 @@ begin
 end;
 
 
-function ExcludeTrailingIdentsDelimiter(const APath: UTF8String): UTF8String;
+function ExcludeTrailingIdentsDelimiter(const APath: String): String;
 var
   intPathLen: Integer;
 begin
