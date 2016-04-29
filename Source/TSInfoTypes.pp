@@ -45,7 +45,7 @@ uses
 
 type
   TCommentType = (ctDeclaration, ctDefinition);
-  TComment     = array [TCommentType] of UTF8String;
+  TComment     = array [TCommentType] of String;
 
 type
   TTreeMode  = (tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite, tmAllowLinking, tmLoadFile);
@@ -61,7 +61,7 @@ type
   TPathComponent = (pcAttributeName, pcAttributePath);
 
 type
-  TValueComponents = array of UTF8String;
+  TValueComponents = array of String;
   TLineComponents  = TValueComponents;
 
 type
