@@ -39,15 +39,14 @@ unit TSInfoUtils;
 interface
 
 uses
-  TSInfoConsts, TSInfoTypes,
-  SysUtils, DateUtils, LCLProc, Classes, Math, Types;
+  TSInfoConsts, TSInfoTypes, SysUtils, DateUtils, LCLProc, Classes, Math, Types;
 
 
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
 
 
-  procedure ThrowException(const AMessage: UTF8String); overload;
-  procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const); overload;
+  procedure ThrowException(const AMessage: String); overload;
+  procedure ThrowException(const AMessage: String; const AArgs: array of const); overload;
 
   function Comment(const ADeclaration, ADefinition: UTF8String): TComment;
   function RemoveWhitespaceChars(const AValue: UTF8String): UTF8String;
@@ -110,13 +109,13 @@ implementation
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
 
 
-procedure ThrowException(const AMessage: UTF8String); overload;
+procedure ThrowException(const AMessage: String); overload;
 begin
   raise ETSInfoFileException.Create(AMessage);
 end;
 
 
-procedure ThrowException(const AMessage: UTF8String; const AArgs: array of const);
+procedure ThrowException(const AMessage: String; const AArgs: array of const);
 begin
   raise ETSInfoFileException.CreateFmt(AMessage, AArgs);
 end;
