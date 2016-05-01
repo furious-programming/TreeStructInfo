@@ -1863,7 +1863,7 @@ begin
 end;
 
 
-function TSimpleTSInfoTree.OpenChildNode(const ANodePath: String; AReadOnly: Boolean; ACanCreate: Boolean): Boolean;
+function TSimpleTSInfoTree.OpenChildNode(const ANodePath: String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
 var
   nodeOpen: TTSInfoNode;
   strNodePath: String;
