@@ -2164,7 +2164,7 @@ end;
 procedure TSimpleTSInfoTree.WriteStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
 var
   attrWrite: TTSInfoAttribute;
-  arrBuffer: TByteDynArray;
+  bdaBuffer: TByteDynArray;
   strValue: String = '';
 begin
   if FReadOnly then
@@ -2178,10 +2178,10 @@ begin
 
       if attrWrite <> nil then
       begin
-        SetLength(arrBuffer, ASize);
-        AStream.Read(arrBuffer[0], ASize);
+        SetLength(bdaBuffer, ASize);
+        AStream.Read(bdaBuffer[0], ASize);
 
-        BufferToValue(arrBuffer[0], ASize, strValue, TFormatBuffer(AFormat));
+        BufferToValue(bdaBuffer[0], ASize, strValue, TFormatBuffer(AFormat));
         attrWrite.Value := strValue;
         FModified := True;
       end;
@@ -2347,16 +2347,16 @@ end;
 procedure TSimpleTSInfoTree.ReadStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
 var
   attrRead: TTSInfoAttribute;
-  arrBuffer: TByteDynArray;
+  bdaBuffer: TByteDynArray;
 begin
   attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead <> nil then
   begin
-    SetLength(arrBuffer, ASize);
-    ValueToBuffer(attrRead.Value, arrBuffer[0], ASize, AOffset);
+    SetLength(bdaBuffer, ASize);
+    ValueToBuffer(attrRead.Value, bdaBuffer[0], ASize, AOffset);
 
-    AStream.Write(arrBuffer[0], ASize);
+    AStream.Write(bdaBuffer[0], ASize);
   end;
 end;
 
