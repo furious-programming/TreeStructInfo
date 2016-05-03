@@ -48,7 +48,7 @@ type
   TComment     = array [TCommentType] of String;
 
 type
-  TTreeMode  = (tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite, tmAllowLinking, tmLoadFile);
+  TTreeMode  = (tmTextTree, tmBinaryTree, tmAccessRead, tmAccessWrite);
   TTreeModes = set of TTreeMode;
 
 type
