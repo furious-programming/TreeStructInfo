@@ -475,7 +475,6 @@ type
   private
     FTSInfoTree: TSimpleTSInfoTree;
     FOutput: TStrings;
-    FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FAllowLinking: Boolean;
   private
@@ -3576,7 +3575,6 @@ begin
 
   FTSInfoTree := ATSInfoTree;
   FOutput := AOutput;
-  FProcessedTrees := AProcessedTrees;
 
   FRefElements := TTSInfoRefElementsList.Create(False);
   FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
