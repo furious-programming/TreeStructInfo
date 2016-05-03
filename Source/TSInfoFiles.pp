@@ -526,7 +526,6 @@ type
   private
     FTSInfoTree: TSimpleTSInfoTree;
     FInput: TStream;
-    FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
     procedure ReadStringBuffer(out ABuffer: String);
@@ -541,7 +540,7 @@ type
     procedure ReadChildNode(AChildNode: TTSInfoNode);
     procedure ReadLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream);
     destructor Destroy(); override;
   public
     procedure ProcessInput();
@@ -3886,13 +3885,12 @@ end;
 { ----- TTSInfoBinaryInputReader class ---------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryInputReader.Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoBinaryInputReader.Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream);
 begin
   inherited Create();
 
   FTSInfoTree := ATSInfoTree;
   FInput := AInput;
-  FProcessedTrees := AProcessedTrees;
 
   FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
@@ -3902,7 +3900,6 @@ destructor TTSInfoBinaryInputReader.Destroy();
 begin
   FTSInfoTree := nil;
   FInput := nil;
-  FProcessedTrees := nil;
 
   inherited Destroy();
 end;
