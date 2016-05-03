@@ -503,7 +503,6 @@ type
     procedure AddRefAttributeDefinition(AAttribute: TTSInfoAttribute);
     procedure AddRefChildNodeDeclaration(AChildNode: TTSInfoNode);
     procedure AddRefChildNodeDefinition(AChildNode: TTSInfoNode);
-    procedure AddLink(ALink: TTSInfoLink);
     procedure AddEmptySpace();
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
@@ -3817,37 +3816,6 @@ begin
 
   ResetIndentation();
   FOutput.Add(KEYWORD_REF_NODE_END);
-end;
-
-
-procedure TTSInfoTextOutputWriter.AddLink(ALink: TTSInfoLink);
-var
-  strLink: String;
-begin
-  if ALink.Comment <> '' then
-    AddComment(ALink.Comment);
-
-  strLink := GlueStrings('%% %%% % %%%', [FIndentation, KEYWORD_LINK, QUOTE_CHAR, ALink.FileName, QUOTE_CHAR,
-                                          KEYWORD_LINK_AS_NODE, QUOTE_CHAR, ALink.VirtualNodeName, QUOTE_CHAR]);
-
-  if ALink.TreeModes * [tmBinaryTree, tmAccessWrite] <> [] then
-  begin
-    strLink += GlueStrings(' %', [KEYWORD_LINK_IN_MODE]);
-
-    if tmBinaryTree in ALink.TreeModes then
-      strLink += GlueStrings(' %%%', [QUOTE_CHAR, LINKING_MODE_BINARY_TREE, QUOTE_CHAR])
-    else
-      if tmTextTree in ALink.TreeModes then
-        strLink += GlueStrings(' %%%', [QUOTE_CHAR, LINKING_MODE_TEXT_TREE, QUOTE_CHAR]);
-
-    if tmAccessWrite in ALink.TreeModes then
-      strLink += GlueStrings(' %%%', [QUOTE_CHAR, LINKING_MODE_ACCESS_WRITE, QUOTE_CHAR])
-    else
-      if tmAccessRead in ALink.TreeModes then
-        strLink += GlueStrings(' %%%', [QUOTE_CHAR, LINKING_MODE_ACCESS_READ, QUOTE_CHAR]);
-  end;
-
-  FOutput.Add(strLink);
 end;
 
 
