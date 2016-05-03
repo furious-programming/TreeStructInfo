@@ -2100,7 +2100,6 @@ begin
     begin
       nodeParent.RemoveAllAttributes();
       nodeParent.RemoveAllChildNodes();
-      nodeParent.RemoveAllLinks();
 
       FModified := True;
     end;
