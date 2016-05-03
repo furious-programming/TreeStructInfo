@@ -436,7 +436,6 @@ type
     function IsRefAttributeDefinitionLine(const ALine: String): Boolean;
     function IsRefChildNodeLine(const ALine: String): Boolean;
     function IsRefChildNodeEndLine(const ALine: String): Boolean;
-    function IsLinkLine(const ALine: String): Boolean;
     function IsValueLine(const ALine: String): Boolean;
   private
     procedure AddRefElement(AElement: TObject);
@@ -3183,13 +3182,6 @@ function TTSInfoTextInputReader.IsRefChildNodeEndLine(const ALine: String): Bool
 begin
   Result := (Length(ALine) = KEYWORD_REF_NODE_END_LEN) and
             (CompareByte(ALine[1], KEYWORD_REF_NODE_END[1], KEYWORD_REF_NODE_END_LEN) = 0);
-end;
-
-
-function TTSInfoTextInputReader.IsLinkLine(const ALine: String): Boolean;
-begin
-  Result := (Length(ALine) >= MIN_LINK_LINE_LEN) and
-            (CompareByte(ALine[1], KEYWORD_LINK[1], KEYWORD_LINK_LEN) = 0);
 end;
 
 
