@@ -670,7 +670,7 @@ Binary file containing empty configuration tree, should always take exactly `32 
 
 # Dynamic data
 
-For a set of dynamic informations includes descriptions of the tree elements, such as standard and referencing **attributes**, standard and referencing **child nodes** and **links**.
+For a set of dynamic informations includes descriptions of the tree elements, such as standard and referencing **attributes**, and standard and referencing **child nodes**.
 
 Each element is represented by another sequence of bytes, by virtue of having different and varying amounts of information.
 
