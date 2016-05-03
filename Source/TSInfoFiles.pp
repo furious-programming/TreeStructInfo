@@ -1387,10 +1387,10 @@ end;
 procedure TSimpleTSInfoTree.LoadFromList(AList: TStrings; const AFileName: String = ''; AModes: TTreeModes = []);
 begin
   FFileName := AFileName;
-  FTreeModes := AModes - [tmAllowLinking];
+  FTreeModes := AModes;
 
   ClearTree();
-  InternalLoadTreeFromList(AList, Self, nil);
+  InternalLoadTreeFromList(AList, Self);
 end;
 
 
