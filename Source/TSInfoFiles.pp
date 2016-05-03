@@ -537,7 +537,6 @@ type
     procedure ReadElements(AParentNode: TTSInfoNode);
     procedure ReadAttribute(AAttribute: TTSInfoAttribute);
     procedure ReadChildNode(AChildNode: TTSInfoNode);
-    procedure ReadLink(ALink: TTSInfoLink);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStream);
     destructor Destroy(); override;
@@ -4007,22 +4006,6 @@ begin
   ReadStringBuffer(AChildNode.FComment[ctDefinition]);
 
   ReadElements(AChildNode);
-end;
-
-
-procedure TTSInfoBinaryInputReader.ReadLink(ALink: TTSInfoLink);
-begin
-  ReadStringBuffer(ALink.LinkedTree.FFileName);
-  ReadStringBuffer(ALink.FVirtualNodeName);
-
-  ALink.LinkedTree.TreeModes := [tmAllowLinking];
-  ReadTreeMode(ALink.LinkedTree.FTreeModes, tmBinaryTree, tmTextTree);
-  ReadTreeMode(ALink.LinkedTree.FTreeModes, tmAccessWrite, tmAccessRead);
-
-  ReadStringBuffer(ALink.FComment);
-
-  if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(ALink.FileName) then
-    FProcessedTrees.AddElement(ALink.LinkedTree);
 end;
 
 
