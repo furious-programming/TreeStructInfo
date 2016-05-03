@@ -647,7 +647,7 @@ If the string is multiline, its individual substrings are separated by character
 
 The static informations includes the file signature, name of the tree and main comment, as well as the count of elements, included in the root node.
 
-The structure schema of the binary file, containing the **empty tree**:
+The structure schema of the binary file, containing the **empty tree** (without any elements):
 
 ```
 size    value             data type    component         description
@@ -662,10 +662,9 @@ size    value             data type    component         description
 
 4       0                 uint32       root node         attributes count
 4       0                 uint32       root node         chlid nodes count
-4       0                 uint32       root node         links count
 ```
 
-Binary file containing empty configuration tree, should always take exactly `36 bytes`.
+Binary file containing empty configuration tree, should always take exactly `32 bytes`.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idStaticData)
 
