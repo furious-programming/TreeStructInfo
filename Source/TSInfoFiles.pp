@@ -511,7 +511,7 @@ type
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
   public
-    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings);
     destructor Destroy(); override;
   public
     procedure ProcessOutput();
@@ -3561,7 +3561,7 @@ end;
 { ----- TTSInfoTextOutputWriter class ----------------------------------------------------------------------------- }
 
 
-constructor TTSInfoTextOutputWriter.Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoTextOutputWriter.Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStrings);
 begin
   inherited Create();
 
