@@ -1399,18 +1399,18 @@ var
   slInput: TStringList;
 begin
   FFileName := AFileName;
-  FTreeModes := AModes - [tmAllowLinking];
+  FTreeModes := AModes;
 
   ClearTree();
 
   if tmBinaryTree in FTreeModes then
-    InternalLoadTreeFromStream(AStream, Self, nil)
+    InternalLoadTreeFromStream(AStream, Self)
   else
   begin
     slInput := TStringList.Create();
     try
       slInput.LoadFromStream(AStream);
-      InternalLoadTreeFromList(slInput, Self, nil);
+      InternalLoadTreeFromList(slInput, Self);
     finally
       slInput.Free();
     end;
