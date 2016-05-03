@@ -3585,7 +3585,6 @@ destructor TTSInfoTextOutputWriter.Destroy();
 begin
   FTSInfoTree := nil;
   FOutput := nil;
-  FProcessedTrees := nil;
 
   FRefElements.Free();
   inherited Destroy();
