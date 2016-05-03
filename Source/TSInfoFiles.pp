@@ -107,8 +107,7 @@ type
     destructor Destroy(); override;
   public
     function CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute;
-    function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode; overload;
-    function CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
+    function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode;
   public
     procedure RemoveAttribute(const AName: String);
     procedure RemoveChildNode(const AName: String);
@@ -696,12 +695,6 @@ end;
 function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode;
 begin
   Result := FChildNodesList.AddChildNode(Self, AReference, AName);
-end;
-
-
-function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode;
-begin
-  Result := FChildNodesList.AddChildNode(Self, AReference, AName, AComment);
 end;
 
 
@@ -2031,7 +2024,7 @@ begin
 
     if Result then
     begin
-      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName, Comment('', ''));
+      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName);
 
       if AOpen then
       begin
@@ -3160,7 +3153,7 @@ begin
 
   if ValidIdentifier(strNodeName) then
   begin
-    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(boolReference, strNodeName, Comment(FComment, ''));
+    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(boolReference, strNodeName);
     FTSInfoTree.FCurrentNode := nodeAdd;
   end;
 
@@ -3198,7 +3191,7 @@ begin
 
   if ValidIdentifier(strNodeName) then
   begin
-    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(True, strNodeName, Comment(FComment, ''));
+    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(True, strNodeName);
     FStoreRefElement(nodeAdd);
 
     ClearComment();
