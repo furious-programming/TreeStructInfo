@@ -106,8 +106,7 @@ type
     constructor Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment);
     destructor Destroy(); override;
   public
-    function CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute; overload;
-    function CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute; overload;
+    function CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute;
     function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode; overload;
     function CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
   public
@@ -691,12 +690,6 @@ end;
 function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute;
 begin
   Result := FAttributesList.AddAttribute(AReference, AName);
-end;
-
-
-function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute;
-begin
-  Result := FAttributesList.AddAttribute(AReference, AName, AValue, AComment);
 end;
 
 
@@ -3141,7 +3134,7 @@ begin
 
   if ValidIdentifier(strAttrName) then
   begin
-    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, strAttrName, '', Comment(FComment, ''));
+    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, strAttrName);
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
@@ -3187,7 +3180,7 @@ begin
 
   if ValidIdentifier(strAttrName) then
   begin
-    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName, '', Comment(FComment, ''));
+    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName);
     FStoreRefElement(attrAdd);
 
     ClearComment();
