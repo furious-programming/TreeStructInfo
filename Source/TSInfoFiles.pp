@@ -2051,7 +2051,7 @@ begin
 
     if Result then
     begin
-      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName, Comment('', ''));
+      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName);
 
       if AOpen then
       begin
