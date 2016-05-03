@@ -3735,7 +3735,6 @@ begin
 
   AddChildNodeAttributes(AChildNode);
   AddChildNodeChildNodes(AChildNode);
-  AddChildNodeLinks(AChildNode);
 
   DecIndentation();
   FOutput.Add(GlueStrings('%%', [FIndentation, KEYWORD_STD_NODE_END]));
