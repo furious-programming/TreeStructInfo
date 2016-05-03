@@ -68,7 +68,8 @@ type
     function GetComment(AType: TCommentType): String;
     procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    constructor Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment);
+    constructor Create(AReference: Boolean; const AName: String); overload;
+    constructor Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment); overload;
   public
     property Reference: Boolean read FReference write FReference;
     property Name: String read FName write SetName;
@@ -106,8 +107,10 @@ type
     constructor Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment);
     destructor Destroy(); override;
   public
-    function CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute;
-    function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode;
+    function CreateAttribute(AReference: Boolean; const AName: String): TTSInfoAttribute; overload;
+    function CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute; overload;
+    function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode; overload;
+    function CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
   public
     procedure RemoveAttribute(const AName: String);
     procedure RemoveChildNode(const AName: String);
@@ -571,6 +574,18 @@ implementation
 { ----- TTSInfoAttribute class ------------------------------------------------------------------------------------ }
 
 
+constructor TTSInfoAttribute.Create(AReference: Boolean; const AName: String);
+begin
+  inherited Create();
+
+  FReference := AReference;
+  FName := AName;
+  FValue := '';
+  FComment[ctDeclaration] := '';
+  FComment[ctDefinition] := '';
+end;
+
+
 constructor TTSInfoAttribute.Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment);
 begin
   inherited Create();
@@ -692,9 +707,21 @@ begin
 end;
 
 
+function TTSInfoNode.CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute;
+begin
+  Result := FAttributesList.AddAttribute(AReference, AName, AValue, AComment);
+end;
+
+
 function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode;
 begin
   Result := FChildNodesList.AddChildNode(Self, AReference, AName);
+end;
+
+
+function TTSInfoNode.CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode;
+begin
+  Result := FChildNodesList.AddChildNode(Self, AReference, AName, AComment);
 end;
 
 
@@ -1992,7 +2019,7 @@ begin
 
     if Result then
     begin
-      nodeParent.CreateAttribute(AReference, AAttrName);
+      nodeParent.CreateAttribute(AReference, AAttrName, '', Comment('', ''));
       FModified := True;
     end;
   end;
@@ -2024,7 +2051,7 @@ begin
 
     if Result then
     begin
-      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName);
+      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName, Comment('', ''));
 
       if AOpen then
       begin
@@ -3127,7 +3154,7 @@ begin
 
   if ValidIdentifier(strAttrName) then
   begin
-    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, strAttrName);
+    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, strAttrName, '', Comment(FComment, ''));
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
@@ -3153,7 +3180,7 @@ begin
 
   if ValidIdentifier(strNodeName) then
   begin
-    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(boolReference, strNodeName);
+    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(boolReference, strNodeName, Comment(FComment, ''));
     FTSInfoTree.FCurrentNode := nodeAdd;
   end;
 
@@ -3173,7 +3200,7 @@ begin
 
   if ValidIdentifier(strAttrName) then
   begin
-    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName);
+    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName, '', Comment(FComment, ''));
     FStoreRefElement(attrAdd);
 
     ClearComment();
@@ -3191,7 +3218,7 @@ begin
 
   if ValidIdentifier(strNodeName) then
   begin
-    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(True, strNodeName);
+    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(True, strNodeName, Comment(FComment, ''));
     FStoreRefElement(nodeAdd);
 
     ClearComment();
