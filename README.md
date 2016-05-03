@@ -615,19 +615,6 @@ end ref node
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodesComments)
 
-# Links comments
-
-Links can have only one comment:
-
-```
-treestructinfo "2.0"
-  :: link comment
-  tree "File.ext" as node "Virtual Node Name"
-end tree
-```
-
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idLinksComments)
-
 # Binary form
 
 The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indentations, blank lines and separated definitions of referencing elements. But just like text files, keep comments of elements.
