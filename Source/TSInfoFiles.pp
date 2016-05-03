@@ -360,17 +360,14 @@ type
     procedure RenameTree(const ANewTreeName: String);
     procedure RenameAttribute(const AAttrPath, ANewAttrName: String);
     procedure RenameChildNode(const ANodePath, ANewNodeName: String);
-    procedure RenameVirtualNode(const ANodePath, AVirtualNodeName, ANewVirtualNodeName: String);
   public
     procedure WriteTreeComment(const AComment, ADelimiter: String);
     procedure WriteAttributeComment(const AAttrPath, AComment, ADelimiter: String; AType: TCommentType);
     procedure WriteChildNodeComment(const ANodePath, AComment, ADelimiter: String; AType: TCommentType);
-    procedure WriteLinkComment(const ANodePath, AVirtualNodeName, AComment, ADelimiter: String);
   public
     function ReadTreeComment(const ADelimiter: String): String;
     function ReadAttributeComment(const AAttrPath, ADelimiter: String; AType: TCommentType): String;
     function ReadChildNodeComment(const ANodePath, ADelimiter: String; AType: TCommentType): String;
-    function ReadLinkComment(const ANodePath, AVirtualNodeName, ADelimiter: String): String;
   public
     procedure SetAttributeReference(const AAttrPath: String; AReference: Boolean);
     procedure SetChildNodeReference(const ANodePath: String; AReference: Boolean);
@@ -380,24 +377,19 @@ type
   public
     procedure RemoveAttribute(const AAttrPath: String);
     procedure RemoveChildNode(const ANodePath: String);
-    procedure RemoveLink(const ANodePath, AVirtualNodeName: String);
   public
     procedure RemoveAllAttributes(const ANodePath: String = CURRENT_NODE_SYMBOL);
     procedure RemoveAllChildNodes(const ANodePath: String = CURRENT_NODE_SYMBOL);
-    procedure RemoveAllLinks(const ANodePath: String = CURRENT_NODE_SYMBOL);
   public
     function AttributeExists(const AAttrPath: String): Boolean;
     function ChildNodeExists(const ANodePath: String): Boolean;
-    function LinkExists(const ANodePath, AVirtualNodeName: String): Boolean;
   public
     function GetAttributesCount(const ANodePath: String = CURRENT_NODE_SYMBOL): Integer;
     function GetChildNodesCount(const ANodePath: String = CURRENT_NODE_SYMBOL): Integer;
-    function GetLinksCount(const ANodePath: String = CURRENT_NODE_SYMBOL): Integer;
   public
     procedure ReadAttributesNames(ANames: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
     procedure ReadAttributesValues(AValues: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
     procedure ReadChildNodesNames(ANames: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
-    procedure ReadVirtualNodesNames(ANames: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
   public
     procedure ExportTreeToFile(const AFileName: String; AFormat: TExportFormat = efTextTree);
     procedure ExportTreeToList(AList: TStrings);
@@ -2431,39 +2423,6 @@ begin
 end;
 
 
-procedure TTSInfoTree.RenameVirtualNode(const ANodePath, AVirtualNodeName, ANewVirtualNodeName: String);
-var
-  nodeParent: TTSInfoNode;
-  linkRename: TTSInfoLink;
-begin
-  if FReadOnly then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
-  else
-  begin
-    if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
-    else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-    if nodeParent = nil then
-      ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
-    else
-    begin
-      linkRename := nodeParent.GetLink(AVirtualNodeName);
-
-      if linkRename = nil then
-        ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
-      else
-        if ValidIdentifier(ANewVirtualNodeName) then
-        begin
-          linkRename.VirtualNodeName := ANewVirtualNodeName;
-          FModified := True;
-        end;
-    end;
-  end;
-end;
-
-
 procedure TTSInfoTree.WriteTreeComment(const AComment, ADelimiter: String);
 begin
   if ADelimiter = '' then
@@ -2536,42 +2495,6 @@ begin
 end;
 
 
-procedure TTSInfoTree.WriteLinkComment(const ANodePath, AVirtualNodeName, AComment, ADelimiter: String);
-var
-  nodeParent: TTSInfoNode;
-  linkWrite: TTSInfoLink;
-begin
-  if FReadOnly then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
-  else
-  begin
-    if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
-    else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-    if nodeParent = nil then
-      ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
-    else
-    begin
-      linkWrite := nodeParent.GetLink(AVirtualNodeName);
-
-      if linkWrite = nil then
-        ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
-      else
-      begin
-        if ADelimiter = '' then
-          linkWrite.Comment := AComment
-        else
-          linkWrite.Comment := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
-
-        FModified := True;
-      end;
-    end;
-  end;
-end;
-
-
 function TTSInfoTree.ReadTreeComment(const ADelimiter: String): String;
 begin
   Result := ReplaceSubStrings(FTreeComment, VALUES_DELIMITER, ADelimiter);
@@ -2612,30 +2535,6 @@ begin
       ThrowException(EM_ROOT_NODE_GET_COMMENT)
     else
       Result := ReplaceSubStrings(nodeRead.Comment[AType], VALUES_DELIMITER, ADelimiter);
-end;
-
-
-function TTSInfoTree.ReadLinkComment(const ANodePath, AVirtualNodeName, ADelimiter: String): String;
-var
-  nodeParent: TTSInfoNode;
-  linkRead: TTSInfoLink;
-begin
-  if IsCurrentNodePath(ANodePath) then
-    nodeParent := FCurrentNode
-  else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-  if nodeParent = nil then
-    ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
-  else
-  begin
-    linkRead := nodeParent.GetLink(AVirtualNodeName);
-
-    if linkRead = nil then
-      ThrowException(EM_LINK_NOT_EXISTS, [ANodePath, AVirtualNodeName])
-    else
-      Result := ReplaceSubStrings(linkRead.Comment, VALUES_DELIMITER, ADelimiter);
-  end;
 end;
 
 
@@ -2781,28 +2680,6 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveLink(const ANodePath, AVirtualNodeName: String);
-var
-  nodeParent: TTSInfoNode;
-begin
-  if FReadOnly then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
-  else
-  begin
-    if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
-    else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-    if nodeParent <> nil then
-    begin
-      nodeParent.RemoveLink(AVirtualNodeName);
-      FModified := True;
-    end;
-  end;
-end;
-
-
 procedure TTSInfoTree.RemoveAllAttributes(const ANodePath: String = CURRENT_NODE_SYMBOL);
 var
   nodeParent: TTSInfoNode;
@@ -2847,28 +2724,6 @@ begin
 end;
 
 
-procedure TTSInfoTree.RemoveAllLinks(const ANodePath: String = CURRENT_NODE_SYMBOL);
-var
-  nodeParent: TTSInfoNode;
-begin
-  if FReadOnly then
-    ThrowException(EM_READ_ONLY_MODE_VIOLATION)
-  else
-  begin
-    if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
-    else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-    if nodeParent <> nil then
-    begin
-      nodeParent.RemoveAllLinks();
-      FModified := True;
-    end;
-  end;
-end;
-
-
 function TTSInfoTree.AttributeExists(const AAttrPath: String): Boolean;
 begin
   Result := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False) <> nil;
@@ -2878,19 +2733,6 @@ end;
 function TTSInfoTree.ChildNodeExists(const ANodePath: String): Boolean;
 begin
   Result := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False) <> nil;
-end;
-
-
-function TTSInfoTree.LinkExists(const ANodePath, AVirtualNodeName: String): Boolean;
-var
-  nodeParent: TTSInfoNode;
-begin
-  if IsCurrentNodePath(ANodePath) then
-    nodeParent := FCurrentNode
-  else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-  Result := (nodeParent <> nil) and (nodeParent.GetLink(AVirtualNodeName) <> nil);
 end;
 
 
@@ -2923,22 +2765,6 @@ begin
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
     Result := nodeRead.GetChildNodesCount();
-end;
-
-
-function TTSInfoTree.GetLinksCount(const ANodePath: String = CURRENT_NODE_SYMBOL): Integer;
-var
-  nodeRead: TTSInfoNode;
-begin
-  if IsCurrentNodePath(ANodePath) then
-    nodeRead := FCurrentNode
-  else
-    nodeRead := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-  if nodeRead = nil then
-    ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
-  else
-    Result := nodeRead.GetLinksCount();
 end;
 
 
@@ -2993,24 +2819,6 @@ begin
   else
     for intNodeIdx := 0 to nodeParent.ChildNodesCount - 1 do
       ANames.Add(nodeParent.GetChildNode(intNodeIdx).Name);
-end;
-
-
-procedure TTSInfoTree.ReadVirtualNodesNames(ANames: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
-var
-  nodeParent: TTSInfoNode;
-  intLinkIdx: Integer;
-begin
-  if IsCurrentNodePath(ANodePath) then
-    nodeParent := FCurrentNode
-  else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
-
-  if nodeParent = nil then
-    ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
-  else
-    for intLinkIdx := 0 to nodeParent.LinksCount - 1 do
-      ANames.Add(nodeParent.GetLink(intLinkIdx).VirtualNodeName);
 end;
 
 
