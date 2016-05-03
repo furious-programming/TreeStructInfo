@@ -719,9 +719,6 @@ n        n chars      string        definition comment    comment value
 
 4        n            uint32        child nodes           child nodes count
          ...          ...           child nodes           child nodes bodies
-
-4        n            uint32        links                 links bodies
-         ...          ...           links                 links bodies
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicNodes)
