@@ -1424,20 +1424,20 @@ var
   slInput: TStringList;
 begin
   FFileName := AFileName;
-  FTreeModes := AModes - [tmAllowLinking];
+  FTreeModes := AModes;
 
   ClearTree();
 
   rsInput := TResourceStream.Create(AInstance, AResName, AResType);
   try
     if tmBinaryTree in FTreeModes then
-      InternalLoadTreeFromStream(rsInput, Self, nil)
+      InternalLoadTreeFromStream(rsInput, Self)
     else
     begin
       slInput := TStringList.Create();
       try
         slInput.LoadFromStream(rsInput);
-        InternalLoadTreeFromList(slInput, Self, nil);
+        InternalLoadTreeFromList(slInput, Self);
       finally
         slInput.Free();
       end;
