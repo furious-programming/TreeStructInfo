@@ -79,9 +79,6 @@ type
 
 
 type
-  TTSInfoLink = class;
-
-type
   TTSInfoAttributesList = class;
   TTSInfoNodesList = class;
   TTSInfoLinksList = class;
@@ -138,36 +135,6 @@ type
     property AttributesCount: Integer read GetAttributesCount;
     property ChildNodesCount: Integer read GetChildNodesCount;
     property LinksCount: Integer read GetLinksCount;
-  end;
-
-
-type
-  TSimpleTSInfoTree = class;
-
-type
-  TTSInfoLink = class(TObject)
-  private
-    FLinkedTree: TSimpleTSInfoTree;
-    FVirtualNode: TTSInfoNode;
-    FVirtualNodeName: String;
-    FComment: String;
-  private
-    procedure SetVirtualNodeName(const AVirtualNodeName: String);
-    procedure SetLinkedTreeModes(AModes: TTreeModes);
-    procedure SetComment(const AComment: String);
-  private
-    function GetLinkedFileName(): String;
-    function GetLinkedTreeModes(): TTreeModes;
-  public
-    constructor Create(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String);
-    destructor Destroy(); override;
-  public
-    property LinkedTree: TSimpleTSInfoTree read FLinkedTree;
-    property VirtualNode: TTSInfoNode read FVirtualNode;
-    property VirtualNodeName: String read FVirtualNodeName write SetVirtualNodeName;
-    property Comment: String read FComment write SetComment;
-    property FileName: String read GetLinkedFileName;
-    property TreeModes: TTreeModes read GetLinkedTreeModes write SetLinkedTreeModes;
   end;
 
 
@@ -897,61 +864,6 @@ end;
 procedure TTSInfoNode.RemoveAllLinks();
 begin
   FLinksList.RemoveAll();
-end;
-
-
-{ ----- TTSInfoLink class ----------------------------------------------------------------------------------------- }
-
-
-constructor TTSInfoLink.Create(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String);
-begin
-  inherited Create();
-
-  FLinkedTree := TSimpleTSInfoTree.Create(AFileName, AModes);
-  FVirtualNode := FLinkedTree.FRootNode;
-  FVirtualNodeName := AVirtualNodeName;
-
-  FComment := AComment;
-end;
-
-
-destructor TTSInfoLink.Destroy();
-begin
-  FLinkedTree.TreeModes := [];
-  FLinkedTree.Free();
-  FVirtualNode := nil;
-
-  inherited Destroy();
-end;
-
-
-procedure TTSInfoLink.SetVirtualNodeName(const AVirtualNodeName: String);
-begin
-  FVirtualNodeName := AVirtualNodeName;
-end;
-
-
-procedure TTSInfoLink.SetLinkedTreeModes(AModes: TTreeModes);
-begin
-  FLinkedTree.FTreeModes := AModes;
-end;
-
-
-procedure TTSInfoLink.SetComment(const AComment: String);
-begin
-  FComment := AComment;
-end;
-
-
-function TTSInfoLink.GetLinkedFileName(): String;
-begin
-  Result := FLinkedTree.FileName;
-end;
-
-
-function TTSInfoLink.GetLinkedTreeModes(): TTreeModes;
-begin
-  Result := FLinkedTree.TreeModes;
 end;
 
 
