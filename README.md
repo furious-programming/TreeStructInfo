@@ -30,24 +30,15 @@ attr              - opens the header of standard attribute declaration
 node              - opens the header of standard node declaration
 end node          - ends the standard node body
 
-tree              - opens the header of link declaration
-as node           - stands before the virtual node name
-in mode           - stands before the set of linking modes
-
 ref attr          - opens the header of referencing attribute declaration
 ref node          - opens the headers of referencing node declaration and definition
 end ref node      - ends the referencing node body
 ```
 
-Keywords and key phrases can be made up only of lowercase letters. To describe the syntax of text configuration files used are also several strings:
+Keywords and key phrases can be made up only of lowercase letters. To describe the syntax of text configuration files used is also one value-string:
 
 ```
 "2.0"      - the value of the format version
-
-"text"     - mode indicating the inclusion of a text file
-"binary"   - mode indicating the inclusion of a binary file
-"read"     - mode indication inclusion of the file for read only
-"write"    - mode indicating inclusion of the file for read and write
 ```
 
 a small number of special characters:
