@@ -2790,7 +2790,7 @@ end;
 
 procedure TTSInfoTree.ExportTreeToList(AList: TStrings);
 begin
-  InternalSaveTreeToList(AList, Self, nil);
+  InternalSaveTreeToList(AList, Self);
 end;
 
 
