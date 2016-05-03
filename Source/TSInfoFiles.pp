@@ -561,7 +561,6 @@ type
     procedure WriteElements(AParentNode: TTSInfoNode);
     procedure WriteAttribute(AAttribute: TTSInfoAttribute);
     procedure WriteChildNode(AChildNode: TTSInfoNode);
-    procedure WriteLink(ALink: TTSInfoLink);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream);
     destructor Destroy(); override;
@@ -4126,22 +4125,6 @@ begin
   WriteStringBuffer(AChildNode.FComment[ctDefinition]);
 
   WriteElements(AChildNode);
-end;
-
-
-procedure TTSInfoBinaryOutputWriter.WriteLink(ALink: TTSInfoLink);
-begin
-  WriteStringBuffer(ALink.LinkedTree.FFileName);
-  WriteStringBuffer(ALink.FVirtualNodeName);
-
-  WriteTreeMode(ALink.LinkedTree.FTreeModes, tmBinaryTree);
-  WriteTreeMode(ALink.LinkedTree.FTreeModes, tmAccessWrite);
-
-  WriteStringBuffer(ALink.FComment);
-
-  if tmAccessWrite in ALink.LinkedTree.TreeModes then
-    if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(ALink.FileName) then
-      FProcessedTrees.AddElement(ALink.LinkedTree);
 end;
 
 
