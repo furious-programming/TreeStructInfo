@@ -256,18 +256,6 @@ type
   end;
 
 
-type
-  TTSInfoProcessedTreesList = class(TTSInfoElementsList)
-  private
-    function GetTreeAtIndex(AIndex: Integer): TSimpleTSInfoTree;
-  public
-    procedure AddTree(ATree: TSimpleTSInfoTree);
-    function FileNotYetBeenProcessed(const AFileName: String): Boolean;
-  public
-    property Tree[AIndex: Integer]: TSimpleTSInfoTree read GetTreeAtIndex;
-  end;
-
-
 { ----- tree classes ---------------------------------------------------------------------------------------------- }
 
 
@@ -1207,49 +1195,6 @@ function TTSInfoRefElementsList.PopFirstElement(): TObject;
 begin
   Result := FFirstNode^.Element;
   RemoveElement(0);
-end;
-
-
-{ ----- TTSInfoProcessedTreesList class --------------------------------------------------------------------------- }
-
-
-function TTSInfoProcessedTreesList.GetTreeAtIndex(AIndex: Integer): TSimpleTSInfoTree;
-begin
-  Result := inherited Element[AIndex] as TSimpleTSInfoTree;
-end;
-
-
-procedure TTSInfoProcessedTreesList.AddTree(ATree: TSimpleTSInfoTree);
-begin
-  inherited AddElement(ATree);
-end;
-
-
-function TTSInfoProcessedTreesList.FileNotYetBeenProcessed(const AFileName: String): Boolean;
-var
-  treeRead: TSimpleTSInfoTree;
-  strFullInputFileName, strFullTreeFileName: String;
-  intTreeIdx: Integer;
-begin
-  if FCount > 0 then
-  begin
-    strFullInputFileName := ExpandFileNameUTF8(AFileName);
-
-    for intTreeIdx := 0 to FCount - 1 do
-    begin
-      treeRead := inherited Element[intTreeIdx] as TSimpleTSInfoTree;
-      strFullTreeFileName := ExpandFileNameUTF8(treeRead.FileName);
-
-      {$IFDEF WINDOWS}
-      if UTF8CompareText(strFullInputFileName, strFullTreeFileName) = 0 then
-      {$ELSE}
-      if UTF8CompareStr(strFullInputFileName, strFullTreeFileName) = 0 then
-      {$ENDIF}
-        Exit(False);
-    end;
-  end;
-
-  Result := True;
 end;
 
 
