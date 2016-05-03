@@ -445,7 +445,6 @@ type
     procedure AddStdChildNode();
     procedure AddRefAttribute();
     procedure AddRefChildNode();
-    procedure AddLink();
   private
     procedure CloseStdChildNode();
     procedure CloseRefChildNode();
@@ -3289,51 +3288,6 @@ begin
     ClearComment();
     Inc(FLineIndex);
   end;
-end;
-
-
-procedure TTSInfoTextInputReader.AddLink();
-var
-  linkAdd: TTSInfoLink;
-  lcLink: TLineComponents;
-  intComponentsCnt: Integer = 0;
-  tmModes: TTreeModes = [tmAllowLinking];
-begin
-  SetLength(lcLink, 0);
-  ExtractLineComponents(FInput[FLineIndex], lcLink, intComponentsCnt);
-
-  if (intComponentsCnt = LINK_COMPONENTS_COUNT_SHORT) or (intComponentsCnt >= LINK_COMPONENTS_COUNT_FULL) then
-  begin
-    if lcLink[LINK_COMPONENT_INDEX_FILE_NAME] <> '' then
-    begin
-      if SameIdentifiers(lcLink[LINK_COMPONENT_INDEX_AS_NODE_KEYWORD], KEYWORD_LINK_AS_NODE) then
-      begin
-        if ValidIdentifier(lcLink[LINK_COMPONENT_INDEX_VIRTUAL_NODE_NAME]) then
-        begin
-          if intComponentsCnt >= LINK_COMPONENTS_COUNT_FULL then
-            if SameIdentifiers(lcLink[LINK_COMPONENT_INDEX_IN_MODE_KEYWORD], KEYWORD_LINK_IN_MODE) then
-              ComponentsToTreeModes(lcLink, tmModes)
-            else
-              ThrowException(EM_INVALID_LINK_COMPONENT, [KEYWORD_LINK_IN_MODE, lcLink[LINK_COMPONENT_INDEX_IN_MODE_KEYWORD]]);
-
-          linkAdd := FTSInfoTree.FCurrentNode.CreateLink(lcLink[LINK_COMPONENT_INDEX_FILE_NAME],
-                     lcLink[LINK_COMPONENT_INDEX_VIRTUAL_NODE_NAME], tmModes, FComment);
-
-          if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(linkAdd.FileName) then
-            FProcessedTrees.AddTree(linkAdd.LinkedTree);
-        end;
-      end
-      else
-        ThrowException(EM_INVALID_LINK_COMPONENT, [KEYWORD_LINK_AS_NODE, lcLink[LINK_COMPONENT_INDEX_AS_NODE_KEYWORD]]);
-    end
-    else
-      ThrowException(EM_MISSING_LINKED_FILE_NAME);
-  end
-  else
-    ThrowException(EM_INVALID_LINK_LINE, [FInput[FLineIndex]]);
-
-  ClearComment();
-  Inc(FLineIndex);
 end;
 
 
