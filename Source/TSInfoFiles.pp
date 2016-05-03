@@ -3811,7 +3811,6 @@ begin
 
   AddChildNodeAttributes(AChildNode);
   AddChildNodeChildNodes(AChildNode);
-  AddChildNodeLinks(AChildNode);
 
   ResetIndentation();
   FOutput.Add(KEYWORD_REF_NODE_END);
