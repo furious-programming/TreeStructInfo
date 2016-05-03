@@ -3014,7 +3014,6 @@ begin
     if IsStdChildNodeEndLine(FInput[FLineIndex])         then CloseStdChildNode() else
     if IsRefAttributeDeclarationLine(FInput[FLineIndex]) then AddRefAttribute()   else
     if IsRefChildNodeLine(FInput[FLineIndex])            then AddRefChildNode()   else
-    if IsLinkLine(FInput[FLineIndex])                    then AddLink()
     else
       ThrowException(EM_INVALID_SOURCE_LINE, [FInput[FLineIndex]]);
 end;
