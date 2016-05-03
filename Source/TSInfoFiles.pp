@@ -2006,7 +2006,7 @@ begin
 
     if Result then
     begin
-      nodeParent.CreateAttribute(AReference, AAttrName, '', Comment('', ''));
+      nodeParent.CreateAttribute(AReference, AAttrName);
       FModified := True;
     end;
   end;
