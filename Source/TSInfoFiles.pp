@@ -1366,7 +1366,7 @@ begin
   begin
     fsInput := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyWrite);
     try
-      InternalLoadTreeFromStream(fsInput, treeLoad);
+      InternalLoadTreeFromStream(fsInput, Self);
     finally
       fsInput.Free();
     end;
@@ -1376,7 +1376,7 @@ begin
     slInput := TStringList.Create();
     try
       slInput.LoadFromFile(FFileName);
-      InternalLoadTreeFromList(slInput, treeLoad);
+      InternalLoadTreeFromList(slInput, Self);
     finally
       slInput.Free();
     end;
