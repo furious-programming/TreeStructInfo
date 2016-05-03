@@ -411,56 +411,6 @@ For a given node are those elements, that are defined between the header line an
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodes)
 
-# Links
-
-Links are elements used for including trees from another files. Linked files can be text or binary. Line with link declaration can exist in two forms - basic and full. The basic link declaration line must contain the keyword `tree`, then the name or path to linked file, key phrese `as node` and then the name of virtual node:
-
-```
-tree "File.ext" as node "Virtual Node Name"
-```
-
-File name/path and the virtual node name are the values, so they must be covered by quotation marks.
-
-The full version of link declaration can also contain the key phrase `in mode`, and then the mode values. If the file is text and must be included only for reading - no modes is required.
-
-Example for linking the text file in read only mode:
-
-```
-tree "FileName.ext" as node "Virtual Node Name"
-tree "FileName.ext" as node "Virtual Node Name" in mode "text"
-tree "FileName.ext" as node "Virtual Node Name" in mode "read"
-tree "FileName.ext" as node "Virtual Node Name" in mode "text" "read"
-```
-
-linking the text file in read and write mode:
- 
-```
-tree "FileName.ext" as node "Virtual Node Name" in mode "write"
-tree "FileName.ext" as node "Virtual Node Name" in mode "read" "write"
-tree "FileName.ext" as node "Virtual Node Name" in mode "text" "write"
-tree "FileName.ext" as node "Virtual Node Name" in mode "text" "read" "write"
-```
-
-linking the binary file in read only mode:
-
-```
-tree "FileName.ext" as node "Virtual Node Name" in mode "binary"
-tree "FileName.ext" as node "Virtual Node Name" in mode "binary" "read"
-```
-
-and linking the binary file in read and write mode:
-
-```
-tree "FileName.ext" as node "Virtual Node Name" in mode "binary" "write"
-tree "FileName.ext" as node "Virtual Node Name" in mode "binary" "read" "write"
-```
-
-Modes are the values too. If you want to type a path of linked file - you can use the relative or absolute path.
-
-**Important:** the paths are used to locate the file based on the "working directory" (or "current directory").
-
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idLinks)
-
 # Referencing elements
 
 Referencing elements serve exactly the same purpose as standard elements. What makes them different is the method of writing - every such element has its own **declaration**, specifying its place in the tree, as well as its **definition**, including its proper body.
