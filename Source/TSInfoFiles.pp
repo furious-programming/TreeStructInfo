@@ -4095,12 +4095,6 @@ begin
 
   for intElementIdx := 0 to intElementsCnt - 1 do
     WriteChildNode(AParentNode.GetChildNode(intElementIdx));
-
-  intElementsCnt := AParentNode.LinksCount;
-  WriteUInt32Buffer(intElementsCnt);
-
-  for intElementIdx := 0 to intElementsCnt - 1 do
-    WriteLink(AParentNode.GetLink(intElementIdx));
 end;
 
 
