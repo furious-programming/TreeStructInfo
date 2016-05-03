@@ -405,7 +405,6 @@ type
   private
     FTSInfoTree: TSimpleTSInfoTree;
     FInput: TStrings;
-    FProcessedTrees: TTSInfoProcessedTreesList;
     FRefElements: TTSInfoRefElementsList;
     FComment: String;
     FAllowLinking: Boolean;
@@ -468,7 +467,7 @@ type
   private
     procedure ComponentsToTreeModes(const AComponents: TLineComponents; var AModes: TTreeModes);
   public
-    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings);
     destructor Destroy(); override;
   public
     procedure ProcessInput();
@@ -2877,12 +2876,11 @@ end;
 { ----- TTSInfoTextInputReader class ------------------------------------------------------------------------------ }
 
 
-constructor TTSInfoTextInputReader.Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoTextInputReader.Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings);
 begin
   inherited Create();
 
   FTSInfoTree := ATSInfoTree;
-  FProcessedTrees := AProcessedTrees;
 
   FInput := TStringList.Create();
   FInput.Assign(AInput);
@@ -2897,7 +2895,6 @@ end;
 destructor TTSInfoTextInputReader.Destroy();
 begin
   FTSInfoTree := nil;
-  FProcessedTrees := nil;
 
   FInput.Free();
   FRefElements.Free();
