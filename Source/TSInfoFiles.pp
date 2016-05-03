@@ -524,7 +524,6 @@ type
   private
     FTSInfoTree: TSimpleTSInfoTree;
     FInput: TStream;
-    FAllowLinking: Boolean;
   private
     procedure ReadStringBuffer(out ABuffer: String);
     procedure ReadBooleanBuffer(out ABuffer: Boolean);
@@ -3834,8 +3833,6 @@ begin
 
   FTSInfoTree := ATSInfoTree;
   FInput := AInput;
-
-  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
 
 
