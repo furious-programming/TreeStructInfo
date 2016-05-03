@@ -1224,7 +1224,6 @@ procedure TSimpleTSInfoTree.DamageClear();
 begin
   FRootNode.RemoveAllAttributes();
   FRootNode.RemoveAllChildNodes();
-  FRootNode.RemoveAllLinks();
 
   FCurrentNode := FRootNode;
   FCurrentlyOpenNodePath := '';
