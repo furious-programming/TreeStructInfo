@@ -2770,7 +2770,7 @@ begin
   begin
     fsOutput := TFileStream.Create(AFileName, fmCreate or fmShareDenyWrite);
     try
-      InternalSaveTreeToStream(fsOutput, Self, nil);
+      InternalSaveTreeToStream(fsOutput, Self);
     finally
       fsOutput.Free();
     end;
@@ -2779,7 +2779,7 @@ begin
   begin
     slOutput := TStringList.Create();
     try
-      InternalSaveTreeToList(slOutput, Self, nil);
+      InternalSaveTreeToList(slOutput, Self);
       slOutput.SaveToFile(AFileName);
     finally
       slOutput.Free();
