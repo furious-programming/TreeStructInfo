@@ -275,10 +275,10 @@ type
     procedure InitFields();
     procedure DamageClear();
   private
-    procedure InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
-    procedure InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
-    procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
-    procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
+    procedure InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree);
+    procedure InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree);
+    procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree);
+    procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree);
   private
     function FindElement(const AElementName: String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
     function FindAttribute(const AAttrPath: String; AForcePath: Boolean): TTSInfoAttribute;
@@ -1231,9 +1231,9 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
+procedure TSimpleTSInfoTree.InternalLoadTreeFromList(AList: TStrings; ATree: TSimpleTSInfoTree);
 begin
-  with TTSInfoTextInputReader.Create(ATree, AList, AProcessedTrees) do
+  with TTSInfoTextInputReader.Create(ATree, AList) do
   try
     ProcessInput();
   finally
@@ -1242,9 +1242,9 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
+procedure TSimpleTSInfoTree.InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree);
 begin
-  with TTSInfoBinaryInputReader.Create(ATree, AStream, AProcessedTrees) do
+  with TTSInfoBinaryInputReader.Create(ATree, AStream) do
   try
     ProcessInput();
   finally
@@ -1253,9 +1253,9 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
+procedure TSimpleTSInfoTree.InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree);
 begin
-  with TTSInfoTextOutputWriter.Create(ATree, AList, AProcessedTrees) do
+  with TTSInfoTextOutputWriter.Create(ATree, AList) do
   try
     ProcessOutput();
   finally
@@ -1264,9 +1264,9 @@ begin
 end;
 
 
-procedure TSimpleTSInfoTree.InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree; AProcessedTrees: TTSInfoProcessedTreesList);
+procedure TSimpleTSInfoTree.InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree);
 begin
-  with TTSInfoBinaryOutputWriter.Create(ATree, AStream, AProcessedTrees) do
+  with TTSInfoBinaryOutputWriter.Create(ATree, AStream) do
   try
     ProcessOutput();
   finally
