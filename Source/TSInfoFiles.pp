@@ -550,7 +550,6 @@ type
   private
     FTSInfoTree: TSimpleTSInfoTree;
     FOutput: TStream;
-    FProcessedTrees: TTSInfoProcessedTreesList;
     FAllowLinking: Boolean;
   private
     procedure WriteStringBuffer(const ABuffer: String);
@@ -565,7 +564,7 @@ type
     procedure WriteChildNode(AChildNode: TTSInfoNode);
     procedure WriteLink(ALink: TTSInfoLink);
   public
-    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+    constructor Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream);
     destructor Destroy(); override;
   public
     procedure ProcessOutput();
@@ -4019,13 +4018,12 @@ end;
 { ----- TTSInfoBinaryOutputWriter class --------------------------------------------------------------------------- }
 
 
-constructor TTSInfoBinaryOutputWriter.Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream; AProcessedTrees: TTSInfoProcessedTreesList);
+constructor TTSInfoBinaryOutputWriter.Create(ATSInfoTree: TSimpleTSInfoTree; AOutput: TStream);
 begin
   inherited Create();
 
   FTSInfoTree := ATSInfoTree;
   FOutput := AOutput;
-  FProcessedTrees := AProcessedTrees;
 
   FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
@@ -4035,7 +4033,6 @@ destructor TTSInfoBinaryOutputWriter.Destroy();
 begin
   FTSInfoTree := nil;
   FOutput := nil;
-  FProcessedTrees := nil;
 
   inherited Destroy();
 end;
