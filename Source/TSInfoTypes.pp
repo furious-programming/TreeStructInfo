@@ -52,9 +52,6 @@ type
   TTreeModes = set of TTreeMode;
 
 type
-  TLinkingMode = (lmTextTree, lmBinaryTree, lmAccessRead, lmAccessWrite);
-
-type
   TExportFormat = (efTextTree, efBinaryTree);
 
 type
