@@ -2799,12 +2799,12 @@ var
   slOutput: TStrings;
 begin
   if AFormat = efBinaryTree then
-    InternalSaveTreeToStream(AStream, Self, nil)
+    InternalSaveTreeToStream(AStream, Self)
   else
   begin
     slOutput := TStringList.Create();
     try
-      InternalSaveTreeToList(slOutput, Self, nil);
+      InternalSaveTreeToList(slOutput, Self);
       slOutput.SaveToStream(AStream);
     finally
       slOutput.Free();
