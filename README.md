@@ -625,14 +625,14 @@ Binary configuration files are intended for closed configurations, not giving th
 
 # Data types
 
-In binary files are stored data of four types - 1-byte and 4-bytes integers, logical values and strings:
+In binary files are stored data of four types - 1-byte and 4-bytes unsigned integers, logical values and strings:
 
 ```
 data type    size    for writing
 
 uint8        1       format version components
 uint32       4       elements count, length of values, comments and identifiers
-boolean      1       referencing states, modes existing state
+boolean      1       referencing states
 
 string:
   uint32     4       length of string
