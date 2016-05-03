@@ -74,16 +74,7 @@ const
   KEYWORD_REF_ATTRIBUTE      = 'ref attr ';
   KEYWORD_REF_NODE           = 'ref node ';
   KEYWORD_REF_NODE_END       = 'end ref node';
-  KEYWORD_LINK               = 'tree';
-  KEYWORD_LINK_AS_NODE       = 'as node';
-  KEYWORD_LINK_IN_MODE       = 'in mode';
   COMMENT_PREFIX             = '::';
-
-const
-  LINKING_MODE_TEXT_TREE    = 'text';
-  LINKING_MODE_BINARY_TREE  = 'binary';
-  LINKING_MODE_ACCESS_READ  = 'read';
-  LINKING_MODE_ACCESS_WRITE = 'write';
 
 const
   BINARY_FILE_SIGNATURE_LEN      = Length(BINARY_FILE_SIGNATURE);
@@ -97,8 +88,6 @@ const
   KEYWORD_REF_ATTRIBUTE_LEN      = Length(KEYWORD_REF_ATTRIBUTE);
   KEYWORD_REF_NODE_LEN           = Length(KEYWORD_REF_NODE);
   KEYWORD_REF_NODE_END_LEN       = Length(KEYWORD_REF_NODE_END);
-  KEYWORD_LINK_LEN               = Length(KEYWORD_LINK);
-  KEYWORD_LINK_AS_NODE_LEN       = Length(KEYWORD_LINK_AS_NODE);
 
 const
   MIN_TREE_HEADER_LINE_LEN       = TREE_HEADER_FORMAT_NAME_LEN + 1 + TREE_HEADER_FORMAT_VERSION_LEN + 1;
@@ -107,20 +96,9 @@ const
   MIN_REF_ATTRIBUTE_DEC_LINE_LEN = KEYWORD_REF_ATTRIBUTE_LEN + 1;
   MIN_REF_ATTRIBUTE_DEF_LINE_LEN = KEYWORD_REF_ATTRIBUTE_LEN + 3;
   MIN_REF_NODE_LINE_LEN          = KEYWORD_REF_NODE_LEN + 1;
-  MIN_LINK_LINE_LEN              = KEYWORD_LINK_LEN + 3 + KEYWORD_LINK_AS_NODE_LEN + 3;
   MIN_ATTRIBUTE_VALUE_LINE_LEN   = 2;
   MIN_POINT_VALUE_LEN            = 3;
   MIN_NO_DECIMAL_VALUE_LEN       = 3;
-
-const
-  LINK_COMPONENTS_COUNT_SHORT = 4;
-  LINK_COMPONENTS_COUNT_FULL  = 6;
-
-const
-  LINK_COMPONENT_INDEX_FILE_NAME         = 1;
-  LINK_COMPONENT_INDEX_AS_NODE_KEYWORD   = 2;
-  LINK_COMPONENT_INDEX_VIRTUAL_NODE_NAME = 3;
-  LINK_COMPONENT_INDEX_IN_MODE_KEYWORD   = 4;
 
 const
   INVALID_IDENT_CHARS: set of Char = [#0 .. #31, #127, #192, #193, #245 .. #255, IDENTS_DELIMITER, QUOTE_CHAR];
@@ -206,7 +184,6 @@ const
   EM_ROOT_NODE_GO_TO_PARENT              = 'cannot go to parent node of root node of main tree';
   EM_ATTRIBUTE_NOT_EXISTS                = 'attribute "%s" not exists';
   EM_NODE_NOT_EXISTS                     = 'node "%s" not exists';
-  EM_LINK_NOT_EXISTS                     = 'link under path "%s" with virtual node name "%s" not exists';
   EM_CANNOT_OPEN_NODE                    = 'cannot open a node under "%s" path';
   EM_MISSING_END_TREE_LINE               = 'end tree line not found';
   EM_MISSING_REF_ATTR_DEFINITION         = 'definition of attribute "%s: not found';
@@ -217,12 +194,6 @@ const
   EM_INVALID_SOURCE_LINE                 = 'invalid source line: "%s"';
   EM_INVALID_BINARY_FILE                 = 'invalid TreeStructInfo binary file';
   EM_UNSUPPORTED_BINARY_FORMAT_VERSION   = 'format version "%d.%d" is not supported';
-  EM_INVALID_LINK_LINE                   = '"%s" is not a valid link line';
-  EM_MISSING_LINKED_FILE_NAME            = 'missing linked file name in link declaration';
-  EM_INVALID_LINK_COMPONENT              = 'invalid link component - expected "%s" but "%s" found';
-  EM_EMPTY_LINK_FILE_NAME                = 'name of linked file is empty';
-  EM_UNKNOWN_LINKING_MODE                = 'unknown linking mode "%s"';
-  EM_LINKING_MODES_MUTUALLY_EXCLUSIVE    = 'linking file cannot be both text and binary';
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
