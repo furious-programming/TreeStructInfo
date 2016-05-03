@@ -115,7 +115,7 @@ All standard elements must be declared between these lines.
 
 # Basic tree elements
 
-The basic elements are standard and referencing **attributes**, for storing specific data, standard and referencing **child nodes**, to group elements and create a tree structure, and **links to the linked files**, that allow for addition of trees from other (text or binary) configuration files.
+The basic elements are standard and referencing **attributes**, for storing specific data, standard and referencing **child nodes**, to group elements and create a tree structure.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBasicElements)
 
