@@ -3302,7 +3302,6 @@ begin
       if IsStdChildNodeEndLine(FInput[FLineIndex])         then CloseStdChildNode() else
       if IsRefAttributeDeclarationLine(FInput[FLineIndex]) then AddRefAttribute()   else
       if IsRefChildNodeLine(FInput[FLineIndex])            then AddRefChildNode()   else
-      if IsLinkLine(FInput[FLineIndex])                    then AddLink()           else
       if IsRefChildNodeEndLine(FInput[FLineIndex])         then
       begin
         CloseRefChildNode();
