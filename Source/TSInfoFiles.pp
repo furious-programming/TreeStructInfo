@@ -407,7 +407,6 @@ type
     FInput: TStrings;
     FRefElements: TTSInfoRefElementsList;
     FComment: String;
-    FAllowLinking: Boolean;
   private
     FEndTreeLineIndex: Integer;
     FLineIndex: Integer;
@@ -2828,7 +2827,6 @@ begin
   FRefElements := TTSInfoRefElementsList.Create(False);
 
   FComment := '';
-  FAllowLinking := Assigned(FProcessedTrees) and (tmAllowLinking in FTSInfoTree.TreeModes);
 end;
 
 
