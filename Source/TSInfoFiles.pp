@@ -508,7 +508,6 @@ type
   private
     procedure AddChildNodeAttributes(AParentNode: TTSInfoNode);
     procedure AddChildNodeChildNodes(AParentNode: TTSInfoNode);
-    procedure AddChildNodeLinks(AParentNode: TTSInfoNode);
   private
     procedure AddRefElement(AElement: TObject);
     procedure InsertRefElement(AElement: TObject);
@@ -3603,7 +3602,6 @@ begin
 
   AddChildNodeAttributes(FTSInfoTree.FRootNode);
   AddChildNodeChildNodes(FTSInfoTree.FRootNode);
-  AddChildNodeLinks(FTSInfoTree.FRootNode);
 
   AddTreeEnd();
 end;
@@ -3895,23 +3893,6 @@ begin
     end
     else
       AddStdChildNode(nodeAdd);
-  end;
-end;
-
-
-procedure TTSInfoTextOutputWriter.AddChildNodeLinks(AParentNode: TTSInfoNode);
-var
-  linkAdd: TTSInfoLink;
-  intLinkIdx: Integer;
-begin
-  for intLinkIdx := 0 to AParentNode.LinksCount - 1 do
-  begin
-    linkAdd := AParentNode.GetLink(intLinkIdx);
-    AddLink(linkAdd);
-
-    if tmAccessWrite in linkAdd.LinkedTree.TreeModes then
-      if FAllowLinking and FProcessedTrees.FileNotYetBeenProcessed(linkAdd.FileName) then
-        FProcessedTrees.AddTree(linkAdd.LinkedTree);
   end;
 end;
 
