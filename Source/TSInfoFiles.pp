@@ -1306,9 +1306,6 @@ begin
         begin
           nodeTemp := nodeRead.GetChildNode(strName);
 
-          if nodeTemp = nil then
-            nodeTemp := nodeRead.GetVirtualNode(strName);
-
           if (nodeTemp = nil) and AForcePath then
             nodeTemp := nodeRead.CreateChildNode(False, strName);
 
