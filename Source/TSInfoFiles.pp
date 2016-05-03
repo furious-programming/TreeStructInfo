@@ -556,7 +556,6 @@ type
     procedure WriteBooleanBuffer(ABuffer: Boolean);
     procedure WriteUInt8Buffer(ABuffer: UInt8);
     procedure WriteUInt32Buffer(ABuffer: UInt32);
-    procedure WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
   private
     procedure WriteHeader();
     procedure WriteElements(AParentNode: TTSInfoNode);
@@ -4066,12 +4065,6 @@ end;
 procedure TTSInfoBinaryOutputWriter.WriteUInt32Buffer(ABuffer: UInt32);
 begin
   FOutput.Write(ABuffer, SizeOf(ABuffer));
-end;
-
-
-procedure TTSInfoBinaryOutputWriter.WriteTreeMode(AModes: TTreeModes; AModeOnValue: TTreeMode);
-begin
-  WriteBooleanBuffer(AModeOnValue in AModes);
 end;
 
 
