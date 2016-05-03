@@ -330,7 +330,6 @@ type
   public
     function CreateAttribute(const ANodePath: String; AReference: Boolean; const AAttrName: String): Boolean;
     function CreateChildNode(const ANodePath: String; AReference: Boolean; const ANodeName: String; AOpen: Boolean = False): Boolean;
-    function CreateLink(const ANodePath, AFileName, AVirtualNodeName: String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
   public
     procedure ClearChildNode(const ANodePath: String = CURRENT_NODE_SYMBOL);
     procedure ClearTree();
@@ -2124,65 +2123,6 @@ begin
       FModified := True;
     end;
   end;
-end;
-
-
-function TSimpleTSInfoTree.CreateLink(const ANodePath, AFileName, AVirtualNodeName: String; AModes: TTreeModes; AOpen: Boolean = False): Boolean;
-var
-  nodeParent: TTSInfoNode;
-  linkCreate: TTSInfoLink;
-  strNodePath, strVirtualNodeNameAsPath: String;
-  boolPathIsSymbol: Boolean;
-begin
-  Result := False;
-
-  if AFileName = '' then
-    ThrowException(EM_EMPTY_LINK_FILE_NAME)
-  else
-    if ValidIdentifier(AVirtualNodeName) then
-    begin
-      strNodePath := ANodePath;
-      boolPathIsSymbol := IsCurrentNodePath(ANodePath);
-
-      if boolPathIsSymbol then
-        nodeParent := FCurrentNode
-      else
-      begin
-        strNodePath := IncludeTrailingIdentsDelimiter(strNodePath);
-        nodeParent := FindNode(strNodePath, True);
-      end;
-
-      if nodeParent <> nil then
-      begin
-        linkCreate := nodeParent.CreateLink(AFileName, AVirtualNodeName, AModes + [tmAllowLinking], '');
-
-        if AOpen then
-        begin
-          strVirtualNodeNameAsPath := IncludeTrailingIdentsDelimiter(AVirtualNodeName);
-
-          if FCurrentNode = FRootNode then
-          begin
-            if boolPathIsSymbol then
-              FCurrentlyOpenNodePath := strVirtualNodeNameAsPath
-            else
-              FCurrentlyOpenNodePath := strNodePath + strVirtualNodeNameAsPath;
-          end
-          else
-            if boolPathIsSymbol then
-              FCurrentlyOpenNodePath += strVirtualNodeNameAsPath
-            else
-              FCurrentlyOpenNodePath += strNodePath + strVirtualNodeNameAsPath;
-
-          FCurrentNode := linkCreate.LinkedTree.FRootNode;
-        end;
-
-        FModified := True;
-        Result := True;
-
-        if (tmLoadFile in AModes) and FileExistsUTF8(AFileName) then
-          linkCreate.LinkedTree.LoadFromFile(linkCreate.FileName, linkCreate.TreeModes);
-      end;
-    end;
 end;
 
 
