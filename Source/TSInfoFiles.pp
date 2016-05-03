@@ -68,8 +68,7 @@ type
     function GetComment(AType: TCommentType): String;
     procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    constructor Create(AReference: Boolean; const AName: String); overload;
-    constructor Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment); overload;
+    constructor Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment);
   public
     property Reference: Boolean read FReference write FReference;
     property Name: String read FName write SetName;
@@ -572,18 +571,6 @@ implementation
 
 
 { ----- TTSInfoAttribute class ------------------------------------------------------------------------------------ }
-
-
-constructor TTSInfoAttribute.Create(AReference: Boolean; const AName: String);
-begin
-  inherited Create();
-
-  FReference := AReference;
-  FName := AName;
-  FValue := '';
-  FComment[ctDeclaration] := '';
-  FComment[ctDefinition] := '';
-end;
 
 
 constructor TTSInfoAttribute.Create(AReference: Boolean; const AName, AValue: String; const AComment: TComment);
