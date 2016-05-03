@@ -3977,11 +3977,6 @@ begin
 
   for intElementIdx := 0 to intElementsCnt - 1 do
     ReadChildNode(AParentNode.CreateChildNode(False, ''));
-
-  ReadUInt32Buffer(intElementsCnt);
-
-  for intElementIdx := 0 to intElementsCnt - 1 do
-    ReadLink(AParentNode.CreateLink('', ''));
 end;
 
 
