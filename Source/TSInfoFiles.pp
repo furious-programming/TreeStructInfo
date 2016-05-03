@@ -91,7 +91,6 @@ type
     FComment: TComment;
     FAttributesList: TTSInfoAttributesList;
     FChildNodesList: TTSInfoNodesList;
-    FLinksList: TTSInfoLinksList;
   private
     function GetComment(AType: TCommentType): String;
     procedure SetComment(AType: TCommentType; const AComment: String);
@@ -101,13 +100,9 @@ type
     function GetAttribute(AIndex: Integer): TTSInfoAttribute; overload;
     function GetChildNode(const AName: String): TTSInfoNode; overload;
     function GetChildNode(AIndex: Integer): TTSInfoNode; overload;
-    function GetLink(const AVirtualNodeName: String): TTSInfoLink; overload;
-    function GetLink(AIndex: Integer): TTSInfoLink; overload;
-    function GetVirtualNode(const AName: String): TTSInfoNode;
   public
     function GetAttributesCount(): Integer;
     function GetChildNodesCount(): Integer;
-    function GetLinksCount(): Integer;
   public
     constructor Create(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment);
     destructor Destroy(); override;
@@ -116,16 +111,12 @@ type
     function CreateAttribute(AReference: Boolean; const AName, AValue: String; const AComment: TComment): TTSInfoAttribute; overload;
     function CreateChildNode(AReference: Boolean; const AName: String): TTSInfoNode; overload;
     function CreateChildNode(AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
-    function CreateLink(const AFileName, AVirtualNodeName: String): TTSInfoLink; overload;
-    function CreateLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink; overload;
   public
     procedure RemoveAttribute(const AName: String);
     procedure RemoveChildNode(const AName: String);
-    procedure RemoveLink(const AVirtualNodeName: String);
   public
     procedure RemoveAllAttributes();
     procedure RemoveAllChildNodes();
-    procedure RemoveAllLinks();
   public
     property ParentNode: TTSInfoNode read FParentNode;
     property Reference: Boolean read FReference write FReference;
@@ -133,7 +124,6 @@ type
     property Comment[AType: TCommentType]: String read GetComment write SetComment;
     property AttributesCount: Integer read GetAttributesCount;
     property ChildNodesCount: Integer read GetChildNodesCount;
-    property LinksCount: Integer read GetLinksCount;
   end;
 
 
@@ -684,7 +674,6 @@ begin
 
   FAttributesList := TTSInfoAttributesList.Create();
   FChildNodesList := TTSInfoNodesList.Create();
-  FLinksList := TTSInfoLinksList.Create();
 end;
 
 
@@ -692,7 +681,6 @@ destructor TTSInfoNode.Destroy();
 begin
   FAttributesList.Free();
   FChildNodesList.Free();
-  FLinksList.Free();
 
   inherited Destroy();
 end;
@@ -740,24 +728,6 @@ begin
 end;
 
 
-function TTSInfoNode.GetLink(const AVirtualNodeName: String): TTSInfoLink;
-begin
-  Result := FLinksList.GetLink(AVirtualNodeName);
-end;
-
-
-function TTSInfoNode.GetLink(AIndex: Integer): TTSInfoLink;
-begin
-  Result := FLinksList.GetLink(AIndex);
-end;
-
-
-function TTSInfoNode.GetVirtualNode(const AName: String): TTSInfoNode;
-begin
-  Result := FLinksList.GetVirtualNode(AName);
-end;
-
-
 function TTSInfoNode.GetAttributesCount(): Integer;
 begin
   Result := FAttributesList.Count;
@@ -767,12 +737,6 @@ end;
 function TTSInfoNode.GetChildNodesCount(): Integer;
 begin
   Result := FChildNodesList.Count;
-end;
-
-
-function TTSInfoNode.GetLinksCount(): Integer;
-begin
-  Result := FLinksList.Count;
 end;
 
 
@@ -800,18 +764,6 @@ begin
 end;
 
 
-function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: String): TTSInfoLink;
-begin
-  Result := FLinksList.AddLink(AFileName, AVirtualNodeName);
-end;
-
-
-function TTSInfoNode.CreateLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
-begin
-  Result := FLinksList.AddLink(AFileName, AVirtualNodeName, AModes, AComment);
-end;
-
-
 procedure TTSInfoNode.RemoveAttribute(const AName: String);
 begin
   FAttributesList.RemoveAttribute(AName);
@@ -824,12 +776,6 @@ begin
 end;
 
 
-procedure TTSInfoNode.RemoveLink(const AVirtualNodeName: String);
-begin
-  FLinksList.RemoveLink(AVirtualNodeName);
-end;
-
-
 procedure TTSInfoNode.RemoveAllAttributes();
 begin
   FAttributesList.RemoveAll();
@@ -838,12 +784,6 @@ end;
 procedure TTSInfoNode.RemoveAllChildNodes();
 begin
   FChildNodesList.RemoveAll();
-end;
-
-
-procedure TTSInfoNode.RemoveAllLinks();
-begin
-  FLinksList.RemoveAll();
 end;
 
 
