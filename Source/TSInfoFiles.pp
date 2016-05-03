@@ -1484,20 +1484,20 @@ var
   slInput: TStringList;
 begin
   FFileName := AFileName;
-  FTreeModes := AModes - [tmAllowLinking];
+  FTreeModes := AModes;
 
   ClearTree();
 
   lrsInput := TLazarusResourceStream.Create(AResName, AResType);
   try
     if tmBinaryTree in FTreeModes then
-      InternalLoadTreeFromStream(lrsInput, Self, nil)
+      InternalLoadTreeFromStream(lrsInput, Self)
     else
     begin
       slInput := TStringList.Create();
       try
         slInput.LoadFromStream(lrsInput);
-        InternalLoadTreeFromList(slInput, Self, nil);
+        InternalLoadTreeFromList(slInput, Self);
       finally
         slInput.Free();
       end;
