@@ -532,7 +532,6 @@ type
     procedure ReadBooleanBuffer(out ABuffer: Boolean);
     procedure ReadUInt8Buffer(out ABuffer: UInt8);
     procedure ReadUInt32Buffer(out ABuffer: UInt32);
-    procedure ReadTreeMode(var AModes: TTreeModes; AModeOnValue, AModeOffValue: TTreeMode);
   private
     procedure ReadHeader();
     procedure ReadElements(AParentNode: TTSInfoNode);
@@ -3935,19 +3934,6 @@ procedure TTSInfoBinaryInputReader.ReadUInt32Buffer(out ABuffer: UInt32);
 begin
   ABuffer := 0;
   FInput.Read(ABuffer, SizeOf(ABuffer));
-end;
-
-
-procedure TTSInfoBinaryInputReader.ReadTreeMode(var AModes: TTreeModes; AModeOnValue, AModeOffValue: TTreeMode);
-var
-  boolFileModeOn: Boolean;
-begin
-  ReadBooleanBuffer(boolFileModeOn);
-
-  if boolFileModeOn then
-    Include(AModes, AModeOnValue)
-  else
-    Include(AModes, AModeOffValue);
 end;
 
 
