@@ -462,8 +462,6 @@ type
   private
     procedure ExtractAttributeName(const ALine: String; out AName: String);
     procedure ExtractChildNodeName(const ALine: String; out AName: String);
-  private
-    procedure ComponentsToTreeModes(const AComponents: TLineComponents; var AModes: TTreeModes);
   public
     constructor Create(ATSInfoTree: TSimpleTSInfoTree; AInput: TStrings);
     destructor Destroy(); override;
@@ -3543,35 +3541,6 @@ begin
     Inc(pchrNameBegin);
 
   MoveString(pchrNameBegin^, AName, pchrNameEnd - pchrNameBegin + 1);
-end;
-
-
-procedure TTSInfoTextInputReader.ComponentsToTreeModes(const AComponents: TLineComponents; var AModes: TTreeModes);
-const
-  COMPONENT_INDEX_FIRST_MODE = Integer(5);
-var
-  intComponentIdx: Integer;
-  lmComponentIdx: TLinkingMode;
-  boolComponentMatch: Boolean;
-begin
-  for intComponentIdx := COMPONENT_INDEX_FIRST_MODE to High(AComponents) do
-  begin
-    boolComponentMatch := False;
-
-    for lmComponentIdx in TLinkingMode do
-      if AComponents[intComponentIdx] = LINKING_MODE_COMPONENTS[lmComponentIdx] then
-      begin
-        Include(AModes, LINKING_MODE_TREE_MODES[lmComponentIdx]);
-        boolComponentMatch := True;
-        Break;
-      end;
-
-    if not boolComponentMatch and (AComponents[intComponentIdx] <> '') then
-      ThrowException(EM_UNKNOWN_LINKING_MODE, [AComponents[intComponentIdx]]);
-  end;
-
-  if [tmTextTree, tmBinaryTree] * AModes = [tmTextTree, tmBinaryTree] then
-    ThrowException(EM_LINKING_MODES_MUTUALLY_EXCLUSIVE);
 end;
 
 
