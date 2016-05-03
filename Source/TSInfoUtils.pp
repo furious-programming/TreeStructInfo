@@ -11,7 +11,7 @@
     Includes a set of functions for two-way data conversion (type to string
     and vice versa) of all types supported by TreeStructInfo files. Also
     contains a common procedures and functions needed for correct handling
-    of TreeStrictInfo files.
+    of TreeStructInfo files.
    __________________________________________________________________________
 
     This program is free software: you can redistribute it and/or modify
