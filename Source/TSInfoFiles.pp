@@ -81,7 +81,6 @@ type
 type
   TTSInfoAttributesList = class;
   TTSInfoNodesList = class;
-  TTSInfoLinksList = class;
 
 type
   TTSInfoNode = class(TObject)
@@ -248,25 +247,6 @@ type
     function AddChildNode(AParentNode: TTSInfoNode; AReference: Boolean; const AName: String; const AComment: TComment): TTSInfoNode; overload;
   public
     procedure RemoveChildNode(const AName: String);
-    procedure RemoveAll();
-  end;
-
-
-type
-  TTSInfoLinksList = class(TTSInfoElementsList)
-  private
-    function InternalAddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
-  public
-    constructor Create();
-  public
-    function GetLink(const AVirtualNodeName: String): TTSInfoLink; overload;
-    function GetLink(AIndex: Integer): TTSInfoLink; overload;
-    function GetVirtualNode(const AName: String): TTSInfoNode;
-  public
-    function AddLink(const AFileName, AVirtualNodeName: String): TTSInfoLink; overload;
-    function AddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink; overload;
-  public
-    procedure RemoveLink(const AVirtualNodeName: String);
     procedure RemoveAll();
   end;
 
@@ -1228,94 +1208,6 @@ end;
 
 
 procedure TTSInfoNodesList.RemoveAll();
-begin
-  inherited RemoveAllElements();
-end;
-
-
-{ ----- TTSInfoLinksList class ------------------------------------------------------------------------------------ }
-
-
-constructor TTSInfoLinksList.Create();
-begin
-  inherited Create(True);
-end;
-
-
-function TTSInfoLinksList.InternalAddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
-begin
-  Result := TTSInfoLink.Create(AFileName, AVirtualNodeName, AModes, AComment);
-  inherited AddElement(Result);
-end;
-
-
-function TTSInfoLinksList.GetLink(const AVirtualNodeName: String): TTSInfoLink;
-var
-  linkGet: TTSInfoLink;
-  intLinkIdx: Integer;
-begin
-  for intLinkIdx := 0 to FCount - 1 do
-  begin
-    linkGet := inherited Element[intLinkIdx] as TTSInfoLink;
-
-    if SameIdentifiers(linkGet.VirtualNodeName, AVirtualNodeName) then
-      Exit(linkGet);
-  end;
-
-  Result := nil;
-end;
-
-
-function TTSInfoLinksList.GetLink(AIndex: Integer): TTSInfoLink;
-begin
-  Result := inherited Element[AIndex] as TTSInfoLink;
-end;
-
-
-function TTSInfoLinksList.GetVirtualNode(const AName: String): TTSInfoNode;
-var
-  linkGet: TTSInfoLink;
-begin
-  linkGet := GetLink(AName);
-
-  if linkGet = nil then
-    Result := nil
-  else
-    Result := linkGet.VirtualNode;
-end;
-
-
-function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: String): TTSInfoLink;
-begin
-  Result := InternalAddLink(AFileName, AVirtualNodeName, [], '');
-end;
-
-
-function TTSInfoLinksList.AddLink(const AFileName, AVirtualNodeName: String; AModes: TTreeModes; const AComment: String): TTSInfoLink;
-begin
-  Result := InternalAddLink(AFileName, AVirtualNodeName, AModes, AComment);
-end;
-
-
-procedure TTSInfoLinksList.RemoveLink(const AVirtualNodeName: String);
-var
-  linkRemove: TTSInfoLink;
-  intLinkIdx: Integer;
-begin
-  for intLinkIdx := 0 to FCount - 1 do
-  begin
-    linkRemove := inherited Element[intLinkIdx] as TTSInfoLink;
-
-    if SameIdentifiers(linkRemove.VirtualNodeName, AVirtualNodeName) then
-    begin
-      inherited RemoveElement(intLinkIdx);
-      Exit();
-    end;
-  end;
-end;
-
-
-procedure TTSInfoLinksList.RemoveAll();
 begin
   inherited RemoveAllElements();
 end;
