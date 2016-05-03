@@ -1356,47 +1356,30 @@ procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: String; AModes: TTreeM
 var
   fsInput: TFileStream;
   slInput: TStringList;
-  ptlTrees: TTSInfoProcessedTreesList;
-  treeLoad: TSimpleTSInfoTree;
-  intTreeIdx: Integer = 0;
 begin
   FFileName := AFileName;
   FTreeModes := AModes;
 
   ClearTree();
 
-  ptlTrees := TTSInfoProcessedTreesList.Create(False);
-  try
-    ptlTrees.AddTree(Self);
-
-    while intTreeIdx < ptlTrees.Count do
-    begin
-      treeLoad := ptlTrees.Tree[intTreeIdx];
-
-      if tmBinaryTree in treeLoad.TreeModes then
-      begin
-        fsInput := TFileStream.Create(treeLoad.FileName, fmOpenRead or fmShareDenyWrite);
-        try
-          InternalLoadTreeFromStream(fsInput, treeLoad, ptlTrees);
-        finally
-          fsInput.Free();
-        end;
-      end
-      else
-      begin
-        slInput := TStringList.Create();
-        try
-          slInput.LoadFromFile(treeLoad.FileName);
-          InternalLoadTreeFromList(slInput, treeLoad, ptlTrees);
-        finally
-          slInput.Free();
-        end;
-      end;
-
-      Inc(intTreeIdx);
+  if tmBinaryTree in FTreeModes then
+  begin
+    fsInput := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyWrite);
+    try
+      InternalLoadTreeFromStream(fsInput, treeLoad);
+    finally
+      fsInput.Free();
     end;
-  finally
-    ptlTrees.Free();
+  end
+  else
+  begin
+    slInput := TStringList.Create();
+    try
+      slInput.LoadFromFile(FFileName);
+      InternalLoadTreeFromList(slInput, treeLoad);
+    finally
+      slInput.Free();
+    end;
   end;
 end;
 
