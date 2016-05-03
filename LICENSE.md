@@ -1,5 +1,5 @@
-**API to handle the TreeStructInfo configuration files**<br/>
-*Copyright © Jaroslaw Baran, furious programming 2011 - 2016. All rights reserved.*<br/>
+![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
+*Copyright © Jarosław Baran, furious programming 2013 - 2016*<br/>
 <br/>
 **GNU Lesser GPL 3**
 
@@ -15,5 +15,3 @@ GNU Lesser General Public License for more details.<br/>
 
 You should have received a copy of the GNU Lesser General Public License<br/>
 along with this program. If not, see [http://www.gnu.org/licenses/](<http://www.gnu.org/licenses/>).
-***
-![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)
