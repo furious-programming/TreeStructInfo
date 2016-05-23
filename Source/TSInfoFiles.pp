@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                    last modified: 3 May 2016
+    TSInfoFiles.pp                   last modified: 23 May 2016
 
     Copyright © Jarosław Baran, furious programming 2013 - 2016.
     All rights reserved.
@@ -343,6 +343,9 @@ type
     procedure RenameChildNodeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
   public
     procedure UpdateFile();
+  public
+    procedure SwitchTreeForm();
+    procedure SwitchTreeAccess();
   public
     property FileName: String read FFileName;
     property TreeName: String read FTreeName;
@@ -2271,6 +2274,24 @@ begin
   end;
 
   FModified := False;
+end;
+
+
+procedure TSimpleTSInfoTree.SwitchTreeForm();
+begin
+  if tmBinaryTree in FTreeModes then
+    FTreeModes := FTreeModes - [tmBinaryTree] + [tmTextTree]
+  else
+    FTreeModes := FTreeModes + [tmBinaryTree] - [tmTextTree];
+end;
+
+
+procedure TSimpleTSInfoTree.SwitchTreeAccess();
+begin
+  if tmAccessWrite in FTreeModes then
+    FTreeModes := FTreeModes - [tmAccessWrite] + [tmAccessRead]
+  else
+    FTreeModes := FTreeModes + [tmAccessWrite] - [tmAccessRead];
 end;
 
 
