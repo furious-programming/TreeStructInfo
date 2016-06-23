@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                   last modified: 23 May 2016
+    TSInfoFiles.pp                  last modified: 23 June 2016
 
     Copyright © Jarosław Baran, furious programming 2013 - 2016.
     All rights reserved.
@@ -269,6 +269,7 @@ type
     FTreeComment: String;
     FCurrentlyOpenNodePath: String;
     FTreeModes: TTreeModes;
+  protected
     FModified: Boolean;
     FReadOnly: Boolean;
   private
@@ -279,7 +280,7 @@ type
     procedure InternalLoadTreeFromStream(AStream: TStream; ATree: TSimpleTSInfoTree);
     procedure InternalSaveTreeToList(AList: TStrings; ATree: TSimpleTSInfoTree);
     procedure InternalSaveTreeToStream(AStream: TStream; ATree: TSimpleTSInfoTree);
-  private
+  protected
     function FindElement(const AElementName: String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
     function FindAttribute(const AAttrPath: String; AForcePath: Boolean): TTSInfoAttribute;
     function FindNode(const ANodePath: String; AForcePath: Boolean): TTSInfoNode;
