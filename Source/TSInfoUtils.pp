@@ -69,7 +69,7 @@ uses
   function PathWithoutLastNodeName(const APath: String): String;
 
 
-{ ----- data conversions ------------------------------------------------------------------------------------------ }
+{ ----- class for data convertion --------------------------------------------------------------------------------- }
 
 
 type
@@ -406,7 +406,10 @@ begin
 end;
 
 
-{ ----- boolean conversions --------------------------------------------------------------------------------------- }
+{ ----- TTSInfoDataConverter class -------------------------------------------------------------------------------- }
+
+
+{ ----- boolean convertions ------------------------------- }
 
 
 class function TTSInfoDataConverter.BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
@@ -450,7 +453,7 @@ begin
 end;
 
 
-{ ----- integer conversions --------------------------------------------------------------------------------------- }
+{ ----- integer conversions ------------------------------- }
 
 
 class function TTSInfoDataConverter.IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
@@ -553,7 +556,7 @@ begin
 end;
 
 
-{ ----- float conversions ----------------------------------------------------------------------------------------- }
+{ ----- float conversions --------------------------------- }
 
 
 class function TTSInfoDataConverter.FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
@@ -628,7 +631,7 @@ begin
 end;
 
 
-{ ----- currency converions --------------------------------------------------------------------------------------- }
+{ ----- currency converions ------------------------------- }
 
 
 class function TTSInfoDataConverter.CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
@@ -687,7 +690,7 @@ begin
 end;
 
 
-{ ----- string conversion ----------------------------------------------------------------------------------------- }
+{ ----- string conversion --------------------------------- }
 
 
 class function TTSInfoDataConverter.StringToValue(const AString: String; AFormat: TFormatString): String;
@@ -710,7 +713,7 @@ begin
 end;
 
 
-{ ----- date & time conversions ----------------------------------------------------------------------------------- }
+{ ----- date & time conversions --------------------------- }
 
 
 class function TTSInfoDataConverter.DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
@@ -1129,7 +1132,7 @@ begin
 end;
 
 
-{ ----- point conversions ----------------------------------------------------------------------------------------- }
+{ ----- point conversions --------------------------------- }
 
 
 class function TTSInfoDataConverter.PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
@@ -1213,7 +1216,7 @@ begin
 end;
 
 
-{ ----- list conversions ------------------------------------------------------------------------------------------ }
+{ ----- list conversions ---------------------------------- }
 
 
 class procedure TTSInfoDataConverter.ListToValue(AList: TStrings; out AValue: String);
@@ -1252,7 +1255,7 @@ begin
 end;
 
 
-{ ----- buffer & stream conversions ------------------------------------------------------------------------------- }
+{ ----- buffer & stream conversions ----------------------- }
 
 
 class procedure TTSInfoDataConverter.BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
