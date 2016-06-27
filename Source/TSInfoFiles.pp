@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                  last modified: 23 June 2016
+    TSInfoFiles.pp                  last modified: 27 June 2016
 
     Copyright © Jarosław Baran, furious programming 2013 - 2016.
     All rights reserved.
@@ -1583,7 +1583,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := BooleanToValue(ABoolean, AFormat);
+      attrWrite.Value := TTSInfoDataConverter.BooleanToValue(ABoolean, AFormat);
       FModified := True;
     end;
   end;
@@ -1602,7 +1602,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := IntegerToValue(AInteger, AFormat);
+      attrWrite.Value := TTSInfoDataConverter.IntegerToValue(AInteger, AFormat);
       FModified := True;
     end;
   end;
@@ -1621,7 +1621,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := FloatToValue(ADouble, AFormat, DefaultFormatSettings);
+      attrWrite.Value := TTSInfoDataConverter.FloatToValue(ADouble, AFormat, DefaultFormatSettings);
       FModified := True;
     end;
   end;
@@ -1640,7 +1640,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := FloatToValue(ADouble, AFormat, ASettings);
+      attrWrite.Value := TTSInfoDataConverter.FloatToValue(ADouble, AFormat, ASettings);
       FModified := True;
     end;
   end;
@@ -1659,7 +1659,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := CurrencyToValue(ACurrency, AFormat, DefaultFormatSettings);
+      attrWrite.Value := TTSInfoDataConverter.CurrencyToValue(ACurrency, AFormat, DefaultFormatSettings);
       FModified := True;
     end;
   end;
@@ -1678,7 +1678,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := CurrencyToValue(ACurrency, AFormat, ASettings);
+      attrWrite.Value := TTSInfoDataConverter.CurrencyToValue(ACurrency, AFormat, ASettings);
       FModified := True;
     end;
   end;
@@ -1697,7 +1697,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := StringToValue(AString, AFormat);
+      attrWrite.Value := TTSInfoDataConverter.StringToValue(AString, AFormat);
       FModified := True;
     end;
   end;
@@ -1716,7 +1716,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := DateTimeToValue(AMask, ADateTime, DefaultFormatSettings);
+      attrWrite.Value := TTSInfoDataConverter.DateTimeToValue(AMask, ADateTime, DefaultFormatSettings);
       FModified := True;
     end;
   end;
@@ -1735,7 +1735,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := DateTimeToValue(AMask, ADateTime, ASettings);
+      attrWrite.Value := TTSInfoDataConverter.DateTimeToValue(AMask, ADateTime, ASettings);
       FModified := True;
     end;
   end;
@@ -1754,7 +1754,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      attrWrite.Value := PointToValue(APoint, AFormat);
+      attrWrite.Value := TTSInfoDataConverter.PointToValue(APoint, AFormat);
       FModified := True;
     end;
   end;
@@ -1774,7 +1774,7 @@ begin
 
     if attrWrite <> nil then
     begin
-      ListToValue(AList, strValue);
+      TTSInfoDataConverter.ListToValue(AList, strValue);
       attrWrite.Value := strValue;
       FModified := True;
     end;
@@ -1798,7 +1798,7 @@ begin
 
       if attrWrite <> nil then
       begin
-        BufferToValue(ABuffer, ASize, strValue, AFormat);
+        TTSInfoDataConverter.BufferToValue(ABuffer, ASize, strValue, AFormat);
         attrWrite.Value := strValue;
         FModified := True;
       end;
@@ -1826,7 +1826,7 @@ begin
         SetLength(bdaBuffer, ASize);
         AStream.Read(bdaBuffer[0], ASize);
 
-        BufferToValue(bdaBuffer[0], ASize, strValue, TFormatBuffer(AFormat));
+        TTSInfoDataConverter.BufferToValue(bdaBuffer[0], ASize, strValue, TFormatBuffer(AFormat));
         attrWrite.Value := strValue;
         FModified := True;
       end;
@@ -1843,7 +1843,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToBoolean(attrRead.Value, ADefault);
+    Result := TTSInfoDataConverter.ValueToBoolean(attrRead.Value, ADefault);
 end;
 
 
@@ -1856,7 +1856,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToInteger(attrRead.Value, ADefault);
+    Result := TTSInfoDataConverter.ValueToInteger(attrRead.Value, ADefault);
 end;
 
 
@@ -1869,7 +1869,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToFloat(attrRead.Value, DefaultFormatSettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToFloat(attrRead.Value, DefaultFormatSettings, ADefault);
 end;
 
 
@@ -1882,7 +1882,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToFloat(attrRead.Value, ASettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToFloat(attrRead.Value, ASettings, ADefault);
 end;
 
 
@@ -1895,7 +1895,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToCurrency(attrRead.Value, DefaultFormatSettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToCurrency(attrRead.Value, DefaultFormatSettings, ADefault);
 end;
 
 
@@ -1908,7 +1908,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToCurrency(attrRead.Value, ASettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToCurrency(attrRead.Value, ASettings, ADefault);
 end;
 
 
@@ -1921,7 +1921,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToString(attrRead.Value, AFormat);
+    Result := TTSInfoDataConverter.ValueToString(attrRead.Value, AFormat);
 end;
 
 
@@ -1934,7 +1934,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToDateTime(AMask, attrRead.Value, DefaultFormatSettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToDateTime(AMask, attrRead.Value, DefaultFormatSettings, ADefault);
 end;
 
 
@@ -1947,7 +1947,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToDateTime(AMask, attrRead.Value, ASettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToDateTime(AMask, attrRead.Value, ASettings, ADefault);
 end;
 
 
@@ -1960,7 +1960,7 @@ begin
   if attrRead = nil then
     Result := ADefault
   else
-    Result := ValueToPoint(attrRead.Value, ADefault);
+    Result := TTSInfoDataConverter.ValueToPoint(attrRead.Value, ADefault);
 end;
 
 
@@ -1971,7 +1971,7 @@ begin
   attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
   if attrRead <> nil then
-    ValueToList(attrRead.Value, AList);
+    TTSInfoDataConverter.ValueToList(attrRead.Value, AList);
 end;
 
 
@@ -1984,7 +1984,7 @@ begin
     attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
     if attrRead <> nil then
-      ValueToBuffer(attrRead.Value, ABuffer, ASize, AOffset);
+      TTSInfoDataConverter.ValueToBuffer(attrRead.Value, ABuffer, ASize, AOffset);
   end;
 end;
 
@@ -1999,7 +1999,7 @@ begin
   if attrRead <> nil then
   begin
     SetLength(bdaBuffer, ASize);
-    ValueToBuffer(attrRead.Value, bdaBuffer[0], ASize, AOffset);
+    TTSInfoDataConverter.ValueToBuffer(attrRead.Value, bdaBuffer[0], ASize, AOffset);
 
     AStream.Write(bdaBuffer[0], ASize);
   end;
