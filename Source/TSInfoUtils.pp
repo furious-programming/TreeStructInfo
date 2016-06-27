@@ -72,32 +72,36 @@ uses
 { ----- data conversions ------------------------------------------------------------------------------------------ }
 
 
-  function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
-  function ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
-
-  function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
-  function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
-
-  function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
-  function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
-
-  function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
-  function ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
-
-  function StringToValue(const AString: String; AFormat: TFormatString): String;
-  function ValueToString(const AValue: String; AFormat: TFormatString): String;
-
-  function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
-  function ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
-
-  function PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
-  function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
-
-  procedure ListToValue(AList: TStrings; out AValue: String);
-  procedure ValueToList(const AValue: String; AList: TStrings);
-
-  procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
-  procedure ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
+type
+  TTSInfoDataConverter = class(TObject)
+  public
+    class function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
+    class function ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
+  public
+    class function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
+    class function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
+  public
+    class function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
+    class function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
+  public
+    class function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
+    class function ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
+  public
+    class function StringToValue(const AString: String; AFormat: TFormatString): String;
+    class function ValueToString(const AValue: String; AFormat: TFormatString): String;
+  public
+    class function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
+    class function ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+  public
+    class function PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
+    class function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
+  public
+    class procedure ListToValue(AList: TStrings; out AValue: String);
+    class procedure ValueToList(const AValue: String; AList: TStrings);
+  public
+    class procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
+    class procedure ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
+  end;
 
 
 { ----- end interface --------------------------------------------------------------------------------------------- }
@@ -405,13 +409,13 @@ end;
 { ----- boolean conversions --------------------------------------------------------------------------------------- }
 
 
-function BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
+class function TTSInfoDataConverter.BooleanToValue(ABoolean: Boolean; AFormat: TFormatBoolean): String;
 begin
   Result := BOOLEAN_VALUES[ABoolean, AFormat];
 end;
 
 
-function ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
+class function TTSInfoDataConverter.ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
 var
   pchrToken, pchrLast: PChar;
   fbToken: TFormatBoolean;
@@ -449,7 +453,7 @@ end;
 { ----- integer conversions --------------------------------------------------------------------------------------- }
 
 
-function IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
+class function TTSInfoDataConverter.IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
 var
   boolIsNegative: Boolean;
   strRawValue: String;
@@ -494,7 +498,7 @@ begin
 end;
 
 
-function ValueToInteger(const AValue: String; ADefault: Integer): Integer;
+class function TTSInfoDataConverter.ValueToInteger(const AValue: String; ADefault: Integer): Integer;
 var
   pchrToken, pchrLast: PChar;
   strValue: String;
@@ -552,7 +556,7 @@ end;
 { ----- float conversions ----------------------------------------------------------------------------------------- }
 
 
-function FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
+class function TTSInfoDataConverter.FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
 var
   boolMustBeSigned: Boolean;
 begin
@@ -581,7 +585,7 @@ begin
 end;
 
 
-function ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
+class function TTSInfoDataConverter.ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
 var
   pchrToken, pchrLast: PChar;
 begin
@@ -627,7 +631,7 @@ end;
 { ----- currency converions --------------------------------------------------------------------------------------- }
 
 
-function CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
+class function TTSInfoDataConverter.CurrencyToValue(ACurrency: Currency; AFormat: TFormatCurrency; ASettings: TFormatSettings): String;
 begin
   case AFormat of
     fcUnsignedPrice, fcSignedPrice:
@@ -641,7 +645,7 @@ begin
 end;
 
 
-function ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
+class function TTSInfoDataConverter.ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 var
   intValueLen, intCurrStringLen: Integer;
   pchrFirst, pchrToken, pchrLast: PChar;
@@ -686,7 +690,7 @@ end;
 { ----- string conversion ----------------------------------------------------------------------------------------- }
 
 
-function StringToValue(const AString: String; AFormat: TFormatString): String;
+class function TTSInfoDataConverter.StringToValue(const AString: String; AFormat: TFormatString): String;
 begin
   case AFormat of
     fsOriginal:  Result := AString;
@@ -696,7 +700,7 @@ begin
 end;
 
 
-function ValueToString(const AValue: String; AFormat: TFormatString): String;
+class function TTSInfoDataConverter.ValueToString(const AValue: String; AFormat: TFormatString): String;
 begin
   case AFormat of
     fsOriginal:  Result := AValue;
@@ -709,7 +713,7 @@ end;
 { ----- date & time conversions ----------------------------------------------------------------------------------- }
 
 
-function DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
+class function TTSInfoDataConverter.DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
 var
   intMaskLen, intResultLen, intFormatLen: UInt32;
   pchrMaskToken, pchrMaskLast: PChar;
@@ -897,7 +901,7 @@ begin
 end;
 
 
-function ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
+class function TTSInfoDataConverter.ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 var
   intValueLen, intMaskLen: Integer;
   pchrMaskToken, pchrMaskLast: PChar;
@@ -1128,7 +1132,7 @@ end;
 { ----- point conversions ----------------------------------------------------------------------------------------- }
 
 
-function PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
+class function TTSInfoDataConverter.PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
 var
   strCoordX, strCoordY: String;
 begin
@@ -1139,7 +1143,7 @@ begin
 end;
 
 
-function ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
+class function TTSInfoDataConverter.ValueToPoint(const AValue: String; ADefault: TPoint): TPoint;
 
   procedure ExtractPointCoord(AFirst, ALast: PChar; out ACoord: String); inline;
   var
@@ -1212,7 +1216,7 @@ end;
 { ----- list conversions ------------------------------------------------------------------------------------------ }
 
 
-procedure ListToValue(AList: TStrings; out AValue: String);
+class procedure TTSInfoDataConverter.ListToValue(AList: TStrings; out AValue: String);
 var
   intLineIdx: Integer;
 begin
@@ -1231,7 +1235,7 @@ begin
 end;
 
 
-procedure ValueToList(const AValue: String; AList: TStrings);
+class procedure TTSInfoDataConverter.ValueToList(const AValue: String; AList: TStrings);
 var
   vcList: TValueComponents;
   intLinesCnt, intLineIdx: Integer;
@@ -1251,7 +1255,7 @@ end;
 { ----- buffer & stream conversions ------------------------------------------------------------------------------- }
 
 
-procedure BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
+class procedure TTSInfoDataConverter.BufferToValue(const ABuffer; ASize: Integer; out AValue: String; AFormat: TFormatBuffer);
 const
   HEX_CHARS: array [0 .. 15] of Char = '0123456789ABCDEF';
 var
@@ -1295,7 +1299,7 @@ begin
 end;
 
 
-procedure ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
+class procedure TTSInfoDataConverter.ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
 var
   bdaBuffer: TByteDynArray;
   strValue: String;
