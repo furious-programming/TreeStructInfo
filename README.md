@@ -30,9 +30,9 @@ attr              - opens the header of standard attribute declaration
 node              - opens the header of standard node declaration
 end node          - ends the standard node body
 
-ref attr          - opens the header of referencing attribute declaration
-ref node          - opens the headers of referencing node declaration and definition
-end ref node      - ends the referencing node body
+ref attr          - opens the header of referenced attribute declaration
+ref node          - opens the headers of referenced node declaration and definition
+end ref node      - ends the referenced node body
 ```
 
 Keywords and key phrases can be made up only of lowercase letters. To describe the syntax of text configuration files used is also one value-string:
@@ -115,13 +115,13 @@ All standard elements must be declared between these lines.
 
 # Basic tree elements
 
-The basic elements are standard and referencing **attributes**, for storing specific data, standard and referencing **child nodes**, to group elements and create a tree structure.
+The basic elements are standard and referenced **attributes**, for storing specific data, standard and referenced **child nodes**, to group elements and create a tree structure.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBasicElements)
 
 # Attributes
 
-Attributes are used to store data. Divided into **standard attributes**, that have the declaration and definition in the same place in the tree, and **referencing attributes**, that are defined outside of the main body of the tree.
+Attributes are used to store data. Divided into **standard attributes**, that have the declaration and definition in the same place in the tree, and **referenced attributes**, that are defined outside of the main body of the tree.
 
 Standard attribute declaration must contain the keyword `attr`, then the identifier and the attribute value:
 
@@ -386,7 +386,7 @@ The issue of data storage in attributes of the not listed types is open and unli
 
 # Child nodes
 
-The nodes are used to group elements and creating tree structure. Also divided into **standard nodes**, that have the declaration and definition in the same place, and **referencing nodes**, that are defined outside of the tree body.
+The nodes are used to group elements and creating tree structure. Also divided into **standard nodes**, that have the declaration and definition in the same place, and **referenced nodes**, that are defined outside of the tree body.
 
 The body of the standard child node opens the line containing the keyword `node` and the name of the node:
 
@@ -411,25 +411,25 @@ For a given node are those elements, that are defined between the header line an
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodes)
 
-# Referencing elements
+# Referenced elements
 
-Referencing elements serve exactly the same purpose as standard elements. What makes them different is the method of writing - every such element has its own **declaration**, specifying its place in the tree, as well as its **definition**, including its proper body.
+Referenced elements serve exactly the same purpose as standard elements. What makes them different is the method of writing - every such element has its own **declaration**, specifying its place in the tree, as well as its **definition**, including its proper body.
 
-Referencing form may have attributes and child nodes.
+Referenced form may have attributes and child nodes.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefElements)
 
-# Referencing attributes
+# Referenced attributes
 
-The main advantage of using referencing attributes is to increase the readability of the configuration files in text form, by separating their definition beyond the main body of the tree.
+The main advantage of using referenced attributes is to increase the readability of the configuration files in text form, by separating their definition beyond the main body of the tree.
 
-The line with the declaration of referencing attribute must contain only the key phrase `ref attr` and the name of the attribute:
+The line with the declaration of referenced attribute must contain only the key phrase `ref attr` and the name of the attribute:
 
 ```
 ref attr Name
 ```
 
-The attribute declaration may be located inside the main body of the tree, as well as inside the body of the referencing child node.
+The attribute declaration may be located inside the main body of the tree, as well as inside the body of the referenced child node.
 
 The definition must contain the same key phrase `ref attr`, the same name as in the declaration and the value:
 
@@ -437,7 +437,7 @@ The definition must contain the same key phrase `ref attr`, the same name as in 
 ref attr Name "Value"
 ```
 
-The definition of the referencing attribute must be located outside the main body of the tree and outside the body of the referencing child node.
+The definition of the referenced attribute must be located outside the main body of the tree and outside the body of the referenced child node.
 
 Example:
 
@@ -451,11 +451,11 @@ ref attr Foo "Value"
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefAttributes)
 
-# Referencing child nodes
+# Referenced child nodes
 
-Like the referencing attributes, referencing child nodes also have their **declarations** and **definitions**.
+Like the referenced attributes, referenced child nodes also have their **declarations** and **definitions**.
 
-The line with referencing child node declaration must contain only the key phrase `ref node` and the name of the node:
+The line with referenced child node declaration must contain only the key phrase `ref node` and the name of the node:
 
 ```
 ref node Name
@@ -468,7 +468,7 @@ ref node Name
 end ref node
 ```
 
-Declaration of the referencing child node may be located inside the main body of the tree or inside the body of the referencing node, but the definition must be outside them.
+Declaration of the referenced child node may be located inside the main body of the tree or inside the body of the referenced node, but the definition must be outside them.
 
 Example:
 
@@ -483,9 +483,9 @@ end ref node
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefNodes)
 
-## The order of referencing elements definitions
+## The order of referenced elements definitions
 
-The order of writing the definition of referencing elements is recursive, regardless of whether the element is standard or referencing, the content is immediately considered.
+The order of writing the definition of referenced elements is recursive, regardless of whether the element is standard or referenced, the content is immediately considered.
 
 Short example:
 
@@ -574,7 +574,7 @@ treestructinfo "2.0"
 end tree
 ```
 
-Referencing attributes can have two comments - declaration comment and definition comment:
+Referenced attributes can have two comments - declaration comment and definition comment:
 
 ```
 treestructinfo "2.0"
@@ -600,7 +600,7 @@ treestructinfo "2.0"
 end tree
 ```
 
-and the referencing nodes can have two:
+and the referenced nodes can have two:
 
 ```
 treestructinfo "2.0"
@@ -617,7 +617,7 @@ end ref node
 
 # Binary form
 
-The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indentations, blank lines and separated definitions of referencing elements. But just like text files, keep comments of elements.
+The binary form of configuration files has been designed so that the loading and saving files were much faster than the loading and saving the files in text form. Binary files do not have additional data, such as keywords and key phrases, indentations, blank lines and separated definitions of referenced elements. But just like text files, keep comments of elements.
 
 Binary configuration files are intended for closed configurations, not giving the user to easy modification, putting to the foreground the speed of loading files and saving the trees to the files.
 
@@ -632,7 +632,7 @@ data type    size    for writing
 
 uint8        1       format version components
 uint32       4       elements count, length of values, comments and identifiers
-boolean      1       referencing states
+boolean      1       reference states
 
 string:
   uint32     4       length of string
@@ -670,7 +670,7 @@ Binary file containing empty configuration tree, should always take exactly `32 
 
 # Dynamic data
 
-For a set of dynamic informations includes descriptions of the tree elements, such as standard and referencing **attributes**, and standard and referencing **child nodes**.
+For a set of dynamic informations includes descriptions of the tree elements, such as standard and referenced **attributes**, and standard and referenced **child nodes**.
 
 Each element is represented by another sequence of bytes, by virtue of having different and varying amounts of information.
 
@@ -681,7 +681,7 @@ Each element is represented by another sequence of bytes, by virtue of having di
 ```
 size    value         data type    component              description
 
-1       True/False    boolean      referencing state      state
+1       True/False    boolean      reference state        state
 
 4       n             uint32       identifier             identifier length
 n       n chars       string       identifier             identifier value
@@ -703,7 +703,7 @@ n       n chars       string       definition comment     comment value
 ```
 size     value        data type     component             description
 
-1        True/False   boolean       referencing state     state
+1        True/False   boolean       reference state       state
 
 4        n            uint32        identifier            identifier length
 n        n chars      string        identifier            identifier value
