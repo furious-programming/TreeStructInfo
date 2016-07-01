@@ -728,7 +728,7 @@ n        n bytes      string        definition comment    comment value
 Below is a list of all available libraries to handle the **TreeStructInfo** configuration files:
 
 - **Free Pascal** - in this repo are [source](https://github.com/furious-programming/TreeStructInfo/tree/master/Source) for **FPC** and [package](https://github.com/furious-programming/TreeStructInfo/tree/master/Package) for **Lazarus**
-- [**C++**](https://github.com/spartanPAGE/TreeStructInfo) - [here](https://github.com/spartanPAGE/TreeStructInfo.Test) you can track the formation process of Patryk Wertka's TSI api implementation
+- [**C++**](https://github.com/spartanPAGE/spartsi) - [here](https://github.com/spartanPAGE/TreeStructInfo.Test) you can track the formation process of Patryk Wertka's TSI api implementation
 
 No API available in your favorite language? Create and publish your own!
 
