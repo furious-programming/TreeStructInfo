@@ -684,16 +684,16 @@ size    value         data type    component              description
 1       True/False    boolean      reference state        state
 
 4       n             uint32       identifier             identifier length
-n       n chars       string       identifier             identifier value
+n       n bytes       string       identifier             identifier value
 
 4       n             uint32       value                  value length
-n       n chars       string       value                  value content
+n       n bytes       string       value                  value content
 
 4       n             uint32       declaration comment    comment length
-n       n chars       string       declaration comment    comment value
+n       n bytes       string       declaration comment    comment value
 
 4       n             uint32       definition comment     comment length
-n       n chars       string       definition comment     comment value
+n       n bytes       string       definition comment     comment value
 ```
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicAttributes)
@@ -706,13 +706,13 @@ size     value        data type     component             description
 1        True/False   boolean       reference state       state
 
 4        n            uint32        identifier            identifier length
-n        n chars      string        identifier            identifier value
+n        n bytes      string        identifier            identifier value
 
 4        n            uint32        declaration comment   comment length
-n        n chars      string        declaration comment   comment value
+n        n bytes      string        declaration comment   comment value
 
 4        n            uint32        definition comment    comment length
-n        n chars      string        definition comment    comment value
+n        n bytes      string        definition comment    comment value
 
 4        n            uint32        attributes            attributes count
          ...          ...           attributes            attributes bodies
