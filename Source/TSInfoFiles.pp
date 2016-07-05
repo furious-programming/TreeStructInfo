@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                  last modified: 27 June 2016
+    TSInfoFiles.pp                   last modified: 5 July 2016
 
     Copyright © Jarosław Baran, furious programming 2013 - 2016.
     All rights reserved.
@@ -284,6 +284,8 @@ type
     function FindElement(const AElementName: String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
     function FindAttribute(const AAttrPath: String; AForcePath: Boolean): TTSInfoAttribute;
     function FindNode(const ANodePath: String; AForcePath: Boolean): TTSInfoNode;
+  private
+    procedure SetTreeName(const ATreeName: String);
   public
     constructor Create();
     constructor Create(const AFileName: String; AModes: TTreeModes);
@@ -349,7 +351,7 @@ type
     procedure SwitchTreeAccess();
   public
     property FileName: String read FFileName;
-    property TreeName: String read FTreeName;
+    property TreeName: String read FTreeName write SetTreeName;
     property CurrentlyOpenNodeName: String read FCurrentNode.FName;
     property CurrentlyOpenNodePath: String read FCurrentlyOpenNodePath;
     property TreeModes: TTreeModes read FTreeModes write FTreeModes;
@@ -1349,6 +1351,16 @@ end;
 function TSimpleTSInfoTree.FindNode(const ANodePath: String; AForcePath: Boolean): TTSInfoNode;
 begin
   Result := FindElement(ANodePath, AForcePath, False) as TTSInfoNode;
+end;
+
+
+procedure TSimpleTSInfoTree.SetTreeName(const ATreeName: String);
+begin
+  if (ATreeName = '') or ValidIdentifier(ATreeName) then
+  begin
+    FTreeName := ATreeName;
+    FModified := True;
+  end;
 end;
 
 
