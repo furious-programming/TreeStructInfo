@@ -1,7 +1,7 @@
 ![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
 *Copyright © Jarosław Baran, furious programming 2013 - 2016*
 
-Latest API release: [TreeStructInfo 2.0 beta 5](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0-beta.5)
+Latest API release: [TreeStructInfo 2.0 RC1](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0.-rc.1)
 
 This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](http://treestruct.info/pl/format/2.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
 
@@ -727,7 +727,7 @@ n        n bytes      string        definition comment    comment value
 
 Below is a list of all available libraries to handle the **TreeStructInfo** configuration files:
 
-- **Free Pascal** - from latest release, [source](https://github.com/furious-programming/TreeStructInfo/releases/download/v2.0.0-beta.5/Source.zip) for **FPC** and [package](https://github.com/furious-programming/TreeStructInfo/releases/download/v2.0.0-beta.5/Package.zip) for **Lazarus**
+- **Free Pascal** - from latest release, [source](https://github.com/furious-programming/TreeStructInfo/releases/download/v2.0.0.-rc.1/Source.zip) for **FPC** and [package](https://github.com/furious-programming/TreeStructInfo/releases/download/v2.0.0.-rc.1/Package.zip) for **Lazarus**
 - [**C++**](https://github.com/spartanPAGE/spartsi) - here you can track the formation process of Patryk Wertka's TSI api implementation
 
 No API available in your favorite language? Create and publish your own!
