@@ -363,7 +363,6 @@ type
 type
   TTSInfoTree = class(TSimpleTSInfoTree)
   public
-    procedure RenameTree(const ANewTreeName: String);
     procedure RenameAttribute(const AAttrPath, ANewAttrName: String);
     procedure RenameChildNode(const ANodePath, ANewNodeName: String);
   public
@@ -2309,16 +2308,6 @@ end;
 
 
 { ----- TTSInfoTree class ----------------------------------------------------------------------------------------- }
-
-
-procedure TTSInfoTree.RenameTree(const ANewTreeName: String);
-begin
-  if (ANewTreeName = '') or ValidIdentifier(ANewTreeName) then
-  begin
-    FTreeName := ANewTreeName;
-    FModified := True;
-  end;
-end;
 
 
 procedure TTSInfoTree.RenameAttribute(const AAttrPath, ANewAttrName: String);
