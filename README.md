@@ -5,7 +5,7 @@ Latest API release: [TreeStructInfo 2.0 RC1](https://github.com/furious-programm
 
 This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](http://treestruct.info/pl/format/2.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
 
-- [Introduction](#)
+- [Introduction](#introduction)
 - [Sample file](#)
 - [Text files syntax](#)
 - [Identifiers](#)
