@@ -5,6 +5,38 @@ Latest API release: [TreeStructInfo 2.0 RC1](https://github.com/furious-programm
 
 This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](http://treestruct.info/pl/format/2.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
 
+- [Introduction](#)
+- [Sample file](#)
+- [Text files syntax](#)
+- [Identifiers](#)
+- [Frame of tree](#)
+- [Basic tree elements](#)
+	- [Attributes](#)
+		- [Booleans](#)
+		- [Integers](#)
+		- [Floating-point numbers](#)
+		- [Currencies](#)
+		- [Strings](#)
+		- [Dates and times](#)
+		- [Point coordinates](#)
+		- [Binary data](#)
+		- [Other data types](#)
+	- [Child nodes](#)
+- [Referenced elements](#)
+	- [Referenced attributes](#)
+	- [Referenced child nodes](#)
+	- [The order of referenced elements definitions](#)
+- [Comments](#)
+	- [Tree comment](#)
+	- [Attributes comments](#)
+	- [Child nodes comments](#)
+- [Binary form](#)
+	- [Data types](#)
+	- [Static data](#)
+	- [Dynamic data](#)
+- [Bindings](#)
+- [TreeStructInfo project support](#)
+
 # Introduction
 
 **TreeStructInfo** is a project of the universal format for text and binary configuration files, for storing settings of applications and games in the form of data trees.
@@ -119,7 +151,7 @@ The basic elements are standard and referenced **attributes**, for storing speci
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBasicElements)
 
-# Attributes
+## Attributes
 
 Attributes are used to store data. Divided into **standard attributes**, that have the declaration and definition in the same place in the tree, and **referenced attributes**, that are defined outside of the main body of the tree.
 
@@ -151,7 +183,7 @@ Attributes can store data in multiple types, written in many different ways. In 
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttributes)
 
-## Booleans
+### Booleans
 
 Boolean values are determined using conventional strings:
 
@@ -164,7 +196,7 @@ PascalCase for string values is not mandatory (uppercase for character values to
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeBoolean)
 
-## Integers
+### Integers
 
 Integers can be written in the four most popular numeral systems - decimal, hexadecimal, octal and binary, and can be positive and negative. Prefixes for the numbers in numeral systems other than decimal is `0x` for hexadecimal, `0o` for octal and `0b` for binary. May have a leading characters `+` or `-`.
 
@@ -189,7 +221,7 @@ A positive, negative and zero numbers written in all systems:
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeInteger)
 
-## Floating-point numbers
+### Floating-point numbers
 
 Floating-point numbers can be written in universal or scientific form. May have a leading characters `+` or `-`. A positive, negative and zero numbers written in both forms:
 
@@ -218,7 +250,7 @@ PascalCase for these strings is not mandatory.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeFloat)
 
-## Currencies
+### Currencies
 
 Currency values have separate format - first, there is a number, followed by the currency string. Precision is arbitrary, but not more than four digits. Currency values also can contain leading character `+` or `-`.
 
@@ -240,7 +272,7 @@ Format of sample numbers below:
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeCurrency)
 
-## Strings
+### Strings
 
 Strings can be single-line or multiline and can contain almost all the characters. Example of single-line string:
 
@@ -266,7 +298,7 @@ and may also contain any number of blank lines.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeString)
 
-## Dates and times
+### Dates and times
 
 The date and time values can be written in any form - the order of date and/or time constituents is arbitrary. Twelve-hour clock format is permitted. Such values may also contain plaint text substrings.
 
@@ -307,7 +339,7 @@ Text values of date and time components, such as the names of days and months, s
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeDateTime)
 
-## Point coordinates
+### Point coordinates
 
 Rules for the transcription the coordinates of the points are the same as in the case of integers - coordinates can be written in one of the four numeral systems. Point coordinates separator is a comma.
 
@@ -334,7 +366,7 @@ Both the coordinates should be written in the same numeral system (but is not a 
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypePointCoords)
 
-## Binary data
+### Binary data
 
 Any binary data can be written in the form of strings, consisting of hexadecimal characters. The maximum size of the binary data is `2KiB`. Each byte is described by a pair of hexadecimal characters. Examples below.
 
@@ -377,14 +409,14 @@ Number of **characters** per value line is not specified (may also be odd), but 
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeBinary)
 
-## Other data types
+### Other data types
 
 The issue of data storage in attributes of the not listed types is open and unlimited. Because of this, the serialization and deserialization native data to and from strings in different programming languages are different, the attribute values may store almost any data, with the proviso that stored in a precise way, without affecting the linear construction of the file and the tree structure information.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeOther)
 
 
-# Child nodes
+## Child nodes
 
 The nodes are used to group elements and creating tree structure. Also divided into **standard nodes**, that have the declaration and definition in the same place, and **referenced nodes**, that are defined outside of the tree body.
 
@@ -419,7 +451,7 @@ Referenced form may have attributes and child nodes.
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefElements)
 
-# Referenced attributes
+## Referenced attributes
 
 The main advantage of using referenced attributes is to increase the readability of the configuration files in text form, by separating their definition beyond the main body of the tree.
 
@@ -451,7 +483,7 @@ ref attr Foo "Value"
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefAttributes)
 
-# Referenced child nodes
+## Referenced child nodes
 
 Like the referenced attributes, referenced child nodes also have their **declarations** and **definitions**.
 
@@ -550,7 +582,7 @@ Multiline comments may also contain empty lines:
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idComments)
 
-# Tree comment
+## Tree comment
 
 If the tree has a main comment, it must be written before his body:
 
@@ -563,7 +595,7 @@ end tree
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idTreeComment)
 
-# Attributes comments
+## Attributes comments
 
 Each attribute can have a comment. It must be written directly above his declaration:
 
@@ -588,7 +620,7 @@ ref attr Name "Value"
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrsComments)
 
-# Child nodes comments
+## Child nodes comments
 
 Standard child nodes can have one comment:
 
@@ -623,7 +655,7 @@ Binary configuration files are intended for closed configurations, not giving th
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBinaryForm)
 
-# Data types
+## Data types
 
 In binary files are stored data of four types - 1-byte and 4-bytes unsigned integers, logical values and strings:
 
@@ -643,7 +675,7 @@ If the string is multiline, its individual substrings are separated by character
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDataTypesAndFormat)
 
-# Static data
+## Static data
 
 The static informations includes the file signature, name of the tree and main comment, as well as the count of elements, included in the root node.
 
@@ -668,7 +700,7 @@ Binary file containing empty configuration tree, should always take exactly `32 
 
 `pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idStaticData)
 
-# Dynamic data
+## Dynamic data
 
 For a set of dynamic informations includes descriptions of the tree elements, such as standard and referenced **attributes**, and standard and referenced **child nodes**.
 
@@ -732,7 +764,7 @@ Below is a list of all available libraries to handle the **TreeStructInfo** conf
 
 No API available in your favorite language? Create and publish your own!
 
-## TreeStructInfo project support
+# TreeStructInfo project support
 
 - Bartosz Wójcik - [PELock Software Protection](http://www.pelock.com)
 
