@@ -3030,7 +3030,7 @@ begin
 
     if Result then
     begin
-      Result := (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor {%H-}>= SUPPORTED_FORMAT_VERSION_MINOR);
+      Result := (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor <= SUPPORTED_FORMAT_VERSION_MINOR);
 
       if not Result then
         ThrowException(EM_UNSUPPORTED_FORMAT_VERSION, [AValue]);
@@ -3914,7 +3914,7 @@ begin
     ReadUInt8Buffer(intVersionMajor);
     ReadUInt8Buffer(intVersionMinor);
 
-    if (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor {%H-}>= SUPPORTED_FORMAT_VERSION_MINOR) then
+    if (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor <= SUPPORTED_FORMAT_VERSION_MINOR) then
     begin
       ReadStringBuffer(FTSInfoTree.FTreeName);
       ReadStringBuffer(FTSInfoTree.FTreeComment);
