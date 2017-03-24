@@ -1112,30 +1112,30 @@ class function TTSInfoDataConverter.ValueToPoint(const AValue: String; ADefault:
 
   procedure ExtractPointCoord(AFirst, ALast: PChar; out ACoord: String); inline;
   var
-    intNegativeOffset: UInt8;
-    pchrSystem: PChar;
-    fiFormat: TFormatInteger;
+    LNegOffset: UInt8;
+    LSystem: PChar;
+    LFormat: TFormatInteger;
   begin
     if ALast - AFirst + 1 >= MIN_NO_DECIMAL_VALUE_LEN then
     begin
-      intNegativeOffset := Ord(AFirst^ = '-');
-      pchrSystem := AFirst + intNegativeOffset;
+      LNegOffset := Ord(AFirst^ = '-');
+      LSystem := AFirst + LNegOffset;
 
-      if (pchrSystem^ = '0') and (PChar(pchrSystem + 1)^ in NUMERICAL_SYSTEM_CHARS) then
+      if (LSystem^ = '0') and (PChar(LSystem + 1)^ in NUMERICAL_SYSTEM_CHARS) then
       begin
-        Inc(pchrSystem);
+        LSystem += 1;
 
-        case pchrSystem^ of
-          'x': fiFormat := fiHexadecimal;
-          'o': fiFormat := fiOctal;
-          'b': fiFormat := fiBinary;
+        case LSystem^ of
+          'x': LFormat := fiHexadecimal;
+          'o': LFormat := fiOctal;
+          'b': LFormat := fiBinary;
         end;
 
-        SetLength(ACoord, ALast - pchrSystem + 1 + intNegativeOffset);
-        Move(pchrSystem^, ACoord[1 + intNegativeOffset], ALast - pchrSystem + 1);
-        ACoord[1 + intNegativeOffset] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiFormat];
+        SetLength(ACoord, ALast - LSystem + 1 + LNegOffset);
+        Move(LSystem^, ACoord[1 + LNegOffset], ALast - LSystem + 1);
+        ACoord[1 + LNegOffset] := INTEGER_PASCAL_SYSTEM_PREFIXES[LFormat];
 
-        if Boolean(intNegativeOffset) then
+        if Boolean(LNegOffset) then
           ACoord[1] := '-';
 
         Exit();
@@ -1146,30 +1146,30 @@ class function TTSInfoDataConverter.ValueToPoint(const AValue: String; ADefault:
   end;
 
 var
-  pchrFirst, pchrLast, pchrDelimiter: PChar;
-  strCoordX, strCoordY: String;
-  intValueLen, intCoordXCode, intCoordYCode: Integer;
+  LFirst, LLast, LDelimiter: PChar;
+  LCoordX, LCoordY: String;
+  LValueLen, LCoordXCode, LCoordYCode: Integer;
 begin
-  intValueLen := Length(AValue);
+  LValueLen := Length(AValue);
 
-  if intValueLen >= MIN_POINT_VALUE_LEN then
+  if LValueLen >= MIN_POINT_VALUE_LEN then
   begin
-    pchrFirst := @AValue[1];
-    pchrLast := @AValue[intValueLen];
-    pchrDelimiter := pchrFirst + 1;
+    LFirst := @AValue[1];
+    LLast := @AValue[LValueLen];
+    LDelimiter := LFirst + 1;
 
-    while (pchrDelimiter < pchrLast) and (pchrDelimiter^ <> COORDS_DELIMITER) do
-      Inc(pchrDelimiter);
+    while (LDelimiter < LLast) and (LDelimiter^ <> COORDS_DELIMITER) do
+      LDelimiter += 1;
 
-    if pchrDelimiter < pchrLast then
+    if LDelimiter < LLast then
     begin
-      ExtractPointCoord(pchrFirst, pchrDelimiter - 1, strCoordX);
-      ExtractPointCoord(pchrDelimiter + 1, pchrLast, strCoordY);
+      ExtractPointCoord(LFirst, LDelimiter - 1, LCoordX);
+      ExtractPointCoord(LDelimiter + 1, LLast, LCoordY);
 
-      Val(strCoordX, Result.X, intCoordXCode);
-      Val(strCoordY, Result.Y, intCoordYCode);
+      Val(LCoordX, Result.X, LCoordXCode);
+      Val(LCoordY, Result.Y, LCoordYCode);
 
-      if (intCoordXCode = 0) and (intCoordYCode = 0) then
+      if (LCoordXCode = 0) and (LCoordYCode = 0) then
         Exit();
     end;
   end;
