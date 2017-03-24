@@ -479,55 +479,55 @@ end;
 
 class function TTSInfoDataConverter.ValueToInteger(const AValue: String; ADefault: Integer): Integer;
 var
-  pchrToken, pchrLast: PChar;
-  strValue: String;
-  intValueLen, intCode: Integer;
-  boolIsNegative: Boolean = False;
-  fiNumericalFormat: TFormatInteger = fiUnsignedDecimal;
+  LToken, LLast: PChar;
+  LValue: String;
+  LValueLen, LCode: Integer;
+  LIsNegative: Boolean = False;
+  LFormat: TFormatInteger = fiUnsignedDecimal;
 begin
-  strValue := AValue;
-  intValueLen := Length(strValue);
+  LValue := AValue;
+  LValueLen := Length(LValue);
 
-  if intValueLen > 2 then
+  if LValueLen > 2 then
   begin
-    pchrToken := @AValue[1];
-    pchrLast := @AValue[intValueLen];
+    LToken := @AValue[1];
+    LLast := @AValue[LValueLen];
 
-    if pchrToken^ = '-' then
+    if LToken^ = '-' then
     begin
-      boolIsNegative := True;
-      Inc(pchrToken);
+      LIsNegative := True;
+      LToken += 1;
     end;
 
-    if pchrToken^ = '0' then
+    if LToken^ = '0' then
     begin
-      Inc(pchrToken);
+      LToken += 1;
 
-      if pchrToken^ in CAPITAL_LETTERS then
-        Inc(pchrToken^, 32);
+      if LToken^ in CAPITAL_LETTERS then
+        Inc(LToken^, 32);
 
-      if pchrToken^ in NUMERICAL_SYSTEM_CHARS then
+      if LToken^ in NUMERICAL_SYSTEM_CHARS then
       begin
-        case pchrToken^ of
-          'x': fiNumericalFormat := fiHexadecimal;
-          'o': fiNumericalFormat := fiOctal;
-          'b': fiNumericalFormat := fiBinary;
+        case LToken^ of
+          'x': LFormat := fiHexadecimal;
+          'o': LFormat := fiOctal;
+          'b': LFormat := fiBinary;
         end;
 
-        intValueLen := pchrLast - pchrToken;
-        SetLength(strValue, intValueLen + 1);
-        Move(PChar(pchrToken + 1)^, strValue[2], intValueLen);
-        strValue[1] := INTEGER_PASCAL_SYSTEM_PREFIXES[fiNumericalFormat];
+        LValueLen := LLast - LToken;
+        SetLength(LValue, LValueLen + 1);
+        Move(PChar(LToken + 1)^, LValue[2], LValueLen);
+        LValue[1] := INTEGER_PASCAL_SYSTEM_PREFIXES[LFormat];
       end;
     end;
   end;
 
-  Val(strValue, Result, intCode);
+  Val(LValue, Result, LCode);
 
-  if intCode <> 0 then
+  if LCode <> 0 then
     Result := ADefault
   else
-    if boolIsNegative and (fiNumericalFormat in [fiHexadecimal, fiOctal, fiBinary]) then
+    if LIsNegative and (LFormat in [fiHexadecimal, fiOctal, fiBinary]) then
       Result := -Result;
 end;
 
