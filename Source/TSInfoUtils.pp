@@ -279,14 +279,14 @@ end;
 
 function ExcludeTrailingIdentsDelimiter(const APath: String): String;
 var
-  intPathLen: Integer;
+  LPathLen: Integer;
 begin
-  intPathLen := Length(APath);
+  LPathLen := Length(APath);
 
-  if (intPathLen > 0) and (APath[intPathLen] = IDENTS_DELIMITER) then
+  if (LPathLen > 0) and (APath[LPathLen] = IDENTS_DELIMITER) then
   begin
-    SetLength(Result, intPathLen - 1);
-    Move(APath[1], Result[1], intPathLen - 1);
+    SetLength(Result, LPathLen - 1);
+    Move(APath[1], Result[1], LPathLen - 1);
   end
   else
     Result := APath;
