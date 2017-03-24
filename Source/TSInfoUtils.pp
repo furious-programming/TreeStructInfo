@@ -319,8 +319,8 @@ end;
 
 procedure ExtractValueComponents(const AValue: String; out AComponents: TValueComponents; out ACount: Integer);
 var
-  pchrBegin, pchrToken, pchrLast: PChar;
-  strValue: String;
+  LBegin, LToken, LLast: PChar;
+  LValue: String;
 begin
   ACount := 0;
   SetLength(AComponents, 0);
@@ -334,24 +334,24 @@ begin
     end
     else
     begin
-      strValue := AValue + VALUES_DELIMITER;
+      LValue := AValue + VALUES_DELIMITER;
 
-      pchrBegin := @strValue[1];
-      pchrToken := pchrBegin;
-      pchrLast := @strValue[Length(strValue)];
+      LBegin := @LValue[1];
+      LToken := LBegin;
+      LLast := @LValue[Length(LValue)];
 
-      while pchrToken <= pchrLast do
-        if pchrToken^ = VALUES_DELIMITER then
+      while LToken <= LLast do
+        if LToken^ = VALUES_DELIMITER then
         begin
           SetLength(AComponents, ACount + 1);
-          MoveString(pchrBegin^, AComponents[ACount], pchrToken - pchrBegin);
-          Inc(ACount);
+          MoveString(LBegin^, AComponents[ACount], LToken - LBegin);
 
-          Inc(pchrToken);
-          pchrBegin := pchrToken;
+          ACount += 1;
+          LToken += 1;
+          LBegin := LToken;
         end
         else
-          Inc(pchrToken);
+          LToken += 1;
     end;
 end;
 
