@@ -263,14 +263,8 @@ end;
 
 
 function SameIdentifiers(const AFirst, ASecond: String): Boolean;
-var
-  intFirstLen, intSecondLen: Integer;
 begin
-  intFirstLen := Length(AFirst);
-  intSecondLen := Length(ASecond);
-
-  Result := (intFirstLen > 0) and (intFirstLen = intSecondLen) and
-            (CompareByte(AFirst[1], ASecond[1], intFirstLen) = 0);
+  Result := AFirst = ASecond;
 end;
 
 
