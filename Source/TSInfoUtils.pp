@@ -396,34 +396,34 @@ end;
 
 class function TTSInfoDataConverter.ValueToBoolean(const AValue: String; ADefault: Boolean): Boolean;
 var
-  pchrToken, pchrLast: PChar;
-  fbToken: TFormatBoolean;
+  LToken, LLast: PChar;
+  LFormat: TFormatBoolean;
 begin
   Result := ADefault;
 
   if AValue <> '' then
   begin
-    pchrToken := @AValue[1];
-    pchrLast := @AValue[Length(AValue)];
+    LToken := @AValue[1];
+    LLast := @AValue[Length(AValue)];
 
-    if pchrToken^ in SMALL_LETTERS then
-      Dec(pchrToken^, 32);
+    if LToken^ in SMALL_LETTERS then
+      Dec(LToken^, 32);
 
-    Inc(pchrToken);
+    LToken += 1;
 
-    while pchrToken <= pchrLast do
+    while LToken <= LLast do
     begin
-      if pchrToken^ in CAPITAL_LETTERS then
-        Inc(pchrToken^, 32);
+      if LToken^ in CAPITAL_LETTERS then
+        Inc(LToken^, 32);
 
-      Inc(pchrToken);
+      LToken += 1;
     end;
 
-    for fbToken in TFormatBoolean do
-      if SameIdentifiers(AValue, BOOLEAN_VALUES[True, fbToken]) then
+    for LFormat in TFormatBoolean do
+      if SameIdentifiers(AValue, BOOLEAN_VALUES[True, LFormat]) then
         Exit(True)
       else
-        if SameIdentifiers(AValue, BOOLEAN_VALUES[False, fbToken]) then
+        if SameIdentifiers(AValue, BOOLEAN_VALUES[False, LFormat]) then
           Exit(False);
   end;
 end;
