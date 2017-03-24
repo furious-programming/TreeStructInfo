@@ -1202,15 +1202,15 @@ end;
 
 class procedure TTSInfoDataConverter.ValueToList(const AValue: String; AList: TStrings);
 var
-  vcList: TValueComponents;
-  intLinesCnt, intLineIdx: Integer;
+  LComponents: TValueComponents;
+  LCompCnt, LCompIdx: Integer;
 begin
-  ExtractValueComponents(AValue, vcList, intLinesCnt);
+  ExtractValueComponents(AValue, LComponents, LCompCnt);
 
   AList.BeginUpdate();
   try
-    for intLineIdx := 0 to intLinesCnt - 1 do
-      AList.Add(vcList[intLineIdx]);
+    for LCompIdx := 0 to LCompCnt - 1 do
+      AList.Add(LComponents[LCompIdx]);
   finally
     AList.EndUpdate();
   end;
