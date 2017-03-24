@@ -134,24 +134,24 @@ end;
 
 function RemoveWhitespaceChars(const AValue: String): String;
 var
-  intValueLen: Integer;
-  pchrLeft, pchrRight: PChar;
+  LValueLen: Integer;
+  LLeft, LRight: PChar;
 begin
   Result := '';
-  intValueLen := Length(AValue);
+  LValueLen := Length(AValue);
 
-  if intValueLen > 0 then
+  if LValueLen > 0 then
   begin
-    pchrLeft := @AValue[1];
-    pchrRight := @AValue[intValueLen];
+    LLeft := @AValue[1];
+    LRight := @AValue[LValueLen];
 
-    while (pchrLeft <= pchrRight) and (pchrLeft^ in WHITESPACE_CHARS) do
-      Inc(pchrLeft);
+    while (LLeft <= LRight) and (LLeft^ in WHITESPACE_CHARS) do
+      LLeft += 1;
 
-    while (pchrRight > pchrLeft) and (pchrRight^ in WHITESPACE_CHARS) do
-      Dec(pchrRight);
+    while (LRight > LLeft) and (LRight^ in WHITESPACE_CHARS) do
+      LRight -= 1;
 
-    MoveString(pchrLeft^, Result, pchrRight - pchrLeft + 1);
+    MoveString(LLeft^, Result, LRight - LLeft + 1);
   end;
 end;
 
