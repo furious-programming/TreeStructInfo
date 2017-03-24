@@ -1266,50 +1266,50 @@ end;
 
 class procedure TTSInfoDataConverter.ValueToBuffer(const AValue: String; var ABuffer; ASize, AOffset: Integer);
 var
-  bdaBuffer: TByteDynArray;
-  strValue: String;
-  intValueLen: Integer;
-  pintByte: PUInt8;
-  pchrByte, pchrBufferLast, pchrValueLast: PChar;
+  LBuffer: TByteDynArray;
+  LValue: String;
+  LValueLen: Integer;
+  LByte: PUInt8;
+  LToken, LBufferLast, LValueLast: PChar;
 begin
   if ASize <= 0 then Exit();
 
-  strValue := ReplaceSubStrings(AValue, VALUES_DELIMITER, '');
-  intValueLen := Length(strValue);
+  LValue := ReplaceSubStrings(AValue, VALUES_DELIMITER, '');
+  LValueLen := Length(LValue);
 
-  if intValueLen > 0 then
+  if LValueLen > 0 then
   begin
-    SetLength(bdaBuffer, ASize);
-    FillChar(bdaBuffer[0], ASize, 0);
+    SetLength(LBuffer, ASize);
+    FillChar(LBuffer[0], ASize, 0);
 
-    pintByte := @bdaBuffer[0];
-    pchrByte := @strValue[AOffset * 2 + 1];
-    pchrBufferLast := pchrByte + ASize * 2;
-    pchrValueLast := @strValue[intValueLen];
+    LByte := @LBuffer[0];
+    LToken := @LValue[AOffset * 2 + 1];
+    LBufferLast := LToken + ASize * 2;
+    LValueLast := @LValue[LValueLen];
 
-    while (pchrByte <= pchrBufferLast) and (pchrByte <= pchrValueLast) do
+    while (LToken <= LBufferLast) and (LToken <= LValueLast) do
     begin
-      if pchrByte^ in NUMBER_CHARS then
-        Dec(pchrByte^, 48)
+      if LToken^ in NUMBER_CHARS then
+        Dec(LToken^, 48)
       else
-        if pchrByte^ in HEX_LETTERS then
-          Dec(pchrByte^, 55)
+        if LToken^ in HEX_LETTERS then
+          Dec(LToken^, 55)
         else
           Exit();
 
-      Inc(pchrByte);
+      LToken += 1;
     end;
 
-    pchrByte := @strValue[AOffset * 2 + 1];
+    LToken := @LValue[AOffset * 2 + 1];
 
-    while (pchrByte < pchrBufferLast) and (pchrByte < pchrValueLast) do
+    while (LToken < LBufferLast) and (LToken < LValueLast) do
     begin
-      pintByte^ := UInt8(pchrByte^) shl 4 or PUInt8(pchrByte + 1)^;
-      Inc(pintByte);
-      Inc(pchrByte, 2);
+      LByte^ := UInt8(LToken^) shl 4 or PUInt8(LToken + 1)^;
+      LByte += 1;
+      LToken += 2;
     end;
 
-    Move(bdaBuffer[0], ABuffer, ASize);
+    Move(LBuffer[0], ABuffer, ASize);
   end;
 end;
 
