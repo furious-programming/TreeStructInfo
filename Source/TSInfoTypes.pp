@@ -71,8 +71,7 @@ type
 type
   TFormatBoolean  = (fbLongTrueFalse, fbLongYesNo, fbLongOnOff, fbShortTrueFalse, fbShortYesNo, fbNumerical);
   TFormatInteger  = (fiUnsignedDecimal, fiSignedDecimal, fiHexadecimal, fiOctal, fiBinary);
-  TFormatFloat    = (ffUnsignedGeneral, ffSignedGeneral, ffUnsignedExponent, ffSignedExponent,
-                     ffUnsignedNumber, ffSignedNumber);
+  TFormatFloat    = (ffUnsignedGeneral, ffSignedGeneral, ffUnsignedExponent, ffSignedExponent, ffUnsignedNumber, ffSignedNumber);
   TFormatCurrency = (fcUnsignedPrice, fcSignedPrice, fcUnsignedExchangeRate, fcSignedExchangeRate);
   TFormatString   = (fsOriginal, fsLowerCase, fsUpperCase);
   TFormatPoint    = (fpUnsignedDecimal, fpSignedDecimal, fpHexadecimal, fpOctal, fpBinary);
