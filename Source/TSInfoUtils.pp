@@ -158,47 +158,47 @@ end;
 
 function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
 var
-  intValueLen, intOldPtrnLen, intNewPtrnLen, intPlainLen, intResultLen, intResultIdx: Integer;
-  pchrPlainBegin, pchrPlainEnd, pchrLast, pchrResult: PChar;
+  LValueLen, LOldPtrnLen, LNewPtrnLen, LPlainLen, LResultLen, LResultIdx: Integer;
+  LPlainBegin, LPlainEnd, LLast, LResult: PChar;
 begin
-  intValueLen := Length(AValue);
+  LValueLen := Length(AValue);
 
-  if intValueLen = 0 then Exit('');
+  if LValueLen = 0 then Exit('');
   if AOldPattern = '' then Exit(AValue);
 
   SetLength(Result, 0);
 
-  intOldPtrnLen := Length(AOldPattern);
-  intNewPtrnLen := Length(ANewPattern);
-  intResultLen := 0;
+  LOldPtrnLen := Length(AOldPattern);
+  LNewPtrnLen := Length(ANewPattern);
+  LResultLen := 0;
 
-  pchrPlainBegin := @AValue[1];
-  pchrPlainEnd := pchrPlainBegin;
-  pchrLast := @AValue[intValueLen - intOldPtrnLen + 1];
+  LPlainBegin := @AValue[1];
+  LPlainEnd := LPlainBegin;
+  LLast := @AValue[LValueLen - LOldPtrnLen + 1];
 
-  while pchrPlainEnd <= pchrLast do
-    if (pchrPlainEnd^ = AOldPattern[1]) and (CompareByte(pchrPlainEnd^, AOldPattern[1], intOldPtrnLen) = 0) then
+  while LPlainEnd <= LLast do
+    if (LPlainEnd^ = AOldPattern[1]) and (CompareByte(LPlainEnd^, AOldPattern[1], LOldPtrnLen) = 0) then
     begin
-      intPlainLen := pchrPlainEnd - pchrPlainBegin;
-      intResultIdx := intResultLen + 1;
-      Inc(intResultLen, intPlainLen + intNewPtrnLen);
+      LPlainLen := LPlainEnd - LPlainBegin;
+      LResultIdx := LResultLen + 1;
+      LResultLen += LPlainLen + LNewPtrnLen;
 
-      SetLength(Result, intResultLen);
-      pchrResult := @Result[intResultIdx];
-      Move(pchrPlainBegin^, pchrResult^, intPlainLen);
+      SetLength(Result, LResultLen);
+      LResult := @Result[LResultIdx];
+      Move(LPlainBegin^, LResult^, LPlainLen);
 
-      Inc(pchrResult, intPlainLen);
-      Move(ANewPattern[1], pchrResult^, intNewPtrnLen);
-      Inc(pchrResult, intNewPtrnLen);
+      LResult += LPlainLen;
+      Move(ANewPattern[1], LResult^, LNewPtrnLen);
+      LResult += LNewPtrnLen;
 
-      Inc(pchrPlainEnd, intOldPtrnLen);
-      pchrPlainBegin := pchrPlainEnd;
+      LPlainEnd += LOldPtrnLen;
+      LPlainBegin := LPlainEnd;
     end
     else
-      Inc(pchrPlainEnd);
+      LPlainEnd += 1;
 
-  if pchrPlainBegin <= pchrPlainEnd then
-    Result += String(pchrPlainBegin);
+  if LPlainBegin <= LPlainEnd then
+    Result += String(LPlainBegin);
 end;
 
 
