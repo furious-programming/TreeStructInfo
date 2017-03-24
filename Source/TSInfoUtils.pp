@@ -206,32 +206,32 @@ function GlueStrings(const AMask: String; const AStrings: array of String): Stri
 const
   MASK_FORMAT_CHAR = '%';
 var
-  pchrToken, pchrLast: PChar;
-  intStringIdx: Integer = 0;
-  intResultLen: Integer = 0;
-  intStringLen: Integer;
+  LToken, LLast: PChar;
+  LStringIdx: Integer = 0;
+  LResultLen: Integer = 0;
+  LStringLen: Integer;
 begin
-  pchrToken := @AMask[1];
-  pchrLast := @AMask[Length(AMask)];
+  LToken := @AMask[1];
+  LLast := @AMask[Length(AMask)];
 
-  while pchrToken <= pchrLast do
+  while LToken <= LLast do
   begin
-    if pchrToken^ = MASK_FORMAT_CHAR then
+    if LToken^ = MASK_FORMAT_CHAR then
     begin
-      intStringLen := Length(AStrings[intStringIdx]);
-      SetLength(Result, intResultLen + intStringLen);
-      Move(AStrings[intStringIdx][1], Result[intResultLen + 1], intStringLen);
+      LStringLen := Length(AStrings[LStringIdx]);
+      SetLength(Result, LResultLen + LStringLen);
+      Move(AStrings[LStringIdx][1], Result[LResultLen + 1], LStringLen);
 
-      Inc(intResultLen, intStringLen);
-      Inc(intStringIdx);
+      LResultLen += LStringLen;
+      LStringIdx += 1;
     end
     else
     begin
       Result += INDENT_CHAR;
-      Inc(intResultLen);
+      LResultLen += 1;
     end;
 
-    Inc(pchrToken);
+    LToken += 1;
   end;
 end;
 
