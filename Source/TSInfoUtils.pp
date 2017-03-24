@@ -1183,7 +1183,7 @@ end;
 
 class procedure TTSInfoDataConverter.ListToValue(AList: TStrings; out AValue: String);
 var
-  intLineIdx: Integer;
+  LLineIdx: Integer;
 begin
   if AList.Count = 0 then
     AValue := ''
@@ -1194,8 +1194,8 @@ begin
     begin
       AValue := AList[0];
 
-      for intLineIdx := 1 to AList.Count - 1 do
-        AValue += VALUES_DELIMITER + AList[intLineIdx];
+      for LLineIdx := 1 to AList.Count - 1 do
+        AValue += VALUES_DELIMITER + AList[LLineIdx];
     end;
 end;
 
