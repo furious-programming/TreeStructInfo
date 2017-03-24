@@ -594,13 +594,13 @@ begin
         else
           Break;
 
-      if (CompareStr(AValue, UNSIGNED_INFINITY_VALUE) = 0) or (CompareStr(AValue, SIGNED_INFINITY_VALUE) = 0) then
+      if (AValue = UNSIGNED_INFINITY_VALUE) or (AValue = SIGNED_INFINITY_VALUE) then
         Exit(Infinity);
 
-      if CompareStr(AValue, NEGATIVE_INFINITY_VALUE) = 0 then
+      if AValue = NEGATIVE_INFINITY_VALUE then
         Exit(NegInfinity);
 
-      if CompareStr(AValue, NOT_A_NUMBER_VALUE) = 0 then
+      if AValue = NOT_A_NUMBER_VALUE then
         Exit(NaN);
     end;
   end;
