@@ -537,15 +537,15 @@ end;
 
 class function TTSInfoDataConverter.FloatToValue(AFloat: Double; AFormat: TFormatFloat; ASettings: TFormatSettings): String;
 var
-  boolMustBeSigned: Boolean;
+  LMustBeSigned: Boolean;
 begin
-  boolMustBeSigned := AFormat in [ffSignedGeneral, ffSignedExponent, ffSignedNumber];
+  LMustBeSigned := AFormat in [ffSignedGeneral, ffSignedExponent, ffSignedNumber];
 
   if IsInfinite(AFloat) then
   begin
     if AFloat = Infinity then
     begin
-      if boolMustBeSigned then
+      if LMustBeSigned then
         Exit(SIGNED_INFINITY_VALUE)
       else
         Exit(UNSIGNED_INFINITY_VALUE);
@@ -559,7 +559,7 @@ begin
 
   Result := FloatToStrF(AFloat, FLOAT_FORMATS[AFormat], 15, 10, ASettings);
 
-  if boolMustBeSigned and (CompareValue(AFloat, 0) = GreaterThanValue) then
+  if LMustBeSigned and (CompareValue(AFloat, 0) = GreaterThanValue) then
     Result := '+' + Result;
 end;
 
