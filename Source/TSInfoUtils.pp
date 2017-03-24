@@ -45,8 +45,8 @@ uses
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
 
 
-  procedure ThrowException(const AMessage: String); overload;
-  procedure ThrowException(const AMessage: String; const AArgs: array of const); overload;
+  procedure ThrowException(const AMessage: String);
+  procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
   function RemoveWhitespaceChars(const AValue: String): String;
@@ -113,7 +113,7 @@ implementation
 { ----- common procedures & functions ----------------------------------------------------------------------------- }
 
 
-procedure ThrowException(const AMessage: String); overload;
+procedure ThrowException(const AMessage: String);
 begin
   raise ETSInfoFileException.Create(AMessage);
 end;
