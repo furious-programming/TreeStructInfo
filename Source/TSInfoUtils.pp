@@ -33,7 +33,7 @@
 
 unit TSInfoUtils;
 
-{$MODE OBJFPC}{$LONGSTRINGS ON}{$HINTS ON}
+{$MODE OBJFPC}{$LONGSTRINGS ON}
 
 
 interface
