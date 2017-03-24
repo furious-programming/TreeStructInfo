@@ -874,225 +874,219 @@ end;
 
 class function TTSInfoDataConverter.ValueToDateTime(const AMask, AValue: String; ASettings: TFormatSettings; ADefault: TDateTime): TDateTime;
 var
-  intValueLen, intMaskLen: Integer;
-  pchrMaskToken, pchrMaskLast: PChar;
-  pchrValueBegin, pchrValueEnd, pchrValueLast: PChar;
-  strValue, strMask: String;
-  chrFormat: Char;
+  LValueLen, LMaskLen: Integer;
+  LMaskToken, LMaskLast: PChar;
+  LValueBegin, LValueEnd, LValueLast: PChar;
+  LValue, LMask: String;
+  LFormat: Char;
 
   procedure IncreaseMaskCharacters();
   begin
-    while (pchrMaskToken < pchrMaskLast) do
+    while (LMaskToken < LMaskLast) do
     begin
-      if pchrMaskToken^ in SMALL_LETTERS then
-        Dec(pchrMaskToken^, 32)
+      if LMaskToken^ in SMALL_LETTERS then
+        Dec(LMaskToken^, 32)
       else
-        if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
+        if LMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
         begin
-          chrFormat := pchrMaskToken^;
+          LFormat := LMaskToken^;
 
           repeat
-            Inc(pchrMaskToken);
-          until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ = chrFormat);
+            LMaskToken += 1;
+          until (LMaskToken = LMaskLast) or (LMaskToken^ = LFormat);
         end;
 
-      Inc(pchrMaskToken);
+      LMaskToken += 1;
     end;
 
-    pchrMaskToken := @strMask[1];
+    LMaskToken := @LMask[1];
   end;
 
 var
-  intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond: UInt16;
+  LYear, LMonth, LDay, LHour, LMinute, LSecond, LMillisecond: UInt16;
 
   procedure InitDateTimeComponents();
   begin
-    intYear := 1899;
-    intMonth := 12;
-    intDay := 30;
-    intHour := 0;
-    intMinute := 0;
-    intSecond := 0;
-    intMilliSecond := 0;
+    DecodeDateTime(0, LYear, LMonth, LDay, LHour, LMinute, LSecond, LMillisecond);
   end;
 
 var
-  chrFormatSep: Char;
-  intFormatLen: UInt32 = 0;
-  strFormatVal: String = '';
+  LFormatSep: Char;
+  LFormatLen: UInt32 = 0;
+  LFormatVal: String = '';
 
   procedure GetFormatInfo();
   begin
-    chrFormat := pchrMaskToken^;
+    LFormat := LMaskToken^;
 
-    if chrFormat = 'A' then
-      Inc(pchrMaskToken, 5)
+    if LFormat = 'A' then
+      LMaskToken += 5
     else
     begin
-      intFormatLen := 0;
+      LFormatLen := 0;
 
       repeat
-        Inc(intFormatLen);
-        Inc(pchrMaskToken);
-      until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ <> chrFormat);
+        LFormatLen += 1;
+        LMaskToken += 1;
+      until (LMaskToken = LMaskLast) or (LMaskToken^ <> LFormat);
     end;
 
-    if pchrMaskToken^ in DATE_TIME_SEPARATOR_CHARS then
+    if LMaskToken^ in DATE_TIME_SEPARATOR_CHARS then
     begin
-      case pchrMaskToken^ of
-        '.', '-', '/': chrFormatSep := ASettings.DateSeparator;
-        ':':           chrFormatSep := ASettings.TimeSeparator;
+      case LMaskToken^ of
+        '.', '-', '/': LFormatSep := ASettings.DateSeparator;
+        ':':           LFormatSep := ASettings.TimeSeparator;
       end;
 
       Exit();
     end;
 
-    if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
-      Inc(pchrMaskToken);
+    if LMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
+      LMaskToken += 1;
 
-    chrFormatSep := pchrMaskToken^;
+    LFormatSep := LMaskToken^;
   end;
 
   procedure GetFormatValue();
   begin
-    while pchrValueEnd^ <> chrFormatSep do
-      Inc(pchrValueEnd);
+    while LValueEnd^ <> LFormatSep do
+      LValueEnd += 1;
 
-    MoveString(pchrValueBegin^, strFormatVal, pchrValueEnd - pchrValueBegin);
-    pchrValueBegin := pchrValueEnd;
+    MoveString(LValueBegin^, LFormatVal, LValueEnd - LValueBegin);
+    LValueBegin := LValueEnd;
   end;
 
   function StringToNumber(const AString: String): UInt16;
   var
-    intCode: Integer;
+    LCode: Integer;
   begin
-    Val(AString, Result, intCode);
+    Val(AString, Result, LCode);
 
-    if intCode <> 0 then
+    if LCode <> 0 then
       Result := 0;
   end;
 
   function MonthNameToNumber(const AName: String; const AMonthNames: TMonthNameArray): Integer;
   var
-    intNameLen: Integer;
-    I: Integer = 1;
+    LNameLen: Integer;
+    LMonthIdx: Integer = 1;
   begin
     Result := 1;
-    intNameLen := Length(AName);
+    LNameLen := Length(AName);
 
-    while I <= High(AMonthNames) do
-      if (intNameLen = Length(AMonthNames[I])) and
-         (CompareStr(AName, AMonthNames[I]) = 0) then
+    while LMonthIdx <= High(AMonthNames) do
+      if (LNameLen = Length(AMonthNames[LMonthIdx])) and
+         (CompareStr(AName, AMonthNames[LMonthIdx]) = 0) then
       begin
-        Result := I + 1;
+        Result := LMonthIdx + 1;
         Break;
       end
       else
-        Inc(I);
+        LMonthIdx += 1;
   end;
 
   procedure IncrementMaskAndValueTokens();
   begin
-    Inc(pchrMaskToken);
-    Inc(pchrValueBegin);
-    Inc(pchrValueEnd);
+    LMaskToken += 1;
+    LValueBegin += 1;
+    LValueEnd += 1;
   end;
 
 var
-  bool12HourClock: Boolean = False;
-  boolIsAMHour: Boolean = False;
-  intPivot: UInt16;
+  L12HourClock: Boolean = False;
+  LIsAMHour: Boolean = False;
+  LPivot: UInt16;
 begin
-  strMask := AMask;
-  strValue := AValue;
+  LMask := AMask;
+  LValue := AValue;
 
-  if (strMask <> '') and (strValue <> '') then
+  if (LMask <> '') and (LValue <> '') then
   begin
     InitDateTimeComponents();
 
-    strMask += #32;
-    strValue += #32;
-    intMaskLen := Length(strMask);
-    intValueLen := Length(strValue);
+    LMask += #32;
+    LValue += #32;
+    LMaskLen := Length(LMask);
+    LValueLen := Length(LValue);
 
-    pchrMaskToken := @strMask[1];
-    pchrMaskLast := @strMask[intMaskLen];
-    pchrValueBegin := @strValue[1];
-    pchrValueEnd := pchrValueBegin;
-    pchrValueLast := @strValue[intValueLen];
+    LMaskToken := @LMask[1];
+    LMaskLast := @LMask[LMaskLen];
+    LValueBegin := @LValue[1];
+    LValueEnd := LValueBegin;
+    LValueLast := @LValue[LValueLen];
 
     IncreaseMaskCharacters();
 
-    while (pchrMaskToken < pchrMaskLast) and (pchrValueEnd < pchrValueLast) do
-      if pchrMaskToken^ in DATE_TIME_FORMAT_CHARS then
+    while (LMaskToken < LMaskLast) and (LValueEnd < LValueLast) do
+      if LMaskToken^ in DATE_TIME_FORMAT_CHARS then
       begin
         GetFormatInfo();
         GetFormatValue();
 
-        case chrFormat of
-          'Y': case intFormatLen of
+        case LFormat of
+          'Y': case LFormatLen of
                  2: begin
-                      intYear := StringToNumber(strFormatVal);
-                      intPivot := YearOf(Now()) - ASettings.TwoDigitYearCenturyWindow;
-                      Inc(intYear, intPivot div 100 * 100);
+                      LYear := StringToNumber(LFormatVal);
+                      LPivot := YearOf(Now()) - ASettings.TwoDigitYearCenturyWindow;
+                      LYear += LPivot div 100 * 100;
 
-                      if (ASettings.TwoDigitYearCenturyWindow > 0) and (intYear < intPivot) then
-                        Inc(intYear, 100);
+                      if (ASettings.TwoDigitYearCenturyWindow > 0) and (LYear < LPivot) then
+                        LYear += 100;
                     end;
-                 4: intYear := StringToNumber(strFormatVal);
+                 4: LYear := StringToNumber(LFormatVal);
                end;
-          'M': case intFormatLen of
-                 1, 2: intMonth := StringToNumber(strFormatVal);
-                 3:    intMonth := MonthNameToNumber(strFormatVal, ASettings.ShortMonthNames);
-                 4:    intMonth := MonthNameToNumber(strFormatVal, ASettings.LongMonthNames);
+          'M': case LFormatLen of
+                 1, 2: LMonth := StringToNumber(LFormatVal);
+                 3:    LMonth := MonthNameToNumber(LFormatVal, ASettings.ShortMonthNames);
+                 4:    LMonth := MonthNameToNumber(LFormatVal, ASettings.LongMonthNames);
                end;
-          'D': case intFormatLen of
-                 1, 2: intDay := StringToNumber(strFormatVal);
+          'D': case LFormatLen of
+                 1, 2: LDay := StringToNumber(LFormatVal);
                end;
-          'H': case intFormatLen of
-                 1, 2: intHour := StringToNumber(strFormatVal);
+          'H': case LFormatLen of
+                 1, 2: LHour := StringToNumber(LFormatVal);
                end;
-          'N': case intFormatLen of
-                 1, 2: intMinute := StringToNumber(strFormatVal);
+          'N': case LFormatLen of
+                 1, 2: LMinute := StringToNumber(LFormatVal);
                end;
-          'S': case intFormatLen of
-                 1, 2: intSecond := StringToNumber(strFormatVal);
+          'S': case LFormatLen of
+                 1, 2: LSecond := StringToNumber(LFormatVal);
                end;
-          'Z': case intFormatLen of
-                 1, 3: intMilliSecond := StringToNumber(strFormatVal);
+          'Z': case LFormatLen of
+                 1, 3: LMillisecond := StringToNumber(LFormatVal);
                end;
           'A': begin
-                 bool12HourClock := True;
-                 boolIsAMHour := CompareStr(strFormatVal, ASettings.TimeAMString) = 0;
+                 L12HourClock := True;
+                 LIsAMHour := LFormatVal = ASettings.TimeAMString;
                end;
         end;
       end
       else
-        if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
+        if LMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
         begin
-          chrFormat := pchrMaskToken^;
-          Inc(pchrMaskToken);
+          LFormat := LMaskToken^;
+          LMaskToken += 1;
 
           repeat
             IncrementMaskAndValueTokens();
-          until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ = chrFormat);
+          until (LMaskToken = LMaskLast) or (LMaskToken^ = LFormat);
 
-          Inc(pchrMaskToken);
+          LMaskToken += 1;
         end
         else
           IncrementMaskAndValueTokens();
 
-    if bool12HourClock then
-      if boolIsAMHour then
+    if L12HourClock then
+      if LIsAMHour then
       begin
-        if intHour = 12 then
-          intHour := 0;
+        if LHour = 12 then
+          LHour := 0;
       end
       else
-        if intHour < 12 then
-          Inc(intHour, 12);
+        if LHour < 12 then
+          LHour += 12;
 
-    if not TryEncodeDateTime(intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond, Result) then
+    if not TryEncodeDateTime(LYear, LMonth, LDay, LHour, LMinute, LSecond, LMillisecond, Result) then
       Result := ADefault;
   end
   else
