@@ -1099,12 +1099,12 @@ end;
 
 class function TTSInfoDataConverter.PointToValue(APoint: TPoint; AFormat: TFormatPoint): String;
 var
-  strCoordX, strCoordY: String;
+  LCoordX, LCoordY: String;
 begin
-  strCoordX := IntegerToValue(APoint.X, POINT_SYSTEMS[AFormat]);
-  strCoordY := IntegerToValue(APoint.Y, POINT_SYSTEMS[AFormat]);
+  LCoordX := IntegerToValue(APoint.X, POINT_SYSTEMS[AFormat]);
+  LCoordY := IntegerToValue(APoint.Y, POINT_SYSTEMS[AFormat]);
 
-  Result := GlueStrings('%%%', [strCoordX, COORDS_DELIMITER, strCoordY]);
+  Result := LCoordX + COORDS_DELIMITER + LCoordY;
 end;
 
 
