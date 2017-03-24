@@ -245,24 +245,24 @@ end;
 
 function ValidIdentifier(const AIdentifier: String): Boolean;
 var
-  intIdentLen: Integer;
-  pchrToken, pchrLast: PChar;
+  LIdentLen: Integer;
+  LToken, LLast: PChar;
 begin
   Result := False;
-  intIdentLen := Length(AIdentifier);
+  LIdentLen := Length(AIdentifier);
 
-  if intIdentLen = 0 then
+  if LIdentLen = 0 then
     ThrowException(EM_EMPTY_IDENTIFIER)
   else
   begin
-    pchrToken := @AIdentifier[1];
-    pchrLast := @AIdentifier[intIdentLen];
+    LToken := @AIdentifier[1];
+    LLast := @AIdentifier[LIdentLen];
 
-    while pchrToken <= pchrLast do
-      if pchrToken^ in INVALID_IDENT_CHARS then
-        ThrowException(EM_INCORRECT_IDENTIFIER_CHARACTER, [pchrToken^, Ord(pchrToken^)])
+    while LToken <= LLast do
+      if LToken^ in INVALID_IDENT_CHARS then
+        ThrowException(EM_INCORRECT_IDENTIFIER_CHARACTER, [LToken^, Ord(LToken^)])
       else
-        Inc(pchrToken);
+        LToken += 1;
 
     Result := True;
   end;
