@@ -364,20 +364,20 @@ end;
 
 function PathWithoutLastNodeName(const APath: String): String;
 var
-  pchrFirst, pchrToken: PChar;
+  LFirst, LToken: PChar;
 begin
   Result := '';
 
   if APath <> '' then
   begin
-    pchrFirst := @APath[1];
-    pchrToken := @APath[Length(APath) - 2];
+    LFirst := @APath[1];
+    LToken := @APath[Length(APath) - 2];
 
-    while (pchrToken >= pchrFirst) and (pchrToken^ <> IDENTS_DELIMITER) do
-      Dec(pchrToken);
+    while (LToken >= LFirst) and (LToken^ <> IDENTS_DELIMITER) do
+      LToken -= 1;
 
-    if pchrToken > pchrFirst then
-      MoveString(pchrFirst^, Result, pchrToken - pchrFirst + 1);
+    if LToken > LFirst then
+      MoveString(LFirst^, Result, LToken - LFirst + 1);
   end;
 end;
 
