@@ -566,7 +566,7 @@ end;
 
 class function TTSInfoDataConverter.ValueToFloat(const AValue: String; ASettings: TFormatSettings; ADefault: Double): Double;
 var
-  pchrToken, pchrLast: PChar;
+  LToken, LLast: PChar;
 begin
   if not TryStrToFloat(AValue, Result, ASettings) then
   begin
@@ -574,22 +574,22 @@ begin
 
     if Length(AValue) >= 3 then
     begin
-      pchrToken := @AValue[1];
-      pchrLast := @AValue[Length(AValue)];
+      LToken := @AValue[1];
+      LLast := @AValue[Length(AValue)];
 
-      if pchrToken^ in PLUS_MINUS_CHARS then
-        Inc(pchrToken);
+      if LToken^ in PLUS_MINUS_CHARS then
+        LToken += 1;
 
-      if pchrToken^ in SMALL_LETTERS then
-        Dec(pchrToken^, 32);
+      if LToken^ in SMALL_LETTERS then
+        Dec(LToken^, 32);
 
-      Inc(pchrToken);
+      LToken += 1;
 
-      while (pchrToken <= pchrLast) do
-        if pchrToken^ in CAPITAL_LETTERS then
+      while (LToken <= LLast) do
+        if LToken^ in CAPITAL_LETTERS then
         begin
-          Inc(pchrToken^, 32);
-          Inc(pchrToken);
+          Inc(LToken^, 32);
+          LToken += 1;
         end
         else
           Break;
