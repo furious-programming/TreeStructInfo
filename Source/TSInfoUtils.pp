@@ -434,10 +434,10 @@ end;
 
 class function TTSInfoDataConverter.IntegerToValue(AInteger: Integer; AFormat: TFormatInteger): String;
 var
-  boolIsNegative: Boolean;
-  strRawValue: String;
-  intRawValueLen, intRawValueMinLen: Integer;
-  pchrNonZeroDigit, pchrLast: PChar;
+  LIsNegative: Boolean;
+  LRawValue: String;
+  LRawValueLen, LRawValueMinLen: Integer;
+  LNonZeroDigit, LLast: PChar;
 begin
   if AFormat in [fiUnsignedDecimal, fiSignedDecimal] then
   begin
@@ -448,30 +448,30 @@ begin
   end
   else
   begin
-    boolIsNegative := AInteger < 0;
+    LIsNegative := AInteger < 0;
     AInteger := Abs(AInteger);
 
     case AFormat of
-      fiHexadecimal: strRawValue := HexStr(AInteger, SizeOf(Integer) * 2);
-      fiOctal:       strRawValue := OctStr(AInteger, SizeOf(Integer) * 3);
-      fiBinary:      strRawValue := BinStr(AInteger, SizeOf(Integer) * 8);
+      fiHexadecimal: LRawValue := HexStr(AInteger, SizeOf(Integer) * 2);
+      fiOctal:       LRawValue := OctStr(AInteger, SizeOf(Integer) * 3);
+      fiBinary:      LRawValue := BinStr(AInteger, SizeOf(Integer) * 8);
     end;
 
-    intRawValueLen := Length(strRawValue);
-    intRawValueMinLen := INTEGER_MIN_LENGTHS[AFormat] - 1;
+    LRawValueLen := Length(LRawValue);
+    LRawValueMinLen := INTEGER_MIN_LENGTHS[AFormat] - 1;
 
-    pchrNonZeroDigit := @strRawValue[1];
-    pchrLast := @strRawValue[intRawValueLen];
+    LNonZeroDigit := @LRawValue[1];
+    LLast := @LRawValue[LRawValueLen];
 
-    while (pchrNonZeroDigit < pchrLast - intRawValueMinLen) and (pchrNonZeroDigit^ = '0') do
-      Inc(pchrNonZeroDigit);
+    while (LNonZeroDigit < LLast - LRawValueMinLen) and (LNonZeroDigit^ = '0') do
+      LNonZeroDigit += 1;
 
-    intRawValueLen := pchrLast - pchrNonZeroDigit + 1;
-    SetLength(Result, intRawValueLen + 2 + Ord(boolIsNegative));
-    Move(pchrNonZeroDigit^, Result[3 + Ord(boolIsNegative)], intRawValueLen);
-    Move(INTEGER_UNIVERSAL_SYSTEM_PREFIXES[AFormat][1], Result[1 + Ord(boolIsNegative)], 2);
+    LRawValueLen := LLast - LNonZeroDigit + 1;
+    SetLength(Result, LRawValueLen + 2 + Ord(LIsNegative));
+    Move(LNonZeroDigit^, Result[3 + Ord(LIsNegative)], LRawValueLen);
+    Move(INTEGER_UNIVERSAL_SYSTEM_PREFIXES[AFormat][1], Result[1 + Ord(LIsNegative)], 2);
 
-    if boolIsNegative then
+    if LIsNegative then
       Result[1] := '-';
   end;
 end;
