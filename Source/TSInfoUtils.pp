@@ -1224,41 +1224,41 @@ class procedure TTSInfoDataConverter.BufferToValue(const ABuffer; ASize: Integer
 const
   HEX_CHARS: array [0 .. 15] of Char = '0123456789ABCDEF';
 var
-  bdaBuffer: TByteDynArray;
-  intValueLen, intByteIdx: Integer;
-  pintByte: PUInt8;
-  pchrByte, pchrLast: PChar;
+  LBuffer: TByteDynArray;
+  LValueLen, LByteIdx: Integer;
+  LByte: PUInt8;
+  LToken, LLast: PChar;
 begin
   if ASize <= 0 then Exit();
 
-  SetLength(bdaBuffer, ASize);
-  Move(ABuffer, bdaBuffer[0], ASize);
+  SetLength(LBuffer, ASize);
+  Move(ABuffer, LBuffer[0], ASize);
 
-  intValueLen := (ASize * 2) + ((ASize - 1) div UInt8(AFormat));
-  SetLength(AValue, intValueLen);
+  LValueLen := (ASize * 2) + ((ASize - 1) div UInt8(AFormat));
+  SetLength(AValue, LValueLen);
 
-  pintByte := @bdaBuffer[0];
-  pchrByte := @AValue[1];
-  pchrLast := @AValue[intValueLen];
+  LByte := @LBuffer[0];
+  LToken := @AValue[1];
+  LLast := @AValue[LValueLen];
 
-  while pchrByte < pchrLast do
+  while LToken < LLast do
   begin
-    intByteIdx := 0;
+    LByteIdx := 0;
 
-    while (intByteIdx < UInt8(AFormat)) and (pchrByte < pchrLast) do
+    while (LByteIdx < UInt8(AFormat)) and (LToken < LLast) do
     begin
-      PChar(pchrByte + 0)^ := HEX_CHARS[pintByte^ shr 4 and 15];
-      PChar(pchrByte + 1)^ := HEX_CHARS[pintByte^ and 15];
+      PChar(LToken + 0)^ := HEX_CHARS[LByte^ shr 4 and 15];
+      PChar(LToken + 1)^ := HEX_CHARS[LByte^ and 15];
 
-      Inc(pintByte);
-      Inc(pchrByte, 2);
-      Inc(intByteIdx);
+      LByte += 1;
+      LByteIdx += 1;
+      LToken += 2;
     end;
 
-    if pchrByte < pchrLast then
+    if LToken < LLast then
     begin
-      pchrByte^ := VALUES_DELIMITER;
-      Inc(pchrByte);
+      LToken^ := VALUES_DELIMITER;
+      LToken += 1;
     end;
   end;
 end;
