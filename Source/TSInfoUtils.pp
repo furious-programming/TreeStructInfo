@@ -288,30 +288,30 @@ end;
 
 function ExtractPathComponent(const AAttrName: String; AComponent: TPathComponent): String;
 var
-  intValueLen: Integer;
-  pchrFirst, pchrToken, pchrLast: PChar;
+  LValueLen: Integer;
+  LFirst, LToken, LLast: PChar;
 begin
   Result := '';
-  intValueLen := Length(AAttrName);
+  LValueLen := Length(AAttrName);
 
-  if intValueLen > 0 then
+  if LValueLen > 0 then
   begin
-    pchrFirst := @AAttrName[1];
-    pchrLast := @AAttrName[intValueLen];
-    pchrToken := pchrLast;
+    LFirst := @AAttrName[1];
+    LLast := @AAttrName[LValueLen];
+    LToken := LLast;
 
-    while (pchrToken > pchrFirst) and (pchrToken^ <> IDENTS_DELIMITER) do
-      Dec(pchrToken);
+    while (LToken > LFirst) and (LToken^ <> IDENTS_DELIMITER) do
+      LToken -= 1;
 
     case AComponent of
       pcAttributeName:
-        if pchrToken^ = IDENTS_DELIMITER then
-          MoveString(PChar(pchrToken + 1)^, Result, pchrLast - pchrToken)
+        if LToken^ = IDENTS_DELIMITER then
+          MoveString(PChar(LToken + 1)^, Result, LLast - LToken)
         else
           Result := AAttrName;
       pcAttributePath:
-        if pchrToken^ = IDENTS_DELIMITER then
-          MoveString(pchrFirst^, Result, pchrToken - pchrFirst + 1);
+        if LToken^ = IDENTS_DELIMITER then
+          MoveString(LFirst^, Result, LToken - LFirst + 1);
     end;
   end;
 end;
