@@ -269,15 +269,11 @@ end;
 
 
 function IncludeTrailingIdentsDelimiter(const APath: String): String;
-var
-  intPathLen: Integer;
 begin
-  intPathLen := Length(APath);
+  Result := APath;
 
-  if (intPathLen > 0) and (APath[intPathLen] <> IDENTS_DELIMITER) then
-    Result := APath + IDENTS_DELIMITER
-  else
-    Result := APath;
+  if (APath <> '') and (APath[Length(APath)] <> IDENTS_DELIMITER) then
+    Result += IDENTS_DELIMITER;
 end;
 
 
