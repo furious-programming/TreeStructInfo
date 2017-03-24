@@ -1,6 +1,6 @@
 {
 
-    TSInfoConsts.pp                   last modified: 3 May 2016
+    TSInfoConsts.pp                last modified: 24 March 2016
 
     Copyright © Jarosław Baran, furious programming 2013 - 2016.
     All rights reserved.
