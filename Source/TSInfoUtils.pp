@@ -626,41 +626,41 @@ end;
 
 class function TTSInfoDataConverter.ValueToCurrency(const AValue: String; ASettings: TFormatSettings; ADefault: Currency): Currency;
 var
-  intValueLen, intCurrStringLen: Integer;
-  pchrFirst, pchrToken, pchrLast: PChar;
-  strValue: String;
+  LValueLen, LCurrStringLen: Integer;
+  LFirst, LToken, LLast: PChar;
+  LValue: String;
 begin
-  intValueLen := Length(AValue);
+  LValueLen := Length(AValue);
 
-  if intValueLen = 0 then
+  if LValueLen = 0 then
     Result := ADefault
   else
   begin
-    intCurrStringLen := Length(ASettings.CurrencyString);
+    LCurrStringLen := Length(ASettings.CurrencyString);
 
-    if (intCurrStringLen > 0) and (intValueLen > intCurrStringLen) then
+    if (LCurrStringLen > 0) and (LValueLen > LCurrStringLen) then
     begin
-      pchrFirst := @AValue[1];
-      pchrLast := @AValue[intValueLen];
-      pchrToken := pchrLast - intCurrStringLen + 1;
+      LFirst := @AValue[1];
+      LLast := @AValue[LValueLen];
+      LToken := LLast - LCurrStringLen + 1;
 
-      MoveString(pchrToken^, strValue, pchrLast - pchrToken + 1);
+      MoveString(LToken^, LValue, LLast - LToken + 1);
 
-      if CompareStr(strValue, ASettings.CurrencyString) = 0 then
+      if CompareStr(LValue, ASettings.CurrencyString) = 0 then
       begin
         repeat
-          Dec(pchrToken);
-        until pchrToken^ in NUMBER_CHARS;
+          LToken -= 1;
+        until LToken^ in NUMBER_CHARS;
 
-        MoveString(pchrFirst^, strValue, pchrToken - pchrFirst + 1);
+        MoveString(LFirst^, LValue, LToken - LFirst + 1);
       end
       else
-        strValue := AValue;
+        LValue := AValue;
     end
     else
-      strValue := AValue;
+      LValue := AValue;
 
-    if not TryStrToCurr(strValue, Result, ASettings) then
+    if not TryStrToCurr(LValue, Result, ASettings) then
       Result := ADefault;
   end;
 end;
