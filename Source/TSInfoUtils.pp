@@ -694,189 +694,181 @@ end;
 
 class function TTSInfoDataConverter.DateTimeToValue(const AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings): String;
 var
-  intMaskLen, intResultLen, intFormatLen: UInt32;
-  pchrMaskToken, pchrMaskLast: PChar;
-  chrFormat: Char;
-  strMask: String;
-  strResult: String = '';
-  bool12HourClock: Boolean = False;
+  LMaskLen, LResultLen, LFormatLen: UInt32;
+  LMaskToken, LMaskLast: PChar;
+  LFormat: Char;
+  LMask: String;
+  LResult: String = '';
+  L12HourClock: Boolean = False;
 
   procedure IncreaseMaskCharacters();
   begin
-    while (pchrMaskToken < pchrMaskLast) do
+    while (LMaskToken < LMaskLast) do
     begin
-      if pchrMaskToken^ in SMALL_LETTERS then
-        Dec(pchrMaskToken^, 32)
+      if LMaskToken^ in SMALL_LETTERS then
+        Dec(LMaskToken^, 32)
       else
-        if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
+        if LMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
         begin
-          chrFormat := pchrMaskToken^;
+          LFormat := LMaskToken^;
 
           repeat
-            Inc(pchrMaskToken);
-          until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ = chrFormat);
+            LMaskToken += 1;
+          until (LMaskToken = LMaskLast) or (LMaskToken^ = LFormat);
         end;
 
-      Inc(pchrMaskToken);
+      LMaskToken += 1;
     end;
 
-    pchrMaskToken := @strMask[1];
+    LMaskToken := @LMask[1];
   end;
 
   procedure GetClockInfo();
   begin
-    while (pchrMaskToken < pchrMaskLast) do
-      if pchrMaskToken^ = 'A' then
+    while (LMaskToken < LMaskLast) do
+      if LMaskToken^ = 'A' then
       begin
-        bool12HourClock := True;
+        L12HourClock := True;
         Break;
       end
       else
-        Inc(pchrMaskToken);
+        LMaskToken += 1;
 
-    pchrMaskToken := @strMask[1];
+    LMaskToken := @LMask[1];
   end;
 
   procedure SaveString(const AString: String);
   var
-    intStringLen: UInt32;
+    LStringLen: UInt32;
   begin
-    intStringLen := Length(AString);
-    SetLength(strResult, intResultLen + intStringLen);
-    Move(AString[1], strResult[intResultLen + 1], intStringLen);
-    Inc(intResultLen, intStringLen);
+    LStringLen := Length(AString);
+    SetLength(LResult, LResultLen + LStringLen);
+    Move(AString[1], LResult[LResultLen + 1], LStringLen);
+    LResultLen += LStringLen;
   end;
 
   procedure SaveNumber(const ANumber, ADigits: UInt16);
   var
-    strNumber: String;
+    LNumber: String;
   begin
-    Str(ANumber, strNumber);
-    strNumber := StringOfChar('0', ADigits - Length(strNumber)) + strNumber;
-    SaveString(strNumber);
+    Str(ANumber, LNumber);
+    LNumber := StringOfChar('0', ADigits - Length(LNumber)) + LNumber;
+    SaveString(LNumber);
   end;
 
   procedure GetFormatInfo();
   begin
-    chrFormat := pchrMaskToken^;
-    intFormatLen := 0;
+    LFormat := LMaskToken^;
+    LFormatLen := 0;
 
     repeat
-      Inc(intFormatLen);
-      Inc(pchrMaskToken);
-    until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ <> chrFormat);
+      LFormatLen += 1;
+      LMaskToken += 1;
+    until (LMaskToken = LMaskLast) or (LMaskToken^ <> LFormat);
   end;
 
 var
-  intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond, intDayOfWeek: UInt16;
+  LYear, LMonth, LDay, LHour, LMinute, LSecond, LMillisecond, LDayOfWeek: UInt16;
 begin
-  intMaskLen := Length(AMask);
+  LMaskLen := Length(AMask);
 
-  if intMaskLen > 0 then
+  if LMaskLen > 0 then
   begin
-    strMask := AMask + #32;
-    Inc(intMaskLen);
-    intResultLen := 0;
-    pchrMaskToken := @strMask[1];
-    pchrMaskLast := @strMask[intMaskLen];
+    LMask := AMask + #32;
+    LMaskLen += 1;
+    LResultLen := 0;
+    LMaskToken := @LMask[1];
+    LMaskLast := @LMask[LMaskLen];
 
     IncreaseMaskCharacters();
     GetClockInfo();
 
-    DecodeDateTime(ADateTime, intYear, intMonth, intDay, intHour, intMinute, intSecond, intMilliSecond);
-    intDayOfWeek := DayOfWeek(ADateTime);
+    DecodeDateTime(ADateTime, LYear, LMonth, LDay, LHour, LMinute, LSecond, LMillisecond);
+    LDayOfWeek := DayOfWeek(ADateTime);
 
-    while pchrMaskToken < pchrMaskLast do
+    while LMaskToken < LMaskLast do
     begin
-      if pchrMaskToken^ in DATE_TIME_FORMAT_CHARS then
+      if LMaskToken^ in DATE_TIME_FORMAT_CHARS then
       begin
         GetFormatInfo();
 
-        case chrFormat of
-          'Y': case intFormatLen of
-                 2: SaveNumber(intYear mod 100, 2);
-                 4: SaveNumber(intYear, 4);
+        case LFormat of
+          'Y': case LFormatLen of
+                 2: SaveNumber(LYear mod 100, 2);
+                 4: SaveNumber(LYear, 4);
                end;
-          'M': case intFormatLen of
-                 1, 2: SaveNumber(intMonth, intFormatLen);
-                 3:    SaveString(ASettings.ShortMonthNames[intMonth]);
-                 4:    SaveString(ASettings.LongMonthNames[intMonth]);
+          'M': case LFormatLen of
+                 1, 2: SaveNumber(LMonth, LFormatLen);
+                 3:    SaveString(ASettings.ShortMonthNames[LMonth]);
+                 4:    SaveString(ASettings.LongMonthNames[LMonth]);
                end;
-          'D': case intFormatLen of
-                 1, 2: SaveNumber(intDay, intFormatLen);
-                 3:    SaveString(ASettings.ShortDayNames[intDayOfWeek]);
-                 4:    SaveString(ASettings.LongDayNames[intDayOfWeek]);
+          'D': case LFormatLen of
+                 1, 2: SaveNumber(LDay, LFormatLen);
+                 3:    SaveString(ASettings.ShortDayNames[LDayOfWeek]);
+                 4:    SaveString(ASettings.LongDayNames[LDayOfWeek]);
                end;
-          'H': case intFormatLen of
-                 1, 2: if bool12HourClock then
+          'H': case LFormatLen of
+                 1, 2: if L12HourClock then
                        begin
-                         if intHour < 12 then
-                         begin
-                           if intHour = 0 then
-                             SaveNumber(12, intFormatLen)
-                           else
-                             SaveNumber(intHour, intFormatLen);
-                         end
+                         if LHour < 12 then
+                           SaveNumber(IfThen(LHour = 0, 12, LHour), LFormatLen)
                          else
-                           if intHour = 12 then
-                             SaveNumber(intHour, intFormatLen)
-                           else
-                             SaveNumber(intHour - 12, intFormatLen);
+                           SaveNumber(IfThen(LHour = 12, LHour, LHour - 12), LFormatLen);
                        end
                        else
-                         SaveNumber(intHour, intFormatLen);
+                         SaveNumber(LHour, LFormatLen);
                end;
-          'N': case intFormatLen of
-                 1, 2: SaveNumber(intMinute, intFormatLen);
+          'N': case LFormatLen of
+                 1, 2: SaveNumber(LMinute, LFormatLen);
                end;
-          'S': case intFormatLen of
-                 1, 2: SaveNumber(intSecond, intFormatLen);
+          'S': case LFormatLen of
+                 1, 2: SaveNumber(LSecond, LFormatLen);
                end;
-          'Z': case intFormatLen of
-                 1, 3: SaveNumber(intMilliSecond, intFormatLen);
+          'Z': case LFormatLen of
+                 1, 3: SaveNumber(LMillisecond, LFormatLen);
                end;
           'A': begin
-                 if intHour < 12 then
+                 if LHour < 12 then
                    SaveString(ASettings.TimeAMString)
                  else
                    SaveString(ASettings.TimePMString);
 
-                 Inc(pchrMaskToken, 4);
+                 LMaskToken += 4;
                end;
         end;
       end
       else
-        if pchrMaskToken^ in DATE_TIME_SEPARATOR_CHARS then
+        if LMaskToken^ in DATE_TIME_SEPARATOR_CHARS then
         begin
-          case pchrMaskToken^ of
+          case LMaskToken^ of
             '.', '-', '/': SaveString(ASettings.DateSeparator);
             ':':           SaveString(ASettings.TimeSeparator);
           end;
 
-          Inc(pchrMaskToken);
+          LMaskToken += 1;
         end
         else
-          if pchrMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
+          if LMaskToken^ in DATE_TIME_PLAIN_TEXT_CHARS then
           begin
-            chrFormat := pchrMaskToken^;
-            Inc(pchrMaskToken);
+            LFormat := LMaskToken^;
+            LMaskToken += 1;
 
             repeat
-              SaveString(pchrMaskToken^);
-              Inc(pchrMaskToken);
-            until (pchrMaskToken = pchrMaskLast) or (pchrMaskToken^ = chrFormat);
+              SaveString(LMaskToken^);
+              LMaskToken += 1;
+            until (LMaskToken = LMaskLast) or (LMaskToken^ = LFormat);
 
-            Inc(pchrMaskToken);
+            LMaskToken += 1;
           end
           else
           begin
-            SaveString(pchrMaskToken^);
-            Inc(pchrMaskToken);
+            SaveString(LMaskToken^);
+            LMaskToken += 1;
           end;
     end;
   end;
 
-  Result := strResult;
+  Result := LResult;
 end;
 
 
