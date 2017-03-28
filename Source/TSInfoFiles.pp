@@ -1938,14 +1938,14 @@ end;
 
 function TSimpleTSInfoTree.ReadDateTime(const AAttrPath, AMask: String; ADefault: TDateTime): TDateTime;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToDateTime(AMask, attrRead.Value, DefaultFormatSettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToDateTime(AMask, LAttribute.Value, DefaultFormatSettings, ADefault);
 end;
 
 
