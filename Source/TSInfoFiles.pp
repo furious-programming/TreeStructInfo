@@ -1622,17 +1622,17 @@ end;
 
 procedure TSimpleTSInfoTree.WriteFloat(const AAttrPath: String; ADouble: Double; AFormat: TFormatFloat = ffUnsignedGeneral);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      attrWrite.Value := TTSInfoDataConverter.FloatToValue(ADouble, AFormat, DefaultFormatSettings);
+      LAttribute.Value := TTSInfoDataConverter.FloatToValue(ADouble, AFormat, DefaultFormatSettings);
       FModified := True;
     end;
   end;
