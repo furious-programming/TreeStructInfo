@@ -900,23 +900,23 @@ end;
 
 procedure TTSInfoElementsList.AddElement(AElement: TObject);
 var
-  plnNew: PListNode;
+  LNewNode: PListNode;
 begin
-  plnNew := CreateNode(AElement);
+  LNewNode := CreateNode(AElement);
 
   if FCount = 0 then
   begin
-    FFirstNode := plnNew;
-    FLastUsedNode := plnNew;
+    FFirstNode := LNewNode;
+    FLastUsedNode := LNewNode;
     FLastUsedNodeIndex := 0;
   end
   else
   begin
-    plnNew^.PreviousNode := FLastNode;
-    FLastNode^.NextNode := plnNew;
+    LNewNode^.PreviousNode := FLastNode;
+    FLastNode^.NextNode := LNewNode;
   end;
 
-  FLastNode := plnNew;
+  FLastNode := LNewNode;
   Inc(FCount);
 end;
 
