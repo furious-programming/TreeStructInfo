@@ -1277,44 +1277,44 @@ end;
 
 function TSimpleTSInfoTree.FindElement(const AElementName: String; AForcePath: Boolean; AReturnAttribute: Boolean): TObject;
 var
-  nodeRead, nodeTemp: TTSInfoNode;
-  pchrNameBegin, pchrNameEnd, pchrLast: PChar;
-  intPathLen: Integer;
-  strName: String;
+  LCurrentNode, LChildNode: TTSInfoNode;
+  LNameBegin, LNameEnd, LLast: PChar;
+  LPathLen: Integer;
+  LName: String;
 begin
   Result := nil;
-  intPathLen := Length(AElementName);
+  LPathLen := Length(AElementName);
 
-  if intPathLen > 0 then
+  if LPathLen > 0 then
   begin
-    nodeRead := FCurrentNode;
+    LCurrentNode := FCurrentNode;
 
-    SetLength(strName, 0);
-    pchrNameBegin := @AElementName[1];
-    pchrNameEnd := pchrNameBegin;
-    pchrLast := @AElementName[intPathLen];
+    SetLength(LName, 0);
+    LNameBegin := @AElementName[1];
+    LNameEnd := LNameBegin;
+    LLast := @AElementName[LPathLen];
 
-    while (nodeRead = nil) or (pchrNameEnd <= pchrLast) do
+    while (LCurrentNode = nil) or (LNameEnd <= LLast) do
     begin
-      while (pchrNameEnd < pchrLast) and (pchrNameEnd^ <> IDENTS_DELIMITER) do
-        Inc(pchrNameEnd);
+      while (LNameEnd < LLast) and (LNameEnd^ <> IDENTS_DELIMITER) do
+        Inc(LNameEnd);
 
-      if (nodeRead <> nil) and (pchrNameEnd^ = IDENTS_DELIMITER) then
+      if (LCurrentNode <> nil) and (LNameEnd^ = IDENTS_DELIMITER) then
       begin
-        MoveString(pchrNameBegin^, strName, pchrNameEnd - pchrNameBegin);
+        MoveString(LNameBegin^, LName, LNameEnd - LNameBegin);
 
-        if not IsCurrentNodePath(strName) and ValidIdentifier(strName) then
+        if not IsCurrentNodePath(LName) and ValidIdentifier(LName) then
         begin
-          nodeTemp := nodeRead.GetChildNode(strName);
+          LChildNode := LCurrentNode.GetChildNode(LName);
 
-          if (nodeTemp = nil) and AForcePath then
-            nodeTemp := nodeRead.CreateChildNode(False, strName);
+          if (LChildNode = nil) and AForcePath then
+            LChildNode := LCurrentNode.CreateChildNode(False, LName);
 
-          nodeRead := nodeTemp;
+          LCurrentNode := LChildNode;
         end;
 
-        Inc(pchrNameEnd);
-        pchrNameBegin := pchrNameEnd;
+        Inc(LNameEnd);
+        LNameBegin := LNameEnd;
       end
       else
         Break;
@@ -1322,21 +1322,21 @@ begin
 
     if AReturnAttribute then
     begin
-      if nodeRead <> nil then
+      if LCurrentNode <> nil then
       begin
-        MoveString(pchrNameBegin^, strName, pchrNameEnd - pchrNameBegin + 1);
+        MoveString(LNameBegin^, LName, LNameEnd - LNameBegin + 1);
 
-        if ValidIdentifier(strName) then
+        if ValidIdentifier(LName) then
         begin
-          Result := nodeRead.GetAttribute(strName);
+          Result := LCurrentNode.GetAttribute(LName);
 
           if (Result = nil) and AForcePath then
-            Result := nodeRead.CreateAttribute(False, strName);
+            Result := LCurrentNode.CreateAttribute(False, LName);
         end;
       end;
     end
     else
-      Result := nodeRead;
+      Result := LCurrentNode;
   end;
 end;
 
