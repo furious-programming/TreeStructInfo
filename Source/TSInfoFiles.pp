@@ -4003,11 +4003,11 @@ end;
 
 procedure TTSInfoBinaryOutputWriter.WriteStringBuffer(const ABuffer: String);
 var
-  intBufferLen: UInt32;
+  LBufferLen: UInt32;
 begin
-  intBufferLen := Length(ABuffer);
-  WriteUInt32Buffer(intBufferLen);
-  FOutput.Write(ABuffer[1], intBufferLen);
+  LBufferLen := Length(ABuffer);
+  WriteUInt32Buffer(LBufferLen);
+  FOutput.Write(ABuffer[1], LBufferLen);
 end;
 
 
