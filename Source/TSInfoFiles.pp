@@ -1977,12 +1977,12 @@ end;
 
 procedure TSimpleTSInfoTree.ReadList(const AAttrPath: String; AList: TStrings);
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead <> nil then
-    TTSInfoDataConverter.ValueToList(attrRead.Value, AList);
+  if LAttribute <> nil then
+    TTSInfoDataConverter.ValueToList(LAttribute.Value, AList);
 end;
 
 
