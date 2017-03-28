@@ -2019,22 +2019,22 @@ end;
 
 function TSimpleTSInfoTree.CreateAttribute(const ANodePath: String; AReference: Boolean; const AAttrName: String): Boolean;
 var
-  nodeParent: TTSInfoNode;
+  LParentNode: TTSInfoNode;
 begin
   Result := ValidIdentifier(AAttrName);
 
   if Result then
   begin
     if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
+      LParentNode := FCurrentNode
     else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), True);
+      LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), True);
 
-    Result := nodeParent <> nil;
+    Result := LParentNode <> nil;
 
     if Result then
     begin
-      nodeParent.CreateAttribute(AReference, AAttrName);
+      LParentNode.CreateAttribute(AReference, AAttrName);
       FModified := True;
     end;
   end;
