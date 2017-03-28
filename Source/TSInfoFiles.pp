@@ -3145,12 +3145,12 @@ end;
 
 function TTSInfoTextInputReader.IsValueLine(const ALine: String): Boolean;
 var
-  intLineLen: Integer;
+  LLineLen: Integer;
 begin
-  intLineLen := Length(ALine);
+  LLineLen := Length(ALine);
 
-  Result := (intLineLen >= MIN_ATTRIBUTE_VALUE_LINE_LEN) and
-            (ALine[1] = QUOTE_CHAR) and (ALine[intLineLen] = QUOTE_CHAR);
+  Result := (LLineLen >= MIN_ATTRIBUTE_VALUE_LINE_LEN) and
+            (ALine[1] = QUOTE_CHAR) and (ALine[LLineLen] = QUOTE_CHAR);
 end;
 
 
