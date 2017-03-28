@@ -3271,32 +3271,32 @@ end;
 
 procedure TTSInfoTextInputReader.FillRefAttribute();
 var
-  strAttrName, strAttrValue, strAttrNextValue: String;
-  boolReference: Boolean;
+  LName, LValue, LNextValue: String;
+  LReference: Boolean;
 begin
-  ExtractAttribute(FInput[FLineIndex], boolReference, strAttrName, strAttrValue);
+  ExtractAttribute(FInput[FLineIndex], LReference, LName, LValue);
 
-  if FRefElements.FirstElementIsAttribute(strAttrName) then
+  if FRefElements.FirstElementIsAttribute(LName) then
   begin
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
     begin
-      ExtractAttributeNextValue(FInput[FLineIndex], strAttrNextValue);
-      strAttrValue += VALUES_DELIMITER + strAttrNextValue;
+      ExtractAttributeNextValue(FInput[FLineIndex], LNextValue);
+      LValue += VALUES_DELIMITER + LNextValue;
       Inc(FLineIndex);
     end;
 
     with FRefElements.PopFirstElement() as TTSInfoAttribute do
     begin
       Comment[ctDefinition] := Self.FComment;
-      Value := strAttrValue;
+      Value := LValue;
     end;
 
     ClearComment();
   end
   else
-    ThrowException(EM_MISSING_REF_ATTR_DEFINITION, [strAttrName]);
+    ThrowException(EM_MISSING_REF_ATTR_DEFINITION, [LName]);
 end;
 
 
