@@ -3169,7 +3169,7 @@ end;
 
 procedure TTSInfoTextInputReader.AddStdAttribute();
 var
-  LAttribute: TTSInfoAttribute;
+  LNewAttribute: TTSInfoAttribute;
   LAttributeName, LAttributeValue, LAttributeNextValue: String;
   LReference: Boolean;
 begin
@@ -3177,7 +3177,7 @@ begin
 
   if ValidIdentifier(LAttributeName) then
   begin
-    LAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(LReference, LAttributeName, '', Comment(FComment, ''));
+    LNewAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(LReference, LAttributeName, '', Comment(FComment, ''));
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
@@ -3187,7 +3187,7 @@ begin
       Inc(FLineIndex);
     end;
 
-    LAttribute.Value := LAttributeValue;
+    LNewAttribute.Value := LAttributeValue;
     ClearComment();
   end;
 end;
