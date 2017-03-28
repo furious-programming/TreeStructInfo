@@ -1819,9 +1819,9 @@ end;
 
 procedure TSimpleTSInfoTree.WriteStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AFormat: TFormatStream = fs32BytesPerLine);
 var
-  attrWrite: TTSInfoAttribute;
-  bdaBuffer: TByteDynArray;
-  strValue: String = '';
+  LAttribute: TTSInfoAttribute;
+  LBuffer: TByteDynArray;
+  LValue: String = '';
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -1830,15 +1830,15 @@ begin
       ThrowException(EM_INVALID_STREAM_SIZE, [MAX_STREAM_SIZE])
     else
     begin
-      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+      LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-      if attrWrite <> nil then
+      if LAttribute <> nil then
       begin
-        SetLength(bdaBuffer, ASize);
-        AStream.Read(bdaBuffer[0], ASize);
+        SetLength(LBuffer, ASize);
+        AStream.Read(LBuffer[0], ASize);
 
-        TTSInfoDataConverter.BufferToValue(bdaBuffer[0], ASize, strValue, TFormatBuffer(AFormat));
-        attrWrite.Value := strValue;
+        TTSInfoDataConverter.BufferToValue(LBuffer[0], ASize, LValue, TFormatBuffer(AFormat));
+        LAttribute.Value := LValue;
         FModified := True;
       end;
     end;
