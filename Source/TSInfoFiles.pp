@@ -1886,14 +1886,14 @@ end;
 
 function TSimpleTSInfoTree.ReadFloat(const AAttrPath: String; ADefault: Double; ASettings: TFormatSettings): Double;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToFloat(attrRead.Value, ASettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToFloat(LAttribute.Value, ASettings, ADefault);
 end;
 
 
