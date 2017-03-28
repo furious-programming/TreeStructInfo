@@ -2588,25 +2588,25 @@ end;
 
 procedure TTSInfoTree.RemoveAttribute(const AAttrPath: String);
 var
-  nodeParent: TTSInfoNode;
-  strAttrName, strAttrNameOnly, strAttrPath: String;
+  LParentNode: TTSInfoNode;
+  LAttributeName, LAttributeNameOnly, LAttributePath: String;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrPath);
-    strAttrPath := ExtractPathComponent(strAttrName, pcAttributePath);
+    LAttributeName := ExcludeTrailingIdentsDelimiter(AAttrPath);
+    LAttributePath := ExtractPathComponent(LAttributeName, pcAttributePath);
 
-    if IsCurrentNodePath(strAttrPath) then
-      nodeParent := FCurrentNode
+    if IsCurrentNodePath(LAttributePath) then
+      LParentNode := FCurrentNode
     else
-      nodeParent := FindNode(strAttrPath, False);
+      LParentNode := FindNode(LAttributePath, False);
 
-    if nodeParent <> nil then
+    if LParentNode <> nil then
     begin
-      strAttrNameOnly := ExtractPathComponent(strAttrName, pcAttributeName);
-      nodeParent.RemoveAttribute(strAttrNameOnly);
+      LAttributeNameOnly := ExtractPathComponent(LAttributeName, pcAttributeName);
+      LParentNode.RemoveAttribute(LAttributeNameOnly);
       FModified := True;
     end;
   end;
