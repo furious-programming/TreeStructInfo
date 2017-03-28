@@ -923,9 +923,9 @@ end;
 
 procedure TTSInfoElementsList.RemoveElement(AIndex: Integer);
 var
-  plnDispose: PListNode;
+  LNodeToDispose: PListNode;
 begin
-  plnDispose := GetNodeAtIndex(AIndex);
+  LNodeToDispose := GetNodeAtIndex(AIndex);
 
   if FLastUsedNode = FLastNode then
   begin
@@ -937,7 +937,7 @@ begin
 
   if AIndex = 0 then
   begin
-    plnDispose := FFirstNode;
+    LNodeToDispose := FFirstNode;
     FFirstNode := FFirstNode^.NextNode;
 
     if FFirstNode = nil then
@@ -947,18 +947,18 @@ begin
   end
   else
   begin
-    plnDispose^.PreviousNode^.NextNode := plnDispose^.NextNode;
+    LNodeToDispose^.PreviousNode^.NextNode := LNodeToDispose^.NextNode;
 
-    if plnDispose = FLastNode then
-      FLastNode := plnDispose^.PreviousNode
+    if LNodeToDispose = FLastNode then
+      FLastNode := LNodeToDispose^.PreviousNode
     else
-      plnDispose^.NextNode^.PreviousNode := plnDispose^.PreviousNode;
+      LNodeToDispose^.NextNode^.PreviousNode := LNodeToDispose^.PreviousNode;
   end;
 
   if FOwnsElements then
-    plnDispose^.Element.Free();
+    LNodeToDispose^.Element.Free();
 
-  Dispose(plnDispose);
+  Dispose(LNodeToDispose);
   Dec(FCount);
 end;
 
