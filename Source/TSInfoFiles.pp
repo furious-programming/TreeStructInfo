@@ -2498,19 +2498,19 @@ end;
 
 procedure TTSInfoTree.SetAttributeReference(const AAttrPath: String; AReference: Boolean);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-    if attrWrite = nil then
+    if LAttribute = nil then
       ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
     else
     begin
-      attrWrite.Reference := AReference;
+      LAttribute.Reference := AReference;
       FModified := True;
     end;
   end;
