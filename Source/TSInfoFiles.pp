@@ -3879,10 +3879,10 @@ end;
 
 procedure TTSInfoBinaryInputReader.ReadBooleanBuffer(out ABuffer: Boolean);
 var
-  intBuffer: UInt8 = 0;
+  LBuffer: UInt8 = 0;
 begin
-  FInput.Read(intBuffer, SizeOf(intBuffer));
-  ABuffer := intBuffer <> 0;
+  FInput.Read(LBuffer, SizeOf(LBuffer));
+  ABuffer := LBuffer <> 0;
 end;
 
 
