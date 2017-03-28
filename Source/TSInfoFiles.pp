@@ -1584,17 +1584,17 @@ end;
 
 procedure TSimpleTSInfoTree.WriteBoolean(const AAttrPath: String; ABoolean: Boolean; AFormat: TFormatBoolean = fbLongTrueFalse);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      attrWrite.Value := TTSInfoDataConverter.BooleanToValue(ABoolean, AFormat);
+      LAttribute.Value := TTSInfoDataConverter.BooleanToValue(ABoolean, AFormat);
       FModified := True;
     end;
   end;
