@@ -3378,48 +3378,48 @@ end;
 
 procedure TTSInfoTextInputReader.ExtractLineComponents(const ALine: String; out AComponents: TLineComponents; var ACount: Integer);
 var
-  strLine: String;
-  pchrComponentBegin, pchrComponentEnd, pchrValueBegin, pchrValueEnd, pchrLast: PChar;
+  LLine: String;
+  LComponentBegin, LComponentEnd, LValueBegin, LValueEnd, LLast: PChar;
 begin
-  strLine := ALine + INDENT_CHAR;
-  pchrComponentBegin := @strLine[1];
-  pchrLast := @strLine[Length(strLine)];
+  LLine := ALine + INDENT_CHAR;
+  LComponentBegin := @LLine[1];
+  LLast := @LLine[Length(LLine)];
 
-  while pchrComponentBegin < pchrLast do
+  while LComponentBegin < LLast do
   begin
-    while (pchrComponentBegin < pchrLast) and (pchrComponentBegin^ in WHITESPACE_CHARS) do
-      Inc(pchrComponentBegin);
+    while (LComponentBegin < LLast) and (LComponentBegin^ in WHITESPACE_CHARS) do
+      Inc(LComponentBegin);
 
-    if pchrComponentBegin < pchrLast then
+    if LComponentBegin < LLast then
     begin
-      pchrComponentEnd := pchrComponentBegin;
+      LComponentEnd := LComponentBegin;
 
       repeat
-        Inc(pchrComponentEnd);
-      until (pchrComponentEnd = pchrLast) or (pchrComponentEnd^ = QUOTE_CHAR);
+        Inc(LComponentEnd);
+      until (LComponentEnd = LLast) or (LComponentEnd^ = QUOTE_CHAR);
 
-      if (pchrComponentBegin^ <> QUOTE_CHAR) or (pchrComponentEnd < pchrLast) then
+      if (LComponentBegin^ <> QUOTE_CHAR) or (LComponentEnd < LLast) then
       begin
-        pchrValueBegin := pchrComponentBegin;
-        pchrValueEnd := pchrComponentEnd - 1;
+        LValueBegin := LComponentBegin;
+        LValueEnd := LComponentEnd - 1;
 
-        if pchrValueBegin^ = QUOTE_CHAR then
+        if LValueBegin^ = QUOTE_CHAR then
         begin
-          Inc(pchrValueBegin);
+          Inc(LValueBegin);
 
-          while (pchrValueBegin <= pchrValueEnd) and (pchrValueBegin^ in WHITESPACE_CHARS) do
-            Inc(pchrValueBegin);
+          while (LValueBegin <= LValueEnd) and (LValueBegin^ in WHITESPACE_CHARS) do
+            Inc(LValueBegin);
         end;
 
-        while (pchrValueEnd >= pchrValueBegin) and (pchrValueEnd^ in WHITESPACE_CHARS) do
-          Dec(pchrValueEnd);
+        while (LValueEnd >= LValueBegin) and (LValueEnd^ in WHITESPACE_CHARS) do
+          Dec(LValueEnd);
 
         SetLength(AComponents, ACount + 1);
-        MoveString(pchrValueBegin^, AComponents[ACount], pchrValueEnd - pchrValueBegin + 1);
+        MoveString(LValueBegin^, AComponents[ACount], LValueEnd - LValueBegin + 1);
         Inc(ACount);
       end;
 
-      pchrComponentBegin := pchrComponentEnd + UInt8(pchrComponentBegin^ = QUOTE_CHAR);
+      LComponentBegin := LComponentEnd + UInt8(LComponentBegin^ = QUOTE_CHAR);
     end
   end;
 end;
