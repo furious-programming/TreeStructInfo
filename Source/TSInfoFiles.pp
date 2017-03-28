@@ -2615,23 +2615,23 @@ end;
 
 procedure TTSInfoTree.RemoveChildNode(const ANodePath: String);
 var
-  nodeRemove: TTSInfoNode;
-  strNodeNameOnly: String;
+  LNodeToRemove: TTSInfoNode;
+  LNodeNameOnly: String;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    nodeRemove := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+    LNodeToRemove := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-    if nodeRemove <> nil then
-      if nodeRemove.ParentNode = nil then
+    if LNodeToRemove <> nil then
+      if LNodeToRemove.ParentNode = nil then
         ThrowException(EM_ROOT_NODE_REMOVE)
       else
       begin
-        strNodeNameOnly := nodeRemove.Name;
-        nodeRemove := nodeRemove.ParentNode;
-        nodeRemove.RemoveChildNode(strNodeNameOnly);
+        LNodeNameOnly := LNodeToRemove.Name;
+        LNodeToRemove := LNodeToRemove.ParentNode;
+        LNodeToRemove.RemoveChildNode(LNodeNameOnly);
         FModified := True;
       end;
   end;
