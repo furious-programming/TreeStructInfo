@@ -3093,25 +3093,25 @@ end;
 
 function TTSInfoTextInputReader.IsRefAttributeDeclarationLine(const ALine: String): Boolean;
 var
-  pchrToken, pchrLast: PChar;
-  intLineLen: Integer;
+  LToken, LLast: PChar;
+  LLineLen: Integer;
 begin
   Result := False;
-  intLineLen := Length(ALine);
+  LLineLen := Length(ALine);
 
-  if intLineLen >= MIN_REF_ATTRIBUTE_DEC_LINE_LEN then
+  if LLineLen >= MIN_REF_ATTRIBUTE_DEC_LINE_LEN then
     if CompareByte(ALine[1], KEYWORD_REF_ATTRIBUTE[1], KEYWORD_REF_ATTRIBUTE_LEN) = 0 then
     begin
-      pchrToken := @ALine[KEYWORD_REF_ATTRIBUTE_LEN] + 1;
-      pchrLast := @ALine[intLineLen];
+      LToken := @ALine[KEYWORD_REF_ATTRIBUTE_LEN] + 1;
+      LLast := @ALine[LLineLen];
 
-      while (pchrToken < pchrLast) and (pchrToken^ in WHITESPACE_CHARS) do
-        Inc(pchrToken);
+      while (LToken < LLast) and (LToken^ in WHITESPACE_CHARS) do
+        Inc(LToken);
 
-      while (pchrToken <= pchrLast) and (pchrToken^ <> QUOTE_CHAR) do
-        Inc(pchrToken);
+      while (LToken <= LLast) and (LToken^ <> QUOTE_CHAR) do
+        Inc(LToken);
 
-      Result := pchrToken > pchrLast;
+      Result := LToken > LLast;
     end;
 end;
 
