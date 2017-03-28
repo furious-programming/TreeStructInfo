@@ -3041,25 +3041,25 @@ end;
 
 function TTSInfoTextInputReader.IsAttributeNameAndValueLine(const ALine: String): Boolean;
 var
-  pchrToken, pchrLast: PChar;
+  LToken, LLast: PChar;
 begin
-  pchrToken := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[ALine[1] = KEYWORD_REF_ATTRIBUTE[1]]] + 1;
-  pchrLast := @ALine[Length(ALine)];
+  LToken := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[ALine[1] = KEYWORD_REF_ATTRIBUTE[1]]] + 1;
+  LLast := @ALine[Length(ALine)];
 
-  while (pchrToken < pchrLast) and (pchrToken^ in WHITESPACE_CHARS) do
-    Inc(pchrToken);
+  while (LToken < LLast) and (LToken^ in WHITESPACE_CHARS) do
+    Inc(LToken);
 
-  Result := pchrToken^ <> QUOTE_CHAR;
+  Result := LToken^ <> QUOTE_CHAR;
 
   if Result then
   begin
-    while (pchrToken < pchrLast) and (pchrToken^ <> QUOTE_CHAR) do
-      Inc(pchrToken);
+    while (LToken < LLast) and (LToken^ <> QUOTE_CHAR) do
+      Inc(LToken);
 
-    while (pchrLast > pchrToken) and (pchrLast^ <> QUOTE_CHAR) do
-      Dec(pchrLast);
+    while (LLast > LToken) and (LLast^ <> QUOTE_CHAR) do
+      Dec(LLast);
 
-    Result := (pchrToken < pchrLast) and (pchrLast^ = QUOTE_CHAR);
+    Result := (LToken < LLast) and (LLast^ = QUOTE_CHAR);
   end;
 end;
 
