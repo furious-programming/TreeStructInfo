@@ -3715,37 +3715,37 @@ end;
 
 procedure TTSInfoTextOutputWriter.AddRefAttributeDefinition(AAttribute: TTSInfoAttribute);
 var
-  vcAttrValue: TValueComponents;
-  intValueLinesCnt, intValueLineIdx: Integer;
-  strValue, strValuesIndent: String;
-  boolAttrHasComment, boolMultilineValue: Boolean;
+  LComponents: TValueComponents;
+  LComponentsCnt, LComponentIdx: Integer;
+  LValue, LValuesIndent: String;
+  LHasComment, LValueIsMultiline: Boolean;
 begin
-  ExtractValueComponents(AAttribute.Value, vcAttrValue, intValueLinesCnt);
+  ExtractValueComponents(AAttribute.Value, LComponents, LComponentsCnt);
 
-  boolAttrHasComment := AAttribute.Comment[ctDefinition] <> '';
-  boolMultilineValue := intValueLinesCnt > 1;
+  LHasComment := AAttribute.Comment[ctDefinition] <> '';
+  LValueIsMultiline := LComponentsCnt > 1;
 
-  if FExtraSpaceNeeded or boolAttrHasComment or boolMultilineValue then
+  if FExtraSpaceNeeded or LHasComment or LValueIsMultiline then
     AddEmptySpace();
 
-  FExtraSpaceNeeded := boolAttrHasComment or boolMultilineValue;
+  FExtraSpaceNeeded := LHasComment or LValueIsMultiline;
 
-  if boolAttrHasComment then
+  if LHasComment then
     AddComment(AAttribute.Comment[ctDefinition]);
 
-  if intValueLinesCnt > 0 then
-    strValue := vcAttrValue[0]
+  if LComponentsCnt > 0 then
+    LValue := LComponents[0]
   else
-    strValue := '';
+    LValue := '';
 
-  FOutput.Add(GlueStrings('%% %%%', [KEYWORD_REF_ATTRIBUTE, AAttribute.Name, QUOTE_CHAR, strValue, QUOTE_CHAR]));
+  FOutput.Add(GlueStrings('%% %%%', [KEYWORD_REF_ATTRIBUTE, AAttribute.Name, QUOTE_CHAR, LValue, QUOTE_CHAR]));
 
-  if boolMultilineValue then
+  if LValueIsMultiline then
   begin
-    strValuesIndent := StringOfChar(INDENT_CHAR, KEYWORD_REF_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
+    LValuesIndent := StringOfChar(INDENT_CHAR, KEYWORD_REF_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
 
-    for intValueLineIdx := 1 to intValueLinesCnt - 1 do
-      FOutput.Add(GlueStrings('% %%%', [strValuesIndent, QUOTE_CHAR, vcAttrValue[intValueLineIdx], QUOTE_CHAR]));
+    for LComponentIdx := 1 to LComponentsCnt - 1 do
+      FOutput.Add(GlueStrings('% %%%', [LValuesIndent, QUOTE_CHAR, LComponents[LComponentIdx], QUOTE_CHAR]));
   end;
 end;
 
