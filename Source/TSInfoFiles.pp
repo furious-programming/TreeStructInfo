@@ -1912,14 +1912,14 @@ end;
 
 function TSimpleTSInfoTree.ReadCurrency(const AAttrPath: String; ADefault: Currency; ASettings: TFormatSettings): Currency;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToCurrency(attrRead.Value, ASettings, ADefault);
+    Result := TTSInfoDataConverter.ValueToCurrency(LAttribute.Value, ASettings, ADefault);
 end;
 
 
