@@ -3170,24 +3170,24 @@ end;
 procedure TTSInfoTextInputReader.AddStdAttribute();
 var
   LNewAttribute: TTSInfoAttribute;
-  LAttributeName, LAttributeValue, LAttributeNextValue: String;
+  LName, LValue, LNextValue: String;
   LReference: Boolean;
 begin
-  ExtractAttribute(FInput[FLineIndex], LReference, LAttributeName, LAttributeValue);
+  ExtractAttribute(FInput[FLineIndex], LReference, LName, LValue);
 
-  if ValidIdentifier(LAttributeName) then
+  if ValidIdentifier(LName) then
   begin
-    LNewAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(LReference, LAttributeName, '', Comment(FComment, ''));
+    LNewAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(LReference, LName, '', Comment(FComment, ''));
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
     begin
-      ExtractAttributeNextValue(FInput[FLineIndex], LAttributeNextValue);
-      LAttributeValue += VALUES_DELIMITER + LAttributeNextValue;
+      ExtractAttributeNextValue(FInput[FLineIndex], LNextValue);
+      LValue += VALUES_DELIMITER + LNextValue;
       Inc(FLineIndex);
     end;
 
-    LNewAttribute.Value := LAttributeValue;
+    LNewAttribute.Value := LValue;
     ClearComment();
   end;
 end;
