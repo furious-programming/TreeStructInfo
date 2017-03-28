@@ -1491,30 +1491,30 @@ end;
 
 procedure TSimpleTSInfoTree.LoadFromLazarusResource(const AResName: String; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []);
 var
-  lrsInput: TLazarusResourceStream;
-  slInput: TStringList;
+  LInputStream: TLazarusResourceStream;
+  LInputList: TStringList;
 begin
   FFileName := AFileName;
   FTreeModes := AModes;
 
   ClearTree();
 
-  lrsInput := TLazarusResourceStream.Create(AResName, AResType);
+  LInputStream := TLazarusResourceStream.Create(AResName, AResType);
   try
     if tmBinaryTree in FTreeModes then
-      InternalLoadTreeFromStream(lrsInput, Self)
+      InternalLoadTreeFromStream(LInputStream, Self)
     else
     begin
-      slInput := TStringList.Create();
+      LInputList := TStringList.Create();
       try
-        slInput.LoadFromStream(lrsInput);
-        InternalLoadTreeFromList(slInput, Self);
+        LInputList.LoadFromStream(LInputStream);
+        InternalLoadTreeFromList(LInputList, Self);
       finally
-        slInput.Free();
+        LInputList.Free();
       end;
     end;
   finally
-    lrsInput.Free();
+    LInputStream.Free();
   end;
 end;
 
