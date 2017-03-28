@@ -1365,8 +1365,8 @@ end;
 
 procedure TSimpleTSInfoTree.LoadFromFile(const AFileName: String; AModes: TTreeModes = []);
 var
-  fsInput: TFileStream;
-  slInput: TStringList;
+  LInputStream: TFileStream;
+  LInputList: TStringList;
 begin
   FFileName := AFileName;
   FTreeModes := AModes;
@@ -1375,21 +1375,21 @@ begin
 
   if tmBinaryTree in FTreeModes then
   begin
-    fsInput := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyWrite);
+    LInputStream := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyWrite);
     try
-      InternalLoadTreeFromStream(fsInput, Self);
+      InternalLoadTreeFromStream(LInputStream, Self);
     finally
-      fsInput.Free();
+      LInputStream.Free();
     end;
   end
   else
   begin
-    slInput := TStringList.Create();
+    LInputList := TStringList.Create();
     try
-      slInput.LoadFromFile(FFileName);
-      InternalLoadTreeFromList(slInput, Self);
+      LInputList.LoadFromFile(FFileName);
+      InternalLoadTreeFromList(LInputList, Self);
     finally
-      slInput.Free();
+      LInputList.Free();
     end;
   end;
 end;
