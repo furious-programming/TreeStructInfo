@@ -2096,21 +2096,21 @@ end;
 
 procedure TSimpleTSInfoTree.ClearChildNode(const ANodePath: String = CURRENT_NODE_SYMBOL);
 var
-  nodeParent: TTSInfoNode;
+  LParentNode: TTSInfoNode;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
     if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
+      LParentNode := FCurrentNode
     else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+      LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-    if nodeParent <> nil then
+    if LParentNode <> nil then
     begin
-      nodeParent.RemoveAllAttributes();
-      nodeParent.RemoveAllChildNodes();
+      LParentNode.RemoveAllAttributes();
+      LParentNode.RemoveAllChildNodes();
 
       FModified := True;
     end;
