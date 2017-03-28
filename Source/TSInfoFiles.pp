@@ -2883,17 +2883,17 @@ end;
 
 procedure TTSInfoTextInputReader.RemoveWhitespace();
 var
-  strCurrentLine: String;
-  intLineIdx: Integer;
+  LLine: String;
+  LLineIdx: Integer;
 begin
-  for intLineIdx := FInput.Count - 1 downto 0 do
+  for LLineIdx := FInput.Count - 1 downto 0 do
   begin
-    strCurrentLine := RemoveWhitespaceChars(FInput[intLineIdx]);
+    LLine := RemoveWhitespaceChars(FInput[LLineIdx]);
 
-    if strCurrentLine = '' then
-      FInput.Delete(intLineIdx)
+    if LLine = '' then
+      FInput.Delete(LLineIdx)
     else
-      FInput[intLineIdx] := strCurrentLine;
+      FInput[LLineIdx] := LLine;
   end;
 end;
 
