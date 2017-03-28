@@ -2202,8 +2202,8 @@ end;
 procedure TSimpleTSInfoTree.RenameAttributeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
 var
   LParentNode: TTSInfoNode;
-  LAttribute: TTSInfoAttribute;
-  LAttributeIdx, LDirection: Integer;
+  LAttributeToRename: TTSInfoAttribute;
+  LAttributeIdx, LStep: Integer;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -2216,14 +2216,14 @@ begin
 
     if (LParentNode <> nil) and ValidIdentifier(ATokenName) then
     begin
-      LDirection := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+      LStep := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
 
       for LAttributeIdx := 0 to LParentNode.AttributesCount - 1 do
       begin
-        LAttribute := LParentNode.GetAttribute(LAttributeIdx);
-        LAttribute.Name := Format(ATokenName, [AStartIndex]);
+        LAttributeToRename := LParentNode.GetAttribute(LAttributeIdx);
+        LAttributeToRename.Name := Format(ATokenName, [AStartIndex]);
 
-        Inc(AStartIndex, LDirection);
+        Inc(AStartIndex, LStep);
       end;
     end;
   end;
