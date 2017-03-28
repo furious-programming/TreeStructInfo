@@ -3234,15 +3234,15 @@ end;
 
 procedure TTSInfoTextInputReader.AddRefChildNode();
 var
-  nodeAdd: TTSInfoNode;
-  strNodeName: String;
+  LNewNode: TTSInfoNode;
+  LName: String;
 begin
-  ExtractChildNodeName(FInput[FLineIndex], strNodeName);
+  ExtractChildNodeName(FInput[FLineIndex], LName);
 
-  if ValidIdentifier(strNodeName) then
+  if ValidIdentifier(LName) then
   begin
-    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(True, strNodeName, Comment(FComment, ''));
-    FStoreRefElement(nodeAdd);
+    LNewNode := FTSInfoTree.FCurrentNode.CreateChildNode(True, LName, Comment(FComment, ''));
+    FStoreRefElement(LNewNode);
 
     ClearComment();
     Inc(FLineIndex);
