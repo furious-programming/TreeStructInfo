@@ -3661,29 +3661,29 @@ end;
 
 procedure TTSInfoTextOutputWriter.AddStdAttribute(AAttribute: TTSInfoAttribute);
 var
-  vcAttrValue: TValueComponents;
-  intValueLinesCnt, intValueLineIdx: Integer;
-  strValue, strValuesIndent: String;
+  LComponents: TValueComponents;
+  LComponentsCnt, LComponentIdx: Integer;
+  LValue, LValuesIndent: String;
 begin
   if AAttribute.Comment[ctDeclaration] <> '' then
     AddComment(AAttribute.Comment[ctDeclaration]);
 
-  ExtractValueComponents(AAttribute.Value, vcAttrValue, intValueLinesCnt);
+  ExtractValueComponents(AAttribute.Value, LComponents, LComponentsCnt);
 
-  if intValueLinesCnt > 0 then
-    strValue := vcAttrValue[0]
+  if LComponentsCnt > 0 then
+    LValue := LComponents[0]
   else
-    strValue := '';
+    LValue := '';
 
   FOutput.Add(GlueStrings('%%% %%%', [FIndentation, KEYWORD_STD_ATTRIBUTE, AAttribute.Name,
-                                      QUOTE_CHAR, strValue, QUOTE_CHAR]));
+                                      QUOTE_CHAR, LValue, QUOTE_CHAR]));
 
-  if intValueLinesCnt > 1 then
+  if LComponentsCnt > 1 then
   begin
-    strValuesIndent := FIndentation + StringOfChar(INDENT_CHAR, KEYWORD_STD_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
+    LValuesIndent := FIndentation + StringOfChar(INDENT_CHAR, KEYWORD_STD_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
 
-    for intValueLineIdx := 1 to intValueLinesCnt - 1 do
-      FOutput.Add(GlueStrings('% %%%', [strValuesIndent, QUOTE_CHAR, vcAttrValue[intValueLineIdx], QUOTE_CHAR]));
+    for LComponentIdx := 1 to LComponentsCnt - 1 do
+      FOutput.Add(GlueStrings('% %%%', [LValuesIndent, QUOTE_CHAR, LComponents[LComponentIdx], QUOTE_CHAR]));
   end;
 end;
 
