@@ -2201,29 +2201,29 @@ end;
 
 procedure TSimpleTSInfoTree.RenameAttributeTokens(const ANodePath, ATokenName: String; AStartIndex: Integer; ADirection: TRenamingDirection);
 var
-  nodeParent: TTSInfoNode;
-  attrRename: TTSInfoAttribute;
-  intToken, intDirection: Integer;
+  LParentNode: TTSInfoNode;
+  LAttribute: TTSInfoAttribute;
+  LAttributeIdx, LDirection: Integer;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
     if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
+      LParentNode := FCurrentNode
     else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+      LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-    if (nodeParent <> nil) and ValidIdentifier(ATokenName) then
+    if (LParentNode <> nil) and ValidIdentifier(ATokenName) then
     begin
-      intDirection := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
+      LDirection := RENAMING_STEP_NUMERICAL_EQUIVALENTS[ADirection];
 
-      for intToken := 0 to nodeParent.AttributesCount - 1 do
+      for LAttributeIdx := 0 to LParentNode.AttributesCount - 1 do
       begin
-        attrRename := nodeParent.GetAttribute(intToken);
-        attrRename.Name := Format(ATokenName, [AStartIndex]);
+        LAttribute := LParentNode.GetAttribute(LAttributeIdx);
+        LAttribute.Name := Format(ATokenName, [AStartIndex]);
 
-        Inc(AStartIndex, intDirection);
+        Inc(AStartIndex, LDirection);
       end;
     end;
   end;
