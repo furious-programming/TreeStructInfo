@@ -1774,19 +1774,19 @@ end;
 
 procedure TSimpleTSInfoTree.WriteList(const AAttrPath: String; AList: TStrings);
 var
-  attrWrite: TTSInfoAttribute;
-  strValue: String;
+  LAttribute: TTSInfoAttribute;
+  LValue: String;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      TTSInfoDataConverter.ListToValue(AList, strValue);
-      attrWrite.Value := strValue;
+      TTSInfoDataConverter.ListToValue(AList, LValue);
+      LAttribute.Value := LValue;
       FModified := True;
     end;
   end;
