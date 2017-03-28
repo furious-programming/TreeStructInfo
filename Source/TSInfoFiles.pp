@@ -1431,30 +1431,30 @@ end;
 
 procedure TSimpleTSInfoTree.LoadFromResource(AInstance: TFPResourceHMODULE; const AResName: String; AResType: PChar; const AFileName: String = ''; AModes: TTreeModes = []);
 var
-  rsInput: TResourceStream;
-  slInput: TStringList;
+  LInputStream: TResourceStream;
+  LInputList: TStringList;
 begin
   FFileName := AFileName;
   FTreeModes := AModes;
 
   ClearTree();
 
-  rsInput := TResourceStream.Create(AInstance, AResName, AResType);
+  LInputStream := TResourceStream.Create(AInstance, AResName, AResType);
   try
     if tmBinaryTree in FTreeModes then
-      InternalLoadTreeFromStream(rsInput, Self)
+      InternalLoadTreeFromStream(LInputStream, Self)
     else
     begin
-      slInput := TStringList.Create();
+      LInputList := TStringList.Create();
       try
-        slInput.LoadFromStream(rsInput);
-        InternalLoadTreeFromList(slInput, Self);
+        LInputList.LoadFromStream(LInputStream);
+        InternalLoadTreeFromList(LInputList, Self);
       finally
-        slInput.Free();
+        LInputList.Free();
       end;
     end;
   finally
-    rsInput.Free();
+    LInputStream.Free();
   end;
 end;
 
