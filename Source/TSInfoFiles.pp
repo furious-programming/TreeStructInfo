@@ -2746,19 +2746,19 @@ end;
 
 procedure TTSInfoTree.ReadAttributesValues(AValues: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
 var
-  nodeParent: TTSInfoNode;
-  intAttributeIdx: Integer;
+  LParentNode: TTSInfoNode;
+  LAttributeIdx: Integer;
 begin
   if IsCurrentNodePath(ANodePath) then
-    nodeParent := FCurrentNode
+    LParentNode := FCurrentNode
   else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+    LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-  if nodeParent = nil then
+  if LParentNode = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
-    for intAttributeIdx := 0 to nodeParent.AttributesCount - 1 do
-      AValues.Add(nodeParent.GetAttribute(intAttributeIdx).Value);
+    for LAttributeIdx := 0 to LParentNode.AttributesCount - 1 do
+      AValues.Add(LParentNode.GetAttribute(LAttributeIdx).Value);
 end;
 
 
