@@ -3171,13 +3171,13 @@ procedure TTSInfoTextInputReader.AddStdAttribute();
 var
   LAttribute: TTSInfoAttribute;
   LAttributeName, LAttributeValue, LAttributeNextValue: String;
-  boolReference: Boolean;
+  LReference: Boolean;
 begin
-  ExtractAttribute(FInput[FLineIndex], boolReference, LAttributeName, LAttributeValue);
+  ExtractAttribute(FInput[FLineIndex], LReference, LAttributeName, LAttributeValue);
 
   if ValidIdentifier(LAttributeName) then
   begin
-    LAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, LAttributeName, '', Comment(FComment, ''));
+    LAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(LReference, LAttributeName, '', Comment(FComment, ''));
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
