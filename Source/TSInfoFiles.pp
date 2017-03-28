@@ -879,7 +879,7 @@ begin
     while FLastUsedNodeIndex < AIndex do
     begin
       FLastUsedNode := FLastUsedNode^.NextNode;
-      Inc(FLastUsedNodeIndex);
+      FLastUsedNodeIndex += 1;
     end
   else
     while FLastUsedNodeIndex > AIndex do
@@ -917,7 +917,7 @@ begin
   end;
 
   FLastNode := LNewNode;
-  Inc(FCount);
+  FCount += 1;
 end;
 
 
@@ -1150,7 +1150,7 @@ begin
     end;
 
     FLastUsedNode := FLastUsedNode^.PreviousNode;
-    Inc(FCount);
+    FCount += 1;
   end;
 end;
 
@@ -1297,7 +1297,7 @@ begin
     while (LCurrentNode = nil) or (LNameEnd <= LLast) do
     begin
       while (LNameEnd < LLast) and (LNameEnd^ <> IDENTS_DELIMITER) do
-        Inc(LNameEnd);
+        LNameEnd += 1;
 
       if (LCurrentNode <> nil) and (LNameEnd^ = IDENTS_DELIMITER) then
       begin
@@ -1313,7 +1313,7 @@ begin
           LCurrentNode := LChildNode;
         end;
 
-        Inc(LNameEnd);
+        LNameEnd += 1;
         LNameBegin := LNameEnd;
       end
       else
@@ -2161,7 +2161,7 @@ begin
 
   if Result then
   begin
-    Inc(AAttrToken.FIndex);
+    AAttrToken.FIndex += 1;
     AAttrToken.FAttribute := AAttrToken.FParentNode.GetAttribute(AAttrToken.FIndex);
   end;
 end;
@@ -2193,7 +2193,7 @@ begin
 
   if Result then
   begin
-    Inc(ANodeToken.FIndex);
+    ANodeToken.FIndex += 1;
     ANodeToken.FChildNode := ANodeToken.FParentNode.GetChildNode(ANodeToken.FIndex);
   end;
 end;
@@ -2223,7 +2223,7 @@ begin
         LAttributeToRename := LParentNode.GetAttribute(LAttributeIdx);
         LAttributeToRename.Name := Format(ATokenName, [AStartIndex]);
 
-        Inc(AStartIndex, LStep);
+        AStartIndex += LStep;
       end;
     end;
   end;
@@ -2253,7 +2253,7 @@ begin
         LNodeToRename := LParentNode.GetChildNode(LNodeIdx);
         LNodeToRename.Name := Format(ATokenName, [AStartIndex]);
 
-        Inc(AStartIndex, LStep);
+        AStartIndex += LStep;
       end;
     end;
   end;
@@ -2957,7 +2957,7 @@ begin
     else
       ThrowException(EM_INVALID_TREE_HEADER_COMPONENT_COUNT, [LComponentsCnt]);
 
-    Inc(FLineIndex);
+    FLineIndex += 1;
   end
   else
     ThrowException(EM_MISSING_TREE_HEADER);
@@ -3047,14 +3047,14 @@ begin
   LLast := @ALine[Length(ALine)];
 
   while (LToken < LLast) and (LToken^ in WHITESPACE_CHARS) do
-    Inc(LToken);
+    LToken += 1;
 
   Result := LToken^ <> QUOTE_CHAR;
 
   if Result then
   begin
     while (LToken < LLast) and (LToken^ <> QUOTE_CHAR) do
-      Inc(LToken);
+      LToken += 1;
 
     while (LLast > LToken) and (LLast^ <> QUOTE_CHAR) do
       Dec(LLast);
@@ -3106,10 +3106,10 @@ begin
       LLast := @ALine[LLineLen];
 
       while (LToken < LLast) and (LToken^ in WHITESPACE_CHARS) do
-        Inc(LToken);
+        LToken += 1;
 
       while (LToken <= LLast) and (LToken^ <> QUOTE_CHAR) do
-        Inc(LToken);
+        LToken += 1;
 
       Result := LToken > LLast;
     end;
@@ -3163,7 +3163,7 @@ end;
 procedure TTSInfoTextInputReader.InsertRefElement(AElement: TObject);
 begin
   FRefElements.InsertElement(FNestedRefElementsCount, AElement);
-  Inc(FNestedRefElementsCount);
+  FNestedRefElementsCount += 1;
 end;
 
 
@@ -3178,13 +3178,13 @@ begin
   if ValidIdentifier(LName) then
   begin
     LNewAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(LReference, LName, '', Comment(FComment, ''));
-    Inc(FLineIndex);
+    FLineIndex += 1;
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
     begin
       ExtractAttributeNextValue(FInput[FLineIndex], LNextValue);
       LValue += VALUES_DELIMITER + LNextValue;
-      Inc(FLineIndex);
+      FLineIndex += 1;
     end;
 
     LNewAttribute.Value := LValue;
@@ -3209,8 +3209,8 @@ begin
 
   ClearComment();
 
-  Inc(FNestedLevel);
-  Inc(FLineIndex);
+  FNestedLevel += 1;
+  FLineIndex += 1;
 end;
 
 
@@ -3227,7 +3227,7 @@ begin
     FStoreRefElement(LNewAttribute);
 
     ClearComment();
-    Inc(FLineIndex);
+    FLineIndex += 1;
   end;
 end;
 
@@ -3245,7 +3245,7 @@ begin
     FStoreRefElement(LNewNode);
 
     ClearComment();
-    Inc(FLineIndex);
+    FLineIndex += 1;
   end;
 end;
 
@@ -3258,14 +3258,14 @@ begin
     Dec(FNestedLevel);
   end;
 
-  Inc(FLineIndex);
+  FLineIndex += 1;
 end;
 
 
 procedure TTSInfoTextInputReader.CloseRefChildNode();
 begin
   FNestedLevel := 0;
-  Inc(FLineIndex);
+  FLineIndex += 1;
 end;
 
 
@@ -3278,13 +3278,13 @@ begin
 
   if FRefElements.FirstElementIsAttribute(LName) then
   begin
-    Inc(FLineIndex);
+    FLineIndex += 1;
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
     begin
       ExtractAttributeNextValue(FInput[FLineIndex], LNextValue);
       LValue += VALUES_DELIMITER + LNextValue;
-      Inc(FLineIndex);
+      FLineIndex += 1;
     end;
 
     with FRefElements.PopFirstElement() as TTSInfoAttribute do
@@ -3313,7 +3313,7 @@ begin
     FTSInfoTree.FCurrentNode.Comment[ctDefinition] := FComment;
 
     ClearComment();
-    Inc(FLineIndex);
+    FLineIndex += 1;
 
     while FLineIndex < FInput.Count do
       if IsCommentLine(FInput[FLineIndex])                 then ExtractComment()    else
@@ -3360,13 +3360,13 @@ begin
       LLast := @LLine[LLineLen];
 
       if LFirst^ in WHITESPACE_CHARS then
-        Inc(LFirst);
+        LFirst += 1;
 
       MoveString(LFirst^, LValue, LLast - LFirst + 1);
     end;
 
     FComment += LValue + VALUES_DELIMITER;
-    Inc(FLineIndex);
+    FLineIndex += 1;
   until (FLineIndex = FInput.Count) or not IsCommentLine(FInput[FLineIndex]);
 
   if FComment = VALUES_DELIMITER then
@@ -3388,14 +3388,14 @@ begin
   while LComponentBegin < LLast do
   begin
     while (LComponentBegin < LLast) and (LComponentBegin^ in WHITESPACE_CHARS) do
-      Inc(LComponentBegin);
+      LComponentBegin += 1;
 
     if LComponentBegin < LLast then
     begin
       LComponentEnd := LComponentBegin;
 
       repeat
-        Inc(LComponentEnd);
+        LComponentEnd += 1;
       until (LComponentEnd = LLast) or (LComponentEnd^ = QUOTE_CHAR);
 
       if (LComponentBegin^ <> QUOTE_CHAR) or (LComponentEnd < LLast) then
@@ -3405,10 +3405,10 @@ begin
 
         if LValueBegin^ = QUOTE_CHAR then
         begin
-          Inc(LValueBegin);
+          LValueBegin += 1;
 
           while (LValueBegin <= LValueEnd) and (LValueBegin^ in WHITESPACE_CHARS) do
-            Inc(LValueBegin);
+            LValueBegin += 1;
         end;
 
         while (LValueEnd >= LValueBegin) and (LValueEnd^ in WHITESPACE_CHARS) do
@@ -3416,7 +3416,7 @@ begin
 
         SetLength(AComponents, ACount + 1);
         MoveString(LValueBegin^, AComponents[ACount], LValueEnd - LValueBegin + 1);
-        Inc(ACount);
+        ACount += 1;
       end;
 
       LComponentBegin := LComponentEnd + UInt8(LComponentBegin^ = QUOTE_CHAR);
@@ -3433,13 +3433,13 @@ begin
   LName := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[AReference]] + 1;
 
   while LName^ in WHITESPACE_CHARS do
-    Inc(LName);
+    LName += 1;
 
   LValueBegin := LName + 1;
   LValueEnd := @ALine[Length(ALine)];
 
   while LValueBegin^ <> QUOTE_CHAR do
-    Inc(LValueBegin);
+    LValueBegin += 1;
 
   while LValueEnd^ <> QUOTE_CHAR do
     Dec(LValueEnd);
@@ -3470,7 +3470,7 @@ begin
   LNameEnd := @ALine[Length(ALine)];
 
   while LNameBegin^ in WHITESPACE_CHARS do
-    Inc(LNameBegin);
+    LNameBegin += 1;
 
   MoveString(LNameBegin^, AName, LNameEnd - LNameBegin + 1);
 end;
@@ -3484,7 +3484,7 @@ begin
   LNameEnd := @ALine[Length(ALine)];
 
   while LNameBegin^ in WHITESPACE_CHARS do
-    Inc(LNameBegin);
+    LNameBegin += 1;
 
   MoveString(LNameBegin^, AName, LNameEnd - LNameBegin + 1);
 end;
@@ -3498,7 +3498,7 @@ begin
   LNameEnd := @ALine[Length(ALine)];
 
   while LNameBegin^ in WHITESPACE_CHARS do
-    Inc(LNameBegin);
+    LNameBegin += 1;
 
   MoveString(LNameBegin^, AName, LNameEnd - LNameBegin + 1);
 end;
@@ -3594,7 +3594,7 @@ procedure TTSInfoTextOutputWriter.IncIndentation();
 begin
   SetLength(FIndentation, FIndentationSize + INDENT_SIZE);
   FillChar(FIndentation[FIndentationSize + 1], INDENT_SIZE, INDENT_CHAR);
-  Inc(FIndentationSize, INDENT_SIZE);
+  FIndentationSize += INDENT_SIZE;
 end;
 
 
@@ -3835,7 +3835,7 @@ end;
 procedure TTSInfoTextOutputWriter.InsertRefElement(AElement: TObject);
 begin
   FRefElements.InsertElement(FNestedRefElementsCount, AElement);
-  Inc(FNestedRefElementsCount);
+  FNestedRefElementsCount += 1;
 end;
 
 
