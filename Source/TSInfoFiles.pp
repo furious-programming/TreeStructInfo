@@ -1097,16 +1097,16 @@ end;
 
 procedure TTSInfoNodesList.RemoveChildNode(const AName: String);
 var
-  nodeRemove: TTSInfoNode;
-  intChildNodeIdx: Integer;
+  LNode: TTSInfoNode;
+  LNodeIdx: Integer;
 begin
-  for intChildNodeIdx := 0 to FCount - 1 do
+  for LNodeIdx := 0 to FCount - 1 do
   begin
-    nodeRemove := inherited Element[intChildNodeIdx] as TTSInfoNode;
+    LNode := inherited Element[LNodeIdx] as TTSInfoNode;
 
-    if SameIdentifiers(nodeRemove.Name, AName) then
+    if SameIdentifiers(LNode.Name, AName) then
     begin
-      inherited RemoveElement(intChildNodeIdx);
+      inherited RemoveElement(LNodeIdx);
       Exit();
     end;
   end;
