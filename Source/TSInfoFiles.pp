@@ -2394,22 +2394,22 @@ end;
 
 procedure TTSInfoTree.WriteAttributeComment(const AAttrPath, AComment, ADelimiter: String; AType: TCommentType);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-    if attrWrite = nil then
+    if LAttribute = nil then
       ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
     else
     begin
       if ADelimiter = '' then
-        attrWrite.Comment[AType] := AComment
+        LAttribute.Comment[AType] := AComment
       else
-        attrWrite.Comment[AType] := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
+        LAttribute.Comment[AType] := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
 
       FModified := True;
     end;
