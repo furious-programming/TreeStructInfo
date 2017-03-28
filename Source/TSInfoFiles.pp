@@ -2551,14 +2551,14 @@ end;
 
 function TTSInfoTree.GetAttributeReference(const AAttrPath: String): Boolean;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
   else
-    Result := attrRead.Reference;
+    Result := LAttribute.Reference;
 end;
 
 
