@@ -2783,7 +2783,7 @@ end;
 procedure TTSInfoTree.ExportTreeToFile(const AFileName: String; AFormat: TExportFormat = efTextTree);
 var
   LOutputStream: TStream;
-  LOutputList: TStrings;
+  LOutputList: TStringList;
 begin
   if AFormat = efBinaryTree then
   begin
