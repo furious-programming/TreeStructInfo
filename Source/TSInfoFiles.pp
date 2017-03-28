@@ -3571,7 +3571,7 @@ end;
 
 procedure TTSInfoTextOutputWriter.ProcessReferencingPart();
 var
-  objElement: TObject;
+  LElement: TObject;
 begin
   FStoreRefElement := @InsertRefElement;
   FExtraSpaceNeeded := True;
@@ -3580,12 +3580,12 @@ begin
 
   while FRefElements.Count > 0 do
   begin
-    objElement := FRefElements.PopFirstElement();
+    LElement := FRefElements.PopFirstElement();
 
-    if objElement is TTSInfoAttribute then
-      AddRefAttributeDefinition(objElement as TTSInfoAttribute)
+    if LElement is TTSInfoAttribute then
+      AddRefAttributeDefinition(LElement as TTSInfoAttribute)
     else
-      AddRefChildNodeDefinition(objElement as TTSInfoNode);
+      AddRefChildNodeDefinition(LElement as TTSInfoNode);
   end;
 end;
 
