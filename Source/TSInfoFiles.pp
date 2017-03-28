@@ -2519,7 +2519,7 @@ end;
 
 procedure TTSInfoTree.SetChildNodeReference(const ANodePath: String; AReference: Boolean);
 var
-  nodeWrite: TTSInfoNode;
+  LNode: TTSInfoNode;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -2530,19 +2530,19 @@ begin
       if FCurrentNode = FRootNode then
         ThrowException(EM_ROOT_NODE_SET_REFERENCE)
       else
-        nodeWrite := FCurrentNode;
+        LNode := FCurrentNode;
     end
     else
-      nodeWrite := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+      LNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-    if nodeWrite = nil then
+    if LNode = nil then
       ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
     else
-      if nodeWrite.ParentNode = nil then
+      if LNode.ParentNode = nil then
         ThrowException(EM_ROOT_NODE_SET_REFERENCE)
       else
       begin
-        nodeWrite.Reference := AReference;
+        LNode.Reference := AReference;
         FModified := True;
       end;
   end;
