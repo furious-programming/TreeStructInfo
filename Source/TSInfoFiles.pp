@@ -2474,25 +2474,25 @@ end;
 
 function TTSInfoTree.ReadChildNodeComment(const ANodePath, ADelimiter: String; AType: TCommentType): String;
 var
-  nodeRead: TTSInfoNode;
+  LNode: TTSInfoNode;
 begin
   if IsCurrentNodePath(ANodePath) then
   begin
     if FCurrentNode = FRootNode then
       ThrowException(EM_ROOT_NODE_GET_COMMENT)
     else
-      nodeRead := FCurrentNode;
+      LNode := FCurrentNode;
   end
   else
-    nodeRead := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+    LNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-  if nodeRead = nil then
+  if LNode = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
-    if nodeRead.ParentNode = nil then
+    if LNode.ParentNode = nil then
       ThrowException(EM_ROOT_NODE_GET_COMMENT)
     else
-      Result := ReplaceSubStrings(nodeRead.Comment[AType], VALUES_DELIMITER, ADelimiter);
+      Result := ReplaceSubStrings(LNode.Comment[AType], VALUES_DELIMITER, ADelimiter);
 end;
 
 
