@@ -3066,12 +3066,12 @@ end;
 
 function TTSInfoTextInputReader.IsStdAttributeLine(const ALine: String): Boolean;
 var
-  intLineLen: Integer;
+  LLineLen: Integer;
 begin
   Result := False;
-  intLineLen := Length(ALine);
+  LLineLen := Length(ALine);
 
-  if intLineLen >= MIN_STD_ATTRIBUTE_LINE_LEN then
+  if LLineLen >= MIN_STD_ATTRIBUTE_LINE_LEN then
     if CompareByte(ALine[1], KEYWORD_STD_ATTRIBUTE[1], KEYWORD_STD_ATTRIBUTE_LEN) = 0 then
       Result := IsAttributeNameAndValueLine(ALine);
 end;
