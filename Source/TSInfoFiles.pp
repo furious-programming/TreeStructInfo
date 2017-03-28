@@ -2002,17 +2002,17 @@ end;
 
 procedure TSimpleTSInfoTree.ReadStream(const AAttrPath: String; AStream: TStream; ASize: UInt32; AOffset: UInt32 = 0);
 var
-  attrRead: TTSInfoAttribute;
-  bdaBuffer: TByteDynArray;
+  LAttribute: TTSInfoAttribute;
+  LBuffer: TByteDynArray;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead <> nil then
+  if LAttribute <> nil then
   begin
-    SetLength(bdaBuffer, ASize);
-    TTSInfoDataConverter.ValueToBuffer(attrRead.Value, bdaBuffer[0], ASize, AOffset);
+    SetLength(LBuffer, ASize);
+    TTSInfoDataConverter.ValueToBuffer(LAttribute.Value, LBuffer[0], ASize, AOffset);
 
-    AStream.Write(bdaBuffer[0], ASize);
+    AStream.Write(LBuffer[0], ASize);
   end;
 end;
 
