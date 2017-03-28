@@ -4046,20 +4046,20 @@ end;
 
 procedure TTSInfoBinaryOutputWriter.WriteElements(AParentNode: TTSInfoNode);
 var
-  intElementsCnt: UInt32;
-  intElementIdx: Integer;
+  LElementsCnt: UInt32;
+  LElementIdx: Integer;
 begin
-  intElementsCnt := AParentNode.AttributesCount;
-  WriteUInt32Buffer(intElementsCnt);
+  LElementsCnt := AParentNode.AttributesCount;
+  WriteUInt32Buffer(LElementsCnt);
 
-  for intElementIdx := 0 to intElementsCnt - 1 do
-    WriteAttribute(AParentNode.GetAttribute(intElementIdx));
+  for LElementIdx := 0 to LElementsCnt - 1 do
+    WriteAttribute(AParentNode.GetAttribute(LElementIdx));
 
-  intElementsCnt := AParentNode.ChildNodesCount;
-  WriteUInt32Buffer(intElementsCnt);
+  LElementsCnt := AParentNode.ChildNodesCount;
+  WriteUInt32Buffer(LElementsCnt);
 
-  for intElementIdx := 0 to intElementsCnt - 1 do
-    WriteChildNode(AParentNode.GetChildNode(intElementIdx));
+  for LElementIdx := 0 to LElementsCnt - 1 do
+    WriteChildNode(AParentNode.GetChildNode(LElementIdx));
 end;
 
 
