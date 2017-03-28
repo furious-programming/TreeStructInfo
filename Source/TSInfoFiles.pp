@@ -3169,25 +3169,25 @@ end;
 
 procedure TTSInfoTextInputReader.AddStdAttribute();
 var
-  attrAdd: TTSInfoAttribute;
-  strAttrName, strAttrValue, strAttrNextValue: String;
+  LAttribute: TTSInfoAttribute;
+  LAttributeName, LAttributeValue, LAttributeNextValue: String;
   boolReference: Boolean;
 begin
-  ExtractAttribute(FInput[FLineIndex], boolReference, strAttrName, strAttrValue);
+  ExtractAttribute(FInput[FLineIndex], boolReference, LAttributeName, LAttributeValue);
 
-  if ValidIdentifier(strAttrName) then
+  if ValidIdentifier(LAttributeName) then
   begin
-    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, strAttrName, '', Comment(FComment, ''));
+    LAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(boolReference, LAttributeName, '', Comment(FComment, ''));
     Inc(FLineIndex);
 
     while (FLineIndex < FInput.Count) and IsValueLine(FInput[FLineIndex]) do
     begin
-      ExtractAttributeNextValue(FInput[FLineIndex], strAttrNextValue);
-      strAttrValue += VALUES_DELIMITER + strAttrNextValue;
+      ExtractAttributeNextValue(FInput[FLineIndex], LAttributeNextValue);
+      LAttributeValue += VALUES_DELIMITER + LAttributeNextValue;
       Inc(FLineIndex);
     end;
 
-    attrAdd.Value := strAttrValue;
+    LAttribute.Value := LAttributeValue;
     ClearComment();
   end;
 end;
