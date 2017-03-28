@@ -2312,35 +2312,35 @@ end;
 
 procedure TTSInfoTree.RenameAttribute(const AAttrPath, ANewAttrName: String);
 var
-  nodeParent: TTSInfoNode;
-  attrRename: TTSInfoAttribute;
-  strAttrName, strAttrNameOnly, strNodePath: String;
+  LParentNode: TTSInfoNode;
+  LAttributeToRename: TTSInfoAttribute;
+  LAttributeName, LAttributeNameOnly, LNodePath: String;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    strAttrName := ExcludeTrailingIdentsDelimiter(AAttrPath);
-    strNodePath := ExtractPathComponent(strAttrName, pcAttributePath);
+    LAttributeName := ExcludeTrailingIdentsDelimiter(AAttrPath);
+    LNodePath := ExtractPathComponent(LAttributeName, pcAttributePath);
 
-    if IsCurrentNodePath(strNodePath) then
-      nodeParent := FCurrentNode
+    if IsCurrentNodePath(LNodePath) then
+      LParentNode := FCurrentNode
     else
-      nodeParent := FindNode(strNodePath, False);
+      LParentNode := FindNode(LNodePath, False);
 
-    if nodeParent = nil then
-      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [strAttrName])
+    if LParentNode = nil then
+      ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [LAttributeName])
     else
     begin
-      strAttrNameOnly := ExtractPathComponent(strAttrName, pcAttributeName);
-      attrRename := nodeParent.GetAttribute(strAttrNameOnly);
+      LAttributeNameOnly := ExtractPathComponent(LAttributeName, pcAttributeName);
+      LAttributeToRename := LParentNode.GetAttribute(LAttributeNameOnly);
 
-      if attrRename = nil then
-        ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [strAttrName])
+      if LAttributeToRename = nil then
+        ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [LAttributeName])
       else
         if ValidIdentifier(ANewAttrName) then
         begin
-          attrRename.Name := ANewAttrName;
+          LAttributeToRename.Name := ANewAttrName;
           FModified := True;
         end;
     end;
