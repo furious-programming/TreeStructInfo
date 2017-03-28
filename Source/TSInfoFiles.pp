@@ -1847,14 +1847,14 @@ end;
 
 function TSimpleTSInfoTree.ReadBoolean(const AAttrPath: String; ADefault: Boolean): Boolean;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToBoolean(attrRead.Value, ADefault);
+    Result := TTSInfoDataConverter.ValueToBoolean(LAttribute.Value, ADefault);
 end;
 
 
