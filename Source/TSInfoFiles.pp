@@ -1603,17 +1603,17 @@ end;
 
 procedure TSimpleTSInfoTree.WriteInteger(const AAttrPath: String; AInteger: Integer; AFormat: TFormatInteger = fiUnsignedDecimal);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      attrWrite.Value := TTSInfoDataConverter.IntegerToValue(AInteger, AFormat);
+      LAttribute.Value := TTSInfoDataConverter.IntegerToValue(AInteger, AFormat);
       FModified := True;
     end;
   end;
