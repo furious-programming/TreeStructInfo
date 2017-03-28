@@ -3302,12 +3302,12 @@ end;
 
 procedure TTSInfoTextInputReader.FillRefChildNode();
 var
-  strNodeName: String;
+  LName: String;
 begin
   FNestedRefElementsCount := 0;
-  ExtractChildNodeName(FInput[FLineIndex], strNodeName);
+  ExtractChildNodeName(FInput[FLineIndex], LName);
 
-  if FRefElements.FirstElementIsChildNode(strNodeName) then
+  if FRefElements.FirstElementIsChildNode(LName) then
   begin
     FTSInfoTree.FCurrentNode := FRefElements.PopFirstElement() as TTSInfoNode;
     FTSInfoTree.FCurrentNode.Comment[ctDefinition] := FComment;
@@ -3331,7 +3331,7 @@ begin
         ThrowException(EM_INVALID_SOURCE_LINE, [FInput[FLineIndex]]);
   end
   else
-    ThrowException(EM_MISSING_REF_NODE_DEFINITION, [strNodeName]);
+    ThrowException(EM_MISSING_REF_NODE_DEFINITION, [LName]);
 end;
 
 
