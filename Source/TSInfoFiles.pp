@@ -3869,11 +3869,11 @@ end;
 
 procedure TTSInfoBinaryInputReader.ReadStringBuffer(out ABuffer: String);
 var
-  intBufferLen: UInt32;
+  LBufferLen: UInt32;
 begin
-  ReadUInt32Buffer(intBufferLen);
-  SetLength(ABuffer, intBufferLen);
-  FInput.Read(ABuffer[1], intBufferLen);
+  ReadUInt32Buffer(LBufferLen);
+  SetLength(ABuffer, LBufferLen);
+  FInput.Read(ABuffer[1], LBufferLen);
 end;
 
 
