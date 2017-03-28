@@ -3902,25 +3902,25 @@ end;
 
 procedure TTSInfoBinaryInputReader.ReadHeader();
 var
-  strSignature: String;
-  intVersionMajor, intVersionMinor: UInt8;
+  LSignature: String;
+  LVersionMajor, LVersionMinor: UInt8;
 begin
-  SetLength(strSignature, BINARY_FILE_SIGNATURE_LEN);
-  FillChar(strSignature[1], BINARY_FILE_SIGNATURE_LEN, 0);
-  FInput.Read(strSignature[1], BINARY_FILE_SIGNATURE_LEN);
+  SetLength(LSignature, BINARY_FILE_SIGNATURE_LEN);
+  FillChar(LSignature[1], BINARY_FILE_SIGNATURE_LEN, 0);
+  FInput.Read(LSignature[1], BINARY_FILE_SIGNATURE_LEN);
 
-  if CompareByte(strSignature[1], BINARY_FILE_SIGNATURE[1], BINARY_FILE_SIGNATURE_LEN) = 0 then
+  if CompareByte(LSignature[1], BINARY_FILE_SIGNATURE[1], BINARY_FILE_SIGNATURE_LEN) = 0 then
   begin
-    ReadUInt8Buffer(intVersionMajor);
-    ReadUInt8Buffer(intVersionMinor);
+    ReadUInt8Buffer(LVersionMajor);
+    ReadUInt8Buffer(LVersionMinor);
 
-    if (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor <= SUPPORTED_FORMAT_VERSION_MINOR) then
+    if (LVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (LVersionMinor <= SUPPORTED_FORMAT_VERSION_MINOR) then
     begin
       ReadStringBuffer(FTSInfoTree.FTreeName);
       ReadStringBuffer(FTSInfoTree.FTreeComment);
     end
     else
-      ThrowException(EM_UNSUPPORTED_BINARY_FORMAT_VERSION, [intVersionMajor, intVersionMinor]);
+      ThrowException(EM_UNSUPPORTED_BINARY_FORMAT_VERSION, [LVersionMajor, LVersionMinor]);
   end
   else
     ThrowException(EM_INVALID_BINARY_FILE);
