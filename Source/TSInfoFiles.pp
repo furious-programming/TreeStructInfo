@@ -2262,26 +2262,26 @@ end;
 
 procedure TSimpleTSInfoTree.UpdateFile();
 var
-  fsOutput: TFileStream;
-  slOutput: TStringList;
+  LOutputStream: TFileStream;
+  LOutputList: TStringList;
 begin
   if tmBinaryTree in FTreeModes then
   begin
-    fsOutput := TFileStream.Create(FFileName, fmCreate or fmShareDenyWrite);
+    LOutputStream := TFileStream.Create(FFileName, fmCreate or fmShareDenyWrite);
     try
-      InternalSaveTreeToStream(fsOutput, Self);
+      InternalSaveTreeToStream(LOutputStream, Self);
     finally
-      fsOutput.Free();
+      LOutputStream.Free();
     end;
   end
   else
   begin
-    slOutput := TStringList.Create();
+    LOutputList := TStringList.Create();
     try
-      InternalSaveTreeToList(slOutput, Self);
-      slOutput.SaveToFile(FFileName);
+      InternalSaveTreeToList(LOutputList, Self);
+      LOutputList.SaveToFile(FFileName);
     finally
-      slOutput.Free();
+      LOutputList.Free();
     end;
   end;
 
