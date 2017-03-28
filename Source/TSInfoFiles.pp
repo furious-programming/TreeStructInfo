@@ -3492,15 +3492,15 @@ end;
 
 procedure TTSInfoTextInputReader.ExtractChildNodeName(const ALine: String; out AName: String);
 var
-  pchrNameBegin, pchrNameEnd: PChar;
+  LNameBegin, LNameEnd: PChar;
 begin
-  pchrNameBegin := @ALine[KEYWORD_REF_NODE_LEN] + 1;
-  pchrNameEnd := @ALine[Length(ALine)];
+  LNameBegin := @ALine[KEYWORD_REF_NODE_LEN] + 1;
+  LNameEnd := @ALine[Length(ALine)];
 
-  while pchrNameBegin^ in WHITESPACE_CHARS do
-    Inc(pchrNameBegin);
+  while LNameBegin^ in WHITESPACE_CHARS do
+    Inc(LNameBegin);
 
-  MoveString(pchrNameBegin^, AName, pchrNameEnd - pchrNameBegin + 1);
+  MoveString(LNameBegin^, AName, LNameEnd - LNameBegin + 1);
 end;
 
 
