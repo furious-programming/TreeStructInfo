@@ -1679,17 +1679,17 @@ end;
 
 procedure TSimpleTSInfoTree.WriteCurrency(const AAttrPath: String; ACurrency: Currency; ASettings: TFormatSettings; AFormat: TFormatCurrency = fcUnsignedPrice);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      attrWrite.Value := TTSInfoDataConverter.CurrencyToValue(ACurrency, AFormat, ASettings);
+      LAttribute.Value := TTSInfoDataConverter.CurrencyToValue(ACurrency, AFormat, ASettings);
       FModified := True;
     end;
   end;
