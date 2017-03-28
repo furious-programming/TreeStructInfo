@@ -3808,20 +3808,20 @@ end;
 
 procedure TTSInfoTextOutputWriter.AddChildNodeChildNodes(AParentNode: TTSInfoNode);
 var
-  nodeAdd: TTSInfoNode;
-  intChildNodeIdx: Integer;
+  LNode: TTSInfoNode;
+  LNodeIdx: Integer;
 begin
-  for intChildNodeIdx := 0 to AParentNode.ChildNodesCount - 1 do
+  for LNodeIdx := 0 to AParentNode.ChildNodesCount - 1 do
   begin
-    nodeAdd := AParentNode.GetChildNode(intChildNodeIdx);
+    LNode := AParentNode.GetChildNode(LNodeIdx);
 
-    if nodeAdd.Reference then
+    if LNode.Reference then
     begin
-      AddRefChildNodeDeclaration(nodeAdd);
-      FStoreRefElement(nodeAdd);
+      AddRefChildNodeDeclaration(LNode);
+      FStoreRefElement(LNode);
     end
     else
-      AddStdChildNode(nodeAdd);
+      AddStdChildNode(LNode);
   end;
 end;
 
