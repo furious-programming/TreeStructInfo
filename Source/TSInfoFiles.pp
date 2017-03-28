@@ -1407,7 +1407,7 @@ end;
 
 procedure TSimpleTSInfoTree.LoadFromStream(AStream: TStream; const AFileName: String = ''; AModes: TTreeModes = []);
 var
-  slInput: TStringList;
+  LInputList: TStringList;
 begin
   FFileName := AFileName;
   FTreeModes := AModes;
@@ -1418,12 +1418,12 @@ begin
     InternalLoadTreeFromStream(AStream, Self)
   else
   begin
-    slInput := TStringList.Create();
+    LInputList := TStringList.Create();
     try
-      slInput.LoadFromStream(AStream);
-      InternalLoadTreeFromList(slInput, Self);
+      LInputList.LoadFromStream(AStream);
+      InternalLoadTreeFromList(LInputList, Self);
     finally
-      slInput.Free();
+      LInputList.Free();
     end;
   end;
 end;
