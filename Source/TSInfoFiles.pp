@@ -3462,17 +3462,17 @@ end;
 
 procedure TTSInfoTextInputReader.ExtractChildNode(const ALine: String; out AReference: Boolean; out AName: String);
 var
-  pchrNameBegin, pchrNameEnd: PChar;
+  LNameBegin, LNameEnd: PChar;
 begin
   AReference := ALine[1] = KEYWORD_REF_NODE[1];
 
-  pchrNameBegin := @ALine[KEYWORD_NODE_LEN_BY_REFERENCE[AReference]] + 1;
-  pchrNameEnd := @ALine[Length(ALine)];
+  LNameBegin := @ALine[KEYWORD_NODE_LEN_BY_REFERENCE[AReference]] + 1;
+  LNameEnd := @ALine[Length(ALine)];
 
-  while pchrNameBegin^ in WHITESPACE_CHARS do
-    Inc(pchrNameBegin);
+  while LNameBegin^ in WHITESPACE_CHARS do
+    Inc(LNameBegin);
 
-  MoveString(pchrNameBegin^, AName, pchrNameEnd - pchrNameBegin + 1);
+  MoveString(LNameBegin^, AName, LNameEnd - LNameBegin + 1);
 end;
 
 
