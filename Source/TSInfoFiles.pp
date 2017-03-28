@@ -1736,17 +1736,17 @@ end;
 
 procedure TSimpleTSInfoTree.WriteDateTime(const AAttrPath, AMask: String; ADateTime: TDateTime; ASettings: TFormatSettings);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      attrWrite.Value := TTSInfoDataConverter.DateTimeToValue(AMask, ADateTime, ASettings);
+      LAttribute.Value := TTSInfoDataConverter.DateTimeToValue(AMask, ADateTime, ASettings);
       FModified := True;
     end;
   end;
