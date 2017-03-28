@@ -3195,16 +3195,16 @@ end;
 
 procedure TTSInfoTextInputReader.AddStdChildNode();
 var
-  nodeAdd: TTSInfoNode;
-  strNodeName: String;
-  boolReference: Boolean;
+  LNewNode: TTSInfoNode;
+  LName: String;
+  LReference: Boolean;
 begin
-  ExtractChildNode(FInput[FLineIndex], boolReference, strNodeName);
+  ExtractChildNode(FInput[FLineIndex], LReference, LName);
 
-  if ValidIdentifier(strNodeName) then
+  if ValidIdentifier(LName) then
   begin
-    nodeAdd := FTSInfoTree.FCurrentNode.CreateChildNode(boolReference, strNodeName, Comment(FComment, ''));
-    FTSInfoTree.FCurrentNode := nodeAdd;
+    LNewNode := FTSInfoTree.FCurrentNode.CreateChildNode(LReference, LName, Comment(FComment, ''));
+    FTSInfoTree.FCurrentNode := LNewNode;
   end;
 
   ClearComment();
