@@ -2461,14 +2461,14 @@ end;
 
 function TTSInfoTree.ReadAttributeComment(const AAttrPath, ADelimiter: String; AType: TCommentType): String;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
   else
-    Result := ReplaceSubStrings(attrRead.Comment[AType], VALUES_DELIMITER, ADelimiter);
+    Result := ReplaceSubStrings(LAttribute.Comment[AType], VALUES_DELIMITER, ADelimiter);
 end;
 
 
