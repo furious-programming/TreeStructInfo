@@ -3016,21 +3016,21 @@ const
   FORMAT_VERSION_INDEX_MAJOR = Integer(1);
   FORMAT_VERSION_INDEX_MINOR = Integer(3);
 var
-  intVersionMajor, intVersionMinor: UInt8;
-  intCodeMajor, intCodeMinor: Integer;
+  LVersionMajor, LVersionMinor: UInt8;
+  LCodeMajor, LCodeMinor: Integer;
 begin
   Result := Length(AValue) = TREE_HEADER_FORMAT_VERSION_LEN;
 
   if Result then
   begin
-    Val(AValue[FORMAT_VERSION_INDEX_MAJOR], intVersionMajor, intCodeMajor);
-    Val(AValue[FORMAT_VERSION_INDEX_MINOR], intVersionMinor, intCodeMinor);
+    Val(AValue[FORMAT_VERSION_INDEX_MAJOR], LVersionMajor, LCodeMajor);
+    Val(AValue[FORMAT_VERSION_INDEX_MINOR], LVersionMinor, LCodeMinor);
 
-    Result := (intCodeMajor = 0) and (intCodeMinor = 0);
+    Result := (LCodeMajor = 0) and (LCodeMinor = 0);
 
     if Result then
     begin
-      Result := (intVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (intVersionMinor <= SUPPORTED_FORMAT_VERSION_MINOR);
+      Result := (LVersionMajor = SUPPORTED_FORMAT_VERSION_MAJOR) and (LVersionMinor <= SUPPORTED_FORMAT_VERSION_MINOR);
 
       if not Result then
         ThrowException(EM_UNSUPPORTED_FORMAT_VERSION, [AValue]);
