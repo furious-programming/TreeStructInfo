@@ -3929,17 +3929,17 @@ end;
 
 procedure TTSInfoBinaryInputReader.ReadElements(AParentNode: TTSInfoNode);
 var
-  intElementsCnt: UInt32;
-  intElementIdx: Integer;
+  LElementsCnt: UInt32;
+  LElementIdx: Integer;
 begin
-  ReadUInt32Buffer(intElementsCnt);
+  ReadUInt32Buffer(LElementsCnt);
 
-  for intElementIdx := 0 to intElementsCnt - 1 do
+  for LElementIdx := 0 to LElementsCnt - 1 do
     ReadAttribute(AParentNode.CreateAttribute(False, ''));
 
-  ReadUInt32Buffer(intElementsCnt);
+  ReadUInt32Buffer(LElementsCnt);
 
-  for intElementIdx := 0 to intElementsCnt - 1 do
+  for LElementIdx := 0 to LElementsCnt - 1 do
     ReadChildNode(AParentNode.CreateChildNode(False, ''));
 end;
 
