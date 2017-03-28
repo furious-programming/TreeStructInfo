@@ -3427,30 +3427,30 @@ end;
 
 procedure TTSInfoTextInputReader.ExtractAttribute(const ALine: String; out AReference: Boolean; out AName, AValue: String);
 var
-  pchrName, pchrValueBegin, pchrValueEnd: PChar;
+  LName, LValueBegin, LValueEnd: PChar;
 begin
   AReference := ALine[1] = KEYWORD_REF_ATTRIBUTE[1];
-  pchrName := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[AReference]] + 1;
+  LName := @ALine[KEYWORD_ATTRIBUTE_LEN_BY_REFERENCE[AReference]] + 1;
 
-  while pchrName^ in WHITESPACE_CHARS do
-    Inc(pchrName);
+  while LName^ in WHITESPACE_CHARS do
+    Inc(LName);
 
-  pchrValueBegin := pchrName + 1;
-  pchrValueEnd := @ALine[Length(ALine)];
+  LValueBegin := LName + 1;
+  LValueEnd := @ALine[Length(ALine)];
 
-  while pchrValueBegin^ <> QUOTE_CHAR do
-    Inc(pchrValueBegin);
+  while LValueBegin^ <> QUOTE_CHAR do
+    Inc(LValueBegin);
 
-  while pchrValueEnd^ <> QUOTE_CHAR do
-    Dec(pchrValueEnd);
+  while LValueEnd^ <> QUOTE_CHAR do
+    Dec(LValueEnd);
 
-  MoveString(PChar(pchrValueBegin + 1)^, AValue, pchrValueEnd - pchrValueBegin - 1);
+  MoveString(PChar(LValueBegin + 1)^, AValue, LValueEnd - LValueBegin - 1);
 
   repeat
-    Dec(pchrValueBegin);
-  until not (pchrValueBegin^ in WHITESPACE_CHARS);
+    Dec(LValueBegin);
+  until not (LValueBegin^ in WHITESPACE_CHARS);
 
-  MoveString(pchrName^, AName, pchrValueBegin - pchrName + 1);
+  MoveString(LName^, AName, LValueBegin - LName + 1);
 end;
 
 
