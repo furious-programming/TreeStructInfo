@@ -3614,19 +3614,19 @@ end;
 
 procedure TTSInfoTextOutputWriter.AddComment(const AComment: String);
 var
-  vcComment: TValueComponents;
-  intCommentLinesCnt, intCommentLineIdx: Integer;
+  LComponents: TValueComponents;
+  LComponentsCnt, LComponentIdx: Integer;
 begin
-  ExtractValueComponents(AComment, vcComment, intCommentLinesCnt);
+  ExtractValueComponents(AComment, LComponents, LComponentsCnt);
 
-  if (intCommentLinesCnt = 1) and (vcComment[0] = ONE_BLANK_VALUE_LINE_CHAR) then
+  if (LComponentsCnt = 1) and (LComponents[0] = ONE_BLANK_VALUE_LINE_CHAR) then
     FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
   else
-    for intCommentLineIdx := 0 to intCommentLinesCnt - 1 do
-      if vcComment[intCommentLineIdx] = '' then
+    for LComponentIdx := 0 to LComponentsCnt - 1 do
+      if LComponents[LComponentIdx] = '' then
         FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
       else
-        FOutput.Add(GlueStrings('%% %', [FIndentation, COMMENT_PREFIX, vcComment[intCommentLineIdx]]));
+        FOutput.Add(GlueStrings('%% %', [FIndentation, COMMENT_PREFIX, LComponents[LComponentIdx]]));
 end;
 
 
