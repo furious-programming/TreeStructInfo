@@ -2419,7 +2419,7 @@ end;
 
 procedure TTSInfoTree.WriteChildNodeComment(const ANodePath, AComment, ADelimiter: String; AType: TCommentType);
 var
-  nodeWrite: TTSInfoNode;
+  LNode: TTSInfoNode;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -2430,22 +2430,22 @@ begin
       if FCurrentNode = FRootNode then
         ThrowException(EM_ROOT_NODE_SET_COMMENT)
       else
-        nodeWrite := FCurrentNode;
+        LNode := FCurrentNode;
     end
     else
-      nodeWrite := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+      LNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-    if nodeWrite = nil then
+    if LNode = nil then
       ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
     else
-      if nodeWrite.ParentNode = nil then
+      if LNode.ParentNode = nil then
         ThrowException(EM_ROOT_NODE_SET_COMMENT)
       else
       begin
         if ADelimiter = '' then
-          nodeWrite.Comment[AType] := AComment
+          LNode.Comment[AType] := AComment
         else
-          nodeWrite.Comment[AType] := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
+          LNode.Comment[AType] := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
 
         FModified := True;
       end;
