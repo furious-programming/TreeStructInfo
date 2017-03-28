@@ -2043,7 +2043,7 @@ end;
 
 function TSimpleTSInfoTree.CreateChildNode(const ANodePath: String; AReference: Boolean; const ANodeName: String; AOpen: Boolean): Boolean;
 var
-  nodeParent, nodeCreate: TTSInfoNode;
+  LParentNode, LNewNode: TTSInfoNode;
   strNodePath, strNodeNameAsPath: String;
   boolPathIsSymbol: Boolean;
 begin
@@ -2055,18 +2055,18 @@ begin
     boolPathIsSymbol := IsCurrentNodePath(strNodePath);
 
     if boolPathIsSymbol then
-      nodeParent := FCurrentNode
+      LParentNode := FCurrentNode
     else
     begin
       strNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
-      nodeParent := FindNode(strNodePath, True);
+      LParentNode := FindNode(strNodePath, True);
     end;
 
-    Result := nodeParent <> nil;
+    Result := LParentNode <> nil;
 
     if Result then
     begin
-      nodeCreate := nodeParent.CreateChildNode(AReference, ANodeName);
+      LNewNode := LParentNode.CreateChildNode(AReference, ANodeName);
 
       if AOpen then
       begin
@@ -2085,7 +2085,7 @@ begin
           else
             FCurrentlyOpenNodePath += strNodePath + strNodeNameAsPath;
 
-        FCurrentNode := nodeCreate;
+        FCurrentNode := LNewNode;
       end;
 
       FModified := True;
