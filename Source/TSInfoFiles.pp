@@ -3118,12 +3118,12 @@ end;
 
 function TTSInfoTextInputReader.IsRefAttributeDefinitionLine(const ALine: String): Boolean;
 var
-  intLineLen: Integer;
+  LLineLen: Integer;
 begin
   Result := False;
-  intLineLen := Length(ALine);
+  LLineLen := Length(ALine);
 
-  if intLineLen >= MIN_REF_ATTRIBUTE_DEF_LINE_LEN then
+  if LLineLen >= MIN_REF_ATTRIBUTE_DEF_LINE_LEN then
     if CompareByte(ALine[1], KEYWORD_REF_ATTRIBUTE[1], KEYWORD_REF_ATTRIBUTE_LEN) = 0 then
       Result := IsAttributeNameAndValueLine(ALine);
 end;
