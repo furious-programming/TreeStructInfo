@@ -1988,14 +1988,14 @@ end;
 
 procedure TSimpleTSInfoTree.ReadBuffer(const AAttrPath: String; var ABuffer; ASize: UInt32; AOffset: UInt32 = 0);
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if ASize > 0 then
   begin
-    attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-    if attrRead <> nil then
-      TTSInfoDataConverter.ValueToBuffer(attrRead.Value, ABuffer, ASize, AOffset);
+    if LAttribute <> nil then
+      TTSInfoDataConverter.ValueToBuffer(LAttribute.Value, ABuffer, ASize, AOffset);
   end;
 end;
 
