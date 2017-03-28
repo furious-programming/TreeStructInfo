@@ -1925,14 +1925,14 @@ end;
 
 function TSimpleTSInfoTree.ReadString(const AAttrPath, ADefault: String; AFormat: TFormatString = fsOriginal): String;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToString(attrRead.Value, AFormat);
+    Result := TTSInfoDataConverter.ValueToString(LAttribute.Value, AFormat);
 end;
 
 
