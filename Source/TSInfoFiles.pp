@@ -812,19 +812,19 @@ end;
 
 procedure TTSInfoElementsList.DisposeRemainingNodes();
 var
-  plnNext, plnDispose: PListNode;
+  LNextNode, LNodeToDispose: PListNode;
 begin
   if FOwnsElements then
     DisposeRemainingElements();
 
-  plnDispose := FFirstNode;
+  LNodeToDispose := FFirstNode;
 
-  while plnDispose <> nil do
+  while LNodeToDispose <> nil do
   begin
-    plnNext := plnDispose^.NextNode;
-    Dispose(plnDispose);
+    LNextNode := LNodeToDispose^.NextNode;
+    Dispose(LNodeToDispose);
 
-    plnDispose := plnNext;
+    LNodeToDispose := LNextNode;
   end;
 
   FFirstNode := nil;
