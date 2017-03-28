@@ -3216,15 +3216,15 @@ end;
 
 procedure TTSInfoTextInputReader.AddRefAttribute();
 var
-  attrAdd: TTSInfoAttribute;
-  strAttrName: String;
+  LNewAttribute: TTSInfoAttribute;
+  LName: String;
 begin
-  ExtractAttributeName(FInput[FLineIndex], strAttrName);
+  ExtractAttributeName(FInput[FLineIndex], LName);
 
-  if ValidIdentifier(strAttrName) then
+  if ValidIdentifier(LName) then
   begin
-    attrAdd := FTSInfoTree.FCurrentNode.CreateAttribute(True, strAttrName, '', Comment(FComment, ''));
-    FStoreRefElement(attrAdd);
+    LNewAttribute := FTSInfoTree.FCurrentNode.CreateAttribute(True, LName, '', Comment(FComment, ''));
+    FStoreRefElement(LNewAttribute);
 
     ClearComment();
     Inc(FLineIndex);
