@@ -2930,32 +2930,32 @@ const
   COMPONENT_INDEX_KEYWORD_NAME   = Integer(2);
   COMPONENT_INDEX_TREE_NAME      = Integer(3);
 var
-  lcHeader: TLineComponents;
-  intComponentCnt: Integer = 0;
+  LComponents: TLineComponents;
+  LComponentsCnt: Integer = 0;
 begin
   if (FLineIndex < FInput.Count) and IsTreeHeaderLine(FInput[FLineIndex]) then
   begin
-    ExtractLineComponents(FInput[FLineIndex], lcHeader, intComponentCnt);
+    ExtractLineComponents(FInput[FLineIndex], LComponents, LComponentsCnt);
 
-    if intComponentCnt in [SHORT_TREE_HEADER_COMPONENT_COUNT, LONG_TREE_HEADER_COMPONENT_COUNT] then
+    if LComponentsCnt in [SHORT_TREE_HEADER_COMPONENT_COUNT, LONG_TREE_HEADER_COMPONENT_COUNT] then
     begin
-      if IsFormatVersionValue(lcHeader[COMPONENT_INDEX_FORMAT_VERSION]) then
+      if IsFormatVersionValue(LComponents[COMPONENT_INDEX_FORMAT_VERSION]) then
       begin
-        if intComponentCnt = LONG_TREE_HEADER_COMPONENT_COUNT then
-          if SameIdentifiers(lcHeader[COMPONENT_INDEX_KEYWORD_NAME], KEYWORD_TREE_NAME) then
+        if LComponentsCnt = LONG_TREE_HEADER_COMPONENT_COUNT then
+          if SameIdentifiers(LComponents[COMPONENT_INDEX_KEYWORD_NAME], KEYWORD_TREE_NAME) then
           begin
-            if (intComponentCnt = LONG_TREE_HEADER_COMPONENT_COUNT) then
-              if (lcHeader[COMPONENT_INDEX_TREE_NAME] <> '') and ValidIdentifier(lcHeader[COMPONENT_INDEX_TREE_NAME]) then
-                FTSInfoTree.FTreeName := lcHeader[COMPONENT_INDEX_TREE_NAME];
+            if (LComponentsCnt = LONG_TREE_HEADER_COMPONENT_COUNT) then
+              if (LComponents[COMPONENT_INDEX_TREE_NAME] <> '') and ValidIdentifier(LComponents[COMPONENT_INDEX_TREE_NAME]) then
+                FTSInfoTree.FTreeName := LComponents[COMPONENT_INDEX_TREE_NAME];
           end
           else
-            ThrowException(EM_UNKNOWN_TREE_HEADER_COMPONENT, [lcHeader[COMPONENT_INDEX_KEYWORD_NAME]]);
+            ThrowException(EM_UNKNOWN_TREE_HEADER_COMPONENT, [LComponents[COMPONENT_INDEX_KEYWORD_NAME]]);
       end
       else
-        ThrowException(EM_INVALID_FORMAT_VERSION, [lcHeader[COMPONENT_INDEX_FORMAT_VERSION]]);
+        ThrowException(EM_INVALID_FORMAT_VERSION, [LComponents[COMPONENT_INDEX_FORMAT_VERSION]]);
     end
     else
-      ThrowException(EM_INVALID_TREE_HEADER_COMPONENT_COUNT, [intComponentCnt]);
+      ThrowException(EM_INVALID_TREE_HEADER_COMPONENT_COUNT, [LComponentsCnt]);
 
     Inc(FLineIndex);
   end
