@@ -1860,14 +1860,14 @@ end;
 
 function TSimpleTSInfoTree.ReadInteger(const AAttrPath: String; ADefault: Integer): Integer;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToInteger(attrRead.Value, ADefault);
+    Result := TTSInfoDataConverter.ValueToInteger(LAttribute.Value, ADefault);
 end;
 
 
