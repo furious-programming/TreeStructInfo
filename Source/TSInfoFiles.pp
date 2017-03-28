@@ -3642,14 +3642,14 @@ end;
 
 procedure TTSInfoTextOutputWriter.AddTreeHeader(const ATreeName: String);
 var
-  strHeader: String;
+  LHeader: String;
 begin
-  strHeader := GlueStrings('% %%%', [TREE_HEADER_FORMAT_NAME, QUOTE_CHAR, TREE_HEADER_FORMAT_VERSION, QUOTE_CHAR]);
+  LHeader := GlueStrings('% %%%', [TREE_HEADER_FORMAT_NAME, QUOTE_CHAR, TREE_HEADER_FORMAT_VERSION, QUOTE_CHAR]);
 
   if ATreeName <> '' then
-    strHeader += GlueStrings(' % %%%', [KEYWORD_TREE_NAME, QUOTE_CHAR, ATreeName, QUOTE_CHAR]);
+    LHeader += GlueStrings(' % %%%', [KEYWORD_TREE_NAME, QUOTE_CHAR, ATreeName, QUOTE_CHAR]);
 
-  FOutput.Add(strHeader);
+  FOutput.Add(LHeader);
 end;
 
 
