@@ -2764,19 +2764,19 @@ end;
 
 procedure TTSInfoTree.ReadChildNodesNames(ANames: TStrings; const ANodePath: String = CURRENT_NODE_SYMBOL);
 var
-  nodeParent: TTSInfoNode;
-  intNodeIdx: Integer;
+  LParentNode: TTSInfoNode;
+  LNodeIdx: Integer;
 begin
   if IsCurrentNodePath(ANodePath) then
-    nodeParent := FCurrentNode
+    LParentNode := FCurrentNode
   else
-    nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+    LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-  if nodeParent = nil then
+  if LParentNode = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
-    for intNodeIdx := 0 to nodeParent.ChildNodesCount - 1 do
-      ANames.Add(nodeParent.GetChildNode(intNodeIdx).Name);
+    for LNodeIdx := 0 to LParentNode.ChildNodesCount - 1 do
+      ANames.Add(LParentNode.GetChildNode(LNodeIdx).Name);
 end;
 
 
