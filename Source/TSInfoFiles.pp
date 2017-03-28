@@ -2782,26 +2782,26 @@ end;
 
 procedure TTSInfoTree.ExportTreeToFile(const AFileName: String; AFormat: TExportFormat = efTextTree);
 var
-  fsOutput: TStream;
-  slOutput: TStrings;
+  LOutputStream: TStream;
+  LOutputList: TStrings;
 begin
   if AFormat = efBinaryTree then
   begin
-    fsOutput := TFileStream.Create(AFileName, fmCreate or fmShareDenyWrite);
+    LOutputStream := TFileStream.Create(AFileName, fmCreate or fmShareDenyWrite);
     try
-      InternalSaveTreeToStream(fsOutput, Self);
+      InternalSaveTreeToStream(LOutputStream, Self);
     finally
-      fsOutput.Free();
+      LOutputStream.Free();
     end;
   end
   else
   begin
-    slOutput := TStringList.Create();
+    LOutputList := TStringList.Create();
     try
-      InternalSaveTreeToList(slOutput, Self);
-      slOutput.SaveToFile(AFileName);
+      InternalSaveTreeToList(LOutputList, Self);
+      LOutputList.SaveToFile(AFileName);
     finally
-      slOutput.Free();
+      LOutputList.Free();
     end;
   end;
 end;
