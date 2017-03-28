@@ -1964,14 +1964,14 @@ end;
 
 function TSimpleTSInfoTree.ReadPoint(const AAttrPath: String; ADefault: TPoint): TPoint;
 var
-  attrRead: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
-  attrRead := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
+  LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), False);
 
-  if attrRead = nil then
+  if LAttribute = nil then
     Result := ADefault
   else
-    Result := TTSInfoDataConverter.ValueToPoint(attrRead.Value, ADefault);
+    Result := TTSInfoDataConverter.ValueToPoint(LAttribute.Value, ADefault);
 end;
 
 
