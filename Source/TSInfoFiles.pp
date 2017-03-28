@@ -2815,18 +2815,18 @@ end;
 
 procedure TTSInfoTree.ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryTree);
 var
-  slOutput: TStrings;
+  LOutputList: TStrings;
 begin
   if AFormat = efBinaryTree then
     InternalSaveTreeToStream(AStream, Self)
   else
   begin
-    slOutput := TStringList.Create();
+    LOutputList := TStringList.Create();
     try
-      InternalSaveTreeToList(slOutput, Self);
-      slOutput.SaveToStream(AStream);
+      InternalSaveTreeToList(LOutputList, Self);
+      LOutputList.SaveToStream(AStream);
     finally
-      slOutput.Free();
+      LOutputList.Free();
     end;
   end;
 end;
@@ -2866,16 +2866,16 @@ const
   UTF8_BOM_SIGNATURE     = String(#239#187#191);
   UTF8_BOM_SIGNATURE_LEN = Length(UTF8_BOM_SIGNATURE);
 var
-  strFirstLine: String;
+  LFirstLine: String;
 begin
   if FInput.Count > 0 then
   begin
-    strFirstLine := FInput[0];
+    LFirstLine := FInput[0];
 
-    if (strFirstLine <> '') and (CompareByte(strFirstLine[1], UTF8_BOM_SIGNATURE[1], UTF8_BOM_SIGNATURE_LEN) = 0) then
+    if (LFirstLine <> '') and (CompareByte(LFirstLine[1], UTF8_BOM_SIGNATURE[1], UTF8_BOM_SIGNATURE_LEN) = 0) then
     begin
-      Delete(strFirstLine, 1, UTF8_BOM_SIGNATURE_LEN);
-      FInput[0] := strFirstLine;
+      Delete(LFirstLine, 1, UTF8_BOM_SIGNATURE_LEN);
+      FInput[0] := LFirstLine;
     end;
   end;
 end;
