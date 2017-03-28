@@ -1062,15 +1062,15 @@ end;
 
 function TTSInfoNodesList.GetChildNode(const AName: String): TTSInfoNode;
 var
-  nodeGet: TTSInfoNode;
-  intChildNodeIdx: Integer;
+  LNode: TTSInfoNode;
+  LNodeIdx: Integer;
 begin
-  for intChildNodeIdx := 0 to FCount - 1 do
+  for LNodeIdx := 0 to FCount - 1 do
   begin
-    nodeGet := inherited Element[intChildNodeIdx] as TTSInfoNode;
+    LNode := inherited Element[LNodeIdx] as TTSInfoNode;
 
-    if SameIdentifiers(nodeGet.Name, AName) then
-      Exit(nodeGet);
+    if SameIdentifiers(LNode.Name, AName) then
+      Exit(LNode);
   end;
 
   Result := nil;
