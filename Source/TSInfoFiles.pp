@@ -2662,20 +2662,20 @@ end;
 
 procedure TTSInfoTree.RemoveAllChildNodes(const ANodePath: String = CURRENT_NODE_SYMBOL);
 var
-  nodeParent: TTSInfoNode;
+  LParentNode: TTSInfoNode;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
     if IsCurrentNodePath(ANodePath) then
-      nodeParent := FCurrentNode
+      LParentNode := FCurrentNode
     else
-      nodeParent := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+      LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-    if nodeParent <> nil then
+    if LParentNode <> nil then
     begin
-      nodeParent.RemoveAllChildNodes();
+      LParentNode.RemoveAllChildNodes();
       FModified := True;
     end;
   end;
