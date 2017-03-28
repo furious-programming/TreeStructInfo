@@ -2815,7 +2815,7 @@ end;
 
 procedure TTSInfoTree.ExportTreeToStream(AStream: TStream; AFormat: TExportFormat = efBinaryTree);
 var
-  LOutputList: TStrings;
+  LOutputList: TStringList;
 begin
   if AFormat = efBinaryTree then
     InternalSaveTreeToStream(AStream, Self)
