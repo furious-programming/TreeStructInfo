@@ -1755,17 +1755,17 @@ end;
 
 procedure TSimpleTSInfoTree.WritePoint(const AAttrPath: String; APoint: TPoint; AFormat: TFormatPoint = fpUnsignedDecimal);
 var
-  attrWrite: TTSInfoAttribute;
+  LAttribute: TTSInfoAttribute;
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
   else
   begin
-    attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+    LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-    if attrWrite <> nil then
+    if LAttribute <> nil then
     begin
-      attrWrite.Value := TTSInfoDataConverter.PointToValue(APoint, AFormat);
+      LAttribute.Value := TTSInfoDataConverter.PointToValue(APoint, AFormat);
       FModified := True;
     end;
   end;
