@@ -4013,10 +4013,10 @@ end;
 
 procedure TTSInfoBinaryOutputWriter.WriteBooleanBuffer(ABuffer: Boolean);
 var
-  intBuffer: UInt8;
+  LBuffer: UInt8;
 begin
-  intBuffer := UInt8(ABuffer);
-  FOutput.Write(intBuffer, SizeOf(intBuffer));
+  LBuffer := UInt8(ABuffer);
+  FOutput.Write(LBuffer, SizeOf(LBuffer));
 end;
 
 
