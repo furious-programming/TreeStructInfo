@@ -3343,29 +3343,29 @@ end;
 
 procedure TTSInfoTextInputReader.ExtractComment();
 var
-  strCurrentLine, strCurrentValue: String;
-  intCurrentLineLen: Integer;
-  pchrFirst, pchrLast: PChar;
+  LLine, LValue: String;
+  LLineLen: Integer;
+  LFirst, LLast: PChar;
 begin
   ClearComment();
 
   repeat
-    strCurrentLine := FInput[FLineIndex];
-    intCurrentLineLen := Length(strCurrentLine);
-    strCurrentValue := '';
+    LLine := FInput[FLineIndex];
+    LLineLen := Length(LLine);
+    LValue := '';
 
-    if intCurrentLineLen > COMMENT_PREFIX_LEN then
+    if LLineLen > COMMENT_PREFIX_LEN then
     begin
-      pchrFirst := @strCurrentLine[COMMENT_PREFIX_LEN] + 1;
-      pchrLast := @strCurrentLine[intCurrentLineLen];
+      LFirst := @LLine[COMMENT_PREFIX_LEN] + 1;
+      LLast := @LLine[LLineLen];
 
-      if pchrFirst^ in WHITESPACE_CHARS then
-        Inc(pchrFirst);
+      if LFirst^ in WHITESPACE_CHARS then
+        Inc(LFirst);
 
-      MoveString(pchrFirst^, strCurrentValue, pchrLast - pchrFirst + 1);
+      MoveString(LFirst^, LValue, LLast - LFirst + 1);
     end;
 
-    FComment += strCurrentValue + VALUES_DELIMITER;
+    FComment += LValue + VALUES_DELIMITER;
     Inc(FLineIndex);
   until (FLineIndex = FInput.Count) or not IsCommentLine(FInput[FLineIndex]);
 
