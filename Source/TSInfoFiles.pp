@@ -1521,24 +1521,24 @@ end;
 
 function TSimpleTSInfoTree.OpenChildNode(const ANodePath: String; AReadOnly: Boolean = False; ACanCreate: Boolean = False): Boolean;
 var
-  nodeOpen: TTSInfoNode;
-  strNodePath: String;
+  LNodeToOpen: TTSInfoNode;
+  LNodePath: String;
 begin
-  strNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
+  LNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
 
-  nodeOpen := FindNode(strNodePath, ACanCreate and not AReadOnly);
-  Result := nodeOpen <> nil;
+  LNodeToOpen := FindNode(LNodePath, ACanCreate and not AReadOnly);
+  Result := LNodeToOpen <> nil;
 
-  if nodeOpen = nil then
-    ThrowException(EM_CANNOT_OPEN_NODE, [strNodePath])
+  if LNodeToOpen = nil then
+    ThrowException(EM_CANNOT_OPEN_NODE, [LNodePath])
   else
   begin
     if FCurrentNode <> FRootNode then
-      FCurrentlyOpenNodePath += strNodePath
+      FCurrentlyOpenNodePath += LNodePath
     else
-      FCurrentlyOpenNodePath := strNodePath;
+      FCurrentlyOpenNodePath := LNodePath;
 
-    FCurrentNode := nodeOpen;
+    FCurrentNode := LNodeToOpen;
     FReadOnly := AReadOnly;
   end;
 end;
