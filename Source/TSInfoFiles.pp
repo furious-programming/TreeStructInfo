@@ -839,14 +839,14 @@ end;
 
 procedure TTSInfoElementsList.DisposeRemainingElements();
 var
-  plnElement: PListNode;
+  LCurrentNode: PListNode;
 begin
-  plnElement := FFirstNode;
+  LCurrentNode := FFirstNode;
 
-  while plnElement <> nil do
+  while LCurrentNode <> nil do
   begin
-    plnElement^.Element.Free();
-    plnElement := plnElement^.NextNode;
+    LCurrentNode^.Element.Free();
+    LCurrentNode := LCurrentNode^.NextNode;
   end;
 end;
 
