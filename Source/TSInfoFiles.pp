@@ -2712,17 +2712,17 @@ end;
 
 function TTSInfoTree.GetChildNodesCount(const ANodePath: String = CURRENT_NODE_SYMBOL): Integer;
 var
-  nodeRead: TTSInfoNode;
+  LParentNode: TTSInfoNode;
 begin
   if IsCurrentNodePath(ANodePath) then
-    nodeRead := FCurrentNode
+    LParentNode := FCurrentNode
   else
-    nodeRead := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
+    LParentNode := FindNode(IncludeTrailingIdentsDelimiter(ANodePath), False);
 
-  if nodeRead = nil then
+  if LParentNode = nil then
     ThrowException(EM_NODE_NOT_EXISTS, [ANodePath])
   else
-    Result := nodeRead.GetChildNodesCount();
+    Result := LParentNode.GetChildNodesCount();
 end;
 
 
