@@ -1795,8 +1795,8 @@ end;
 
 procedure TSimpleTSInfoTree.WriteBuffer(const AAttrPath: String; const ABuffer; ASize: UInt32; AFormat: TFormatBuffer = fb32BytesPerLine);
 var
-  attrWrite: TTSInfoAttribute;
-  strValue: String = '';
+  LAttribute: TTSInfoAttribute;
+  LValue: String = '';
 begin
   if FReadOnly then
     ThrowException(EM_READ_ONLY_MODE_VIOLATION)
@@ -1805,12 +1805,12 @@ begin
       ThrowException(EM_INVALID_BUFFER_SIZE, [MAX_BUFFER_SIZE])
     else
     begin
-      attrWrite := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
+      LAttribute := FindAttribute(ExcludeTrailingIdentsDelimiter(AAttrPath), True);
 
-      if attrWrite <> nil then
+      if LAttribute <> nil then
       begin
-        TTSInfoDataConverter.BufferToValue(ABuffer, ASize, strValue, AFormat);
-        attrWrite.Value := strValue;
+        TTSInfoDataConverter.BufferToValue(ABuffer, ASize, LValue, AFormat);
+        LAttribute.Value := LValue;
         FModified := True;
       end;
     end;
