@@ -1022,16 +1022,16 @@ end;
 
 procedure TTSInfoAttributesList.RemoveAttribute(const AName: String);
 var
-  attrRemove: TTSInfoAttribute;
-  intAttributeIdx: Integer;
+  LAttribute: TTSInfoAttribute;
+  LAttributeIdx: Integer;
 begin
-  for intAttributeIdx := 0 to FCount - 1 do
+  for LAttributeIdx := 0 to FCount - 1 do
   begin
-    attrRemove := inherited Element[intAttributeIdx] as TTSInfoAttribute;
+    LAttribute := inherited Element[LAttributeIdx] as TTSInfoAttribute;
 
-    if SameIdentifiers(attrRemove.Name, AName) then
+    if SameIdentifiers(LAttribute.Name, AName) then
     begin
-      inherited RemoveElement(intAttributeIdx);
+      inherited RemoveElement(LAttributeIdx);
       Exit();
     end;
   end;
