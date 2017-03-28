@@ -1124,29 +1124,29 @@ end;
 
 procedure TTSInfoRefElementsList.InsertElement(AIndex: Integer; AElement: TObject);
 var
-  plnNew, plnAtIndex: PListNode;
+  LNewNode, LNodeAtIndex: PListNode;
 begin
   if AIndex >= FCount then
     AddElement(AElement)
   else
   begin
-    plnNew := CreateNode(AElement);
+    LNewNode := CreateNode(AElement);
 
     if AIndex = 0 then
     begin
-      plnNew^.NextNode := FFirstNode;
-      FFirstNode^.PreviousNode := plnNew;
-      FFirstNode := plnNew;
+      LNewNode^.NextNode := FFirstNode;
+      FFirstNode^.PreviousNode := LNewNode;
+      FFirstNode := LNewNode;
     end
     else
     begin
-      plnAtIndex := GetNodeAtIndex(AIndex);
+      LNodeAtIndex := GetNodeAtIndex(AIndex);
 
-      plnNew^.PreviousNode := plnAtIndex^.PreviousNode;
-      plnNew^.NextNode := plnAtIndex;
+      LNewNode^.PreviousNode := LNodeAtIndex^.PreviousNode;
+      LNewNode^.NextNode := LNodeAtIndex;
 
-      plnAtIndex^.PreviousNode^.NextNode := plnNew;
-      plnAtIndex^.PreviousNode := plnNew;
+      LNodeAtIndex^.PreviousNode^.NextNode := LNewNode;
+      LNodeAtIndex^.PreviousNode := LNewNode;
     end;
 
     FLastUsedNode := FLastUsedNode^.PreviousNode;
