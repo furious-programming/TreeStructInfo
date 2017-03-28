@@ -987,15 +987,15 @@ end;
 
 function TTSInfoAttributesList.GetAttribute(const AName: String): TTSInfoAttribute;
 var
-  attrGet: TTSInfoAttribute;
-  intAttributeIdx: Integer;
+  LAttribute: TTSInfoAttribute;
+  LAttributeIdx: Integer;
 begin
-  for intAttributeIdx := 0 to FCount - 1 do
+  for LAttributeIdx := 0 to FCount - 1 do
   begin
-    attrGet := inherited Element[intAttributeIdx] as TTSInfoAttribute;
+    LAttribute := inherited Element[LAttributeIdx] as TTSInfoAttribute;
 
-    if SameIdentifiers(attrGet.Name, AName) then
-      Exit(attrGet);
+    if SameIdentifiers(LAttribute.Name, AName) then
+      Exit(LAttribute);
   end;
 
   Result := nil;
