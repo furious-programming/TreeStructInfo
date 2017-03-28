@@ -885,7 +885,7 @@ begin
     while FLastUsedNodeIndex > AIndex do
     begin
       FLastUsedNode := FLastUsedNode^.PreviousNode;
-      Dec(FLastUsedNodeIndex);
+      FLastUsedNodeIndex -= 1;
     end;
 
   Result := FLastUsedNode;
@@ -930,7 +930,7 @@ begin
   if FLastUsedNode = FLastNode then
   begin
     FLastUsedNode := FLastUsedNode^.PreviousNode;
-    Dec(FLastUsedNodeIndex);
+    FLastUsedNodeIndex -= 1;
   end
   else
     FLastUsedNode := FLastUsedNode^.NextNode;
@@ -959,7 +959,7 @@ begin
     LNodeToDispose^.Element.Free();
 
   Dispose(LNodeToDispose);
-  Dec(FCount);
+  FCount -= 1;
 end;
 
 
@@ -3057,7 +3057,7 @@ begin
       LToken += 1;
 
     while (LLast > LToken) and (LLast^ <> QUOTE_CHAR) do
-      Dec(LLast);
+      LLast -= 1;
 
     Result := (LToken < LLast) and (LLast^ = QUOTE_CHAR);
   end;
@@ -3255,7 +3255,7 @@ begin
   if FNestedLevel > 0 then
   begin
     FTSInfoTree.FCurrentNode := FTSInfoTree.FCurrentNode.ParentNode;
-    Dec(FNestedLevel);
+    FNestedLevel -= 1;
   end;
 
   FLineIndex += 1;
@@ -3412,7 +3412,7 @@ begin
         end;
 
         while (LValueEnd >= LValueBegin) and (LValueEnd^ in WHITESPACE_CHARS) do
-          Dec(LValueEnd);
+          LValueEnd -= 1;
 
         SetLength(AComponents, ACount + 1);
         MoveString(LValueBegin^, AComponents[ACount], LValueEnd - LValueBegin + 1);
@@ -3442,12 +3442,12 @@ begin
     LValueBegin += 1;
 
   while LValueEnd^ <> QUOTE_CHAR do
-    Dec(LValueEnd);
+    LValueEnd -= 1;
 
   MoveString(PChar(LValueBegin + 1)^, AValue, LValueEnd - LValueBegin - 1);
 
   repeat
-    Dec(LValueBegin);
+    LValueBegin -= 1;
   until not (LValueBegin^ in WHITESPACE_CHARS);
 
   MoveString(LName^, AName, LValueBegin - LName + 1);
@@ -3600,7 +3600,7 @@ end;
 
 procedure TTSInfoTextOutputWriter.DecIndentation();
 begin
-  Dec(FIndentationSize, INDENT_SIZE);
+  FIndentationSize -= INDENT_SIZE;
   SetLength(FIndentation, FIndentationSize);
 end;
 
