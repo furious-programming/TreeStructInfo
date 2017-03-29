@@ -49,7 +49,6 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-  function RemoveWhitespaceChars(const AValue: String): String;
 
   function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
   function GlueStrings(const AMask: String; const AStrings: array of String): String;
@@ -129,30 +128,6 @@ function Comment(const ADeclaration, ADefinition: String): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
-end;
-
-
-function RemoveWhitespaceChars(const AValue: String): String;
-var
-  LValueLen: Integer;
-  LLeft, LRight: PChar;
-begin
-  Result := '';
-  LValueLen := Length(AValue);
-
-  if LValueLen > 0 then
-  begin
-    LLeft := @AValue[1];
-    LRight := @AValue[LValueLen];
-
-    while (LLeft <= LRight) and (LLeft^ in WHITESPACE_CHARS) do
-      LLeft += 1;
-
-    while (LRight > LLeft) and (LRight^ in WHITESPACE_CHARS) do
-      LRight -= 1;
-
-    MoveString(LLeft^, Result, LRight - LLeft + 1);
-  end;
 end;
 
 

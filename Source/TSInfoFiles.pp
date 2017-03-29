@@ -2888,7 +2888,7 @@ var
 begin
   for LLineIdx := FInput.Count - 1 downto 0 do
   begin
-    LLine := RemoveWhitespaceChars(FInput[LLineIdx]);
+    LLine := Trim(FInput[LLineIdx]);
 
     if LLine = '' then
       FInput.Delete(LLineIdx)
