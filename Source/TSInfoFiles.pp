@@ -994,7 +994,7 @@ begin
   begin
     LAttribute := inherited Element[LAttributeIdx] as TTSInfoAttribute;
 
-    if SameIdentifiers(LAttribute.Name, AName) then
+    if LAttribute.Name = AName then
       Exit(LAttribute);
   end;
 
@@ -1029,7 +1029,7 @@ begin
   begin
     LAttribute := inherited Element[LAttributeIdx] as TTSInfoAttribute;
 
-    if SameIdentifiers(LAttribute.Name, AName) then
+    if LAttribute.Name = AName then
     begin
       inherited RemoveElement(LAttributeIdx);
       Exit();
@@ -1069,7 +1069,7 @@ begin
   begin
     LNode := inherited Element[LNodeIdx] as TTSInfoNode;
 
-    if SameIdentifiers(LNode.Name, AName) then
+    if LNode.Name = AName then
       Exit(LNode);
   end;
 
@@ -1104,7 +1104,7 @@ begin
   begin
     LNode := inherited Element[LNodeIdx] as TTSInfoNode;
 
-    if SameIdentifiers(LNode.Name, AName) then
+    if LNode.Name = AName then
     begin
       inherited RemoveElement(LNodeIdx);
       Exit();
@@ -1158,14 +1158,14 @@ end;
 function TTSInfoRefElementsList.FirstElementIsAttribute(const AMandatoryName: String): Boolean;
 begin
   Result := (FFirstNode <> nil) and (FFirstNode^.Element is TTSInfoAttribute) and
-            SameIdentifiers((Element[0] as TTSInfoAttribute).Name, AMandatoryName);
+            ((Element[0] as TTSInfoAttribute).Name = AMandatoryName);
 end;
 
 
 function TTSInfoRefElementsList.FirstElementIsChildNode(const AMandatoryName: String): Boolean;
 begin
   Result := (FFirstNode <> nil) and (FFirstNode^.Element is TTSInfoNode) and
-            SameIdentifiers((Element[0] as TTSInfoNode).FName, AMandatoryName);
+            ((Element[0] as TTSInfoNode).Name = AMandatoryName);
 end;
 
 
@@ -2942,7 +2942,7 @@ begin
       if IsFormatVersionValue(LComponents[COMPONENT_INDEX_FORMAT_VERSION]) then
       begin
         if LComponentsCnt = LONG_TREE_HEADER_COMPONENT_COUNT then
-          if SameIdentifiers(LComponents[COMPONENT_INDEX_KEYWORD_NAME], KEYWORD_TREE_NAME) then
+          if LComponents[COMPONENT_INDEX_KEYWORD_NAME] = KEYWORD_TREE_NAME then
           begin
             if (LComponentsCnt = LONG_TREE_HEADER_COMPONENT_COUNT) then
               if (LComponents[COMPONENT_INDEX_TREE_NAME] <> '') and ValidIdentifier(LComponents[COMPONENT_INDEX_TREE_NAME]) then

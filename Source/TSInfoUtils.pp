@@ -311,10 +311,10 @@ begin
     end;
 
     for LFormat in TFormatBoolean do
-      if SameIdentifiers(AValue, BOOLEAN_VALUES[True, LFormat]) then
+      if AValue = BOOLEAN_VALUES[True, LFormat] then
         Exit(True)
       else
-        if SameIdentifiers(AValue, BOOLEAN_VALUES[False, LFormat]) then
+        if AValue = BOOLEAN_VALUES[False, LFormat] then
           Exit(False);
   end;
 end;
