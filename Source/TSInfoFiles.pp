@@ -3620,13 +3620,13 @@ begin
   ExtractValueComponents(AComment, LComponents, LComponentsCnt);
 
   if (LComponentsCnt = 1) and (LComponents[0] = ONE_BLANK_VALUE_LINE_CHAR) then
-    FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
+    FOutput.Add(Concat(FIndentation, COMMENT_PREFIX))
   else
     for LComponentIdx := 0 to LComponentsCnt - 1 do
       if LComponents[LComponentIdx] = '' then
-        FOutput.Add(GlueStrings('%%', [FIndentation, COMMENT_PREFIX]))
+        FOutput.Add(Concat(FIndentation, COMMENT_PREFIX))
       else
-        FOutput.Add(GlueStrings('%% %', [FIndentation, COMMENT_PREFIX, LComponents[LComponentIdx]]));
+        FOutput.Add(Concat(FIndentation, COMMENT_PREFIX, ' ', LComponents[LComponentIdx]));
 end;
 
 
@@ -3644,10 +3644,10 @@ procedure TTSInfoTextOutputWriter.AddTreeHeader(const ATreeName: String);
 var
   LHeader: String;
 begin
-  LHeader := GlueStrings('% %%%', [TREE_HEADER_FORMAT_NAME, QUOTE_CHAR, TREE_HEADER_FORMAT_VERSION, QUOTE_CHAR]);
+  LHeader := Concat(TREE_HEADER_FORMAT_NAME, ' ', QUOTE_CHAR, TREE_HEADER_FORMAT_VERSION, QUOTE_CHAR);
 
   if ATreeName <> '' then
-    LHeader += GlueStrings(' % %%%', [KEYWORD_TREE_NAME, QUOTE_CHAR, ATreeName, QUOTE_CHAR]);
+    LHeader += Concat(' ', KEYWORD_TREE_NAME, ' ', QUOTE_CHAR, ATreeName, QUOTE_CHAR);
 
   FOutput.Add(LHeader);
 end;
@@ -3675,15 +3675,14 @@ begin
   else
     LValue := '';
 
-  FOutput.Add(GlueStrings('%%% %%%', [FIndentation, KEYWORD_STD_ATTRIBUTE, AAttribute.Name,
-                                      QUOTE_CHAR, LValue, QUOTE_CHAR]));
+  FOutput.Add(Concat(FIndentation, KEYWORD_STD_ATTRIBUTE, AAttribute.Name, ' ', QUOTE_CHAR, LValue, QUOTE_CHAR));
 
   if LComponentsCnt > 1 then
   begin
     LValuesIndent := FIndentation + StringOfChar(INDENT_CHAR, KEYWORD_STD_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
 
     for LComponentIdx := 1 to LComponentsCnt - 1 do
-      FOutput.Add(GlueStrings('% %%%', [LValuesIndent, QUOTE_CHAR, LComponents[LComponentIdx], QUOTE_CHAR]));
+      FOutput.Add(Concat(LValuesIndent, ' ', QUOTE_CHAR, LComponents[LComponentIdx], QUOTE_CHAR));
   end;
 end;
 
@@ -3693,14 +3692,14 @@ begin
   if AChildNode.Comment[ctDeclaration] <> '' then
     AddComment(AChildNode.Comment[ctDeclaration]);
 
-  FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_STD_NODE, AChildNode.Name]));
+  FOutput.Add(Concat(FIndentation, KEYWORD_STD_NODE, AChildNode.Name));
   IncIndentation();
 
   AddChildNodeAttributes(AChildNode);
   AddChildNodeChildNodes(AChildNode);
 
   DecIndentation();
-  FOutput.Add(GlueStrings('%%', [FIndentation, KEYWORD_STD_NODE_END]));
+  FOutput.Add(Concat(FIndentation, KEYWORD_STD_NODE_END));
 end;
 
 
@@ -3709,7 +3708,7 @@ begin
   if AAttribute.Comment[ctDeclaration] <> '' then
     AddComment(AAttribute.Comment[ctDeclaration]);
 
-  FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_REF_ATTRIBUTE, AAttribute.Name]));
+  FOutput.Add(Concat(FIndentation, KEYWORD_REF_ATTRIBUTE, AAttribute.Name));
 end;
 
 
@@ -3738,14 +3737,14 @@ begin
   else
     LValue := '';
 
-  FOutput.Add(GlueStrings('%% %%%', [KEYWORD_REF_ATTRIBUTE, AAttribute.Name, QUOTE_CHAR, LValue, QUOTE_CHAR]));
+  FOutput.Add(Concat(KEYWORD_REF_ATTRIBUTE, AAttribute.Name, ' ', QUOTE_CHAR, LValue, QUOTE_CHAR));
 
   if LValueIsMultiline then
   begin
     LValuesIndent := StringOfChar(INDENT_CHAR, KEYWORD_REF_ATTRIBUTE_LEN + UTF8Length(AAttribute.Name));
 
     for LComponentIdx := 1 to LComponentsCnt - 1 do
-      FOutput.Add(GlueStrings('% %%%', [LValuesIndent, QUOTE_CHAR, LComponents[LComponentIdx], QUOTE_CHAR]));
+      FOutput.Add(Concat(LValuesIndent, ' ', QUOTE_CHAR, LComponents[LComponentIdx], QUOTE_CHAR));
   end;
 end;
 
@@ -3755,7 +3754,7 @@ begin
   if AChildNode.Comment[ctDeclaration] <> '' then
     AddComment(AChildNode.Comment[ctDeclaration]);
 
-  FOutput.Add(GlueStrings('%%%', [FIndentation, KEYWORD_REF_NODE, AChildNode.Name]));
+  FOutput.Add(Concat(FIndentation, KEYWORD_REF_NODE, AChildNode.Name));
 end;
 
 
@@ -3769,7 +3768,7 @@ begin
   if AChildNode.Comment[ctDefinition] <> '' then
     AddComment(AChildNode.Comment[ctDefinition]);
 
-  FOutput.Add(GlueStrings('%%', [KEYWORD_REF_NODE, AChildNode.Name]));
+  FOutput.Add(Concat(KEYWORD_REF_NODE, AChildNode.Name));
   IncIndentation();
 
   AddChildNodeAttributes(AChildNode);
