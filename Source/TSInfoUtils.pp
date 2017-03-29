@@ -49,7 +49,6 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-
   procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
   function ValidIdentifier(const AIdentifier: String): Boolean;
@@ -137,7 +136,7 @@ end;
 
 function ValidIdentifier(const AIdentifier: String): Boolean;
 var
-  LToken: Char;
+  LChar: Char;
 begin
   Result := False;
 
@@ -145,9 +144,9 @@ begin
     ThrowException(EM_EMPTY_IDENTIFIER)
   else
   begin
-    for LToken in AIdentifier do
-      if LToken in INVALID_IDENT_CHARS then
-        ThrowException(EM_INCORRECT_IDENTIFIER_CHARACTER, [LToken, Ord(LToken)]);
+    for LChar in AIdentifier do
+      if LChar in INVALID_IDENT_CHARS then
+        ThrowException(EM_INCORRECT_IDENTIFIER_CHARACTER, [LChar, Ord(LChar)]);
 
     Result := True;
   end;
