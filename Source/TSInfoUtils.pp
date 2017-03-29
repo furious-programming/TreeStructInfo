@@ -49,8 +49,6 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-
-  function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
   function GlueStrings(const AMask: String; const AStrings: array of String): String;
 
   procedure MoveString(const ASource; out ADest: String; ALength: Integer);
@@ -128,52 +126,6 @@ function Comment(const ADeclaration, ADefinition: String): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
-end;
-
-
-function ReplaceSubStrings(const AValue, AOldPattern, ANewPattern: String): String;
-var
-  LValueLen, LOldPtrnLen, LNewPtrnLen, LPlainLen, LResultLen, LResultIdx: Integer;
-  LPlainBegin, LPlainEnd, LLast, LResult: PChar;
-begin
-  LValueLen := Length(AValue);
-
-  if LValueLen = 0 then Exit('');
-  if AOldPattern = '' then Exit(AValue);
-
-  SetLength(Result, 0);
-
-  LOldPtrnLen := Length(AOldPattern);
-  LNewPtrnLen := Length(ANewPattern);
-  LResultLen := 0;
-
-  LPlainBegin := @AValue[1];
-  LPlainEnd := LPlainBegin;
-  LLast := @AValue[LValueLen - LOldPtrnLen + 1];
-
-  while LPlainEnd <= LLast do
-    if (LPlainEnd^ = AOldPattern[1]) and (CompareByte(LPlainEnd^, AOldPattern[1], LOldPtrnLen) = 0) then
-    begin
-      LPlainLen := LPlainEnd - LPlainBegin;
-      LResultIdx := LResultLen + 1;
-      LResultLen += LPlainLen + LNewPtrnLen;
-
-      SetLength(Result, LResultLen);
-      LResult := @Result[LResultIdx];
-      Move(LPlainBegin^, LResult^, LPlainLen);
-
-      LResult += LPlainLen;
-      Move(ANewPattern[1], LResult^, LNewPtrnLen);
-      LResult += LNewPtrnLen;
-
-      LPlainEnd += LOldPtrnLen;
-      LPlainBegin := LPlainEnd;
-    end
-    else
-      LPlainEnd += 1;
-
-  if LPlainBegin <= LPlainEnd then
-    Result += String(LPlainBegin);
 end;
 
 
