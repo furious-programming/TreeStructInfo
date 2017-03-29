@@ -52,7 +52,6 @@ uses
   procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
   function ValidIdentifier(const AIdentifier: String): Boolean;
-  function SameIdentifiers(const AFirst, ASecond: String): Boolean;
 
   function IncludeTrailingIdentsDelimiter(const APath: String): String;
   function ExcludeTrailingIdentsDelimiter(const APath: String): String;
@@ -150,12 +149,6 @@ begin
 
     Result := True;
   end;
-end;
-
-
-function SameIdentifiers(const AFirst, ASecond: String): Boolean;
-begin
-  Result := AFirst = ASecond;
 end;
 
 
