@@ -2386,7 +2386,7 @@ begin
   if ADelimiter = '' then
     FTreeComment := AComment
   else
-    FTreeComment := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
+    FTreeComment := StringReplace(AComment, ADelimiter, VALUES_DELIMITER, [rfReplaceAll]);
 
   FModified := True;
 end;
@@ -2409,7 +2409,7 @@ begin
       if ADelimiter = '' then
         LAttribute.Comment[AType] := AComment
       else
-        LAttribute.Comment[AType] := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
+        LAttribute.Comment[AType] := StringReplace(AComment, ADelimiter, VALUES_DELIMITER, [rfReplaceAll]);
 
       FModified := True;
     end;
@@ -2445,7 +2445,7 @@ begin
         if ADelimiter = '' then
           LNode.Comment[AType] := AComment
         else
-          LNode.Comment[AType] := ReplaceSubStrings(AComment, ADelimiter, VALUES_DELIMITER);
+          LNode.Comment[AType] := StringReplace(AComment, ADelimiter, VALUES_DELIMITER, [rfReplaceAll]);
 
         FModified := True;
       end;
@@ -2455,7 +2455,7 @@ end;
 
 function TTSInfoTree.ReadTreeComment(const ADelimiter: String): String;
 begin
-  Result := ReplaceSubStrings(FTreeComment, VALUES_DELIMITER, ADelimiter);
+  Result := StringReplace(FTreeComment, VALUES_DELIMITER, ADelimiter, [rfReplaceAll]);
 end;
 
 
@@ -2468,7 +2468,7 @@ begin
   if LAttribute = nil then
     ThrowException(EM_ATTRIBUTE_NOT_EXISTS, [AAttrPath])
   else
-    Result := ReplaceSubStrings(LAttribute.Comment[AType], VALUES_DELIMITER, ADelimiter);
+    Result := StringReplace(LAttribute.Comment[AType], VALUES_DELIMITER, ADelimiter, [rfReplaceAll]);
 end;
 
 
@@ -2492,7 +2492,7 @@ begin
     if LNode.ParentNode = nil then
       ThrowException(EM_ROOT_NODE_GET_COMMENT)
     else
-      Result := ReplaceSubStrings(LNode.Comment[AType], VALUES_DELIMITER, ADelimiter);
+      Result := StringReplace(LNode.Comment[AType], VALUES_DELIMITER, ADelimiter, [rfReplaceAll]);
 end;
 
 

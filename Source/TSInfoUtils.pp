@@ -1249,7 +1249,7 @@ var
 begin
   if ASize <= 0 then Exit();
 
-  LValue := ReplaceSubStrings(AValue, VALUES_DELIMITER, '');
+  LValue := StringReplace(AValue, VALUES_DELIMITER, '', [rfReplaceAll]);
   LValueLen := Length(LValue);
 
   if LValueLen > 0 then
