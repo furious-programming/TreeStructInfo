@@ -49,7 +49,6 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-  function GlueStrings(const AMask: String; const AStrings: array of String): String;
 
   procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
@@ -126,40 +125,6 @@ function Comment(const ADeclaration, ADefinition: String): TComment;
 begin
   Result[ctDeclaration] := ADeclaration;
   Result[ctDefinition] := ADefinition;
-end;
-
-
-function GlueStrings(const AMask: String; const AStrings: array of String): String;
-const
-  MASK_FORMAT_CHAR = '%';
-var
-  LToken, LLast: PChar;
-  LStringIdx: Integer = 0;
-  LResultLen: Integer = 0;
-  LStringLen: Integer;
-begin
-  LToken := @AMask[1];
-  LLast := @AMask[Length(AMask)];
-
-  while LToken <= LLast do
-  begin
-    if LToken^ = MASK_FORMAT_CHAR then
-    begin
-      LStringLen := Length(AStrings[LStringIdx]);
-      SetLength(Result, LResultLen + LStringLen);
-      Move(AStrings[LStringIdx][1], Result[LResultLen + 1], LStringLen);
-
-      LResultLen += LStringLen;
-      LStringIdx += 1;
-    end
-    else
-    begin
-      Result += INDENT_CHAR;
-      LResultLen += 1;
-    end;
-
-    LToken += 1;
-  end;
 end;
 
 
