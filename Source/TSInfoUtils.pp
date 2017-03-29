@@ -49,7 +49,7 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-  procedure MoveString(const ASource; out ADest: String; ALength: Integer);
+  procedure MoveString(const ASource; out ADest: String; ALength: Integer); deprecated 'use Copy when pointers removed';
 
   function ValidIdentifier(const AIdentifier: String): Boolean;
 
