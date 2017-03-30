@@ -1087,14 +1087,14 @@ end;
 class procedure TTSInfoDataConverter.ValueToList(const AValue: String; AList: TStrings);
 var
   LComponents: TValueComponents;
-  LCompCnt, LCompIdx: Integer;
+  LComponentsCnt, LComponentIdx: Integer;
 begin
-  ExtractValueComponents(AValue, LComponents, LCompCnt);
+  ExtractValueComponents(AValue, LComponents, LComponentsCnt);
 
   AList.BeginUpdate();
   try
-    for LCompIdx := 0 to LCompCnt - 1 do
-      AList.Add(LComponents[LCompIdx]);
+    for LComponentIdx := 0 to LComponentsCnt - 1 do
+      AList.Add(LComponents[LComponentIdx]);
   finally
     AList.EndUpdate();
   end;
