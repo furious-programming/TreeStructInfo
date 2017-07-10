@@ -1,5 +1,5 @@
-![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
-*Copyright © Jarosław Baran, furious programming 2013 - 2016*
+![TreeStructInfo](https://tsinfo.4programmers.net/global/img/logo-small.png)<br/>
+*Copyright © Jarosław Baran, furious programming 2013 - 2017*
 
 **GNU Lesser GPL 3**
 

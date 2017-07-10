@@ -1,9 +1,9 @@
-![TreeStructInfo](http://treestruct.info/global/img/logo-small.png)<br/>
+![TreeStructInfo](https://tsinfo.4programmers.net/global/img/logo-small.png)<br/>
 *Copyright © Jarosław Baran, furious programming 2013 - 2016*
 
 Latest API release: [TreeStructInfo 2.0 RC1](https://github.com/furious-programming/TreeStructInfo/releases/tag/v2.0.0.-rc.1)
 
-This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](http://treestruct.info/pl/format/2.0.htm) is available on the [project website](http://treestruct.info) (unfortunately, for now only in Polish). [Detailed documentation of this API](http://treestruct.info/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](http://treestruct.info/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](http://treestruct.info) (also only in Polish).
+This document is highly abbreviated version of the format specification. Full form of [official **TreeStructInfo 2.0** format specification](https://tsinfo.4programmers.net/pl/format/2.0.htm) is available on the [project website](https://tsinfo.4programmers.net) (unfortunately, for now only in Polish). [Detailed documentation of this API](https://tsinfo.4programmers.net/pl/api/official-2.0-freepas/index.htm) to handle the **TreeStructInfo** files and the [tutorial](https://tsinfo.4programmers.net/pl/api/official-2.0-freepas/tutorial/index.htm) are also available on the [project website](https://tsinfo.4programmers.net) (also only in Polish).
 
 ### Table of content
 
@@ -45,11 +45,11 @@ This document is highly abbreviated version of the format specification. Full fo
 
 Format is human-friendly - text files syntax is based on a small set of keywords, key phrases and linear structure. Text form gives the possibility to create an open configurations. Binary form provides faster files processing, maintaining compatibility of native data in memory with a text form.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm)
 
 # Sample file
 
-I can not use my own syntax highlighting, so if you want to see the sample text file, go to the [**sample file** point in specification](http://treestruct.info/pl/format/2.0.htm#idSampleFile).
+I can not use my own syntax highlighting, so if you want to see the sample text file, go to the [**sample file** point in specification](https://tsinfo.4programmers.net/pl/format/2.0.htm#idSampleFile).
 
 # Text files syntax
 
@@ -91,7 +91,7 @@ and a single string, acting as a keyword, but consisting only of special charact
 
 The default size of a single indentation is two space characters (`0x20`), but indentation are not mandatory.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idTextFileSyntax)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idTextFileSyntax)
 
 # Identifiers
 
@@ -107,7 +107,7 @@ Identifiers are the names of the tree elements (the name of the tree is the iden
 
 other characters are allowed (`0x20` too). Identifiers are case-sensitive.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idIdentifiers)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idIdentifiers)
 
 # Frame of tree
 
@@ -145,13 +145,13 @@ end tree
 
 All standard elements must be declared between these lines.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idFrameOfTree)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idFrameOfTree)
 
 # Basic tree elements
 
 The basic elements are standard and referenced **attributes**, for storing specific data, standard and referenced **child nodes**, to group elements and create a tree structure.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBasicElements)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idBasicElements)
 
 ## Attributes
 
@@ -183,7 +183,7 @@ attr Name ""
 
 Attributes can store data in multiple types, written in many different ways. In addition to simple types, attributes can also contain binary data, written as a strings of hexadecimal characters.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttributes)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttributes)
 
 ### Booleans
 
@@ -196,7 +196,7 @@ Boolean values are determined using conventional strings:
 
 PascalCase for string values is not mandatory (uppercase for character values too). Digits `1` and `0` are the only permitted.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeBoolean)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeBoolean)
 
 ### Integers
 
@@ -221,7 +221,7 @@ A positive, negative and zero numbers written in all systems:
 "0b0000"
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeInteger)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeInteger)
 
 ### Floating-point numbers
 
@@ -250,7 +250,7 @@ There is also possibility to store special numbers as strings - positive or nega
 
 PascalCase for these strings is not mandatory.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeFloat)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeFloat)
 
 ### Currencies
 
@@ -272,7 +272,7 @@ Format of sample numbers below:
 "0,0000 ¥"
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeCurrency)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeCurrency)
 
 ### Strings
 
@@ -298,7 +298,7 @@ Strings can be multiline - each line of the string must be on a separate line:
 
 and may also contain any number of blank lines.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeString)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeString)
 
 ### Dates and times
 
@@ -339,7 +339,7 @@ and example with plain text substrings:
 
 Text values of date and time components, such as the names of days and months, symbols and names of the seasons of the day (`am`, `pm`), as well as the date and time components separators are dependent on the location, so can take other characters or strings than those listed.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeDateTime)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeDateTime)
 
 ### Point coordinates
 
@@ -366,7 +366,7 @@ Examples of writing positive, negative and zero coordinates below:
 
 Both the coordinates should be written in the same numeral system (but is not a hard rule).
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypePointCoords)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypePointCoords)
 
 ### Binary data
 
@@ -409,13 +409,13 @@ Number of **characters** per value line is not specified (may also be odd), but 
 - `32` bytes - `64` characters
 - `64` bytes - `128` characters
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeBinary)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeBinary)
 
 ### Other data types
 
 The issue of data storage in attributes of the not listed types is open and unlimited. Because of this, the serialization and deserialization native data to and from strings in different programming languages are different, the attribute values may store almost any data, with the proviso that stored in a precise way, without affecting the linear construction of the file and the tree structure information.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrValueDataTypeOther)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrValueDataTypeOther)
 
 
 ## Child nodes
@@ -443,7 +443,7 @@ end node
 
 For a given node are those elements, that are defined between the header line and the end line.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodes)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idNodes)
 
 # Referenced elements
 
@@ -451,7 +451,7 @@ Referenced elements serve exactly the same purpose as standard elements. What ma
 
 Referenced form may have attributes and child nodes.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefElements)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idRefElements)
 
 ## Referenced attributes
 
@@ -483,7 +483,7 @@ end tree
 ref attr Foo "Value"
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefAttributes)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idRefAttributes)
 
 ## Referenced child nodes
 
@@ -515,7 +515,7 @@ ref node Bald
 end ref node
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idRefNodes)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idRefNodes)
 
 ## The order of referenced elements definitions
 
@@ -551,7 +551,7 @@ ref node Third
 end ref node
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idOrderOfDefRefElements)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idOrderOfDefRefElements)
 
 # Comments
 
@@ -582,7 +582,7 @@ Multiline comments may also contain empty lines:
 ::
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idComments)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idComments)
 
 ## Tree comment
 
@@ -595,7 +595,7 @@ treestructinfo "2.0"
 end tree
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idTreeComment)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idTreeComment)
 
 ## Attributes comments
 
@@ -620,7 +620,7 @@ end tree
 ref attr Name "Value" 
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idAttrsComments)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idAttrsComments)
 
 ## Child nodes comments
 
@@ -647,7 +647,7 @@ ref node Name
 end ref node
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idNodesComments)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idNodesComments)
 
 # Binary form
 
@@ -655,7 +655,7 @@ The binary form of configuration files has been designed so that the loading and
 
 Binary configuration files are intended for closed configurations, not giving the user to easy modification, putting to the foreground the speed of loading files and saving the trees to the files.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idBinaryForm)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idBinaryForm)
 
 ## Data types
 
@@ -675,7 +675,7 @@ string:
 
 If the string is multiline, its individual substrings are separated by characters `0x0A`.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDataTypesAndFormat)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idDataTypesAndFormat)
 
 ## Static data
 
@@ -700,7 +700,7 @@ size    value             data type    component         description
 
 Binary file containing empty configuration tree, should always take exactly `32 bytes`.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idStaticData)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idStaticData)
 
 ## Dynamic data
 
@@ -708,7 +708,7 @@ For a set of dynamic informations includes descriptions of the tree elements, su
 
 Each element is represented by another sequence of bytes, by virtue of having different and varying amounts of information.
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicData)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idDynamicData)
 
 **The structure schema of writing a single attribute**:
 
@@ -730,7 +730,7 @@ n       n bytes       string       declaration comment    comment value
 n       n bytes       string       definition comment     comment value
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicAttributes)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idDynamicAttributes)
 
 **The structure schema of writing a single child node**:
 
@@ -755,7 +755,7 @@ n        n bytes      string        definition comment    comment value
          ...          ...           child nodes           child nodes bodies
 ```
 
-`pl` [read more...](http://treestruct.info/pl/format/2.0.htm#idDynamicNodes)
+`pl` [read more...](https://tsinfo.4programmers.net/pl/format/2.0.htm#idDynamicNodes)
 
 # Bindings
 
