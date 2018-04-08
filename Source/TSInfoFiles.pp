@@ -2042,22 +2042,22 @@ end;
 function TSimpleTSInfoTree.CreateChildNode(const ANodePath: String; AReference: Boolean; const ANodeName: String; AOpen: Boolean): Boolean;
 var
   LParentNode, LNewNode: TTSInfoNode;
-  strNodePath, strNodeNameAsPath: String;
-  boolPathIsSymbol: Boolean;
+  LNodePath, LNodeNameAsPath: String;
+  LPathIsSymbol: Boolean;
 begin
   Result := ValidIdentifier(ANodeName);
 
   if Result then
   begin
-    strNodePath := ANodePath;
-    boolPathIsSymbol := IsCurrentNodePath(strNodePath);
+    LNodePath := ANodePath;
+    LPathIsSymbol := IsCurrentNodePath(LNodePath);
 
-    if boolPathIsSymbol then
+    if LPathIsSymbol then
       LParentNode := FCurrentNode
     else
     begin
-      strNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
-      LParentNode := FindNode(strNodePath, True);
+      LNodePath := IncludeTrailingIdentsDelimiter(ANodePath);
+      LParentNode := FindNode(LNodePath, True);
     end;
 
     Result := LParentNode <> nil;
@@ -2068,20 +2068,20 @@ begin
 
       if AOpen then
       begin
-        strNodeNameAsPath := IncludeTrailingIdentsDelimiter(ANodeName);
+        LNodeNameAsPath := IncludeTrailingIdentsDelimiter(ANodeName);
 
         if FCurrentNode = FRootNode then
         begin
-          if boolPathIsSymbol then
-            FCurrentlyOpenNodePath := strNodeNameAsPath
+          if LPathIsSymbol then
+            FCurrentlyOpenNodePath := LNodeNameAsPath
           else
-            FCurrentlyOpenNodePath := strNodePath + strNodeNameAsPath;
+            FCurrentlyOpenNodePath := LNodePath + LNodeNameAsPath;
         end
         else
-          if boolPathIsSymbol then
-            FCurrentlyOpenNodePath += strNodeNameAsPath
+          if LPathIsSymbol then
+            FCurrentlyOpenNodePath += LNodeNameAsPath
           else
-            FCurrentlyOpenNodePath += strNodePath + strNodeNameAsPath;
+            FCurrentlyOpenNodePath += LNodePath + LNodeNameAsPath;
 
         FCurrentNode := LNewNode;
       end;
