@@ -1,6 +1,6 @@
 {
 
-    TSInfoUtils.pp                 last modified: 30 March 2017
+    TSInfoUtils.pp                last modified: 13 August 2017
 
     Copyright © Jarosław Baran, furious programming 2013 - 2017.
     All rights reserved.
@@ -49,7 +49,7 @@ uses
   procedure ThrowException(const AMessage: String; const AArgs: array of const);
 
   function Comment(const ADeclaration, ADefinition: String): TComment;
-  procedure MoveString(const ASource; out ADest: String; ALength: Integer); deprecated 'use Copy when pointers removed';
+  procedure MoveString(const ASource; out ADest: String; ALength: Integer);
 
   function ValidIdentifier(const AIdentifier: String): Boolean;
 
