@@ -1,6 +1,6 @@
 ﻿{
 
-    TSInfoFiles.pp                  last modified: 8 April 2018
+    TSInfoFiles.pp                  last modified: 10 July 2020
 
     Copyright © Jarosław Baran, furious programming 2013 - 2018.
     All rights reserved.
