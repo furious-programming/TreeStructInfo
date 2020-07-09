@@ -135,12 +135,19 @@ type
     FAttribute: TTSInfoAttribute;
     FIndex: Integer;
   private
+    function GetName(): String;
+    function GetReference(): Boolean;
+    function GetValue(): String;
     function GetComment(AType: TCommentType): String;
+  private
+    procedure SetName(const AName: String);
+    procedure SetReference(AReference: Boolean);
+    procedure SetValue(const AValue: String);
     procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    property Name: String read FAttribute.FName write FAttribute.FName;
-    property Reference: Boolean read FAttribute.FReference write FAttribute.FReference;
-    property Value: String read FAttribute.FValue write FAttribute.FValue;
+    property Name: String read GetName write SetName;
+    property Reference: Boolean read GetReference write SetReference;
+    property Value: String read GetValue write SetValue;
     property Comment[AType: TCommentType]: String read GetComment write SetComment;
   end;
 
@@ -152,11 +159,16 @@ type
     FChildNode: TTSInfoNode;
     FIndex: Integer;
   private
+    function GetName(): String;
+    function GetReference(): Boolean;
     function GetComment(AType: TCommentType): String;
+  private
+    procedure SetName(const AName: String);
+    procedure SetReference(AReference: Boolean);
     procedure SetComment(AType: TCommentType; const AComment: String);
   public
-    property Name: String read FChildNode.FName write FChildNode.FName;
-    property Reference: Boolean read FChildNode.FReference write FChildNode.FReference;
+    property Name: String read GetName write SetName;
+    property Reference: Boolean read GetReference write SetReference;
     property Comment[AType: TCommentType]: String read GetComment write SetComment;
   end;
 
@@ -284,6 +296,7 @@ type
     function FindNode(const ANodePath: String; AForcePath: Boolean): TTSInfoNode;
   private
     procedure SetTreeName(const ATreeName: String);
+    function GetCurrentlyOpenNodeName(): String;
   public
     constructor Create();
     constructor Create(const AFileName: String; AModes: TTreeModes);
@@ -350,7 +363,7 @@ type
   public
     property FileName: String read FFileName;
     property TreeName: String read FTreeName write SetTreeName;
-    property CurrentlyOpenNodeName: String read FCurrentNode.FName;
+    property CurrentlyOpenNodeName: String read GetCurrentlyOpenNodeName;
     property CurrentlyOpenNodePath: String read FCurrentlyOpenNodePath;
     property TreeModes: TTreeModes read FTreeModes write FTreeModes;
     property Modified: Boolean read FModified;
@@ -745,6 +758,7 @@ begin
   FAttributesList.RemoveAll();
 end;
 
+
 procedure TTSInfoNode.RemoveAllChildNodes();
 begin
   FChildNodesList.RemoveAll();
@@ -754,9 +768,45 @@ end;
 { ----- TTSInfoAttributeToken object ------------------------------------------------------------------------------ }
 
 
+function TTSInfoAttributeToken.GetName(): String;
+begin
+  Result := FAttribute.Name;
+end;
+
+
+function TTSInfoAttributeToken.GetReference(): Boolean;
+begin
+  Result := FAttribute.Reference;
+end;
+
+
+function TTSInfoAttributeToken.GetValue(): String;
+begin
+  Result := FAttribute.Value;
+end;
+
+
 function TTSInfoAttributeToken.GetComment(AType: TCommentType): String;
 begin
   Result := FAttribute.Comment[AType];
+end;
+
+
+procedure TTSInfoAttributeToken.SetName(const AName: String);
+begin
+  FAttribute.Name := AName;
+end;
+
+
+procedure TTSInfoAttributeToken.SetReference(AReference: Boolean);
+begin
+  FAttribute.Reference := AReference;
+end;
+
+
+procedure TTSInfoAttributeToken.SetValue(const AValue: String);
+begin
+  FAttribute.Value := AValue;
 end;
 
 
@@ -769,9 +819,33 @@ end;
 { ----- TTSInfoChildNodeToken object ------------------------------------------------------------------------------ }
 
 
+function TTSInfoChildNodeToken.GetName(): String;
+begin
+  Result := FChildNode.Name;
+end;
+
+
+function TTSInfoChildNodeToken.GetReference(): Boolean;
+begin
+  Result := FChildNode.Reference;
+end;
+
+
 function TTSInfoChildNodeToken.GetComment(AType: TCommentType): String;
 begin
   Result := FChildNode.Comment[AType];
+end;
+
+
+procedure TTSInfoChildNodeToken.SetName(const AName: String);
+begin
+  FChildNode.Name := AName;
+end;
+
+
+procedure TTSInfoChildNodeToken.SetReference(AReference: Boolean);
+begin
+  FChildNode.Reference := AReference;
 end;
 
 
@@ -1358,6 +1432,12 @@ begin
     FTreeName := ATreeName;
     FModified := True;
   end;
+end;
+
+
+function TSimpleTSInfoTree.GetCurrentlyOpenNodeName(): String;
+begin
+  Result := FCurrentNode.Name;
 end;
 
 
